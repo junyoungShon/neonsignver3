@@ -1082,7 +1082,6 @@ $(document).ready(function(){ //DOM이 준비되고
 	// 모달 창에서 주제글  잇자 클릭 시 발동하기 (토탈 증가) - 
 	$('.detailViewModalUtility').on('click','.itja',function(){
 		var formData =  $(this).siblings().eq(3).serialize();
-		alert(formData);
 		var itjaCountSpan = $(this).children('.itjaCount');
 		itjaClick(formData,itjaCountSpan,'total');
 	});
@@ -1090,28 +1089,27 @@ $(document).ready(function(){ //DOM이 준비되고
 	// 모달창에서 주제글 잇자 버튼
 	$('.mainLikeIt').on('click','.itja',function(){
 		var formData =  $($(this).next()).serialize();
-		alert(formData);
-		var itjaCountSpan = $(this).children('.itjaCount');
+		var itjaCountSpan = $(this);
 		itjaClick(formData,itjaCountSpan,'one');
 	});
+	
 	//모달 창에서 이어진 잇는글 클릭시 발동하는 잇자 버튼
-	$('#detailMainSubArticle').on('click','.itja',function(){
+	$('.linkingSubArticleContentInModal').on('click','.itja',function(){
 		var formData =  $($(this).next()).serialize();
-		alert(formData);
-		var itjaCountSpan = $(this).children('.itjaCount');
+		var itjaCountSpan = $(this);
 		itjaClick(formData,itjaCountSpan,'one');
 	});
+	
 	//모달 창에서 아직 안이어진 잇는글들 클릭시 발동하는 잇자 버튼
-	$('#detailSubTable').on('click','.itja',function(){
-		var formData =  $($(this).next()).serialize();
-		alert(formData);
-		var itjaCountSpan = $(this).children('.itjaCount');
+	$('.unLinkingSubArticleList').on('click','.itja',function(){
+		var formData =  $($(this).parent().next().children().next()).serialize();
+		var itjaCountSpan = $(this);
 		itjaClick(formData,itjaCountSpan,'one');
 	});
+	
 	// 메인 페이지에서  잇자 클릭 시 발동하기
 	$('.bestItja').on('click',function(){
 		var formData = $($(this).next()).serialize();
-		alert(formData);
 		var itjaCountSpan = $(this).children('.itjaCount');
 		itjaClick(formData,itjaCountSpan,'total');
 		
@@ -1120,7 +1118,6 @@ $(document).ready(function(){ //DOM이 준비되고
 	// 완결 글 페이지 동적으로 생성된 카드  잇자 클릭 시 발동하기
 	$('.completeItjaList').on('click','.itja',function(){
 		var formData = $($(this).next()).serialize();
-		alert(formData);
 		var itjaCountSpan = $(this).children('.itjaCount');
 		itjaClick(formData,itjaCountSpan,'total');
 		
@@ -1128,13 +1125,14 @@ $(document).ready(function(){ //DOM이 준비되고
 	// 메인 페이지 동적으로 생성된 카드  잇자 클릭 시 발동하기
 	$('.newItjaList').on('click','.itja',function(){
 		var formData = $($(this).next()).serialize();
-		alert(formData);
+		//alert(formData);
 		var itjaCountSpan = $(this).children('.itjaCount');
 		itjaClick(formData,itjaCountSpan,'total');
 	});
 	
 	//잇자 클릭 ajax 메서드 통합
 	function itjaClick(formData,itjaCountSpan,AllOrOne){
+		//var itjaWriteFormCheck=0;
 		$.ajax({
 			type : "POST",
 			url : "auth_itjaClick.neon",
@@ -1142,7 +1140,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			success : function(data){
 				if(AllOrOne=="total"){
 					if(data.itjaSuccess==1){
-						
+						//itjaWriteFormCheck=1;
 						itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaTotalCount+'it');
 						//잇는글 폼 비 활성화
 						if($('#isComplete').val()!='complete'){
@@ -1157,12 +1155,15 @@ $(document).ready(function(){ //DOM이 준비되고
 					}
 				}else if(AllOrOne="one"){
 					if(data.itjaSuccess==1){
+						alert("잇자 해제");
+						//1이면 잇자를 하지 않은것 0이면 잇자를 한것
 						itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaCount+'it');
 						//잇는글 폼 비활성화
 						if($('#isComplete').val()!='complete'){
 							$('.itjaWriteForm').css('display','none');	
 						}
 					}else{
+						alert("잇자 온");
 						itjaCountSpan.html('<i class="fa fa-link"></i><br>'+data.itjaCount+'it');
 						//잇는글 폼 활성화
 						if($('#isComplete').val()!='complete'){
@@ -1698,9 +1699,10 @@ $(document).ready(function(){ //DOM이 준비되고
 	});
 	
 	// 디테일 뷰의 동적으로 생성된 찜 클릭 시 발동하기
-	$('.utilInDetailModal').on('click','.pickBtn',function(){
+	$('.detailViewModalUtility').on('click','.pickBtn',function(){
 		var formData = $($(this).next().next()).serialize(); 
 		var pickSpan = $(this).children('.pickSpan');
+		//alert("실행됨");
 		pickBtnClick(formData, pickSpan);
 	});
 	
