@@ -59,7 +59,10 @@ public class BoardController {
 				//2015-12-10 대협추가
 				for(int i=0; i<bestMainArticleVOListOrderByDate.size(); i++){
 					MainArticleImgVO mainArticleImgVO =boardService.selectMainArticleImg(bestMainArticleVOListOrderByDate.get(i).getMainArticleNo());
-					//System.out.println("까-아 : " + mainArticleImgVO.getMainArticleImgName());
+					if(mainArticleImgVO==null){
+						mainArticleImgVO = new MainArticleImgVO();
+					}
+					System.out.println("까-아 : " + mainArticleImgVO.getMainArticleImgName());
 					//태그가 두개인지 확인 -1이면 한개
 					int tagInt = bestMainArticleVOListOrderByDate.get(i).getTagName().lastIndexOf(" ");
 					//System.out.println("끼-이 : " + tagInt);
@@ -116,6 +119,9 @@ public class BoardController {
 		//2015-12-08 대협추가
 		for(int i=0; i<newMainArticleVOList.size(); i++){
 			MainArticleImgVO mainArticleImgVO =boardService.selectMainArticleImg(newMainArticleVOList.get(i).getMainArticleNo());
+			if(mainArticleImgVO==null){
+				mainArticleImgVO = new MainArticleImgVO();
+			}
 			//2015-12-10 대협추가
 			//System.out.println("까-아 : " + mainArticleImgVO.getMainArticleImgName());
 			//태그가 두개인지 확인 -1이면 한개

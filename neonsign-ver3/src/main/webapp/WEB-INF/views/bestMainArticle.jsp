@@ -40,6 +40,7 @@
 
 <body>
 <div class="itjaSlide">
+<div class="bestMainArticle">
    <h2 class="itjaMainTitle">베스트 잇자!</h2>
    <div class="container-fluid">
       <div class="gallery js-flickity"
@@ -54,7 +55,7 @@
                      <h6 class="category">
                          ${bestMainArticle.tagName}
                      </h6>
-                     <br>
+                     <br><input type="hidden" class="bestMainArticleNo" value="${bestMainArticle.mainArticleNo}">
                      <c:set var="bestArticleContentTitle"
                      value="${bestMainArticle.mainArticleTitle}" />
                      <h5 class="title">
@@ -179,17 +180,18 @@
       <!--  end gallery js-flickity -->
    </div>
    <!-- end container -->
+   </div>
 </div>
 <!-- end jumbotron itjaSlide -->
 
 <!-- 끝!! el 문 및 ajax로 베스트글이 표시되는 슬라이드 지역 -->
 
 <!-- end jumbotron itjaSlide -->
- <!-- 글 내용이 출력되는 모달 창 -->
+<!-- 글 내용이 출력되는 모달 창 -->
 <!-- Modal -->
-<div class="modal fade" id="bestCardDetailView" tabindex="-1" role="dialog"
+<div class="modal fade" id="cardDetailView" tabindex="-1" role="dialog"
 	aria-labelledby="cardDetailViewLabel" aria-hidden="true">
-	<div class="modal-dialog" id="bestCardDetailView">
+	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"
@@ -199,6 +201,7 @@
 				<h4 class="modal-title" id="cardDetailViewLabel"><span class="time_area_modal"></span></h4>
 				<input type="hidden" name="memberEmail" value="${sesseionScope.memberVO.memberEmail}">
 				<input type="hidden" name="mainArticleNo" value="">
+				
 			</div>
 			<div class="modal-body detailView">
 				<div class= "detailLeft">
@@ -229,7 +232,6 @@
 		          				</div>
 		          			</div>
 		          				<div class="linkingSubArticleContentInModal">
-		          					
 		          				</div> 
           				</div>
           				<div class="detailViewModalUtility">
@@ -243,19 +245,19 @@
 							
           				</div>
 						<DIV class="itjaWriteForm">
-							
+							<form action="auth_writeSubArticle.neon" class="form-horizontal">
+								
+							</form>
 						</DIV>
 					</div>
 				</div>
 			</div>	
 				<div class="modal-footer">
-					<input type="hidden" value="" id="isComplete">
+					<input type="hidden" value="best" id="isComplete">
 				</div>
 			</div>
 		</div>
 	</div>
-<!--글 내용 출력 모달창 끝 -->
-	<!--글 내용 출력 모달창 끝 -->
 <!-- 부트 스트랩 사용을 위한 하단 설정 -->
 <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
 <script src="${initParam.root}resources/js/jquery.js"></script>

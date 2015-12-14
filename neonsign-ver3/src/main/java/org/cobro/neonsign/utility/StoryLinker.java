@@ -22,7 +22,7 @@ public class StoryLinker extends Thread{
 		System.out.println("thread start.");
 		while(flag){
 			 try {
-			        Thread.sleep(6000000);
+			        Thread.sleep(60000);
 			    }catch(Exception e) {
 			    
 			}

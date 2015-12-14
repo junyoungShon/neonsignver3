@@ -174,7 +174,6 @@
 		          				</div>
 		          			</div>
 		          				<div class="linkingSubArticleContentInModal">
-		          					
 		          				</div> 
           				</div>
           				<div class="detailViewModalUtility">
@@ -188,7 +187,9 @@
 							
           				</div>
 						<DIV class="itjaWriteForm">
-							
+							<form action="auth_writeSubArticle.neon" class="form-horizontal">
+								
+							</form>
 						</DIV>
 					</div>
 				</div>
@@ -200,10 +201,6 @@
 		</div>
 	</div>
 <!--글 내용 출력 모달창 끝 -->
-<div class="alert alert-success">
-	<strong>Success!</strong> This alert box could indicate a successful or
-	positive action.
-</div>
 
 <!-- 메인 아티클을 작성하는 부분 -->
 <!-- Modal -->

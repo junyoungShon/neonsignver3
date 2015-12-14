@@ -769,3 +769,9 @@ stylize any heading tags withing white-panel below
     background-color: #ff8040;
 }
 
+:form[name="itJainfo"]{
+	display: none;
+}
+:form[name="pickInfo"]{
+	display: none;
+}
