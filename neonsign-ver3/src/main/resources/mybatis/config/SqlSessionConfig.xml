@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- MyBatis  DataSource에 대한 설정 및  SQL 정의 xml 에 대한 매핑-->
+<configuration>	
+	<!-- 사용할 클래스에 대한 별칭을 명시한다.  -->
+	<typeAliases>
+		<typeAlias type="org.cobro.neonsign.vo.MainArticleVO" alias="mainArticleVO"/>		
+     	<typeAlias type="org.cobro.neonsign.vo.MemberVO" alias="memberVO"/>
+     	<typeAlias type="org.cobro.neonsign.vo.PickedVO" alias="pickedVO"/>
+     	<typeAlias type="org.cobro.neonsign.vo.RankingVO" alias="rankingVO"/>
+     	<typeAlias type="org.cobro.neonsign.vo.ReportVO" alias="reportVO"/>
+     	<typeAlias type="org.cobro.neonsign.vo.ReporterVO" alias="reporterVO"/>
+     	<typeAlias type="org.cobro.neonsign.vo.SearchVO" alias="searchVO"/>
+     	<typeAlias type="org.cobro.neonsign.vo.SubArticleVO" alias="subArticleVO"/>
+     	<typeAlias type="org.cobro.neonsign.vo.TagBoardVO" alias="tagBoardVO"/>
+     	<typeAlias type="org.cobro.neonsign.vo.TagVO" alias="tagVO"/>
+     	<typeAlias type="org.cobro.neonsign.vo.ItjaMemberVO" alias="itjaMemberVO"/>
+     	<typeAlias type="org.cobro.neonsign.vo.FindPasswordVO" alias="findPasswordVO"/>
+     	<!-- 2015-12-08 대협추가 -->
+     	<typeAlias type="org.cobro.neonsign.vo.MainArticleImgVO" alias="mainArticleImgVO"/>
+     	<!-- 구독정보 추가 -->
+     	<typeAlias type="org.cobro.neonsign.vo.SubscriptionInfoVO" alias="subscriptionInfoVO"/>
+	</typeAliases>	
+    <!-- mybatis sql 정의 xml을 mapping  -->
+	<mappers>
+		<mapper resource="mybatis/config/member.xml"></mapper>		
+		<mapper resource="mybatis/config/board.xml"></mapper>	
+		<mapper resource="mybatis/config/report.xml"></mapper>	
+		<mapper resource="mybatis/config/search.xml"></mapper>	
+	</mappers>
+</configuration>
+
+
+
+
+
+
+
+
+
+

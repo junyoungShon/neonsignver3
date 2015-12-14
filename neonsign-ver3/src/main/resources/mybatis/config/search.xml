@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="search">
+ 	<resultMap type="mainArticleVO" id="mainArticleResultMap">
+		<result property="mainArticleNo" column="MAIN_ARTICLE_NO" />
+		<result property="mainArticleTitle" column="MAIN_ARTICLE_TITLE" />
+		<result property="mainArticleContent" column="MAIN_ARTICLE_CONTENT" />
+		<result property="mainArticleHIt" column="MAIN_ARTICLE_HIT" />
+		<result property="mainArticleLike" column="MAIN_ARTICLE_LIKE" />
+		<result property="mainArticleTotalLike" column="MAIN_ARTICLE_TOTAL_LIKE" />
+		<result property="mainArticleDate" column="MAIN_ARTICLE_DATE" />
+		<result property="mainArticleUpdateDate" column="MAIN_ARTICLE_UPDATE_DATE" />
+		<result property="mainArticleComplete" column="MAIN_ARTICLE_COMPLETE" />
+		<result property="memberEmail" column="MEMBER_EMAIL"/>
+		<collection property="memberVO" column="MEMBER_EMAIL"
+			ofType="memberVO" javaType="memberVO" resultMap="memberResultMap" />
+		<collection property="subArticleList" column="MAIN_ARTICLE_NO"
+			ofType="subArticleVO" javaType="ArrayList" resultMap="subArticleResultMap" />
+		<collection property="tagBoardVOList" column="MAIN_ARTICLE_NO"
+			ofType="tagBoardVO" javaType="ArrayList" resultMap="tagBoardResultMap" />
+	</resultMap>
+
+	<resultMap type="subArticleVO" id="subArticleResultMap">
+		<result property="subArticleNo" column="SUB_ARTICLE_NO" />
+		<result property="mainArticleNo" column="MAIN_ARTICLE_NO" />
+		<result property="memberEmail" column="MEMBER_EMAIL" />
+		<result property="subAtricleGrade" column="SUB_ARTICLE_GRADE" />
+		<result property="subArticleContent" column="SUB_ARTICLE_CONTENT" />
+		<result property="isEnd" column="IS_END" />
+		<result property="subArticleLike" column="SUBARTICLE_LIKE" />
+		<result property="isConnect" column="IS_CONNECT" />
+		<result property="subArticleDate" column="SUB_ARTICLE_DATE" />
+		<collection property="memberVO" column="MEMBER_EMAIL"
+			ofType="memberVO" javaType="memberVO" resultMap="memberResultMap" />
+	</resultMap>
+
+	<!-- 3.memberVO resultMap -->
+   <resultMap type="memberVO" id="memberResultMap">
+      <result property="memberEmail" column="MEMBER_EMAIL" />
+      <result property="memberNickName" column="MEMBER_NICKNAME" />
+      <result property="memberPassword" column="MEMBER_PASSWORD" />
+      <result property="memberJoinDate" column="MEMBER_JOIN_DATE" />
+      <result property="memberPoint" column="MEMBER_POINT" />
+      <result property="memberReportAmount" column="MEMBER_REPORT_AMOUNT" />
+      <result property="memberCategory" column="MEMBER_CATEGORY" />
+      <collection property="pickedVOList" column="MEMBER_EMAIL"
+			ofType="pickedVO" javaType="ArrayList" resultMap ="pickedResultMap"/>
+   </resultMap>
+   
+   <!-- pickedVO resultMap -->
+	<resultMap type="pickedVO" id="pickedResultMap">
+		<result property="memberEmail" column="MEMBER_EMAIL"/>
+		<result property="mainArticleNo" column="MAIN_ARTICLE_NO"/>
+	</resultMap>
+   
+   <!-- rankingVO resultMap -->
+	<resultMap type="rankingVO" id="rankingResultMap">
+		<result property="memberGrade" column="MEMBER_GRADE"/>
+		<result property="minPoint" column="MIN_POINT"/>
+		<result property="maxPoint" column="MAX_POINT"/>
+	</resultMap>
+	
+	<!-- tag_board ResultMap private String tagName; private int mainArticleNo; -->
+	<resultMap type="tagBoardVO" id="tagBoardResultMap">
+		<result property="tagName" column="TAG_NAME" />
+		<result property="mainArticleNo" column="MAIN_ARTICLE_NO" />
+	</resultMap>
+	<!-- tagVO resultMap -->
+	<resultMap type="tagVO" id="tagResultMap">
+		<result property="tagName" column="TAG_NAME"/>
+		<result property="searchCount" column="SEARCH_COUNT"/>
+	</resultMap>
+	<!-- itjaMemberVO resultMap -->
+	<resultMap type="itjaMemberVO" id="itjaMemberResultMap">
+		<result property="mainArticleNo" column="MAIN_ARTICLE_NO"/>
+		<result property="subArticleNo" column="SUB_ARTICLE_NO"/>
+		<result property="memberEmail" column="MEMBER_EMAIL"/>
+	</resultMap>
+<!-- <select id="searchBytitle" resultType="mainArticleVO" resultMap="mainArticleResultMap">
+select m.MAIN_ARTICLE_NO,m.MAIN_ARTICLE_TITLE,m.MAIN_ARTICLE_CONTENT,m.MAIN_ARTICLE_HIT,b.MEMBER_NICKNAME
+from MAIN_ARTICLE m, brain_member b
+where MAIN_ARTICLE_TITLE like '%'||#{value}||'%' and m.MEMBER_EMAIL=b.MEMBER_EMAIL
+order by m.MAIN_ARTICLE_NO asc
+ </select> -->
+ 
+<select id="searchBytitle" resultType="mainArticleVO" resultMap="mainArticleResultMap">
+select bm.MEMBER_NICKNAME, ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
+		ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date, 
+		ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_EMAIL, tb.TAG_NAME, bm.MEMBER_POINT
+		from main_article ma, brain_member bm, tag_board tb
+      where ma.MAIN_ARTICLE_TITLE like '%'||#{value}||'%' 
+      and ma.MEMBER_EMAIL=bm.MEMBER_EMAIL
+      and tb.MAIN_ARTICLE_NO = ma.MAIN_ARTICLE_NO
+      order by ma_date desc
+ </select>
+ 
+<!--  <select id="searchByContext" resultType="mainArticleVO" resultMap="mainArticleResultMap">
+select m.MAIN_ARTICLE_NO,m.MAIN_ARTICLE_TITLE,m.MAIN_ARTICLE_CONTENT,m.MAIN_ARTICLE_HIT,b.MEMBER_NICKNAME
+from MAIN_ARTICLE m, brain_member b
+where MAIN_ARTICLE_CONTENT like '%'||#{value}||'%' and m.MEMBER_EMAIL=b.MEMBER_EMAIL
+order by m.MAIN_ARTICLE_NO asc
+ </select> -->
+ 
+<select id="searchByContext" resultType="mainArticleVO" resultMap="mainArticleResultMap">
+select bm.MEMBER_NICKNAME, ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
+		ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date, 
+		ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_EMAIL, tb.TAG_NAME, bm.MEMBER_POINT
+		from main_article ma, brain_member bm, tag_board tb
+      where ma.MAIN_ARTICLE_CONTENT like '%'||#{value}||'%' 
+      and ma.MEMBER_EMAIL=bm.MEMBER_EMAIL
+      and tb.MAIN_ARTICLE_NO = ma.MAIN_ARTICLE_NO
+      order by ma_date desc
+ </select>
+ 
+ 
+<!--  <select id="searchByNickName" resultType="mainArticleVO" resultMap="mainArticleResultMap">
+select m.MAIN_ARTICLE_NO,m.MAIN_ARTICLE_TITLE,m.MAIN_ARTICLE_CONTENT,m.MAIN_ARTICLE_HIT,b.MEMBER_NICKNAME
+from MAIN_ARTICLE m, brain_member b
+where b.MEMBER_NICKNAME like '%'||#{value}||'%' and m.MEMBER_EMAIL=b.MEMBER_EMAIL
+order by m.MAIN_ARTICLE_NO asc
+ </select> -->
+ 
+ <select id="searchByNickName" resultType="mainArticleVO" resultMap="mainArticleResultMap">
+select bm.MEMBER_NICKNAME, ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
+		ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date, 
+		ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_EMAIL, tb.TAG_NAME, bm.MEMBER_POINT
+		from main_article ma, brain_member bm, tag_board tb
+      where bm.MEMBER_NICKNAME like '%'||#{value}||'%' 
+      and ma.MEMBER_EMAIL=bm.MEMBER_EMAIL
+      and tb.MAIN_ARTICLE_NO = ma.MAIN_ARTICLE_NO
+      order by ma_date desc
+ </select>
+ 
+<insert id="insertSearch" >
+		insert into searchRanking values(#{value},1)
+	</insert>
+ <update id="updateSearch" >
+		update searchRanking set cnt=cnt+1 where keyword=#{value}
+	</update>
+ <select id="selectSearch" resultType="map">
+	<![CDATA[
+		SELECT KEYWORD,CNT,RANKING FROM(
+		SELECT KEYWORD,CNT,RANK() OVER(ORDER BY cnt DESC) AS RANKING FROM searchRanking
+		) WHERE RANKING <= 15
+	]]>
+	</select>	
+ 
+ 
+ </mapper> 		
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+	
+	<!-- 3.memberVO resultMap -->
+	<resultMap type="memberVO" id="memberResultMap">
+		<result property="memberEmail" column="MEMBER_EMAIL" />
+		<result property="memberNickName" column="MEMBER_NICKNAME" />
+		<result property="memberPassword" column="MEMBER_PASSWORD" />
+		<result property="memberJoinDate" column="MEMBER_JOIN_DATE" />
+		<result property="memberPoint" column="MEMBER_POINT" />
+      	<result property="memberReportAmount" column="MEMBER_REPORT_AMOUNT" />
+		<result property="memberCategory" column="MEMBER_CATEGORY"/>
+		<collection property="subscriptionInfoList" column="MEMBER_EMAIL"
+			ofType="subscriptionInfoVO" javaType="ArrayList" resultMap ="subscriptionInfoResultMap"/>
+	</resultMap>
+	
+	<!-- SubscriptionInfoVO resultMap -->
+	<resultMap type="subscriptionInfoVO" id="subscriptionInfoResultMap">
+		<result property="publisher" column="PUBLISHER"/>
+		<result property="subscriber" column="SUBSCRIBER"/>
+		<result property="subscriptionDate" column="SUBSCRIPTION_DATE"/>
+	</resultMap>
+	
+	<!-- pickedVO resultMap -->
+	<resultMap type="pickedVO" id="pickedResultMap">
+		<result property="memberEmail" column="MEMBER_EMAIL"/>
+		<result property="mainArticleNo" column="MAIN_ARTICLE_NO"/>
+	</resultMap>
+	
+	<!-- findPasswordVO resultMap -->
+	<resultMap type="findPasswordVO" id="findPasswordVOResultMap">
+		<result property="memberEmail" column="MEMBER_EMAIL"/>
+		<result property="randomSentence" column="RANDOM_SENTECE"/>
+	</resultMap>
+	
+	<!-- *************************** ResultMap 끝 *************************** -->
+	
+   	<!-- 비밀 번호 찾기 요청 인서트 구문 -->
+   	<insert id="insertPasswordFindRequest">
+   		insert into FIND_PASSWORD (MEMBER_EMAIL,RANDOM_SENTENCE) values (#{memberEmail},#{randomSentence})
+   	</insert>
+   	<!-- 이전에 비밀번호 찾기 요청이있었는지 반환 -->
+   	<select id="confirmPasswordFindRequest" parameterType="findPasswordVO" resultMap="memberResultMap">
+		select member_email from find_password where random_sentence = #{randomSentence}
+	</select>
+	<!-- 있었다면 요청을 테이블에서 삭제해준다. -->
+	<delete id="deletePasswordFindRequest" parameterType="findPasswordVO">
+		delete from find_password where member_email = #{memberEmail}
+	</delete>
+	<!-- 요청에 다른 랜덤문자열과 이메일을 확인 하여 유효성 검증 -->
+	<select id="requestTemporaryPasswordCheckRandomSentence" resultMap="memberResultMap">
+		select member_email from find_password where random_sentence = #{randomSentence} and member_email = #{memberEmail}
+	</select>
+   	<!-- 회원정보수정(비밀번호만 수정해준다.) -->
+    <update id="memberUpdatePassword" parameterType="memberVO">
+    update brain_member set MEMBER_PASSWORD=#{memberPassword} where MEMBER_EMAIL=#{memberEmail} 
+    </update>
+    
+	<!-- 한솔 회원가입 -->
+	<insert id="memberRegister" parameterType="memberVO">
+		insert into
+		brain_member(MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_PASSWORD,MEMBER_JOIN_DATE,MEMBER_CATEGORY)
+		values(#{memberEmail},#{memberNickName},#{memberPassword},sysdate,'일반회원')
+	</insert>
+	
+	<!-- 재영 로그인 -->
+	<!-- 제성 : 찜목록 담는거로 수정 + 구독 목록 담기 -->
+	<select id="memberLogin" resultMap="memberResultMap" parameterType="memberVO">
+		select bm.MEMBER_EMAIL, bm.member_Category,bm.MEMBER_NICKNAME, pa.MAIN_ARTICLE_NO,
+		bm.MEMBER_POINT, si.PUBLISHER
+		from BRAIN_MEMBER bm, picked_article pa, SUBSCRIPTION_INFO si
+		where bm.MEMBER_EMAIL=pa.MEMBER_EMAIL and bm.MEMBER_EMAIL=si.SUBSCRIBER and
+		bm.MEMBER_EMAIL=#{memberEmail} and bm.MEMBER_PASSWORD=#{memberPassword}
+	</select>
+	<select id="defaultMemberLogin" resultMap="memberResultMap" parameterType="memberVO">
+		select MEMBER_EMAIL, MEMBER_NICKNAME,MEMBER_CATEGORY, MEMBER_POINT from BRAIN_MEMBER where MEMBER_EMAIL=#{memberEmail} and MEMBER_PASSWORD=#{memberPassword}
+	</select>
+
+	<!-- 한솔 닉네임 중복체크 -->
+	 <select id="findMemberByNickName" resultMap="memberResultMap" parameterType="string">
+	 	select MEMBER_NICKNAME from brain_member where MEMBER_NICKNAME=#{value}
+	 </select>
+	 <!-- 한솔 이메일 중복체크 -->
+	 <select id="findMemberByEmail" resultMap="memberResultMap" parameterType="string">
+	 	select MEMBER_EMAIL,MEMBER_NICKNAME from brain_member where MEMBER_EMAIL=#{value}
+	 </select>
+	 	 <!-- 일반회원 목록 -->
+	  <select id="RegisterMemberList" resultMap="memberResultMap" resultType="memberVO">
+    select MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_JOIN_DATE,
+    MEMBER_POINT,MEMBER_REPORT_AMOUNT
+		from(
+		select rownum,MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_JOIN_DATE,
+		MEMBER_POINT,MEMBER_REPORT_AMOUNT,
+ 		ceil(rownum/13) as page 
+ 		from brain_member
+ 		where MEMBER_CATEGORY ='NORMAL' order by MEMBER_JOIN_DATE desc
+ 		) 
+ 		where page=#{value}
+    </select>
+    <!-- 불량회원 목록 -->
+    <select id="blockMemberList" resultMap="memberResultMap" resultType="memberVO">
+     select MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_JOIN_DATE,
+    MEMBER_POINT,MEMBER_REPORT_AMOUNT
+		from(
+		select rownum,MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_JOIN_DATE,
+		MEMBER_POINT,MEMBER_REPORT_AMOUNT,
+ 		ceil(rownum/13) as page 
+ 		from brain_member
+ 		where MEMBER_CATEGORY ='BLACK' order by MEMBER_JOIN_DATE desc
+ 		) 
+ 	where page=#{value}
+    </select>
+    <update id="memberBlock" parameterType="string">
+    	update brain_member set MEMBER_CATEGORY='BLACK' where MEMBER_EMAIL=#{value}
+    </update>
+        <update id="memberBlockRelease" parameterType="string">
+    	update brain_member set MEMBER_CATEGORY='NORMAL' where MEMBER_EMAIL=#{value}
+    </update>
+    
+    <select id="allMembers" resultType="int">
+    	select count(MEMBER_EMAIL) from BRAIN_MEMBER where MEMBER_CATEGORY ='NORMAL'
+    </select>
+    
+    <select id="allBlockMembers" resultType="int">
+    	select count(MEMBER_EMAIL) from BRAIN_MEMBER where MEMBER_CATEGORY ='BLACK'
+    </select>
+    
+    	<!-- 찜여부 확인 -->
+	<select id="selectPickedVO" resultMap ="pickedResultMap">
+		select MEMBER_EMAIL,MAIN_ARTICLE_NO from PICKED_ARTICLE 
+		where MEMBER_EMAIL = #{memberEmail} and MAIN_ARTICLE_NO=#{mainArticleNo}
+	</select>
+	<!-- 찜추가 -->
+	<insert id="insertPickedVO" parameterType="pickedVO">
+		insert into picked_article(MEMBER_EMAIL,MAIN_ARTICLE_NO) values(#{memberEmail},#{mainArticleNo})
+	</insert>
+	<!-- 찜 삭제 -->
+	<delete id="deletePickedVO" parameterType="pickedVO">
+		delete picked_article where MEMBER_EMAIL = #{memberEmail} and MAIN_ARTICLE_NO = #{mainArticleNo}
+	</delete>
+	<!-- session에 있는 login정보에 pickedVO를 update 해주기 위해 조회 -->
+	<select id="getPickListByMemberEmail" resultMap="pickedResultMap">
+		select MEMBER_EMAIL,MAIN_ARTICLE_NO from PICKED_ARTICLE 
+		where MEMBER_EMAIL = #{memberEmail}
+	</select>
+ <!-- 한솔 비밀번호 재확인 -->
+	 <select id="findByPassword" resultMap="memberResultMap" parameterType="string" resultType="memberVO">
+	 select MEMBER_PASSWORD,member_nickname from brain_member where  MEMBER_EMAIL=#{memberEmail}
+	 </select>
+       <!-- 회원정보수정 -->
+    <update id="memberUpdate" parameterType="memberVO">
+    update brain_member
+    set MEMBER_PASSWORD=#{memberPassword} , MEMBER_NICKNAME=#{memberNickName}
+    where MEMBER_EMAIL=#{memberEmail} 
+    </update>
+     <!-- 회원 포인트 플러스 -->
+    <update id="memberPointPlusUpdater" parameterType="map">
+    	update brain_member set MEMBER_POINT = MEMBER_POINT + #{memberPoint} where MEMBER_EMAIL = #{memberEmail}
+    </update>
+  
+    <!-- 회원 포인트 마이너스 -->
+    <update id="memberPointMinusUpdater" parameterType="map">
+    	update brain_member set MEMBER_POINT = MEMBER_POINT - #{memberPoint} where MEMBER_EMAIL = #{memberEmail}
+    </update>
+    
+      <!-- 회원을 탈퇴처리 -->
+    <update id="memberDelete" parameterType="memberVO" >
+    update brain_member
+    set MEMBER_CATEGORY='탈퇴회원'
+    where MEMBER_EMAIL=#{memberEmail}
+    </update>
+
+    <!-- 구독정보를 조회 -->
+  	<select id="selectSubscriptionInfoVO" resultMap="subscriptionInfoResultMap">
+  		select PUBLISHER, SUBSCRIBER 
+		from SUBSCRIPTION_INFO
+		where PUBLISHER = #{publisher} and SUBSCRIBER=#{subscriber}
+  	</select>
+    <!-- 구독정보 조회 후 비구독상태시 구독하기 수행 -->
+    <insert id="insertSubscriptionInfoVO">
+    	insert into SUBSCRIPTION_INFO(PUBLISHER, SUBSCRIBER, SUBSCRIPTION_DATE) 
+		values(#{publisher}, #{subscriber}, sysdate)
+    </insert>
+    <!-- 구독정보 조회 후 비구독상태시 구독취소 수행 -->
+    <delete id="deleteSubscriptionInfoVO">
+    	delete SUBSCRIPTION_INFO where PUBLISHER=#{publisher} and SUBSCRIBER=#{subscriber}
+    </delete>
+    
+    <!-- 마이페이지 ajax 게시자 Email로 구독자리스트 보내기 -->
+    <select id="getSubscriberListByPublisherEmail" resultMap="subscriptionInfoResultMap">
+    	select SUBSCRIBER from SUBSCRIPTION_INFO
+		where PUBLISHER = #{publisher} order by SUBSCRIPTION_DATE desc
+    </select> 
+    
+    <!-- 구독자 email로 구독리스트 조회(세션 다시 세팅용) -->
+    <select id="getSubscriptionListBySubscriberMemberEmail" resultMap="subscriptionInfoResultMap">
+   		select PUBLISHER, SUBSCRIBER, SUBSCRIPTION_DATE
+		from SUBSCRIPTION_INFO
+		where SUBSCRIBER=#{subscriber}
+    </select>
+   
+</mapper> 		
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

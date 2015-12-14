@@ -1,0 +1,726 @@
+ @CHARSET "UTF-8";
+
+
+/* Links */
+@import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css); 
+
+.hide-card-box{
+	display: none;
+}
+
+/* Custom default button */
+.btn-default,
+.btn-default:hover,
+.btn-default:focus {
+  color: #333;
+  text-shadow: none; /* Prevent inheritence from `body` */
+  background-color: #fff;
+  border: 1px solid #fff;
+}
+/*
+ * Base structure
+ */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  color: #fff;
+  text-align: center;
+  
+}
+
+/* Extra markup and styles for table-esque vertical and horizontal centering */
+.site-wrapper {
+  display: table;
+  width: 100%;
+  height: 100%; /* For at least Firefox */
+  min-height: 100%;
+  background-image: url('../img/index_bg.jpg');
+  background-size: cover;
+  /* opacity: 0.7!important; filter:alpha(opacity=0); */
+}
+.site-wrapper-inner {
+  display: table-cell;
+  vertical-align: top;
+ /*  background-color: rgba( 0, 0, 0, 0.2 ); */
+}
+.cover-container {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* Padding for spacing */
+.inner {
+  padding: 30px;
+}
+/*
+ * Header
+ */
+.masthead-brand {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width : 150px;
+  height :100px;
+  
+}
+
+.masthead-nav > li {
+  display: inline-block;
+}
+.masthead-nav > li + li {
+  margin-left: 20px;
+}
+.masthead-nav > li > a {
+  padding-right: 0;
+  padding-left: 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff; /* IE8 proofing */
+  color: rgba(255,255,255,.75);
+  border-bottom: 2px solid transparent;
+}
+.masthead-nav > li > a:hover,
+.masthead-nav > li > a:focus {
+  background-color: transparent;
+  border-bottom-color: #a9a9a9;
+  border-bottom-color: rgba(255,255,255,.25);
+}
+.masthead-nav > .active > a,
+.masthead-nav > .active > a:hover,
+.masthead-nav > .active > a:focus {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+@media (min-width: 768px) {
+  .masthead-brand {
+    float: left;
+  }
+  .masthead-nav {
+    float: right;
+  }
+}
+/*
+ * Cover
+ */
+
+.cover {
+  padding: 0 20px;
+}
+.cover-heading{
+  font-family: 'Nanum Pen Script', serif;
+  font-size:100px;
+}
+
+.cover-logo{
+	
+}
+.cover .btn-lg {
+  padding: 10px 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  width : 250px;
+  
+}
+
+.indexInstruction{
+	color : white;
+}
+.blliInst{
+	color : white;
+}
+.indexLogin{
+	color: black;
+}
+.indexLogin a{
+	color: red;
+}
+.modal-title{
+	color: black;
+	font-weight: bold;
+}
+.modal-body{
+	color: black;
+	font-weight: bold;
+	text-align: left;
+}
+.modal-footer{
+	color: white;
+	font-weight: bold;
+}
+.personInfoForJoin{
+	text-align: left;
+}
+/*글쓰기 창 길이제한 보여주는 부분 length*/
+.limitLength{
+	text-align: right;
+	color: gray;
+}
+#cardDetailView{
+	width: 100%;
+	height: 100%;
+}
+/*카드 디테입 뷰의 컨텐츠 제한*/
+.cardDetailViewContent{
+	padding-left: 10%;
+	padding-right: 10%;
+}
+/*카드 디테일 뷰의 창작자 아이디 표기*/
+.writersNickNameAtDetail{
+	color: gray;
+	margin: 5px;
+	text-align: right;
+}
+/*
+	로그인 모달 창 css
+*/
+#loginModal{
+	font: black;
+}
+
+/*
+ * Footer
+ */
+.copyrightOfBlli{
+	color:white;
+}
+.mastfoot {
+  color: #999; /* IE8 proofing */
+  color: rgba(255,255,255,.5);
+}
+
+
+/*
+ * Affix and center
+ */
+
+@media (min-width: 768px) {
+  /* Pull out the header and footer */
+  .masthead {
+    position: fixed;
+    top: 0;
+  }
+  .mastfoot {
+    position: fixed;
+    bottom: 0;
+  }
+  /* Start the vertical centering */
+  .site-wrapper-inner {
+    vertical-align: middle;
+  }
+  /* Handle the widths */
+  .masthead,
+  .mastfoot,
+  .cover-container {
+    width: 100%; /* Must be percentage or pixels for horizontal alignment */
+  }
+}
+
+@media (min-width: 992px) {
+  .masthead,
+  .mastfoot,
+  .cover-container {
+    width: 700px;
+  }
+  .leftList{
+  width: 100%;
+  }
+  .mainList{
+  color:black;
+  width:100%; 
+ text-align:center;   
+  }
+}
+
+
+/**
+********************************************************************************************
+* @author JeSeong Lee
+* 닉네임 호버부분
+*/
+
+.popover-title {
+    color: #000000;
+    font-size: 15px;
+}
+
+.popover-content {
+    color: #23aedc;
+    font-size: 12px;
+}
+
+/**
+* @author JeSeong Lee
+* Img(로고, 등급), 팝오버, 마이페이지
+*/
+.gradeImg{
+   width: 75px;
+   height: 50px;
+}
+.logoImg{
+	margin-top : -10px;
+	margin-left: 1px;
+	padding: 0px;
+	height: 40px;
+}
+.popover-title {
+    color: #000000;
+    font-size: 15px;
+}
+
+.popover-content {
+    color: #23aedc;
+    font-size: 12px;
+}
+a.myNickDetail{
+   font-size:15px;
+   padding: 0px;
+   border: 0px;
+}
+/**
+* 마이페이지 프로필 수정 css
+* @author JeSeong Lee
+*/
+.myprofile{
+   margin: 0px;
+   padding: 0px;
+}
+ .profileCard {
+    margin-top: 60px;
+    padding: 30px;
+     background-color: rgba(214, 224, 226, 0.2);
+   -webkit-border-top-left-radius:5px;
+    -moz-border-top-left-radius:5px;
+    border-top-left-radius:5px;
+    -webkit-border-top-right-radius:5px;
+    -moz-border-top-right-radius:5px;
+    border-top-right-radius:5px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* 마이페이지 사진이 들어가는 네모칸 */
+.profileCard.hovercard {
+    position: relative;
+    padding-top: 0;
+    overflow: hidden;
+    text-align: center;
+    background-color: #fff;
+    background-color: rgba(255, 255, 255, 1);
+    height: 240px;
+}
+.profileCard.hovercard .profileCard-background {
+    height: 130px;
+}
+.profileCard-background img {
+    -webkit-filter: blur(25px);
+    -moz-filter: blur(25px);
+    -o-filter: blur(25px);
+    -ms-filter: blur(25px);
+    filter: blur(25px);
+    margin-left: -100px;
+    margin-top: -200px;
+    min-width: 130%;
+}
+
+/* 마이페이지 사진 위치*/
+.profileCard.hovercard .useravatar {
+   margin-top:5px;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+}
+
+/* 마이페이지 사진 사이즈*/
+.profileCard.hovercard .useravatar img {
+    width: 150px;
+    height: 150px;
+    max-width: 150px;
+    max-height: 150px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    border: 5px solid rgba(255, 255, 255, 0.5);
+}
+
+/* 마이페이지 사진 아래 간단한 내용 */
+.profileCard.hovercard .profileCard-info {
+   font-family: 'Jeju Gothic', sans-serif;
+    margin-bottom:15px;
+    position: absolute;
+    bottom: 14px;
+    left: 0;
+    right: 0;
+}
+.profileCard.hovercard .profileCard-info .profileCard-title {
+    padding:0 5px;
+    font-size: 20px;
+    font-weight:bold;
+    line-height: 1;
+    color: #262626;
+    background-color: rgba(255, 255, 255, 0.1);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+/*등급은 따로 css줌*/
+.profileCard.hovercard .profileCard-titleGrade{
+   font-family: 'Jeju Gothic', sans-serif;
+   text-align: left;
+   margin-bottom:5px;
+   margin-left:90px;
+    position: absolute;
+    bottom: 14px;
+    left: 0;
+    right: 0;
+   color:black;
+}
+.profileCard.hovercard .profileCard-titleGrade .gradePoint{
+   font-size: 16px;
+   background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+
+.profileCard.hovercard .bottom {
+    padding: 0 20px;
+    margin-bottom: 17px;
+}
+.btn-pref .btn {
+    -webkit-border-radius:0 !important;
+}
+
+
+/*
+  Hide radio button (the round disc)
+  we will use just the label to create pushbutton effect
+*/
+input[type=radio] {
+    display:none; 
+    margin:10px;
+}
+ 
+/*
+  Change the look'n'feel of labels (which are adjacent to radiobuttons).
+  Add some margin, padding to label
+*/
+input[type=radio] + label {
+    display:inline-block;
+    margin:-2px;
+    padding: 4px 12px;
+    background-color: #e7e7e7;
+    border-color: #ddd;
+}
+/*
+ Change background color for label next to checked radio button
+ to make it look like highlighted button
+*/
+input[type=radio]:checked + label { 
+   background-image: none;
+    background-color:mediumaquamarine;
+}
+
+
+/* 마이페이지 INFO */
+
+.hero-widget { text-align: center; padding-top: 20px; padding-bottom: 20px; }
+.hero-widget .text{
+	color: black;
+}
+.hero-widget .icon {color:black; display: block; font-size: 96px; line-height: 96px; margin-bottom: 10px; text-align: center; }
+.hero-widget .icon .user{color:#018bad;}
+.hero-widget .icon .itja{color:#02bbea;}
+.hero-widget .icon .pick{color:#ff7266;}
+.hero-widget .icon .write{color:#ff870f;}
+.hero-widget .icon .join{color:#c6a81c;}
+.hero-widget .icon .tags{color:#009700;}
+.hero-widget .age{color: #b300ff;}
+.hero-widget var { display: block; height: 64px; font-size: 64px; line-height: 64px; font-style: normal; }
+.hero-widget label { font-size: 17px; }
+.hero-widget .options { margin-top: 10px; }
+
+/* 랭킹테이블 */
+.popover2{
+	text-align: center;
+}
+.rankingTable{
+	text-align: center;
+}
+.rankingTable .gradeTd{
+	text-align: left;
+}
+.rankingTable .gradeImg{
+	width: 55px;
+	height: 40px;
+}
+
+/*글 쓰기 폼*/
+.userlength{
+	color: red;	
+}
+:form[action='auth_writeSubArticle.neon'] :input[type='radio'],:input[type='button']{
+	text-align: right;
+}
+.itjaWriteForm{
+	display:block;
+	margin: 30px;
+	text-align: right;
+}
+
+.time_area_modal{
+	font: red;
+	font-weight: bold;
+}
+
+/*카드   CSS*/
+/*
+Ref:
+Thanks to:
+http://www.jqueryscript.net/layout/Simple-jQuery-Plugin-To-Create-Pinterest-Style-Grid-Layout-Pinterest-Grid.html
+*/
+
+body {
+ background-color:#eee;   
+}    
+#pinBoot {
+  position: relative;
+  max-width: 100%;
+  width: 100%;
+  color: black;
+}
+#pinBoot{
+  color: black;
+}
+#pinBoot img {
+  max-width: 100%;
+  height: auto;
+}
+.white-panel {
+  position: absolute;
+  background: white;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  padding-right: 5px;
+  margin-right: 5px;
+}
+/*
+stylize any heading tags withing white-panel below
+*/
+
+.white-panel h1 {
+  font-size: 1em;
+}
+.white-panel h1 a {
+  color: #A92733;
+}
+.white-panel:hover {
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+  margin-top: -5px;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+/*
+	디테일 뷰 CSS
+*/
+
+.panelForDetail-shadow {
+    box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
+}
+.panelForDetail-white {
+  border: 1px solid #dddddd;
+  height:100%;
+}
+.panelForDetail-white  .panelForDetail-heading {
+  color: #333;
+  background-color: #fff;
+  border-color: #ddd;
+}
+.panelForDetail-white  .panelForDetail-footer {
+  background-color: #fff;
+  border-color: #ddd;
+}
+
+.postForDetail .postForDetail-heading {
+  height: 95px;
+  padding: 20px 15px;
+}
+.postForDetail .postForDetail-heading .avatarForDetail {
+  width: 60px;
+  height: 60px;
+  display: block;
+  margin-right: 15px;
+}
+.postForDetail .postForDetail-heading .metaForDetail .titleForDetail {
+  margin-bottom: 0;
+}
+.postForDetail .postForDetail-heading .metaForDetail .titleForDetail a {
+  color: black;
+}
+.postForDetail .postForDetail-heading .metaForDetail .titleForDetail a:hover {
+  color: #aaaaaa;
+}
+.postForDetail .postForDetail-heading .metaForDetail .timeForDetail {
+  margin-bottom: 0px;
+  color: #999;
+  margin-top: 2px;
+}
+.postForDetail .postForDetail-image .imageForDetail {
+  width: 100%;
+  height: auto;
+}
+.postForDetail .postForDetail-description {
+  padding: 15px;
+}
+.postForDetail .postForDetail-description p {
+  font-size: 14px;
+}
+.postForDetail .postForDetail-description .statsForDetail {
+  margin-top: 20px;
+}
+.post .postForDetail-description .statsForDetail .statForDetail-item {
+  display: inline-block;
+  margin-right: 15px;
+}
+.postForDetail .postForDetail-description .statsForDetail .statForDetail-item .icon {
+  margin-right: 8px;
+}
+.postForDetail .postForDetail-footer {
+  border-top: 1px solid #ddd;
+  padding: 15px;
+}
+.postForDetail .postForDetail-footer .input-group-addon a {
+  color: #454545;
+}
+.postForDetail .postForDetail-footer .commentsForDetail-list {
+  padding: 0;
+  margin-top: 20px;
+  list-style-type: none;
+}
+.postForDetail .postForDetail-footer .commentsForDetail-list .commentForDetail {
+  display: block;
+  width: 100%;
+  margin: 20px 0;
+}
+.postForDetail .postForDetail-footer .commentsForDetail-list .commentForDetail .avatarForDetail {
+  width: 35px;
+  height: 35px;
+}
+.postForDetail .postForDetail-footer .commentsForDetail-list .commentForDetail .commentForDetail-heading {
+  display: block;
+  width: 100%;
+}
+.postForDetail .postForDetail-footer .commentsForDetail-list .commentForDetail .commentForDetail-heading .userForDetail {
+  font-size: 14px;
+  font-weight: bold;
+  display: inline;
+  margin-top: 0;
+  margin-right: 10px;
+}
+.postForDetail .postForDetail-footer .commentsForDetail-list .commentForDetail .commentForDetail-heading .timeForDetail {
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 0;
+  display: inline;
+}
+.postForDetail .postForDetail-footer .commentsForDetail-list .commentForDetail .commentForDetail-body {
+  margin-left: 50px;
+}
+.postForDetail .postForDetail-footer .commentsForDetail-list .commentForDetail > .commentsForDetail-list {
+  margin-left: 50px;
+}
+.detailView{
+	height: 100%;
+}
+.detailLeft{
+	position : absolute;
+	height: 80%;
+	width: 45%;
+	margin-left: 5%;
+	
+}
+.detailRight{
+	position : absolute;
+	height: 80%;
+	width: 45%;
+	margin-left: 50%;
+}
+.detailItjaCount{
+	color: brown;
+	font-weight: normal;
+}
+.detailReportCount{
+	color: orangered;
+	font-weight: normal;
+}
+.unLinkingSubArticleContent{
+	color: gray;
+	margin-top: 5px;
+}
+.metaForDetail{
+	margin-right: 10px;
+	margin-top: 10px;
+}
+.unLinkingSubArticleList{
+	height: 70%;	
+	overflow-x:hidden;	
+}
+.mainArticleContentsInModal{
+	padding:30px;
+	height: 80%;
+	overflow-x:hidden;	
+}
+.mainArticleContent{
+	color: black;
+}
+.cardDetailViewTitle{
+	text-align: center;
+	margin-top: 10px;
+}
+.detailViewModalUtility{
+	text-align: center;
+	padding: 20px;
+}
+.mainArticleContentsInModal::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+.mainArticleContentsInModal::-webkit-scrollbar
+{
+    width: 10px;
+    background-color: #ff8040;
+}
+
+.mainArticleContentsInModal::-webkit-scrollbar-thumb
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #ff8040;
+}
+.unLinkingSubArticleList::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+.unLinkingSubArticleList::-webkit-scrollbar
+{
+    width: 10px;
+    background-color: #ff8040;
+}
+
+.unLinkingSubArticleList::-webkit-scrollbar-thumb
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #ff8040;
+}
+

@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<resultMap type="mainArticleVO" id="mainArticleResultMap">
+		<result property="mainArticleNo" column="MAIN_ARTICLE_NO" />
+		<result property="mainArticleTitle" column="MAIN_ARTICLE_TITLE" />
+		<result property="mainArticleContent" column="MAIN_ARTICLE_CONTENT" />
+		<result property="mainArticleHIt" column="MAIN_ARTICLE_HIT" />
+		<result property="mainArticleLike" column="MAIN_ARTICLE_LIKE" />
+		<result property="mainArticleTotalLike" column="MAIN_ARTICLE_TOTAL_LIKE" />
+		<result property="mainArticleDate" column="MAIN_ARTICLE_DATE" />
+		<result property="mainArticleUpdateDate" column="MAIN_ARTICLE_UPDATE_DATE" />
+		<result property="mainArticleComplete" column="MAIN_ARTICLE_COMPLETE" />
+		<result property="block" column="MAIN_ARTICLE_BLOCK" />
+		<result property="memberEmail" column="MEMBER_EMAIL"/>
+		<collection property="memberVO" column="MEMBER_EMAIL"
+			ofType="memberVO" javaType="memberVO" resultMap="memberResultMap" />
+		<collection property="subArticleList" column="MAIN_ARTICLE_NO"
+			ofType="subArticleVO" javaType="ArrayList" resultMap="subArticleResultMap" />
+		<collection property="tagBoardVOList" column="MAIN_ARTICLE_NO"
+			ofType="tagBoardVO" javaType="ArrayList" resultMap="tagBoardResultMap" />
+	</resultMap>
+
+	<resultMap type="subArticleVO" id="subArticleResultMap">
+		<result property="subArticleNo" column="SUB_ARTICLE_NO" />
+		<result property="mainArticleNo" column="MAIN_ARTICLE_NO" />
+		<result property="memberEmail" column="MEMBER_EMAIL" />
+		<result property="subAtricleGrade" column="SUB_ARTICLE_GRADE" />
+		<result property="subArticleContent" column="SUB_ARTICLE_CONTENT" />
+		<result property="isEnd" column="IS_END" />
+		<result property="subArticleLike" column="SUBARTICLE_LIKE" />
+		<result property="isConnect" column="IS_CONNECT" />
+		<result property="block" column="SUB_ARTICLE_BLOCK" />
+		<result property="subArticleDate" column="SUB_ARTICLE_DATE" />
+		<collection property="memberVO" column="MEMBER_EMAIL"
+			ofType="memberVO" javaType="memberVO" resultMap="memberResultMap" />
+	</resultMap>
+
+	<!-- 3.memberVO resultMap -->
+   <resultMap type="memberVO" id="memberResultMap">
+      <result property="memberEmail" column="MEMBER_EMAIL" />
+      <result property="memberNickName" column="MEMBER_NICKNAME" />
+      <result property="memberPassword" column="MEMBER_PASSWORD" />
+      <result property="memberJoinDate" column="MEMBER_JOIN_DATE" />
+      <result property="memberPoint" column="MEMBER_POINT" />
+      <result property="memberReportAmount" column="MEMBER_REPORT_AMOUNT" />
+      <result property="memberCategory" column="MEMBER_CATEGORY" />
+      <collection property="pickedVOList" column="MEMBER_EMAIL"
+			ofType="pickedVO" javaType="ArrayList" resultMap ="pickedResultMap"/>
+	  <collection property="subscriptionInfoList" column="MEMBER_EMAIL"
+		ofType="subscriptionInfoVO" javaType="ArrayList" resultMap ="subscriptionInfoResultMap"/>
+   </resultMap>
+   
+   <!-- pickedVO resultMap -->
+	<resultMap type="pickedVO" id="pickedResultMap">
+		<result property="memberEmail" column="MEMBER_EMAIL"/>
+		<result property="mainArticleNo" column="MAIN_ARTICLE_NO"/>
+	</resultMap>
+   
+   <!-- rankingVO resultMap -->
+	<resultMap type="rankingVO" id="rankingResultMap">
+		<result property="memberGrade" column="MEMBER_GRADE"/>
+		<result property="minPoint" column="MIN_POINT"/>
+		<result property="maxPoint" column="MAX_POINT"/>
+	</resultMap>
+	
+	<!-- tag_board ResultMap private String tagName; private int mainArticleNo; -->
+	<resultMap type="tagBoardVO" id="tagBoardResultMap">
+		<result property="tagName" column="TAG_NAME" />
+		<result property="mainArticleNo" column="MAIN_ARTICLE_NO" />
+		<result property="useTagCount" column="SUM_COUNT"/>
+	</resultMap>
+	
+	<!-- tagVO resultMap -->
+	<resultMap type="tagVO" id="tagResultMap">
+		<result property="tagName" column="TAG_NAME"/>
+		<result property="searchCount" column="SEARCH_COUNT"/>
+	</resultMap>
+	<!-- itjaMemberVO resultMap -->
+	<resultMap type="itjaMemberVO" id="itjaMemberResultMap">
+		<result property="mainArticleNo" column="MAIN_ARTICLE_NO"/>
+		<result property="subArticleNo" column="SUB_ARTICLE_NO"/>
+		<result property="memberEmail" column="MEMBER_EMAIL"/>
+	</resultMap>
+	<!-- 2015-12-08 대협추가 -->
+	<!-- mainArticleImgVO resultMap -->
+	<resultMap type="mainArticleImgVO" id="mainArticleImgResultMap">
+		<result property="mainArticleNo" column="MAIN_ARTICLE_NO"/>
+		<result property="mainArticleImgName" column="MAIN_ARTICLE_IMG_NAME"/>
+	</resultMap>
+	
+	<!-- SubscriptionInfoVO resultMap -->
+	<resultMap type="subscriptionInfoVO" id="subscriptionInfoResultMap">
+		<result property="publisher" column="PUBLISHER"/>
+		<result property="subscriber" column="SUBSCRIBER"/>
+		<result property="subscriptionDate" column="SUBSCRIPTION_DATE"/>
+	</resultMap>
+	
+	<!-- ************************************** 리절트맵 끝 ************************************** -->
+	
+	<!-- 준영 -->
+	<!-- 주제글에 잇자 멤버 정보를 삽입 -->
+	<insert id="insertMainItjaMember">
+		insert into ITJA_MEMBER (MAIN_ARTICLE_NO,MEMBER_EMAIL,sub_Article_no) values(#{mainArticleNo},#{memberEmail},0)
+	</insert>
+	<!-- 잇는글에 잇자 멤버 정보를 삽입 -->
+	<insert id="insertSubItjaMember">
+		insert into ITJA_MEMBER (MAIN_ARTICLE_NO,SUB_ARTICLE_NO,MEMBER_EMAIL) 
+		values(#{mainArticleNo},#{subArticleNo},#{memberEmail})
+	</insert>
+	<!-- 잇자 여부를 체크 -->
+	<select id="checkItja" resultType="Integer">
+		select count(*) from ITJA_MEMBER where MAIN_ARTICLE_NO=#{mainArticleNo} and 
+		SUB_ARTICLE_NO=#{subArticleNo} and MEMBER_EMAIL = #{memberEmail}
+	</select>
+	<!-- 주제 게시물의 총 잇자수를 올려준다. -->
+	<update id="updateMainPlusTotalItjaHit">
+		update main_article set MAIN_ARTICLE_TOTAL_LIKE = MAIN_ARTICLE_TOTAL_LIKE+1 where MAIN_ARTICLE_NO=#{mainArticleNo}
+	</update>
+	<!-- 주제 게시물의 총 잇자수를 줄여준다. -->
+	<update id="updateMainMinusTotalItjaHit">
+		update main_article set MAIN_ARTICLE_TOTAL_LIKE = MAIN_ARTICLE_TOTAL_LIKE-1 where MAIN_ARTICLE_NO=#{mainArticleNo}
+	</update>
+	<!-- 주제 게시물의 잇자수를 올려준다. -->
+	<update id="updateMainPlusItjaHit">
+		update main_article set MAIN_ARTICLE_LIKE = MAIN_ARTICLE_LIKE+1 where MAIN_ARTICLE_NO=#{mainArticleNo}
+	</update>
+	<!-- 주제 게시물의 잇자수를 줄여준다. -->
+	<update id="updateMainMinusItjaHit">
+		update main_article set MAIN_ARTICLE_LIKE = MAIN_ARTICLE_LIKE-1 where MAIN_ARTICLE_NO=#{mainArticleNo}
+	</update>
+	<!-- 잇는글의 잇자수를 올려준다. -->
+	<update id="updateSubPlusItjaHit" parameterType="itjaMemberVO">
+		update sub_article set subARTICLE_LIKE = subARTICLE_LIKE+1 where sub_ARTICLE_NO=#{subArticleNo}
+	</update>
+	<!-- 잇는글의 잇자수를 줄여준다. -->
+	<update id="updateSubMinusItjaHit" parameterType="itjaMemberVO">
+		update sub_article set subARTICLE_LIKE = subARTICLE_LIKE-1 where sub_ARTICLE_NO=#{subArticleNo}
+	</update>
+	<!-- 잇자와 회원의 관계정보를 테이블에서 삭제한다. -->
+	<delete id="deleteItja">
+		delete from ITJA_MEMBER where MAIN_ARTICLE_NO=#{mainArticleNo} and 
+		SUB_ARTICLE_NO=#{subArticleNo} and MEMBER_EMAIL = #{memberEmail}
+	</delete>
+	<!-- 주제 글의 토탈 잇자수를 반환합니다. -->
+	<select id="selectItjaTotalCount" resultType="Integer">
+		select MAIN_ARTICLE_TOTAL_LIKE from main_article where MAIN_ARTICLE_NO=#{mainArticleNo}
+	</select>	
+	<!-- 주제 글의 잇자수를 반환합니다. -->
+	<select id="selectMainItjaCount" resultType="Integer">
+		select MAIN_ARTICLE_LIKE from main_article where MAIN_ARTICLE_NO=#{mainArticleNo}
+	</select>	
+	<!-- 주제 글의 잇자수를 반환합니다. -->
+	<select id="selectSubItjaCount" resultType="Integer">
+		select subARTICLE_LIKE from sub_article where sub_ARTICLE_NO=#{subArticleNo}
+	</select>	
+	<!-- 잇는글의 잇자수를 초기화 합니다. -->
+	<update id="subArticleItjaCountDefault" parameterType="ItjaMemberVO">
+		update sub_article set subARTICLE_LIKE = 0 where sub_ARTICLE_NO=#{subArticleNo}
+	</update>	
+	<!-- 주제글의 잇자수를 초기화 합니다. -->
+	<update id="mainArticleItjaCountDefault" parameterType="ItjaMemberVO">
+		update main_article set main_ARTICLE_LIKE = 0 where main_ARTICLE_NO=#{mainArticleNo}
+	</update>	
+	<!-- 해당 회원의 모든 잇자 글을 리스트로 반환 -->
+	<select id="getItjaListByMemberEmail" resultMap="itjaMemberResultMap">
+		select MAIN_ARTICLE_NO,SUB_ARTICLE_NO,MEMBER_EMAIL from ITJA_MEMBER where MEMBER_EMAIL = #{value}
+	</select>
+	<!-- 주제글 삽입해준다. -->
+   <insert id="insertMainArticle" parameterType="mainArticleVO">
+		<selectKey keyProperty="mainArticleNo" resultType="int" order="BEFORE">
+			select main_article_seq.nextval from dual
+		</selectKey>
+		insert into main_article(MAIN_ARTICLE_NO,MEMBER_EMAIL,MAIN_ARTICLE_TITLE,MAIN_ARTICLE_CONTENT,MAIN_ARTICLE_DATE,MAIN_ARTICLE_UPDATE_DATE)
+		values(#{mainArticleNo},#{memberEmail},#{mainArticleTitle},#{mainArticleContent},sysdate,to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'))
+	</insert>
+	<insert id="insertTagBoardVO" parameterType="tagBoardVO">
+		insert into tag_board (tag_name,main_article_no) values (#{tagName},#{mainArticleNo})
+	</insert>
+   <!-- 글 작성 시 선택하는 태그가 인기 순으로 적용되기 위한 SQL -->
+	<select id="selectListTagNameOrderBySearchCount" resultMap="tagResultMap">
+		select tag_name,search_count from TAG order by search_count
+	</select>
+	<!-- 현재 진행 중인 글에 사용자가 이미 잇는글을 작성했는지를 파악해준다.. -->
+	<select id="alreadyWriteSubArticleInThisGrade" resultType="Integer" parameterType="subArticleVO">
+		select count(*) from sub_article where member_email = #{memberEmail} and SUB_ARTICLE_GRADE =#{subAtricleGrade} and main_article_no = #{mainArticleNo}
+	</select>
+	<!-- 잇는글을 삽입해준다. -->
+	<insert id="insertSubArticle" parameterType="subArticleVO">
+		insert into sub_article (MAIN_ARTICLE_NO, SUB_ARTICLE_NO, MEMBER_EMAIL,SUB_ARTICLE_CONTENT,IS_CONNECT,SUB_ARTICLE_DATE,SUB_ARTICLE_GRADE,IS_END) 
+		values(#{mainArticleNo},sub_article_seq.nextval,#{memberEmail},#{subArticleContent}, 0 , sysdate,#{subAtricleGrade},#{isEnd})
+	</insert>
+	<!-- 주제글 번호로 작성자 이메일 꺼내옴 -->
+	<select id="selectWriterEmailByMainArticleNO" parameterType="itjaMemberVO" resultType="string">
+		select Member_EMAIL from Main_Article where MAIN_ARTICLE_NO = #{mainArticleNo}
+	</select>
+	<!-- 잇는글 번호로 작성자 이메일 꺼내옴 -->
+	<select id="selectWriterEmailBySubArticleNO" parameterType="itjaMemberVO" resultType="string">
+		select Member_EMAIL from SUB_Article where SUB_ARTICLE_NO = #{subArticleNo}
+	</select>
+	
+	<!-- 메인 아티클의 현재 update_date를 출력해준다. -->
+	<select id="selectOneMainArticleUpdateDate" resultType="string">
+		select to_char(main_article_update_date,'yyyymmddhh24miss') as MAIN_ARTICLE_UPDATE_DATE from MAIN_ARTICLE where MAIN_ARTICLE_NO = #{value}
+	</select>
+	<!-- 메인 아티클의 현재 update_date를 sysdate로 고쳐준다. -->
+	<update id="updateDateForMainArticle">
+		update main_article set main_article_update_date = sysdate where  MAIN_ARTICLE_NO = #{value}
+	</update>
+	<!-- 새로운 잇자글을 베스트로 옮겨준다.. -->
+	<update id="moveToBest">
+		update main_article set main_article_complete = -1 where  MAIN_ARTICLE_NO = #{value}
+	</update>
+	<!-- 베스트글을 완결글로 옮겨준다.. -->
+	<update id="updateBestToCompletArticle">
+		update main_article set main_article_complete = 1 where  MAIN_ARTICLE_NO = #{mainArticleNo}
+	</update>
+	<!-- 베스트글의 최신 잇는글 중 선정된 잇는글을 이어줍니다. -->
+	<update id="updateIsConnect">
+		update sub_article set is_connect = 1 where sub_ARTICLE_NO = #{subArticleNo} 
+	</update>
+	<!-- 가장 잇자수가 높은 글들을 불러옵니다.  -->
+	<select id="selectListHigherLikeSubArticle" parameterType="subArticleVO" resultMap="subArticleResultMap">
+			select sub_article_no,sub_article_grade,is_end,to_char(sub_article_date,'yyyymmddhh24miss') as sub_article_date from sub_article
+			where subarticle_like=(select max(subarticle_like) from sub_article where main_article_no = #{mainArticleNo} and sub_article_grade=#{subAtricleGrade})
+			and main_article_no = #{mainArticleNo} and sub_article_grade=#{subAtricleGrade} order by sub_article_date desc
+	</select>
+	
+	
+	
+	<!-- 윤택 -->
+
+	<!-- 주제글의 정보-->
+	<select id="selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo" resultMap="mainArticleResultMap" 
+	parameterType="mainArticleVO" resultType="mainArticleVO">
+		select * from main_article m,  brain_member b   where
+		 m.MAIN_ARTICLE_NO=#{mainArticleNo} 
+		and b.MEMBER_EMAIL=m.MEMBER_EMAIL
+	</select>
+	
+	<!-- 이어진 SubArticle을 select해줍니다 -->
+	<select id="likingSubArticleFindByMainArticleNo" resultType="subArticleVO" parameterType="subArticleVO" resultMap="subArticleResultMap">
+	select * from sub_article sa , BRAIN_MEMBER bm 
+		where sa.MEMBER_EMAIL=bm.MEMBER_EMAIL and sa.MAIN_ARTICLE_NO=#{mainArticleNo}
+		 and sa.IS_CONNECT=1 order by sa.SUB_ARTICLE_GRADE asc
+	</select>
+	
+	<!-- 잇는 SubArticle을 select해줍니다 -->
+	
+	<select id="selectListSubArticle" resultType="subArticleVO" parameterType="subArticleVO" resultMap="subArticleResultMap">
+		select * from sub_article sa, BRAIN_MEMBER bm 
+		where sa.MEMBER_EMAIL=bm.MEMBER_EMAIL 
+		and sa.MAIN_ARTICLE_NO=#{mainArticleNo} and  sa.SUB_ARTICLE_GRADE=#{subAtricleGrade}
+		order by sub_article_date asc
+	</select>
+	
+	<!-- 현재 진행 중인 글의 현재 단계를 말해줍니다. -->
+   <select id="selectSubArticleCurruntGrade" resultMap="subArticleResultMap" resultType="subArticleVO"
+    parameterType="subArticleVO">
+      select max(SUB_ARTICLE_GRADE)+1 as SUB_ARTICLE_GRADE from sub_article where MAIN_ARTICLE_NO=#{mainArticleNo} and IS_CONNECT=1
+   </select>
+	
+	<!-- mainArticle을 Block처리 하는 메서드 -->
+	<update id="articleBlock" parameterType="mainArticleVO" >
+		update main_article set MAIN_ARTICLE_BLOCK=1 where MAIN_ARTICLE_NO=#{mainArticleNo}
+	</update>
+	
+	<!-- subArticle을 Block처리 하는 메서드 -->
+	<update id="subArticleBlock" parameterType="mainArticleVO" >
+		update sub_article set SUB_ARTICLE_BLOCK=1 where SUB_ARTICLE_NO=#{value}
+	</update>
+	
+	
+<!-- 대협 -->
+	<select id="completeMainArticleByMainArticleNo" resultType="mainArticleVO"
+		resultMap="mainArticleResultMap">
+	</select>
+	
+	<!-- 완결주제글 최신순 -->
+   <select id="completeMainArticleOrderByDate" resultType="mainArticleVO"
+      resultMap="mainArticleResultMap">
+      select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+      MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
+      MEMBER_EMAIL, MEMBER_POINT
+		from(
+			select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, 
+			MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+			MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE, 
+			MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME, 
+			MEMBER_EMAIL, MEMBER_POINT, ceil(rownum/9) as page
+			from(
+				select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+				ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+				to_char(ma.MAIN_ARTICLE_DATE,'YYYY/MM/DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
+				to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
+				ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME,
+				bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT
+				from main_article ma, brain_member bm
+				where ma.MEMBER_EMAIL = bm.MEMBER_EMAIL and 
+				and ma.MAIN_ARTICLE_COMPLETE = 1
+				order by MAIN_ARTICLE_UPDATE_DATE desc
+			)
+		)
+		where page=#{pageNo}
+   </select>
+   
+   <!-- 완결주제글 총잇자순 -->
+   <select id="completeMainArticleOrderByTotalLike" resultMap="mainArticleResultMap">
+      select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+      MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
+      MEMBER_EMAIL, MEMBER_POINT
+		from(
+			select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, 
+			MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+			MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE, 
+			MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
+			MEMBER_EMAIL, MEMBER_POINT, ceil(rownum/9) as page
+			from(
+				select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+				ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+				to_char(ma.MAIN_ARTICLE_DATE,'YYYY/MM/DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
+				to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
+				ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME, 
+				bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT
+				from main_article ma, brain_member bm
+				where ma.MEMBER_EMAIL = bm.MEMBER_EMAIL 
+				and ma.MAIN_ARTICLE_COMPLETE = 1
+				order by MAIN_ARTICLE_TOTAL_LIKE desc
+			)
+		)
+		where page=#{pageNo}
+   </select>
+   <!-- 완결주제글 태그별 List-->
+   <select id="selectListCompleteMainArticleOrderByTag" resultMap="mainArticleResultMap">
+      select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+      MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
+      TAG_NAME, MEMBER_EMAIL, MEMBER_POINT
+		from(
+			select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, 
+			MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+			MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE, 
+			MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME, TAG_NAME,
+			MEMBER_EMAIL, MEMBER_POINT, ceil(rownum/9) as page
+			from(
+				select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+				ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+				to_char(ma.MAIN_ARTICLE_DATE,'YYYY/MM/DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
+				to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
+				ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME, tb.TAG_NAME as TAG_NAME,
+				bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT
+				from main_article ma, brain_member bm, tag_board tb
+				where ma.MEMBER_EMAIL = bm.MEMBER_EMAIL and ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO 
+				and ma.MAIN_ARTICLE_COMPLETE = 1 and tb.TAG_NAME=#{tagName}
+				order by MAIN_ARTICLE_DATE desc
+			)
+		)
+		where page=#{pageNo}
+   </select>
+   
+   <!-- 메인 새로운 주제글 최신순 List-->
+   <select id="selectListNotCompleteMainArticleOrderByDate"  resultMap="mainArticleResultMap">
+      select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+      MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
+      MEMBER_EMAIL, MEMBER_POINT
+		from(
+			select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, 
+			MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+			MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE, 
+			MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
+			MEMBER_EMAIL, MEMBER_POINT, ceil(rownum/9) as page
+			from(
+				select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+				ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+				to_char(ma.MAIN_ARTICLE_DATE,'YYYY/MM/DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
+				to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
+				ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME,
+				bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT
+				from main_article ma, brain_member bm
+				where ma.MEMBER_EMAIL = bm.MEMBER_EMAIL
+				and ma.MAIN_ARTICLE_COMPLETE = 0
+				order by MAIN_ARTICLE_DATE desc
+			)
+		)
+		where page=#{value}
+   </select>
+   
+   <!-- 메인 새로운 주제글 태그 정렬 -->
+   <select id="selectListNotCompleteMainArticleOrderByTag" resultMap="mainArticleResultMap" parameterType="map">
+   select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+      MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
+      TAG_NAME, MEMBER_EMAIL, MEMBER_POINT
+		from(
+			select MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, 
+			MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+			MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE, 
+			MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME, TAG_NAME,
+			MEMBER_EMAIL, MEMBER_POINT, ceil(rownum/9) as page
+			from(
+				select ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+				ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+				to_char(ma.MAIN_ARTICLE_DATE,'YYYY/MM/DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
+				to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
+				ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME, tb.TAG_NAME as TAG_NAME,
+				bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT
+				from main_article ma, brain_member bm, tag_board tb
+				where ma.MEMBER_EMAIL = bm.MEMBER_EMAIL and ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO 
+				and ma.MAIN_ARTICLE_COMPLETE = 0 and tb.TAG_NAME=#{tagName}
+				order by MAIN_ARTICLE_DATE desc
+			)
+		)
+		where page=#{pageNo}
+   </select>
+
+   
+   
+   <!-- 제성 -->
+   
+   <!-- 메인 베스트 주제글 최신순 List-->   
+   <select id="getBestMainArticleVOListOrderByDate" resultMap="mainArticleResultMap">
+      select to_char(ma.MAIN_ARTICLE_UPDATE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_MAIN_ARTICLE_UPDATE_DATE,
+      ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, bm.MEMBER_POINT,
+      ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date, 
+      ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME, bm.MEMBER_EMAIL 
+      from main_article ma, brain_member bm
+      where bm.MEMBER_EMAIL = ma.MEMBER_EMAIL and 
+      ma.MAIN_ARTICLE_COMPLETE=-1 order by ma_date desc
+   </select>
+	
+	<!-- 전체 태그 불러오기 -->
+	<select id="getTagVOList" resultMap="tagResultMap">
+		select TAG_NAME from tag
+	</select>
+	
+	<!-- 메인아티클 넘버에 해당하는 태그목록 불러오기 -->
+	<select id="getMainArticleTagList" resultMap="tagBoardResultMap">
+		select TAG_NAME, MAIN_ARTICLE_NO
+		from tag_board
+		where MAIN_ARTICLE_NO=#{mainArticleNo}
+	</select>
+	
+	
+	<!-- ********************************** 마이페이지 ********************************** -->
+	<!-- 마이페이지 최신순 주제글 불러오기 by mainArticleNo -->
+	<select id="getMainArticleByMainArticleNoOrderByDate" resultMap="mainArticleResultMap">
+		select bm.MEMBER_NICKNAME, ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
+		ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date, 
+		ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_EMAIL, bm.MEMBER_POINT
+		from main_article ma, brain_member bm
+		where bm.MEMBER_EMAIL = ma.MEMBER_EMAIL and 
+		ma.MAIN_ARTICLE_NO=#{mainArticleNo} order by ma_date desc
+	</select>
+	
+	<!-- 마이페이지 찜한 주제글번호 불러오기 by email -->
+	<select id="getPickedMainArticleNoByEmail" resultType="int">
+		select MAIN_ARTICLE_NO from picked_article where MEMBER_EMAIL = #{memberEmail}
+	</select>
+	
+	<!-- 마이페이지 해당 닉네임, 랭킹 불러오기 -->
+	<select id="getMemberRankingByMemberEmail" resultMap="rankingResultMap">
+		select rk.MEMBER_GRADE, rk.MAX_POINT+1 as MAX_POINT
+		from brain_member bm, ranking rk
+		<![CDATA[where bm.MEMBER_POINT >= rk.MIN_POINT and bm.MEMBER_POINT <= rk.MAX_POINT 
+		and bm.MEMBER_EMAIL = #{memberEmail}]]> 
+	</select>
+	<select id="getMemberNickNameByEmail" resultMap="memberResultMap">
+		select MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_POINT from brain_member
+		where MEMBER_EMAIL = #{memberEmail}
+	</select>
+	<!-- 랭킹 리스트 get -->
+	<select id="getRankingList" resultMap="rankingResultMap">
+		select MEMBER_GRADE from ranking
+	</select>
+
+	<!-- 마이페이지 작성주제글 번호 불러오기 by email -->
+	<select id="getWriteMainArticleNoByEmail" resultType="int">
+		select MAIN_ARTICLE_NO from main_article where MEMBER_EMAIL = #{memberEmail}
+	</select>
+	
+	<!-- 마이페이지 참여한 주제글 번호 불러오기 by email -->
+	<select id="getJoinMainArticleNoByEmail" resultType="int">
+		select MAIN_ARTICLE_NO from sub_article where MEMBER_EMAIL = #{memberEmail}
+	</select>
+	
+		<!-- 마이페이지 작성한 태그List 불러오기 by email -->
+	<select id="writeTagListbyEmail" resultMap="tagBoardResultMap">
+		select tb.MAIN_ARTICLE_NO, tb.TAG_NAME
+		from main_article ma, brain_member bm, tag_board tb 
+		where bm.MEMBER_EMAIL = ma.MEMBER_EMAIL and ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO
+		and bm.MEMBER_EMAIL = #{memberEmail}
+	</select>
+	
+	<!-- 마이페이지에서 Most TagName 불러오기 by email -->
+	<select id="getMostWriteTagByEmail" resultMap="tagBoardResultMap">
+	select TAG_NAME, sum(TAG_COUNT) as SUM_COUNT from(
+	select tb.MAIN_ARTICLE_NO as MAIN_ARTICLE_NO, tb.TAG_NAME as TAG_NAME, count(tb.TAG_NAME) as TAG_COUNT
+	from main_article ma, brain_member bm, tag_board tb
+	where bm.MEMBER_EMAIL = ma.MEMBER_EMAIL and ma.MAIN_ARTICLE_NO = tb.MAIN_ARTICLE_NO
+	and bm.MEMBER_EMAIL = #{memberEmail}
+	group by tb.MAIN_ARTICLE_NO, tb.TAG_NAME
+	)
+	group by TAG_NAME order by SUM_COUNT desc
+	</select>
+	
+	<!-- 2015-12-08 대협추가 -->
+	<!-- 대협 -->
+	<insert id="insertMainArticleImg" parameterType="map">
+		insert into MAIN_ARTICLE_IMG(MAIN_ARTICLE_NO, MAIN_ARTICLE_IMG_NAME) values(#{articleNo}, #{imgName})
+	</insert>
+	<!-- 2015-12-08 대협추가 -->
+	<insert id="insertProfileImg" parameterType="map">
+		insert into MAIN_ARTICLE_IMG(MEMBER_EMAIL, PROFILE_IMG_NAME) values(#{memberEmail}, #{imgName})
+	</insert>
+	<!-- 2015-12-08 대협추가 -->
+	<select id="selectMainArticleImg" resultMap="mainArticleImgResultMap">
+		select MAIN_ARTICLE_NO, MAIN_ARTICLE_IMG_NAME from MAIN_ARTICLE_IMG where MAIN_ARTICLE_NO=#{value}	
+	</select>
+	
+	<!-- eMail로 가입나이 받기 -->
+	<select id="getJoinAgeByEmail" resultType="int">
+		select FLOOR(months_between(SYSDATE, MEMBER_JOIN_DATE)/12)
+		from BRAIN_MEMBER
+		where MEMBER_EMAIL = #{memberEmail}
+	</select>
+	
+	<!-- 게시자 email로 나를 구독하는 리스트 받기 -->
+	<select id="getSubscriptedInfoListByPublisherEmail" resultMap="subscriptionInfoResultMap">
+		select PUBLISHER, SUBSCRIBER, SUBSCRIPTION_DATE from SUBSCRIPTION_INFO
+		where PUBLISHER = #{memberEmail}
+	</select>
+	
+	<!-- 게시자 email로 나를 구독하는 리스트 받기 -->
+	<select id="getSubscriptingInfoListBySubscriberEmail" resultMap="subscriptionInfoResultMap">
+		select PUBLISHER, SUBSCRIBER, SUBSCRIPTION_DATE from SUBSCRIPTION_INFO
+		where SUBSCRIBER = #{memberEmail}
+	</select>
+	
+	<select id="selectMainArticleTitleByMainArticleNo" resultMap="mainArticleResultMap">
+		select MAIN_ARTICLE_TITLE from main_article where MAIN_ARTICLE_NO = #{value}
+	</select>
+	<update id="appendToCompleteArticle">
+		update main_article set MAIN_ARTICLE_TITLE = #{mainArticleTitle} where main_article_no = #{mainArticleNo}  
+	</update>
+</mapper> 		

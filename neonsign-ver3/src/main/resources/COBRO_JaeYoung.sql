@@ -1,0 +1,1 @@
+select * from BRAIN_MEMBER where MEMBER_EMAIL='ygoyo@naver.com' and MEMBER_PASSWORD='1234'

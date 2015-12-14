@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="report"> 
+<resultMap type="mainArticleVO" id="mainArticleResultMap">
+      <result property="mainArticleNo" column="MAIN_ARTICLE_NO" />
+      <result property="mainArticleContent" column="MAIN_ARTICLE_CONTENT" />
+      <result property="mainArticleTitle" column="MAIN_ARTICLE_TITLE" />
+      <result property="memberEmail" column="MEMBER_EMAIL" />
+      <result property="mainArticleHIt" column="MAIN_ARTICLE_HIT" />
+      <result property="mainArticleLike" column="MAIN_ARTICLE_LIKE" />
+      <result property="mainArticleTotalLike" column="MAIN_ARTICLE_TOTAL_LIKE" />
+      <result property="mainArticleDate" column="MAIN_ARTICLE_DATE" />
+      <result property="mainArticleCompleteDate" column="MAIN_ARTICLE_COMPLETE_DATE" />
+      <result property="mainArticleBlock" column="MAIN_ARTICLE_BLOCK" />
+      <collection property="memberVO" column="MEMBER_EMAIL"
+         ofType="memberVO" javaType="memberVO" resultMap="memberResultMap" />
+      <collection property="subArticleList" 
+         ofType="subArticleVO" javaType="ArrayList" resultMap="subArticleResultMap" />
+   </resultMap>
+
+<!-- 2.subArticleVO resultMap -->
+   <resultMap type="subArticleVO" id="subArticleResultMap">
+      <result property="subArticleNo" column="SUB_ARTICLE_NO" />
+      <result property="mainArticleNo" column="MAIN_ARTICLE_NO" />
+      <result property="memberEmail" column="MEMBER_EMAIL" />
+      <result property="subAtricleGrade" column="SUB_ARTICLE_GRADE" />
+      <result property="subArticleContent" column="SUB_ARTICLE_CONTENT" />
+      <result property="isEnd" column="IS_END" />
+      <result property="subArticleLike" column="SUBARTICLE_LIKE" />
+      <result property="isConnect" column="IS_CONNECT" />
+      <result property="subArticleDate" column="SUB_ARTICLE_DATE" />
+      <result property="subArticleBlock" column="SUB_ARTICLE_BLOCK" />
+      <collection property="memberVO" column="MEMBER_EMAIL"
+         ofType="memberVO" javaType="memberVO" resultMap="memberResultMap" />
+   </resultMap>
+
+<!-- 3.memberVO resultMap -->
+   <resultMap type="memberVO" id="memberResultMap">
+      <result property="memberEmail" column="MEMBER_EMAIL" />
+      <result property="memberNickName" column="MEMBER_NICKNAME" />
+      <result property="memberPassword" column="MEMBER_PASSWORD" />
+      <result property="memberJoinDate" column="MEMBER_JOIN_DATE" />
+      <result property="memberPoint" column="MEMBER_POINT" />
+      <result property="memberReportAmount" column="MEMBER_NOTIFIED_AMOUNT" />
+      <result property="memberCategory" column="MEMBER_CATEGORY" />
+   </resultMap>
+ <!-- 9.reportVO resultMap -->
+   <resultMap type="reportVO" id="reportResultMap">
+      <result property="reportNo" column="REPORT_NO" />
+      <result property="reportDate" column="REPORT_DATE" />
+      <result property="mainArticleNo" column="MAIN_ARTICLE_NO" />
+      <result property="subArticleNo" column="SUB_ARTICLE_NO" />
+      <result property="reportAmount" column="REPORT_AMOUNT" />
+      <result property="stagesOfProcess" column="STAGES_OF_PROCESS" />
+      <collection property="mainArticleVO" column="MAIN_ARTICLE_NO"
+			ofType="mainArticleVO" javaType="arrayList" resultMap="mainArticleResultMap" />
+   </resultMap>
+   
+   <!-- 주제글의 신고 리스트를 페이징하는 쿼리 -->
+ 	<select id="mainArticleReportList" resultType="reportVO" resultMap="reportResultMap">
+ 	select REPORT_NO,MAIN_ARTICLE_NO,MAIN_ARTICLE_TITLE,MEMBER_EMAIL,
+		REPORT_DATE,REPORT_AMOUNT,STAGES_OF_PROCESS,MEMBER_NICKNAME
+		from(
+		select rownum,r.REPORT_NO,ma.MAIN_ARTICLE_NO,ma.MAIN_ARTICLE_TITLE,
+ 		bm.MEMBER_EMAIL,bm.MEMBER_NICKNAME,r.REPORT_DATE,REPORT_AMOUNT,r.STAGES_OF_PROCESS,
+ 		ceil(rownum/13) as page 
+ 		from REPORT r , MAIN_ARTICLE ma, brain_member bm
+ 		where r.MAIN_ARTICLE_NO=ma.MAIN_ARTICLE_NO and 
+ 		ma.MEMBER_EMAIL=bm.MEMBER_EMAIL and 
+ 		r.SUB_ARTICLE_NO is null order by r.REPORT_NO desc
+ 		) 
+ 		where page=#{value}
+ 	</select>
+ 	<!-- 잇는글의 신고리스트를 페이징하는 쿼리 -->
+ 	<select id="subArticleReportList" resultType="reportVO" resultMap="reportResultMap">
+	select REPORT_NO,MAIN_ARTICLE_NO,MAIN_ARTICLE_TITLE,MEMBER_EMAIL,
+		REPORT_DATE,REPORT_AMOUNT,STAGES_OF_PROCESS ,SUB_ARTICLE_NO,
+		SUB_ARTICLE_CONTENT, MEMBER_NICKNAME
+		from(
+		select rownum,r.REPORT_NO,ma.MAIN_ARTICLE_NO,ma.MAIN_ARTICLE_TITLE,
+		sa.SUB_ARTICLE_NO,sa.SUB_ARTICLE_CONTENT,bm.MEMBER_NICKNAME,
+ 		bm.MEMBER_EMAIL,r.REPORT_DATE,REPORT_AMOUNT,r.STAGES_OF_PROCESS,
+ 		ceil(rownum/13) as page 
+ 		from REPORT r , MAIN_ARTICLE ma, brain_member bm , SUB_ARTICLE sa
+ 		where r.MAIN_ARTICLE_NO=ma.MAIN_ARTICLE_NO and 
+ 		ma.MAIN_ARTICLE_NO=sa.MAIN_ARTICLE_NO and
+ 		ma.MEMBER_EMAIL=bm.MEMBER_EMAIL and 
+ 		sa.SUB_ARTICLE_NO=r.SUB_ARTICLE_NO and
+ 		r.SUB_ARTICLE_NO is not null order by r.REPORT_NO desc
+ 		) 
+ 		where page=#{value}
+ 	</select>
+ 	<select id="reporterNames" resultType="string">
+ 			select MEMBER_EMAIL from reporter where REPORT_NO=#{value}
+ 	</select>
+ 	<update id="memberPointUpdate">
+ 			update BRAIN_MEMBER SET MEMBER_POINT=MEMBER_POINT+10 
+		WHERE MEMBER_EMAIL=#{reportNo}
+ 	</update>
+ 	<update id="stagesOfProcess" >
+ 	update report set STAGES_OF_PROCESS='신고처리'  where REPORT_NO=#{value}
+ 	</update>
+ 	<delete id="deleteByReport" parameterType="reportVO">
+ 	delete REPORT where REPORT_NO=#{reportNo}
+ 	</delete>
+ 	<delete id="deleteByReporter" parameterType="reportVO">
+ 	delete REPORTER where REPORT_NO=#{reportNo}
+ 	</delete>
+ 	
+ 	<!-- 주제글 신고 생성 하는 쿼리 -->
+ 	<insert id="mainArticleReport" parameterType="mainArticleVO">
+ 	insert into report (REPORT_NO,REPORT_DATE,MAIN_ARTICLE_NO,STAGES_OF_PROCESS)
+		values(report_seq.nextval,sysdate,#{mainArticleNo},'대기')
+ 	</insert>
+ 	
+ 	<!-- 잇는글 신고 생성 하는 쿼리 -->
+ 	<insert id="subArticleReport" parameterType="subArticleVO">
+ 	insert into report (REPORT_NO,REPORT_DATE,MAIN_ARTICLE_NO,SUB_ARTICLE_NO,STAGES_OF_PROCESS)
+		values(report_seq.nextval,sysdate,#{mainArticleNo},#{subArticleNo},'대기')
+ 	</insert>
+ 	
+ 	<!-- 현재 reportNo를 받아오는 쿼리 -->
+ 	<select id="nowReportNumber" resultType="reportVO" resultMap="reportResultMap">
+ 	SELECT MAX(report_no) as report_no FROM report
+ 	</select>
+ 	
+ 	<!-- 신고자를 생성하는 쿼리 -->
+ 	<insert id="insertReporter" parameterType="map">
+ 	insert into reporter(REPORT_NO,MEMBER_EMAIL)
+	values(#{reportNo},#{memberEmail})
+ 	</insert>
+ 	
+ 	<!-- 잇는글 신고 횟수를 업데이트 하는 쿼리 -->
+ 	<update id="updateSubArticleReport" parameterType="subArticleVO">
+ 	update report set REPORT_AMOUNT=REPORT_AMOUNT+1 
+ 	where MAIN_ARTICLE_NO=#{mainArticleNo} and
+ 	 SUB_ARTICLE_NO=#{subArticleNo}
+ 	</update>
+ 	
+ 	<!-- 주제글 신고 횟수를 업데이트 하는 쿼리 -->
+ 	<update id="updateMainArticleReport" parameterType="mainArticleVO">
+ 	update report set REPORT_AMOUNT=REPORT_AMOUNT+1 
+ 	where MAIN_ARTICLE_NO=#{mainArticleNo} and
+ 	 SUB_ARTICLE_NO is null
+ 	</update>
+ 	
+ 	<!-- 주제글 Block하는 쿼리 -->
+ 	<update id="mainArticleBlock" parameterType="subArticleVO">
+ 		update MAIN_ARTICLE set MAIN_ARTICLE_BlOCK=1 where MAIN_ARTICLE_NO=#{mainArticleNo}
+ 	</update>
+ 	
+ 	<!-- 잇는글 Block하는 쿼리 -->
+ 	<update id="subArticleBlock"  parameterType="subArticleVO">
+ 		update SUB_ARTICLE set SUB_ARTICLE_BlOCK=1 
+		where MAIN_ARTICLE_NO=#{mainArticleNo} 
+		and SUB_ARTICLE_NO=#{subArticleNo}
+ 	</update>
+ 	
+ 	<!-- 현재 reportAmount를 받아오는 쿼리 -->
+ 	<select id="reportCount" resultMap="reportResultMap" resultType="int">
+ 		select REPORT_AMOUNT from report where REPORT_NO=#{value}
+ 	</select>
+ 	
+ 	<!-- 잇는글의 총 신고수 -->
+ 	<select id="allSubReports" resultType="int">
+ 	select count(REPORT_NO) from report where SUB_ARTICLE_NO is not null
+ 	</select>
+ 	
+ 	<!-- 주제글의 총 신고수 -->
+ 	<select id="allMianReports" resultType="int">
+ 	select count(REPORT_NO) from report where SUB_ARTICLE_NO is null
+ 	</select>
+ 	
+ 	<select id="selectReporterReportNo" parameterType="memberVO" resultType="int">
+ 	select REPORT_NO from reporter where MEMBER_EMAIL=#{memberEmail}
+ 	</select>
+ 	
+ 	<select id="findReportByReportNoAndMainArticleNo" parameterType="map" resultType="reportVO" resultMap="reportResultMap">
+ 	select * from REPORT where REPORT_NO=#{reportNo} and MAIN_ARTICLE_NO=#{mainArticleNo}
+ 	</select>
+ </mapper> 		
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
