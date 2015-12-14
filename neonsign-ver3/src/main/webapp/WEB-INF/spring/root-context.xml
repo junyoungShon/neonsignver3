@@ -17,8 +17,15 @@
 		<aop:config>
 			<aop:pointcut
 				expression="execution(public * org.cobro.neonsign..*Service.point*(..))" id="pt" />
+			<aop:pointcut
+				expression="within(org.cobro.neonsign.*.*)" id="aroundLogger" />	
+			<aop:pointcut
+				expression="execution(public * org.cobro.neonsign.model.*Service.Search*(..))" id="st" />	
+			
 			<aop:aspect ref="point">
 				<aop:around method="keepScore" pointcut-ref="pt" />
+				<aop:around method="aroundLogger" pointcut-ref="aroundLogger" />
+				<aop:around method="aroundSearch" pointcut-ref="st" />
 			</aop:aspect>
 		</aop:config>
 	

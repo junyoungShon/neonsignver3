@@ -36,14 +36,33 @@ public class PointAspect {
 	@Resource
 	private UtilService utilService;
 
+	@Around("within(org.cobro.neonsign.*.*)")
+	public Object aroundLogger(ProceedingJoinPoint point) throws Throwable{
+		Object retValue = null;
+		String methodName = point.getSignature().getName();
+		Object[] parameterArr = null;
+		retValue = point.proceed();
+		String logMessage = methodName +"메서드 시작 : 매개변수 - ";
+		parameterArr=point.getArgs();
+		if(parameterArr!=null){
+			for(int i=0;i<parameterArr.length;i++){
+				logMessage += ((i +" "+parameterArr[i]) + " ");
+			}
+		}
+		if(retValue!=null){
+			logMessage += "리턴 값 : "+retValue;
+		}
+		log.info(logMessage);
+		return retValue;
+	}
+	
 	@Around("execution(public * org.cobro.neonsign.model.*Service.Search*(..))")
 	public Object aroundSearch(ProceedingJoinPoint point) throws Throwable{
 		log.info("검색AOP실행");
 		//메서드 실행
 		Object retValue = null;	
 		retValue = point.proceed();
-
-		List list = (List)retValue;
+		List<Object> list = (List<Object>)retValue;
 		System.out.println(list);
 		if(!list.isEmpty()){
 			Object param[]=point.getArgs();// 메서드 인자값 - 매개변수
