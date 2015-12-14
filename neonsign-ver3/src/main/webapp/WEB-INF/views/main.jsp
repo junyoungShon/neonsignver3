@@ -163,11 +163,23 @@
                       ${newMainArticle.tagName}
                   </h6>
       <img src="${initParam.root}resources/uploadImg/articleBg/${newMainArticle.mainArticleImgVO.mainArticleImgName}" alt="">
-      <div class="social-line social-line-visible" data-buttons="4">
+     
+        <p class="card-content">
+                     <c:set var="newMainArticleContent"
+                     value="${newMainArticle.mainArticleContent}" />
+                     <p class="description">
+                        ${newMainArticleContent}
+        </p>
+           <a href="mypage.neon?memberEmail=${newMainArticle.memberVO.memberEmail}" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" 
+               data-toggle="popover" 
+               title="${newMainArticle.memberVO.memberNickName}님, ${newMainArticle.memberVO.rankingVO.memberGrade} PTS(${newMainArticle.memberVO.memberPoint} / ${newMainArticle.memberVO.rankingVO. maxPoint})" 
+               data-content="${newMainArticle.memberVO.memberNickName}님 Click하여 페이지 보기" >
+                  <span class="writersNickName">- ${newMainArticle.memberVO.memberNickName} -</span></a>
+                   <div class="social-line social-line-visible" data-buttons="4" style="width: 100%;">
                      <button class="btn btn-social btn-pinterest">
                         <span class="time_area">새로운<br>잇자!</span>
                      </button>
-                     <button class="btn btn-social btn-twitter bestItja">
+                     <button class="btn btn-social btn-twitter bestItja" style="width: 23%;">
                                 <c:set var="count" value="false" />
                         <c:forEach var="itjaList" items="${sessionScope.memberVO.itjaMemberList}">
                            <c:choose>
@@ -188,7 +200,7 @@
                         </c:choose>
                             </button>
                              
-                     <button class="btn btn-social btn-google staticPick">
+                     <button class="btn btn-social btn-google staticPick" style="width: 23%;">
                            <c:set var="breakCheck" value="false"/>
                      <c:forEach var="pickCheck" items="${sessionScope.memberVO.pickedVOList}">
                      <c:choose>
@@ -208,7 +220,7 @@
                                </c:otherwise>
                             </c:choose>
                            </button>
-                     <button class="btn btn-social btn-facebook">
+                     <button class="btn btn-social btn-facebook " style="width: 23%;">
                         <i class="fa fa-facebook-official"></i><br> 공유!
                      </button>
                                  <%--
@@ -235,17 +247,6 @@
                         
                   </div>
                   <!-- end social-line social-line-visible -->
-        <p class="card-content">
-                     <c:set var="newMainArticleContent"
-                     value="${newMainArticle.mainArticleContent}" />
-                     <p class="description">
-                        ${newMainArticleContent}
-        </p>
-           <a href="mypage.neon?memberEmail=${newMainArticle.memberVO.memberEmail}" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" 
-               data-toggle="popover" 
-               title="${newMainArticle.memberVO.memberNickName}님, ${newMainArticle.memberVO.rankingVO.memberGrade} PTS(${newMainArticle.memberVO.memberPoint} / ${newMainArticle.memberVO.rankingVO. maxPoint})" 
-               data-content="${newMainArticle.memberVO.memberNickName}님 Click하여 페이지 보기" >
-                  <span class="writersNickName">- ${newMainArticle.memberVO.memberNickName} -</span></a>
       </article>
 </c:forEach>
     </section>
