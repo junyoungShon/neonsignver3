@@ -1795,6 +1795,23 @@ $(document).ready(function(){ //DOM이 준비되고
 		    html: true
 	  });
 	
+	  /**
+	   * @author JeSeong Lee
+	   * 구독 팝오버
+	   */
+	  $('.popover3').popover({ 
+		  	trigger:'focus',
+		  	placement: 'bottom',
+		  	content: $('#subscriptedPopover').html(),
+		    html: true
+	  });
+	  $('.popover4').popover({ 
+		  	trigger:'focus',
+		  	placement: 'bottom',
+		  	content: $('#subscriptingPopover').html(),
+		    html: true
+	  });
+	  
 	  
 	/**
 	 * @author JeSeong Lee
