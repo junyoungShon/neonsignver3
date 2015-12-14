@@ -800,7 +800,7 @@ $(document).ready(function(){ //DOM이 준비되고
 					$('.mainArticleContent').text(data.mainArticle.mainArticleContent);
 					$('.writersNickNameAtDetail').text(data.mainArticle.memberVO.memberNickName);
 					$('.timeForDetail').text(data.mainArticle.mainArticleUpdateDate)
-					$('.report').html("<button class='articleReport'><span id='mainArticleReportOn'><i class='fa fa-ban'></i></span></button>" +
+					$('.report').html("<span id='mainArticleReportOn'><i class='fa fa-ban'></i></span>" +
 						"<form id='subArticleInfo'><input type='hidden' name='mainArticleNo' value="
 							+data.mainArticle.mainArticleNo+"><input type='hidden' name='memberEmail' value="+memberEmail+"></form>");
 					var mainLikeItHTML = "";
@@ -848,7 +848,7 @@ $(document).ready(function(){ //DOM이 준비되고
             		+'<div class="pull-left metaForDetail"><div class="titleForDetail h5 "><a href="#" class="writersNickNameAtDetail"><b>'
             		+data.likingSubArticle[i].memberVO.memberNickName+'</b></a></div>'
                     +'<h6 class="text-muted timeForDetail"></h6><a href="#" class="btn btn-default statForDetail-item mainLikeIt">'+mainLikeItHTML
-	                +'</a><a href="#" class="btn btn-default statForDetail-item report"><button class="articleReport"><span><i class="fa fa-ban"></i></span></button>'
+	                +'</a><a href="#" class="btn btn-default statForDetail-item report"><span class="articleReport"><i class="fa fa-ban"></i></span>'
 	                +'<form name="subArticleInfo">'
                     +'<input type="hidden" name="memberEmail" value="'+memberEmail
                     +'"><input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo
@@ -899,7 +899,7 @@ $(document).ready(function(){ //DOM이 준비되고
                 			+'<div class="pull-left metaForDetail"><div class="titleForDetail h5"><a href="#"><b>'+ data.subArticleVO[i].memberVO.memberNickName+'</b></a>'
                    			+'</div><h6 class="text-muted timeForDetail">'+data.subArticleVO[i].subArticleDate+'</h6>'
                    			+mainLikeItHTML
-                   			+'</a><a href="#" class="btn btn-default statForDetail-item report"><button class="articleReport"><span><i class="fa fa-ban"></i></span></button>'
+                   			+'</a><a href="#" class="btn btn-default statForDetail-item report"><span class="articleReport"><i class="fa fa-ban"></i></span>'
         	                +'<form name="subArticleInfo">'
                             +'<input type="hidden" name="memberEmail" value="'+memberEmail
                             +'"><input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo
@@ -918,7 +918,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	//끝
 	
 	// 잇는글 신고 버튼 클릭시 실행되는 스크립트
-	$('#detailSubTable').on('click','.articleReport',function(){
+	$('.unLinkingSubArticleList').on('click','.articleReport',function(){
 		var dataForm=$($(this).next()).serialize();
 		if(confirm("해당글을 신고 하시겠습니까?")){
 		$.ajax({
@@ -949,7 +949,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	});
 	
 	// 이어진 글 신고 버튼 클릭시 실행되는 스크립트
-	$('#detailMainSubArticle').on('click','.articleReport',function(){
+	$('.linkingSubArticleContentInModal').on('click','.articleReport',function(){
 		var dataForm=$($(this).next()).serialize();
 		if(confirm("해당글을 신고 하시겠습니까?")){
 		$.ajax({
@@ -980,7 +980,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	});
 	
 	// 주제글 신고 버튼 클릭시 실행되는 스크립트
-	$('#detailMainArticle').on('click','.articleReport',function(){
+	$('.metaForDetail').on('click','#mainArticleReportOn',function(){
 		var dataForm=$($(this).next()).serialize();
 		if(confirm("해당글을 신고 하시겠습니까?")){	
 		$.ajax({
