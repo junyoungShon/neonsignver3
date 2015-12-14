@@ -87,7 +87,7 @@
                      data-content="${bestMainArticle.memberVO.memberNickName}님 Click하여 페이지 보기" >
                      <span class="writersNickName">- ${bestMainArticle.memberVO.memberNickName} -</span>
                      </a>
-                     <input type="hidden" class="mainArticleTitleNO bestMainArticleNo" value="${bestMainArticle.mainArticleNo}">
+                     <input type="hidden" class="mainArticleTitleNO" value="${bestMainArticle.mainArticleNo}">
                      <input type="hidden" class="loginMemberEmail" value="${sessionScope.memberVO.memberEmail}">
                      <div class="actions">
                         <button class="btn btn-round btn-fill btn-neutral btn-modern"
@@ -187,9 +187,9 @@
 <!-- end jumbotron itjaSlide -->
  <!-- 글 내용이 출력되는 모달 창 -->
 <!-- Modal -->
-<div class="modal fade" id="cardDetailView" tabindex="-1" role="dialog"
+<div class="modal fade" id="bestCardDetailView" tabindex="-1" role="dialog"
 	aria-labelledby="cardDetailViewLabel" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog" id="bestCardDetailView">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"
