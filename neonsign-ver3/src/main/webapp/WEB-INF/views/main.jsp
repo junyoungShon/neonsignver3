@@ -10,7 +10,13 @@
 		<span>#${tagList.tagName}</span>
 	</c:forEach>
 </div>
-<!--  태그 소트 버튼 끝 -->   
+<!--  태그 소트 버튼 끝 -->
+<!-- 2015-12-14 대협추가 -->
+<!-- script.js에서 게시판 종류를 구분하기위한 hidden -대협- -->
+<input type="hidden" id="articleType" value="mainArticle">
+<h2 class="itjaMainTitle">새로운 잇자!</h2>
+<!-- 태그명을 받아 현재 선택한 태그를 표시한다. -대협 -->
+<span id="getNowTagName"></span> 
 
 <section id="pinBoot">
 	<c:forEach var="newMainArticle" items="${requestScope.newMainArticleVOList}">

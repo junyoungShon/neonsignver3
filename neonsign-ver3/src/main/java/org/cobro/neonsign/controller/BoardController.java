@@ -517,34 +517,34 @@ public class BoardController {
 		if(orderBy==null){
 			orderBy="like";
 		}
-		List<MainArticleVO> completeMainArticleList = boardService
+		List<MainArticleVO> mainArticleList = boardService
 				.selectListCompleteMainArticle(pageNo, orderBy, tagName);
-		ArrayList<MainArticleVO> mainArticleList = (ArrayList<MainArticleVO>) completeMainArticleList;
+		ArrayList<MainArticleVO> completeMainArticleList = (ArrayList<MainArticleVO>) mainArticleList;
 		//2015-12-10 대협추가
-		for(int i=0; i<mainArticleList.size(); i++){
+		for(int i=0; i<completeMainArticleList.size(); i++){
 			//태그가 두개인지 확인 -1이면 한개
-			int tagInt = mainArticleList.get(i).getTagName().lastIndexOf(" ");
+			int tagInt = completeMainArticleList.get(i).getTagName().lastIndexOf(" ");
 			//System.out.println("끼-이 : " + tagInt);
 			String firstTagName = "";
 			if(tagInt!=-1){
 				//System.out.println("끄-오-오! : " + newMainArticleVOList.get(i).getTagName().substring(1, tagInt));
-				firstTagName = mainArticleList.get(i).getTagName().substring(1, tagInt);
+				firstTagName = completeMainArticleList.get(i).getTagName().substring(1, tagInt);
 			}else{
 				//System.out.println("꺄-오-오! : " + newMainArticleVOList.get(i).getTagName().substring(1));
-				firstTagName = mainArticleList.get(i).getTagName().substring(1);
+				firstTagName = completeMainArticleList.get(i).getTagName().substring(1);
 			}
-			MainArticleImgVO mainArticleImgVOComp =boardService.selectMainArticleImg(mainArticleList.get(i).getMainArticleNo());
+			MainArticleImgVO mainArticleImgVOComp =boardService.selectMainArticleImg(completeMainArticleList.get(i).getMainArticleNo());
 			MainArticleImgVO mainArticleImgVO = new MainArticleImgVO();
 			//주제글이미지VO가 없을때 태그명에 맞는 이미지를 삽입해준다.
 			if(mainArticleImgVOComp==null){
 				if(firstTagName.equals("게임")){
-					boardService.insertMainArticleImg(mainArticleList.get(i).getMainArticleNo(), "basicBg/"+firstTagName+".png");
+					boardService.insertMainArticleImg(completeMainArticleList.get(i).getMainArticleNo(), "basicBg/"+firstTagName+".png");
 				}else{
-					boardService.insertMainArticleImg(mainArticleList.get(i).getMainArticleNo(), "basicBg/"+firstTagName+".jpg");
+					boardService.insertMainArticleImg(completeMainArticleList.get(i).getMainArticleNo(), "basicBg/"+firstTagName+".jpg");
 				}
-				mainArticleImgVO =boardService.selectMainArticleImg(mainArticleList.get(i).getMainArticleNo());
+				mainArticleImgVO =boardService.selectMainArticleImg(completeMainArticleList.get(i).getMainArticleNo());
 			}else{
-				mainArticleImgVO =boardService.selectMainArticleImg(mainArticleList.get(i).getMainArticleNo());
+				mainArticleImgVO =boardService.selectMainArticleImg(completeMainArticleList.get(i).getMainArticleNo());
 			}
 			//파일의 경로를 담는다.
 			File dir = new File(articleImgPath+mainArticleImgVO.getMainArticleImgName());
@@ -553,22 +553,22 @@ public class BoardController {
 				// System.out.println("퍽!");
 				//태그명이 게임일때만 .png를 할당한다.
 				if(firstTagName.equals("게임")){
-					mainArticleList.get(i).setMainArticleImgVO(
-							new MainArticleImgVO(mainArticleList.get(i)
+					completeMainArticleList.get(i).setMainArticleImgVO(
+							new MainArticleImgVO(completeMainArticleList.get(i)
 									.getMainArticleNo(), "basicBg/"+firstTagName+".png"));
 				}else{
 					//System.out.println("낫겜 : " + "basicBg/"+firstTagName+".jpg");
-					mainArticleList.get(i).setMainArticleImgVO(
-							new MainArticleImgVO(mainArticleList.get(i)
+					completeMainArticleList.get(i).setMainArticleImgVO(
+							new MainArticleImgVO(completeMainArticleList.get(i)
 									.getMainArticleNo(), "basicBg/"+firstTagName+".jpg"));
 				}
 			} else {
 				// System.out.println("낫 퍽! : " + dir.toString());
-				mainArticleList.get(i).setMainArticleImgVO(
+				completeMainArticleList.get(i).setMainArticleImgVO(
 						mainArticleImgVO);
 			}
 		}
-		mav.addObject("mainArticleList", mainArticleList);
+		mav.addObject("completeMainArticleList", completeMainArticleList);
 		mav.setViewName("completeMainArticleView");
 		//System.out.println("Controller mov : " + mav);
 		List<TagVO> tagVOList = boardService.getTagVOList();
