@@ -595,8 +595,9 @@ $(document).ready(function(){ //DOM이 준비되고
 	
 	//베스트 게시물 카드 디테일 뷰
 	$('.itjaSlide').on('click','.actions :button',function(){
-			var mainArticleNO =$(this).parent().siblings('input[class="mainArticleTitleNO bestMainArticleNo"]').val()
-			detailItjaView(mainArticleNO);
+		$('#bestMainArticleArea',parent.document).attr('height','1100px');
+		var mainArticleNO =$(this).parent().siblings('input[class="mainArticleTitleNO bestMainArticleNo"]').val();
+		detailItjaView(mainArticleNO);
 	});
 	
 	//무한 스크롤에 의해 새로 로딩된 카드 디테일 뷰
@@ -610,13 +611,20 @@ $(document).ready(function(){ //DOM이 준비되고
 			detailItjaView(mainArticleNO);
 	});
 	//무한 스크롤에 의해 새로 로딩된 카드 디테일 뷰
-	$('.itjaSlide').on('click','.actions :button',function(){
+/*	$('.itjaSlide').on('click','.actions :button',function(){
 			var mainArticleNO =$(this).parent().siblings('input[class="mainArticleTitleNO"]').val()
 			detailItjaView(mainArticleNO);
 	});
-	
+	*/
+	//아이프레임을 제자리로 바꿔줌
+	$('#cardDetailView').on('hidden.bs.modal', function (e) {
+		$('#bestMainArticleArea',parent.document).attr('height','460px');
+	})
 	//디테일 뷰 함수 정의
 	function detailItjaView(mainArticleNO,isComplete){
+		
+		
+		
 		if(isComplete=="complete"){
 			$('#isComplete').val(isComplete);
 		}	
