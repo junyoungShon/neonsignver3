@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.cobro</groupId>
 	<artifactId>neonsign-ver3</artifactId>
-	<name>neonsign-ver2</name>
+	<name>neonsign-ver3</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>

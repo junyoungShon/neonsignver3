@@ -74,7 +74,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	// hipster 카드에서 동적으로 style을 입혀주지 못하는 문제점이 있어서 반드시 소스를 넣을 때 style을 수기로 기록해줘야함
 	$(window).scroll(function(){
 		//alert($(".card-box").length);
-        if($(window).scrollTop() == $(document).height() - $(window).height()){  
+        if($(window).scrollTop() == $(document).height() - $(window).height()){
            setTimeout(function(){loadingItjaCard();}, 800)
         }  
 	});  
@@ -90,7 +90,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			//불러올 주제글의 종류를 구분한다. -대협-
 		if($("#articleType").val()=='completeArticle'){
 			//카드박스의 갯수로 현재 화면에 있는 주제글 갯수를 파악한다. -대협-
-			var cardBox=$(".card-box[name=completeCardBox]").length;
+			var cardBox=$(".white-panel").length;
 			//현재 카드갯수를 9로 나누고 올림을 하여 현재페이지를 파악한다. -대협-
 			var pageNo=Math.ceil((cardBox/9)+1);
 			//정렬방식을 담는다. -대협-
@@ -213,31 +213,17 @@ $(document).ready(function(){ //DOM이 준비되고
 					$('.completeItjaList').append(infinityScrollTestSource);
 				},
 			});
-		}else if($("#articleType").val()=='mainArticle'){ 
-			var cardBox=$(".card-box[name=newCardBox]").length;
+		}else if($("#articleType").val()=='mainArticle'){
+			var cardBox=$(".white-panel").length;
 			var pageNo=Math.ceil((cardBox/9)+1);
-			//정렬방식을 담는다. -대협-
-			var orderByComp = $("#orderBy").val();
 			var tagName = $("#tagName").val();
 				$.ajax({
 					type:"post",
-					url:"getNewMainArticle.neon?pageNo="+pageNo+"&tagName="+tagName+"&orderBy="+orderByComp,
+					url:"getNewMainArticle.neon?pageNo="+pageNo+"&tagName="+tagName,
 					dataType:"json",
 					success:function(data){
 						if(data.newMainArticleArrayList.length!=0){
 						for(var i=0; i<data.newMainArticleArrayList.length; i++){
-							//타이틀 길이제한 조건문
-							if(data.newMainArticleArrayList[i].mainArticleTitle.length>12){
-								mainArticleTitle = data.newMainArticleArrayList[i].mainArticleTitle.substring(0,12) + " ...";
-							}else{
-								mainArticleTitle = data.newMainArticleArrayList[i].mainArticleTitle;
-							}
-							//내용 길이제한 조건문
-							if(data.newMainArticleArrayList[i].mainArticleContent.length>18){
-								mainArticleContent = data.newMainArticleArrayList[i].mainArticleContent.substring(0,15) + " ...";
-							}else{
-								mainArticleContent = data.newMainArticleArrayList[i].mainArticleContent;
-							}
 							//잇자버튼을 위한 조건문
 							var mainLikeItHTML="";
 							if(data.itjaMemberList!=null){
@@ -309,31 +295,35 @@ $(document).ready(function(){ //DOM이 준비되고
 							
 							//추가될 카드 html문
 							infinityScrollTestSource +=
-								'<div class="card-box col-md-4" name="newCardBox">' 
-								+ '<div class="card card-with-border" data-background="image" style="background-image: url(resources/uploadImg/articleBg/'+data.newMainArticleArrayList[i].mainArticleImgVO.mainArticleImgName+'); background-size: cover; background-position: 50% 50%;">' 
-								+ '<div class="content">' 
-								+ '<h6 class="category">' + data.newMainArticleArrayList[i].tagName + '</h6><br>' 
-								+ '<h5 class="title">' + mainArticleTitle + '</h5>' 
-								+ ' <p class="description">' + mainArticleContent + '</p>' 
-								+ '<span class="writersNickName">- '+data.newMainArticleArrayList[i].memberVO.memberNickName+' -</span>'
-								+ '<input type="hidden" class="mainArticleTitleNO" value="'+ data.newMainArticleArrayList[i].mainArticleNo +'">'
-								+ '<div class="actions">'
-								+ '<button class="btn btn-round btn-fill btn-neutral btn-modern" data-toggle="modal" data-target="#cardDetailView">Read Article</button>' 
-								+ '</div>' 
-								+ '<div class="social-line social-line-visible" data-buttons="4">' 
-								+ '<button class="btn btn-social btn-pinterest">새로운<br>잇자!</button>' 
-								+ mainLikeItHTML
-								+ pickMainArticleHTML 
-								+ '<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button>' 
-								+ '</div>  <!-- end social-line social-line-visible --></div></div> <!-- end card --></div><!-- card-box col-md-4 -->'
+								'<article class="white-panel">'
+								+'<input type="hidden" id="articleType" value="mainArticle">'
+								+'<h4><a href="#">' + data.newMainArticleArrayList[i].mainArticleTitle + '</a></h4>'
+								+'<h6 class="category">' + data.newMainArticleArrayList[i].tagName + '</h6>'
+								+'<img src="resources/uploadImg/articleBg/'+data.newMainArticleArrayList[i].mainArticleImgVO.mainArticleImgName+'" alt="">'
+								+'<div class="social-line social-line-visible" data-buttons="4">'
+								+'<button class="btn btn-social btn-pinterest">'
+								+'<span class="time_area">새로운<br>잇자!</span>'
+								+'</button>'
+								+mainLikeItHTML
+								+pickMainArticleHTML
+								+'<button class="btn btn-social btn-facebook">'
+								+'<i class="fa fa-facebook-official"></i><br> 공유!'
+								+'</button>'
+								+'</div>'
+								+'<!-- end social-line social-line-visible -->'
+								+'<p class="card-content"/>'
+								+'<p class="description">' + data.newMainArticleArrayList[i].mainArticleContent + '</p>'
+								+'<a href="mypage.neon?memberEmail=' + data.newMainArticleArrayList[i].memberVO.memberEmail + '" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" data-toggle="popover" title="' + data.newMainArticleArrayList[i].memberVO.memberNickName + '님, ' + data.newMainArticleArrayList[i].memberVO.rankingVO.memberGrade + ' PTS(' + data.newMainArticleArrayList[i].memberVO.memberPoint + ' / ' + data.newMainArticleArrayList[i].memberVO.rankingVO.maxPoint + ')" data-content="' + data.newMainArticleArrayList[i].memberVO.memberNickName + '님 Click하여 페이지 보기" >'
+								+'<span class="writersNickName">- ' + data.newMainArticleArrayList[i].memberVO.memberNickName + ' -</span></a>'
+								+'</article>'
 						}
 						}else{
 							infinityScrollTestSource +=
-								'<div><hr><h4>마지막 주제글입니다!</h4>'
-								+ '<input type="hidden" id="articleEnd" value="end"><hr></div>'
+								'<hr><h4>마지막 주제글입니다!</h4>'
+								+ '<input type="hidden" id="articleEnd" value="end"><hr>'
 						}
 						$('.ajaxLoader').fadeOut(300);
-						$('.newItjaList').append(infinityScrollTestSource);
+						$('#pinBoot').append(infinityScrollTestSource);
 					}
 				});
 		}
