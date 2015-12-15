@@ -3,12 +3,13 @@ package org.cobro.neonsign.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.cobro.neonsign.vo.FindPasswordVO;
 import org.cobro.neonsign.vo.MemberListVO;
 import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.PickedVO;
+import org.cobro.neonsign.vo.ServiceCenterListVO;
+import org.cobro.neonsign.vo.ServiceCenterVO;
 import org.cobro.neonsign.vo.SubscriptionInfoVO;
 
 public interface MemberService {
@@ -37,4 +38,9 @@ public interface MemberService {
 			SubscriptionInfoVO subscriptionInfoVO);
 	public List<SubscriptionInfoVO> getSubscriptionListBySubscriberMemberEmail(
 			SubscriptionInfoVO subscriptionInfoVO);
+	
+	public void insertServiceCenter(ServiceCenterVO serviceCenterVO);
+	public ServiceCenterListVO ServiceCenterList(int i);
+	public ServiceCenterVO ServiceCenterView(
+			int serviceCenterNo);
 }

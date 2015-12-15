@@ -16,6 +16,7 @@ import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.RankingVO;
 import org.cobro.neonsign.vo.ReportListVO;
 import org.cobro.neonsign.vo.ReportVO;
+import org.cobro.neonsign.vo.ServiceCenterVO;
 import org.cobro.neonsign.vo.SubArticleVO;
 import org.cobro.neonsign.vo.SubscriptionInfoVO;
 import org.cobro.neonsign.vo.TagBoardVO;
@@ -796,4 +797,12 @@ public class BoardServiceImpl implements BoardService{
 		return subscriptingMainArticleVOList;
 	}
 	
+	/**
+	 * 문의글 페이징
+	 */
+	@Override
+	public List<ServiceCenterVO> ServiceCenterList(int pageNumber) {
+		return boardDAO.ServiceCenterList(pageNumber);
+	}
+
 }

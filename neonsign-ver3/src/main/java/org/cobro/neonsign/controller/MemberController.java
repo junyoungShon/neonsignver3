@@ -1,10 +1,8 @@
 package org.cobro.neonsign.controller;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +15,8 @@ import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MemberListVO;
 import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.PickedVO;
+import org.cobro.neonsign.vo.ServiceCenterListVO;
+import org.cobro.neonsign.vo.ServiceCenterVO;
 import org.cobro.neonsign.vo.SubscriptionInfoVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -129,6 +129,18 @@ public class MemberController {
 		memberService.memberBlock(memberEmail);
 		return new ModelAndView("redirect:getMemberList.neon");
 	}
+	
+	/**
+	 * 회원 이메일을 받아 그 회원을 블락 시키는 메서드
+	 * @author 윤택
+	 */
+	@RequestMapping("memberBlockRelease.neon")
+	public ModelAndView memberBlockRelease(HttpServletRequest request){
+		String memberEmail=request.getParameter("memberEmail");
+		memberService.memberBlockRelease(memberEmail);
+		return new ModelAndView("redirect:getMemberList.neon");
+	}
+	
 	/**
 	 * 관리자 페이지에서 일반&블락 회원멤버들 리스트를 출력
 	 * @author 한솔
@@ -138,12 +150,40 @@ public class MemberController {
 		ModelAndView mv = new ModelAndView();
 		 MemberListVO memberList=memberService.getMemberList(1);//회원 리스트를 받아온다
 		 MemberListVO blockMemberList=memberService.getBlockMemberList(1);//회원 리스트를 받아온다
+		 ServiceCenterListVO serviceCenterList=memberService.ServiceCenterList(1);//문의글 리스트를 받아온다
 		 HashMap<String, MemberListVO> memberMap=new HashMap<String, MemberListVO>();
 		 memberMap.put("memberList",memberList); memberMap.put("blokcMemberList", blockMemberList);
 		mv.addObject("memberMap", memberMap);
+		mv.addObject("serviceCenterList",serviceCenterList);
 		mv.setViewName("forward:adminPageView.neon");
 		return mv;
 	}
+
+/**
+	 * 문의글 쓰기 
+	 * @author 전재영
+	 */
+	@RequestMapping("writeServiceCenter.neon")
+	public ModelAndView insertServiceCenter(ServiceCenterVO ServiceCenterVO){
+		System.out.println(ServiceCenterVO);
+		memberService.insertServiceCenter(ServiceCenterVO);
+		System.out.println(ServiceCenterVO);
+		return new ModelAndView("redirect:getMainList.neon");
+	}
+	/**
+	 * 문의글 상세히 보기
+	 * @author 전재영
+	 */
+	@RequestMapping("ServiceCenterView.neon")
+	@ResponseBody
+	public ServiceCenterVO ServiceCenterView(ServiceCenterVO ServiceCenterVO){
+		int ServiceCenterNo= ServiceCenterVO.getServiceCenterNo();
+		System.out.println(ServiceCenterNo);
+		ServiceCenterVO serviceCenterview=memberService.ServiceCenterView(ServiceCenterNo);
+		System.out.println(serviceCenterview);
+		return serviceCenterview;
+	}
+
 	
 	/**
 	 * 관리자 페이지에서 type을 받아 그 type에 맞게
@@ -281,4 +321,5 @@ public class MemberController {
 		mav.setViewName("temporaryPasswordView");
 		return mav;
 	}
+
 }

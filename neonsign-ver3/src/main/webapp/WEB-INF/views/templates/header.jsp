@@ -76,6 +76,8 @@
 		            <li class="divider"></li>
 		            <li><a href="mypage.neon?memberEmail=${sessionScope.memberVO.memberEmail}" class="top-menu">회원 정보 보기</a></li>
 		            <li class="divider"></li>
+		            <li><a href="#" class="ServiceCenter">문의글쓰기</a></li>
+		             <li class="divider"></li>
 		            <li><a href="${initParam.root}memberLogout.neon" id="logout" class="top-menu">로그아웃</a></li>
 		             <li class="divider"></li>
 		               <li><a href="#" class="memberDelete top-menu">회원탈퇴</a></li>
