@@ -82,7 +82,7 @@
                      </c:otherwise>
                      </c:choose>
                      </p>
-                     <a href="mypage.neon?memberEmail=${bestMainArticle.memberVO.memberEmail}" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" 
+                     <a href="mypage.neon?memberEmail=${bestMainArticle.memberVO.memberEmail}" target="_parent" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" 
                      data-toggle="popover" 
                      title="${bestMainArticle.memberVO.memberNickName}님, ${bestMainArticle.memberVO.rankingVO.memberGrade} PTS(${bestMainArticle.memberVO.memberPoint} / ${bestMainArticle.memberVO.rankingVO. maxPoint})" 
                      data-content="${bestMainArticle.memberVO.memberNickName}님 Click하여 페이지 보기" >
@@ -198,7 +198,8 @@
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title" id="cardDetailViewLabel"><span class="time_area_modal"></span></h4>
+				<h4 class="modal-title" id="cardDetailViewLabel"></h4>
+				<span id="timeAreaModalBest"></span>
 				<input type="hidden" name="memberEmail" value="${sesseionScope.memberVO.memberEmail}">
 				<input type="hidden" name="mainArticleNo" value="">
 				
@@ -221,7 +222,7 @@
 		                			</div>
 		               				<div class="pull-left metaForDetail">
 			                    		<div class="titleForDetail h5 ">
-			                       			<a href="#" class="writersNickNameAtDetail"><b></b></a>
+			                       			<a href="#" class="writersNickNameAtDetail" target="_parent"><b></b></a>
 			                   			</div>
 		                    			<h6 class="text-muted timeForDetail"></h6>
 		                    			<a href="#" class="btn btn-default statForDetail-item mainLikeIt">

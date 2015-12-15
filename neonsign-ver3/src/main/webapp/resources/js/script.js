@@ -38,7 +38,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			}
 			var bestMainArticleNo = $('.bestMainArticleNo').eq(i).val();
 			if(remind_seconds==0){
-				iframeReload();
+				$('.time_area').eq(i).html('종료된<br>잇자!');
 				$.ajax({
 					type : "POST",
 					url : "storyLinking.neon",
@@ -46,33 +46,28 @@ $(document).ready(function(){ //DOM이 준비되고
 					dataType:"json",
 					success : function(data){
 						if(data.result=="complete"){
-							/*var msg = bestMainArticleNo+
+							var msg = bestMainArticleNo+
 					          "번이 완결되었습니다. 바로 확인 하실래요?<br/><br/>"+
 					          "<center><button class='closeToast' "+
-					          "onclick='detailItjaView(mainArticleNO"+bestMainArticleNo+");'>Ok</button> "+
-					          "<button class='closeToast'>Cancel</button>";*/
-							$('.time_area').eq(i).html('새로고침<br>필요');
+					          "onclick='detailItjaView("+bestMainArticleNo+");'>Ok</button> "+
+					          "<button class='closeToast'>Cancel</button>";
 						}else if(data.result="continue"){
-							/*"번 주제글에 새로운 잇자 타임이 시작되었습니다. 바로 참여 하실래요?<br/><br/>"+
+							var msg= bestMainArticleNo+"번 주제글에 새로운 잇자 타임이 시작되었습니다. 바로 참여 하실래요?<br/><br/>"+
 					          "<center><button class='closeToast' "+
 					          "onclick='detailItjaView(mainArticleNO"+bestMainArticleNo+");'>Ok</button> "+
 					          "<button class='closeToast'>Cancel</button>";
-							alert( $('.updateDate').val());*/
-							$('.time_area').eq(i).html('새로고침<br>필요');
 						}
-						$('#bestMainArticleArea').contentWindow.location.reload(true);
-						/*$().toasty({
+						$().toasty({
 						    autoHide: 2000,
 						    message: msg,
 						    modal: false
-						});*/
+						});
 					}
 				});
 				
 			}
 		}
 	}, 1000);
-	
 	//main 부분
 	//무한 스크롤 (테스트 완료 ajax와 연동 필요)
 	// hipster 카드에서 동적으로 style을 입혀주지 못하는 문제점이 있어서 반드시 소스를 넣을 때 style을 수기로 기록해줘야함
@@ -562,6 +557,58 @@ $(document).ready(function(){ //DOM이 준비되고
 		var mainArticleNO =$(this).parent().parent().siblings('input[class="mainArticleTitleNO"]').val();
 		detailItjaView(mainArticleNO);
 	});*/
+	var detailViewTimeChecker;
+	//디테일 뷰의 타이머
+	function detailViewTimer(mainArticleNO){
+		var updateDates = $('.updateDate');
+		var bestMainArticleSNo = $('.bestMainArticleNo'); 
+		
+		var i =0;
+		for(i;i<updateDates.length;i++){
+			if($('.bestMainArticleNo').eq(i).val() == mainArticleNO){
+				break;
+			}
+		}
+		detailViewTimeChecker
+		= window.setInterval(function(){
+			//날짜 형식
+			// 2015-12-03 13:05:17
+			var updateDates = $('.updateDate');
+			
+				//현재 시간	
+				var currunt_date = new Date();
+				var currunt_timestamp = Math.floor(currunt_date.getTime()/1000)
+				var updateYear = $(updateDates[i]).val().substring(0,4);
+				var updateMonth = $(updateDates[i]).val().substring(5,7);
+				var updateDay =$(updateDates[i]).val().substring(8,10);
+				var updateHour=$(updateDates[i]).val().substring(11,13);;
+				var updateMinute =$(updateDates[i]).val().substring(14,16);
+				var second= $(updateDates[i]).val().substring(17,19);
+				//완결 시간(서버에서 최종 수정시간을  받아와옴)
+				var update_date = new Date(updateYear, (updateMonth-1), updateDay, updateHour, updateMinute, second);
+				var update_date_timestamp = Math.floor(update_date.getTime()/1000);
+				//투표 마감 시간(10분)
+				var close_timestamp = update_date_timestamp+60;
+				//
+				var remind_timestamp = close_timestamp-currunt_timestamp
+				var remind_minutes = Math.floor(remind_timestamp/60);
+				var remind_seconds = remind_timestamp%60;
+				if(remind_minutes >= 1 && remind_seconds>=10) {
+					$('#timeAreaModalBest').html('잇자타임 - '+remind_minutes+':'+remind_seconds+'초 남음!!');
+				} else if(remind_minutes == 0 && remind_seconds<=9){
+					$('#timeAreaModalBest').html('잇자타임 - '+'00:0'+remind_seconds+'초 남음!!');
+				} else if(remind_minutes == 0 && remind_seconds>=10){
+					$('#timeAreaModalBest').html('잇자타임 - '+'00:'+remind_seconds+'초 남음!!');
+				}
+				if(remind_seconds==0){
+					alert('잇자 타임이 종료되었습니다. 다음번에 도전해 주세요!');
+					$('#bestMainArticleArea',parent.document).attr('height','460px');
+					iframeReload();
+			}
+				//$('.time_area_modal').text($('.time_area').eq(i).text());
+		}, 1000);
+	}
+	
 	//베스트 디테일 뷰(완) , 마이페이지(완)
 	$('.itjaSlide').on('click','.actions :button',function(){
 		$('#bestMainArticleArea',parent.document).attr('height','1000px');
@@ -601,10 +648,13 @@ $(document).ready(function(){ //DOM이 준비되고
 	});
 	
 	
-	//아이프레임을 제자리로 바꿔줌
+	//아이프레임을 제자리로 바꿔줌 , 디테일 뷰 타이머를 정지시켜 줌 , 잇는글 초기화 해줌
 	$('#cardDetailView').on('hidden.bs.modal', function (e) {
 		$('#bestMainArticleArea',parent.document).attr('height','460px');
+		clearInterval(detailViewTimeChecker);
+		$('.unLinkingSubArticleList').html('');
 	})
+	
 	//디테일 뷰 함수 정의
 	function detailItjaView(mainArticleNO,isComplete){
 		
@@ -614,52 +664,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		
 		//타이머
 		if(isComplete=="best"){
-			alert('asdf')
-				var updateDates = $('.updateDate');
-				var bestMainArticleSNo = $('.bestMainArticleNo'); 
-				
-				var i =0;
-				for(i;i<updateDates.length;i++){
-					if($('.bestMainArticleNo').eq(i).val() == mainArticleNO){
-						break;
-					}
-				}
-			window.setInterval(function(){
-				//날짜 형식
-				// 2015-12-03 13:05:17
-				var updateDates = $('.updateDate');
-				
-					//현재 시간	
-					var currunt_date = new Date();
-					var currunt_timestamp = Math.floor(currunt_date.getTime()/1000)
-					var updateYear = $(updateDates[i]).val().substring(0,4);
-					var updateMonth = $(updateDates[i]).val().substring(5,7);
-					var updateDay =$(updateDates[i]).val().substring(8,10);
-					var updateHour=$(updateDates[i]).val().substring(11,13);;
-					var updateMinute =$(updateDates[i]).val().substring(14,16);
-					var second= $(updateDates[i]).val().substring(17,19);
-					//완결 시간(서버에서 최종 수정시간을  받아와옴)
-					var update_date = new Date(updateYear, (updateMonth-1), updateDay, updateHour, updateMinute, second);
-					var update_date_timestamp = Math.floor(update_date.getTime()/1000);
-					//투표 마감 시간(10분)
-					var close_timestamp = update_date_timestamp+60;
-					//
-					var remind_timestamp = close_timestamp-currunt_timestamp
-					var remind_minutes = Math.floor(remind_timestamp/60);
-					var remind_seconds = remind_timestamp%60;
-					if(remind_minutes >= 1 && remind_seconds>=10) {
-						$('.time_area_modal').html(remind_minutes+':'+remind_seconds+'<br>빨리!');
-					} else if(remind_minutes == 0 && remind_seconds<=9){
-						$('.time_area_modal').html('00:0'+remind_seconds+'<br>빨리!');
-					} else if(remind_minutes == 0 && remind_seconds>=10){
-						$('.time_area_modal').html('00:'+remind_seconds+'<br>빨리!');
-					}
-					if(remind_seconds==0){
-						//alert('잇자 타임이 종료되었습니다. 재가동 됩니다.');
-						detailItjaView(mainArticleNO);
-				}
-					//$('.time_area_modal').text($('.time_area').eq(i).text());
-			}, 1000);
+			detailViewTimer(mainArticleNO);
 		}
 		
 		var subAtricleOrder='';
@@ -729,7 +734,7 @@ $(document).ready(function(){ //DOM이 준비되고
 							+'"><input type="hidden" name="subArticleNo" value=0></form>'
 							
 							modalFooterLikeHTML // 모달 하단에 있는 타임체크, 찜, 공유, 잇자 버튼
-							='<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">05:22<br>빨리!</button>'
+							='<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">재밋게<br>살자!</button>'
 							+'<button class="btn btn-social btn-twitter itja">'
 							+'<span class="itjaCount"><i class="fa fa-link"></i><br>'+data.mainArticle.mainArticleTotalLike+'it</span></button>'
 							+pickMainArticleHTML
@@ -750,7 +755,7 @@ $(document).ready(function(){ //DOM이 준비되고
 						+'"><input type="hidden" name="subArticleNo" value=0></form>'
 						
 						modalFooterLikeHTML 
-						='<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">05:22<br>빨리!</button><button class="btn btn-social btn-twitter itja">'
+						='<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">재밋게<br>살자!</button><button class="btn btn-social btn-twitter itja">'
 							+'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.mainArticle.mainArticleTotalLike+'it</span></button>'
 							+pickMainArticleHTML
 							+'<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유!</button>'
@@ -765,7 +770,7 @@ $(document).ready(function(){ //DOM이 준비되고
 					mainLikeItHTML = 
 						'<span class="itjaCount itja"><i class="fa fa-chain-broken"></i>'+data.mainArticle.mainArticleLike+'it</span>'
 					modalFooterLikeHTML = 
-						'<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">05:22<br>빨리!</button><button class="btn btn-social btn-twitter itja">'+
+						'<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">재밋게<br>살자!</button><button class="btn btn-social btn-twitter itja">'+
 						'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.mainArticle.mainArticleTotalLike+'it</span></button>'
 						+pickMainArticleHTML
 						+'<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button><div>';
@@ -935,7 +940,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
 					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
+						parent.location.href = 'loginPage.neon';
 					}
 				}
 			}
@@ -966,7 +971,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
 					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
+						parent.location.href = 'loginPage.neon';
 					}
 				}
 			}
@@ -997,7 +1002,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
 					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
+						parent.location.href = 'loginPage.neon';
 					}
 				}
 			}
@@ -1050,7 +1055,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
 					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
+						parent.location.href = 'loginPage.neon';
 					}
 				}
 			},
@@ -1172,7 +1177,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
 					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
+						parent.location.href = 'loginPage.neon';
 					}
 				}
 			}
@@ -1278,7 +1283,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
 					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
+						parent.location.href = 'loginPage.neon';
 					}
 				}
 			}
@@ -1440,15 +1445,15 @@ $(document).ready(function(){ //DOM이 준비되고
 					$('.passInput').attr('class','form-group has-feedback passInput has-error');
 					$('.passInput > .control-label').html('암호를 입력해주세요');
 					$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-				}else if(passwordComp.length<7|| passwordComp.length>18){
+				}else if(passwordComp.length<6|| passwordComp.length>16){
 					userPassFlag = false;
 					$('.passInput').attr('class','form-group has-feedback passInput has-error');
-					$('.passInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
+					$('.passInput > .control-label').html('암호는 6글자 이상 ~16글자 이하로 입력해주세요');
 					$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 				}else{
 					userPassFlag = true;
 					$('.passInput').attr('class','form-group has-feedback passInput has-success');
-					$('.passInput > .control-label').html('압호가 입력되었습니다.');
+					$('.passInput > .control-label').html('암호가 입력되었습니다.');
 					$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
 				};
 			});
@@ -1461,10 +1466,10 @@ $(document).ready(function(){ //DOM이 준비되고
 					$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
 					$('.rePassInput > .control-label').html('암호를 확인해주세요');
 					$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-				}else if(rePasswordComp.length<7 || rePasswordComp.length>18){
+				}else if(rePasswordComp.length<6|| rePasswordComp.length>16){
 					userRePassFlag = false;
 					$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
-					$('.rePassInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
+					$('.rePassInput > .control-label').html('암호는 6글자 이상 ~16글자 이하로 입력해주세요');
 					$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 				}else if(passComp!=rePasswordComp){
 					userRePassFlag = false;
@@ -1474,7 +1479,7 @@ $(document).ready(function(){ //DOM이 준비되고
 				}else{
 					userRePassFlag = true;
 					$('.rePassInput').attr('class','form-group has-feedback rePassInput has-success');
-					$('.rePassInput > .control-label').html('압호가 입력되었습니다.');
+					$('.rePassInput > .control-label').html('암호가 입력되었습니다.');
 					$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
 				};
 			});
@@ -1723,7 +1728,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
 					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
+						parent.location.href = 'loginPage.neon';
 					}
 				}
 			}
@@ -1776,7 +1781,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
 					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
+						parent.location.href = 'loginPage.neon';
 					}
 				}
 			}
@@ -1858,7 +1863,7 @@ $(document).ready(function(){ //DOM이 준비되고
 				$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
 				$('.checkpassInput > .control-label').html('현재비밀번호를 입력해 주세요');
 				$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-			}else if(checkPassComp.length<7 || checkPassComp.length>18){
+			}else if(checkPassComp.length<7 || checkPassComp.length>16){
 				userPassFlag = false;
 				$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
 				$('.checkpassInput > .control-label').html('비밀번호 확인중 입니다');
@@ -1936,10 +1941,10 @@ $(document).ready(function(){ //DOM이 준비되고
 				$('.passInput').attr('class','form-group has-feedback passInput has-error');
 				$('.passInput > .control-label').html('암호를 입력해주세요');
 				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-			}else if(passwordComp.length<7 || passwordComp.length>18){
+			}else if(passwordComp.length<7 || passwordComp.length>16){
 				userPassFlag = false;
 				$('.passInput').attr('class','form-group has-feedback passInput has-error');
-				$('.passInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
+				$('.passInput > .control-label').html('암호는 7글자 이상 ~15글자 이하로 입력해주세요');
 				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 			}else{
 				userPassFlag = true;
@@ -1957,10 +1962,10 @@ $(document).ready(function(){ //DOM이 준비되고
 				$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
 				$('.rePassInput > .control-label').html('암호를 확인해주세요');
 				$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-			}else if(rePasswordComp.length<7 || rePasswordComp.length>18){
+			}else if(rePasswordComp.length<7 || rePasswordComp.length>16){
 				userRePassFlag = false;
 				$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
-				$('.rePassInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
+				$('.rePassInput > .control-label').html('암호는 7글자 이상 ~15글자 이하로 입력해주세요');
 				$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 			}else if(passComp!=rePasswordComp){
 				userRePassFlag = false;
@@ -2009,7 +2014,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
 			$('.checkpassInput > .control-label').html('현재비밀번호를 입력해 주세요');
 			$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-		}else if(PassComp.length<7 || PassComp.length>18){
+		}else if(PassComp.length<7 || PassComp.length>16){
 			userPassFlag = false;
 			$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
 			$('.checkpassInput > .control-label').html('비밀번호 확인중 입니다');

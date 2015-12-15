@@ -775,3 +775,9 @@ stylize any heading tags withing white-panel below
 :form[name="pickInfo"]{
 	display: none;
 }
+/*모달 창 타이머 씨에스에스*/
+#timeAreaModalBest{
+	color: red;
+	font-weight: bolder;
+	font-size: large;
+}
