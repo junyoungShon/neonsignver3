@@ -1,13 +1,71 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
  <br><br><br>
 <!-- main -->
 
   <div class="tab-content" class="mainList"> 
   <!-- 관리자 홈 --> 
   <div role="tabpanel" class="tab-pane active mainList" id="adminPageHome" >
+  
+  <div class="container">
+	<div class="row">
+		<div class="col-sm-3">
+    	    <div class="hero-widget well well-sm">
+                <div class="icon">
+                     <i class="fa fa-users"></i>
+                </div>
+                <div class="text">
+                    <var>${fn:length(requestScope.adminList.memberList.list)}</var>
+                    <label class="text-muted">서비스 중인 회원</label>
+                </div>
+                <div class="options">
+                </div>
+            </div>
+		</div>
+        <div class="col-sm-3">
+            <div class="hero-widget well well-sm">
+                <div class="icon">
+                     <i class="fa fa-user-times"></i>
+                </div>
+                <div class="text">
+                    <var>${fn:length(requestScope.adminList.blokcMemberList.list)}</var>
+                    <label class="text-muted">서비스 중지인 회원</label>
+                </div>
+                <div class="options">
+                </div>
+            </div>
+		</div>
+        <div class="col-sm-3">
+            <div class="hero-widget well well-sm">
+                <div class="icon">
+                   <i class="fa fa-spinner"></i>
+                </div>
+                <div class="text">
+                    <var>${fn:length(requestScope.adminList.mainReportList.list)}</var>
+                    <label class="text-muted">주제글 신고 수</label>
+                </div>
+                <div class="options">
+                </div>
+            </div>
+    	</div>
+        <div class="col-sm-3">
+            <div class="hero-widget well well-sm">
+                <div class="icon">
+                     <i class="fa fa-circle-o-notch"></i>
+                </div>
+                <div class="text">
+                    <var>${fn:length(requestScope.adminList.subReportList.list)}</var>
+                    <label class="text-muted">잇는글 신고 수</label>
+                </div>
+                <div class="options">
+                </div>
+            </div>
+		</div>
+	</div>
 </div>
+
+  </div>
 
 <!-- 회원 관리--> 
 
@@ -297,6 +355,7 @@
 	</c:if>
 	<c:forEach begin="${requestScope.adminList.serviceCenterList.pagingBean.startPageOfPageGroup}"  end="${requestScope.adminList.serviceCenterList.pagingBean.endPageOfPageGroup}" var="i">
 	<button class="serviceCenterPaging" >${i}</button>
+
 	<span> 
 	<input type="hidden" class="pageNo" value="${i}">
 	<input type="hidden" class="pagingType" value="serviceCenterList">
