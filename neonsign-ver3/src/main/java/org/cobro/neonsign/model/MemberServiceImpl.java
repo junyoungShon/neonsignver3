@@ -3,7 +3,6 @@ package org.cobro.neonsign.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -13,6 +12,8 @@ import org.cobro.neonsign.vo.MemberListVO;
 import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.PagingBean;
 import org.cobro.neonsign.vo.PickedVO;
+import org.cobro.neonsign.vo.ServiceCenterListVO;
+import org.cobro.neonsign.vo.ServiceCenterVO;
 import org.cobro.neonsign.vo.SubscriptionInfoVO;
 import org.springframework.stereotype.Service;
 
@@ -236,6 +237,40 @@ public class MemberServiceImpl implements MemberService{
 		return memberDAO.getSubscriptionListBySubscriberMemberEmail(subscriptionInfoVO);
 	}
 	
-	
+	/**
+	 * 문의글 쓰기
+	 * @author 재영
+	 */
+		@Override
+		public void insertServiceCenter(ServiceCenterVO ServiceCenterVO){
+			 memberDAO.insertServiceCenter(ServiceCenterVO);
+	    }
+		
+	/**
+	 * 문의글 리스트를 받아오는 메서드
+	 * @author 재영
+	 */
+		@Override
+		public ServiceCenterListVO ServiceCenterList(int pageNo){
+			PagingBean pb=null;
+			List<ServiceCenterVO>list=memberDAO.ServiceCenterList(pageNo);
+			int totalReports=memberDAO.AllCount();
+			System.out.println(totalReports);
+			if(pageNo!=0){
+				pb= new PagingBean(totalReports,pageNo);
+				}else{
+					pb= new PagingBean(totalReports);
+				}
+			ServiceCenterListVO ServiceCenterListVO=new ServiceCenterListVO(list,pb);
+			return ServiceCenterListVO;
+		}
+		/**
+		 * 문의글 상세히보기 메서드
+		 * @author 재영
+		 */
+		@Override
+		public ServiceCenterVO ServiceCenterView(int ServiceCenterNo){
+			return memberDAO.ServiceCenterView(ServiceCenterNo);
+		}
 	
 }

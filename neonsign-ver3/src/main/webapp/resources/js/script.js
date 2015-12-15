@@ -1,6 +1,9 @@
 $(document).ready(function(){ //DOM이 준비되고
 	
-	
+	//아이프레임 리로딩
+	function iframeReload(){
+		$('#bestMainArticleArea',window.parent.document).attr('src',$('#bestMainArticleArea',window.parent.document).attr('src'));
+	}
 	//타이머
 	window.setInterval(function(){
 		//날짜 형식
@@ -35,7 +38,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			}
 			var bestMainArticleNo = $('.bestMainArticleNo').eq(i).val();
 			if(remind_seconds==0){
-				
+				iframeReload();
 				$.ajax({
 					type : "POST",
 					url : "storyLinking.neon",
@@ -57,7 +60,7 @@ $(document).ready(function(){ //DOM이 준비되고
 							alert( $('.updateDate').val());*/
 							$('.time_area').eq(i).html('새로고침<br>필요');
 						}
-						$('iframe').attr('src', $('iframe').attr('src'));
+						$('#bestMainArticleArea').contentWindow.location.reload(true);
 						/*$().toasty({
 						    autoHide: 2000,
 						    message: msg,
@@ -608,17 +611,19 @@ $(document).ready(function(){ //DOM이 준비되고
 		if(isComplete=="complete"){
 			$('#isComplete').val(isComplete);
 		}	
-		var updateDates = $('.updateDate');
-		var bestMainArticleSNo = $('.bestMainArticleNo'); 
 		
-		var i =0;
-		for(i;i<updateDates.length;i++){
-			if($('.bestMainArticleNo').eq(i).val() == mainArticleNO){
-				break;
-			}
-		}
 		//타이머
 		if(isComplete=="best"){
+			alert('asdf')
+				var updateDates = $('.updateDate');
+				var bestMainArticleSNo = $('.bestMainArticleNo'); 
+				
+				var i =0;
+				for(i;i<updateDates.length;i++){
+					if($('.bestMainArticleNo').eq(i).val() == mainArticleNO){
+						break;
+					}
+				}
 			window.setInterval(function(){
 				//날짜 형식
 				// 2015-12-03 13:05:17
@@ -1147,6 +1152,8 @@ $(document).ready(function(){ //DOM이 준비되고
 					}
 				}
 				if(data.itjaTotalCount==10){
+					//아이프레임 리로드
+					iframeReload();
 					var msg="새 베스트 잇자 타임이 시작되었습니다. 바로 참여 하실래요?<br/><br/>"+
 					"<center><button class='closeToast' "+
 					"onclick='detailItjaView(mainArticleNO);'>Ok</button> "+
@@ -2277,6 +2284,60 @@ $(document).ready(function(){ //DOM이 준비되고
     	    }
 
     	})(jQuery, window, document);
-    
+    	$('.serviceCenterList').on('click','.ServiceCenterView',function(){
+    		var serviceCenterView="";
+    		var pageNo=$(".ServiceCenterNo").val();
+    		$.ajax({
+    			type:"post",
+    			url:"ServiceCenterView.neon",
+    			data:"ServiceCenterNo="+pageNo,
+    			dataType:"json",
+    			success:function(data){ 
+    				serviceCenterView=serviceCenterView+"<tr><td align='center'>"+data.serviceCenterTitle+"</td></tr><tr><td align='right'>"+
+    				data.serviceCenterEmail+"</td></tr><tr><td>"+data.serviceCenterContext+"</td></tr>";
+    				$("#ServiceCenterTable").html(serviceCenterView);
+    				if(data!=null){
+    					$('#ServiceCenterViewModal').modal({
+    				         backdrop: 'static',
+    				         keyboard: false
+    				      });
+    				}else{
+    				}
+    			}
+    	});
+    	})
+    	//문의글 모달 끝
+    	
+    	//문의글 페이징
+    	$(".serviceCenterPaging").click(function(){
+    		var serviceCenterList="";
+    		var pageNo=$($(this).next().children()).val();
+    		var serviceIndex=(pageNo-1)*13;
+    		$.ajax({
+    			type:"post",
+    			url:"ServiceCenterList.neon",
+    			data:"pageNo="+pageNo,
+    			dataType:"json",
+    			success:function(data){ 
+    				for(var i=0; i<data.length;i++){
+    					serviceCenterList=serviceCenterList+"<tr><td>"+(serviceIndex+i)+"</td><td>"+
+    					"<a href='#' class='ServiceCenterView'>"+data[i].serviceCenterTitle+"</a>"+
+    					"<input type='hidden' value='"+data[i].serviceCenterNo+"' class='ServiceCenterNo'></td><td>"+data[i].serviceCenterDate+"</td><td>"+
+    					data[i].serviceCenterEmail+"</td></tr>"
+    				}
+    				$('#serviceCenterList').html(serviceCenterList);
+    				}
+    		});
+    	})
+    	//문의글 페이징 끝
+    		//문의글 쓰기
+	$('.ServiceCenter').click(function(){
+		$('#writeServiceCenter').modal({
+			//취소버튼으로만 창을 끌 수 있도록 지정
+			backdrop: 'static',
+			keyboard: false
+		});
+	})
+	//문의글쓰기 끝
     
 });//document.ready

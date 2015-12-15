@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.cobro.neonsign.vo.FindPasswordVO;
 import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.PickedVO;
+import org.cobro.neonsign.vo.ServiceCenterVO;
 import org.cobro.neonsign.vo.SubscriptionInfoVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -284,6 +285,40 @@ public class MemberDAOImpl implements MemberDAO{
 		return sqlSessionTemplate.selectList("member.getSubscriptionListBySubscriberMemberEmail", subscriptionInfoVO);
 	}
 
-	
+
+/**
+	 * 문의글쓰기
+	 * @author 재영
+	 */
+		@Override
+		public void insertServiceCenter(ServiceCenterVO ServiceCenterVO){
+			 sqlSessionTemplate.insert("member.ServiceCenterinsert",ServiceCenterVO);
+		}
+
+		/**
+		 * 문의글리스트
+		 * @author 재영
+		 */
+		@Override
+		public List<ServiceCenterVO> ServiceCenterList(int pageNo){
+			return  sqlSessionTemplate.selectList("member.ServiceCenterList",pageNo);
+			}
+
+		/**
+		 *  총 문의글 수
+		 *  @author 재영
+		 */
+		@Override
+		public int AllCount(){
+			return sqlSessionTemplate.selectOne("member.Allcount");	
+		}
+		/**
+		 * 문의글 상세히보기
+		 * @author 재영
+		 */
+		@Override
+		public ServiceCenterVO ServiceCenterView(int serviceCenterNo) {
+			return sqlSessionTemplate.selectOne("member.ServiceCenterView",serviceCenterNo);
+		}
 	
 }

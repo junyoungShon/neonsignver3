@@ -12,6 +12,7 @@ import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.RankingVO;
 import org.cobro.neonsign.vo.ReportListVO;
 import org.cobro.neonsign.vo.ReportVO;
+import org.cobro.neonsign.vo.ServiceCenterVO;
 import org.cobro.neonsign.vo.SubArticleVO;
 import org.cobro.neonsign.vo.TagBoardVO;
 import org.cobro.neonsign.vo.TagVO;
@@ -83,4 +84,6 @@ public interface BoardService {
 			MemberVO memberVO);
 	// 구독자 email로 나를 구독하는 리스트 닉네임 받기
 	public List<MemberVO> getSubscriptingInfoListBySubscriberEmail(MemberVO memberVO);
+	
+	public List<ServiceCenterVO> ServiceCenterList(int pageNumber);
 }

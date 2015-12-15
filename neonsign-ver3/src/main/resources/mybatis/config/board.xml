@@ -465,7 +465,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		and bm.MEMBER_EMAIL = #{memberEmail}]]> 
 	</select>
 	<select id="getMemberNickNameByEmail" resultMap="memberResultMap">
-		select MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_POINT from brain_member
+		select MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_POINT, MEMBER_JOIN_DATE from brain_member
 		where MEMBER_EMAIL = #{memberEmail}
 	</select>
 	<!-- 랭킹 리스트 get -->

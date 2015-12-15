@@ -271,9 +271,43 @@
 		</table>
 	</div>
 
+
 <!-- 문의사항 -->
 <div role="tabpanel" class="tab-pane mainList" id="Questions">
-
-</div>
+	<h1>문의글 보기</h1>
+<table border="1" class="table table-hover">
+	<tr class="success">
+		<td>NO</td><td>TITLE</td><td>DATE</td><td>EMAIL</td>
+	</tr>
+	<tbody align="center" id="serviceCenterList" class="serviceCenterList">
+	<c:forEach items="${requestScope.adminList.serviceCenterList.serviceCenterVO}" var="list"  varStatus="i">
+		<tr  id="pagetitle">
+			<td>${i.index+1 }</td>
+			<td><a href="#" class="ServiceCenterView" >${list.serviceCenterTitle}</a>
+						<input type="hidden" value="${list.serviceCenterNo}" class="ServiceCenterNo"></td>
+			<td>${list.serviceCenterDate}</td>
+			<td>${list.serviceCenterEmail}</td>
+		</tr>
+	</c:forEach>
+	</tbody>
+	<tfoot>
+	<tr><td colspan="4">
+	<c:if test="${requestScope.adminList.serviceCenterList.pagingBean.previousPageGroup}" >
+	<a href="${initParam.root}ServiceCenterList.neon?pageNo=${requestScope.adminList.serviceCenterList.pagingBean.previousPage}">◀</a>
+	</c:if>
+	<c:forEach begin="${requestScope.adminList.serviceCenterList.pagingBean.startPageOfPageGroup}"  end="${requestScope.adminList.serviceCenterList.pagingBean.endPageOfPageGroup}" var="i">
+	<button class="serviceCenterPaging" >${i}</button>
+	<span> 
+	<input type="hidden" class="pageNo" value="${i}">
+	<input type="hidden" class="pagingType" value="serviceCenterList">
+	</span>
+	</c:forEach>
+	<c:if test="${requestScope.adminList.serviceCenterList.pagingBean.nextPageGroup}">
+	<a href="${initParam.root}ServiceCenterList.neon?pageNo=${requestScope.adminList.serviceCenterList.pagingBean.nextPage}">▶</a>
+	</c:if>
+	</td></tr>
+	</tfoot>
+	</table>
+ </div>
   </div>
 <!-- 끝 -->

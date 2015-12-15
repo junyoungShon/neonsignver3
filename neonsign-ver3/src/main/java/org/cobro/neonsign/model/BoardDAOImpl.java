@@ -10,6 +10,7 @@ import org.cobro.neonsign.vo.MainArticleImgVO;
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.RankingVO;
+import org.cobro.neonsign.vo.ServiceCenterVO;
 import org.cobro.neonsign.vo.SubArticleVO;
 import org.cobro.neonsign.vo.SubscriptionInfoVO;
 import org.cobro.neonsign.vo.TagBoardVO;
@@ -657,5 +658,12 @@ public class BoardDAOImpl implements BoardDAO{
 		System.out.println(mainArticleVO);
 		sqlSessionTemplate.update("board.appendToCompleteArticle",mainArticleVO);
 	}
-	
+
+	/**
+	 * 문의글 리스트를 받아오는 메서드
+	 */
+	@Override
+	public List<ServiceCenterVO> ServiceCenterList(int pageNumber) {
+		return sqlSessionTemplate.selectList("member.ServiceCenterList",pageNumber);
+	}
 }

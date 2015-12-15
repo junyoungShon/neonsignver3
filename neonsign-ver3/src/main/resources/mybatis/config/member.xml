@@ -36,6 +36,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="randomSentence" column="RANDOM_SENTECE"/>
 	</resultMap>
 	
+<!-- ServiceCenter ResultMap -->
+    <resultMap type="ServiceCenterVO" id="ServiceCenterResultMap">
+		<result property="ServiceCenterNo" column="SERVICE_CENTER_NO" />
+		<result property="ServiceCenterTitle" column="SERVICE_CENTER_TITLE" />
+		<result property="ServiceCenterContext" column="SERVICE_CENTER_CONTENT" />
+		<result property="ServiceCenterDate" column="SERVICE_CENTER_DATE" />
+		<result property="ServiceCenterEmail" column="SERVICE_CENTER_EMAIL" />
+	</resultMap>
+
+
+
+	<!-- 문의글 디테일의 쿼리 -->
+	<select id="ServiceCenterView" resultMap="ServiceCenterResultMap">
+	select SERVICE_CENTER_NO,SERVICE_CENTER_TITLE,SERVICE_CENTER_CONTENT,SERVICE_CENTER_DATE,SERVICE_CENTER_EMAIL
+	from SERVICE_CENTER
+	where SERVICE_CENTER_NO=#{ServiceCenterNo}
+	</select>
+	
+	<!-- 문의글의 총 게시물의 수를 구하는 쿼리 -->
+	<select id="Allcount" resultType="int" >
+		select count(SERVICE_CENTER_NO) from SERVICE_CENTER
+	</select>
 	<!-- *************************** ResultMap 끝 *************************** -->
 	
    	<!-- 비밀 번호 찾기 요청 인서트 구문 -->
@@ -201,7 +223,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from SUBSCRIPTION_INFO
 		where SUBSCRIBER=#{subscriber}
     </select>
-   
+   <!-- 문의글 쓰는 쿼리 -->
+	<insert id="ServiceCenterinsert" parameterType="serviceCenterVO">
+	insert into SERVICE_CENTER(SERVICE_CENTER_NO,SERVICE_CENTER_TITLE,SERVICE_CENTER_CONTENT,SERVICE_CENTER_DATE,SERVICE_CENTER_EMAIL) 
+values(main_article_seq.nextval,#{ServiceCenterTitle},#{ServiceCenterContext},sysdate,#{ServiceCenterEmail})
+	</insert>
+	
+	<!-- 문의글 리스트를 페이징 하는 쿼리 -->
+	<select id="ServiceCenterList" resultMap="ServiceCenterResultMap" resultType="serviceCenterVO" >
+	select SERVICE_CENTER_NO,SERVICE_CENTER_TITLE,SERVICE_CENTER_CONTENT,
+SERVICE_CENTER_DATE,SERVICE_CENTER_EMAIL from(
+	select SERVICE_CENTER_NO,SERVICE_CENTER_TITLE,SERVICE_CENTER_CONTENT,
+	SERVICE_CENTER_DATE,SERVICE_CENTER_EMAIL,ceil(rownum/13) as page from(
+		select SERVICE_CENTER_NO,SERVICE_CENTER_TITLE,SERVICE_CENTER_CONTENT,
+		SERVICE_CENTER_DATE,SERVICE_CENTER_EMAIL from SERVICE_CENTER order by SERVICE_CENTER_NO desc
+		)
+)  where page=#{value}
+	</select>
 </mapper> 		
  
  

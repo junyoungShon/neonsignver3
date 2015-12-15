@@ -23,6 +23,8 @@ import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.RankingVO;
 import org.cobro.neonsign.vo.ReportListVO;
 import org.cobro.neonsign.vo.ReportVO;
+import org.cobro.neonsign.vo.ServiceCenterListVO;
+import org.cobro.neonsign.vo.ServiceCenterVO;
 import org.cobro.neonsign.vo.SubArticleVO;
 import org.cobro.neonsign.vo.TagBoardVO;
 import org.cobro.neonsign.vo.TagVO;
@@ -364,12 +366,26 @@ public class BoardController {
 	@RequestMapping("adminPageView.neon")
 	public ModelAndView adminPageNotifyArticleList(HttpServletRequest request){
 		Map<String,MemberListVO> memberMap=(Map<String,MemberListVO>)request.getAttribute("memberMap");
+		ServiceCenterListVO serviceCenterMap=(ServiceCenterListVO)request.getAttribute("serviceCenterList");
 		ReportListVO mainReportList=boardService.mainArticleReportList(1);//주제글 신고 리스트를 받아온다
 		ReportListVO subReportList=boardService.subArticleReportList(1);//잇는글 신고 리스트를 받아온다
 		HashMap<String,Object> map=new HashMap<String, Object>();//회원관리 리스트, 게시물 신고 리스트 를 map에 put 해준다
 		map.put("mainReportList", mainReportList); map.put("subReportList", subReportList);
-		 map.put("memberList",memberMap.get("memberList"));  map.put("blokcMemberList",memberMap.get("blokcMemberList"));
+		 map.put("memberList",memberMap.get("memberList"));map.put("blokcMemberList",memberMap.get("blokcMemberList"));
+		 map.put("serviceCenterList",serviceCenterMap);
 		return new ModelAndView("adminPageView","adminList",map);
+	}
+
+	@RequestMapping("ServiceCenterList.neon")
+	@ResponseBody
+	public List<ServiceCenterVO> ServiceCenterListPaging(String pageNo){
+		System.out.println("AJax 연동 페이징 넘버 "+pageNo);
+		List<ServiceCenterVO> serviceCenterList=null;
+			int pageNumber=Integer.parseInt(pageNo);
+				System.out.println("Servicecenter 문의글 리스트");
+				serviceCenterList=boardService.ServiceCenterList(pageNumber);
+				System.out.println(serviceCenterList);
+			return serviceCenterList;
 	}
 	/**
 	 * 관리자 페이지에서 type을 받아 그 type에 맞게
@@ -735,7 +751,6 @@ public class BoardController {
 		// email주소로 찜한글 받아오기
 		List<MainArticleVO> pickedMainArticleList
 			= boardService.getPickedMainArticleByMemberEmailOrderByDate(memberVO);
-		mav.addObject("pickedMainArticleList", pickedMainArticleList);
 		//2015-12-10 대협추가
 		for(int i=0; i<pickedMainArticleList.size(); i++){
 			//태그가 두개인지 확인 -1이면 한개
@@ -831,7 +846,6 @@ public class BoardController {
 		// email 주소로 작성한 태그 리스트 받기 : 태그 수 확인
 		List<TagBoardVO> writeTagListbyEmailList
 			= boardService.writeTagListbyEmail(memberVO);
-		mav.addObject("writeTagListbyEmailList", writeTagListbyEmailList);
 		// email 주소로 가장 많이 작성한 태그이름 받기
 		TagBoardVO tagBoardVO
 			= boardService.getMostWriteTagByEmail(memberVO);
