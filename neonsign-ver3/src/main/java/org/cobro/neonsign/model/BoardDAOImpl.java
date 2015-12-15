@@ -648,6 +648,12 @@ public class BoardDAOImpl implements BoardDAO{
 			MemberVO memberVO) {
 		return sqlSessionTemplate.selectList("board.getSubscriptingInfoListBySubscriberEmail", memberVO);
 	}
+	
+	
+	/**
+	 * 글에 완결 표시 붙이기
+	 * @author JunYoung
+	 */
 	@Override
 	public MainArticleVO selectMainArticleTitleByMainArticleNo(int mainArticleNo) {
 		return sqlSessionTemplate.selectOne("board.selectMainArticleTitleByMainArticleNo", mainArticleNo);
@@ -656,6 +662,16 @@ public class BoardDAOImpl implements BoardDAO{
 	public void appendToCompleteArticle(MainArticleVO mainArticleVO) {
 		System.out.println(mainArticleVO);
 		sqlSessionTemplate.update("board.appendToCompleteArticle",mainArticleVO);
+	}
+	
+	/**
+	 * 구독자 email로 Publisher들이 작성한 글 번호 받기
+	 * @author JeSeong Lee
+	 */
+	@Override
+	public List<MainArticleVO> getSubscriptingMainArticleNoBySubscriberEmail(
+			String publisher) {
+		return sqlSessionTemplate.selectList("board.getSubscriptingMainArticleNoBySubscriberEmail", publisher);
 	}
 	
 }

@@ -9,8 +9,11 @@ import org.cobro.neonsign.model.BoardDAO;
 import org.cobro.neonsign.model.BoardService;
 import org.cobro.neonsign.model.MemberDAO;
 import org.cobro.neonsign.model.MemberService;
+import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.MemberVO;
+import org.cobro.neonsign.vo.RankingVO;
 import org.cobro.neonsign.vo.SubscriptionInfoVO;
+import org.cobro.neonsign.vo.TagBoardVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -45,15 +48,45 @@ public class JeSeongTest {
 
 	@Test
 	public void test(){
-		
-		
-		
-		
-		SubscriptionInfoVO subscriptionInfoVO = new SubscriptionInfoVO();
+		String memberEmail = "b@gmail.com";
+		MemberVO memberVO = new MemberVO();
+		memberVO.setMemberEmail(memberEmail);
+		List<SubscriptionInfoVO> SubscriptingInfoList = boardDAO.getSubscriptingInfoListBySubscriberEmail(memberVO);
+		ArrayList<MainArticleVO> subscriptingMainArticleVOList = new ArrayList<MainArticleVO>();
+		for(int m = 0 ; m<SubscriptingInfoList.size() ; m++){
+			System.out.println(SubscriptingInfoList.get(m).getPublisher());
+			List<MainArticleVO> subscriptingMainArticleNoList = boardDAO.getSubscriptingMainArticleNoBySubscriberEmail(SubscriptingInfoList.get(m).getPublisher());
+			for(int n = 0 ; n<subscriptingMainArticleNoList.size() ; n++){
+				subscriptingMainArticleNoList.get(n);
+				subscriptingMainArticleVOList.add(boardDAO.getMainArticleByMainArticleNoOrderByDate(subscriptingMainArticleNoList.get(n).getMainArticleNo()));
+			}
+		}
+		String tagName = "";
+		for(int j = 0 ; j<subscriptingMainArticleVOList.size() ; j++){
+			List<TagBoardVO> tagBoardList = boardDAO.getMainArticleTagList(subscriptingMainArticleVOList.get(j).getMainArticleNo());
+			for(int k = 0 ; k<tagBoardList.size() ; k++){
+				if(k == tagBoardList.size()-1){
+					tagName += "#" + tagBoardList.get(k).getTagName();
+				}else{
+					tagName += "#" +  tagBoardList.get(k).getTagName() + " ";
+				}
+				subscriptingMainArticleVOList.get(j).setTagName(tagName);
+			}
+			tagName = "";
+		}
+		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
+		for(int l = 0 ; l<subscriptingMainArticleVOList.size() ; l++){
+			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(subscriptingMainArticleVOList.get(l).getMemberVO())); 
+			subscriptingMainArticleVOList.get(l).getMemberVO().setRankingVO(rankingVOList.get(l));
+		}
+		System.out.println("최종 : " + subscriptingMainArticleVOList); 
+		/*SubscriptionInfoVO subscriptionInfoVO = new SubscriptionInfoVO();
 		String publisher = "a@gmail.com";
 		String subscriber = "b@gmail.com";
 		subscriptionInfoVO.setPublisher(publisher);
-		subscriptionInfoVO.setSubscriber(subscriber);
+		subscriptionInfoVO.setSubscriber(subscriber);*/
+
+		
 		// memberDAO.selectSubscriptionInfoVO(subscriptionInfoVO);
 		/*if(memberDAO.selectSubscriptionInfoVO(subscriptionInfoVO) == null){
 			memberDAO.insertSubscriptionInfoVO(subscriptionInfoVO);
@@ -62,7 +95,7 @@ public class JeSeongTest {
 			memberDAO.deleteSubscriptionInfoVO(subscriptionInfoVO);
 			System.out.println("delete");
 		}*/
-		System.out.println(memberDAO.getSubscriberListByPublisherEmail(subscriptionInfoVO));
+		// System.out.println(memberDAO.getSubscriberListByPublisherEmail(subscriptionInfoVO));
 /*		List<SubscriptionInfoVO> subscriptionInfoList
 		= memberDAO.getSubscriberListByPublisherEmail(subscriptionInfoVO);
 		System.out.println(subscriptionInfoList);
@@ -242,5 +275,6 @@ public class JeSeongTest {
 		}
 		// System.out.println(pickList);*/
 	}
+
 
 }

@@ -1753,11 +1753,11 @@ $(document).ready(function(){ //DOM이 준비되고
 				}else if(data.subscriptionResult == "delete"){
 					subscriptionInfoSpan.html("<i class='fa fa-plus-square'></i>&nbsp;구독 하기");
 				}
-				$('.subscriptedCount').html(data.subscriberCount);
+				$('.subscriptedCountInfo').html(data.subscriberCount);
 				for(var i=0 ; i<data.subscriberMemberList.length ; i++){
 					subscriptedInfoHTML += data.subscriberMemberList[i].memberNickName+'<br>';
 				}
-				$('.subscriptedInfo').html(subscriptedInfoHTML);
+				$('#subscriptedPopover').html(subscriptedInfoHTML);
 				
 				
 				
@@ -1799,6 +1799,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		  	content: $('#subscriptedPopover').html(),
 		    html: true
 	  });
+	  
 	  $('.popover4').popover({ 
 		  	trigger:'focus',
 		  	placement: 'bottom',

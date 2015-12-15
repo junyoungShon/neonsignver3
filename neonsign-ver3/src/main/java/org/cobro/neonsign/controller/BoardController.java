@@ -708,7 +708,6 @@ public class BoardController {
 		// email주소로 찜한글 받아오기
 		List<MainArticleVO> pickedMainArticleList
 			= boardService.getPickedMainArticleByMemberEmailOrderByDate(memberVO);
-		mav.addObject("pickedMainArticleList", pickedMainArticleList);
 		//2015-12-10 대협추가
 		for(int i=0; i<pickedMainArticleList.size(); i++){
 			//태그가 두개인지 확인 -1이면 한개
@@ -791,7 +790,7 @@ public class BoardController {
 		TagBoardVO tagBoardVO
 			= boardService.getMostWriteTagByEmail(memberVO);
 		mav.addObject("tagBoardVO", tagBoardVO);
-		// 게시자 email로 나를 구독하는 리스트 닉네임 받기
+		// 게시자 email로 나를 구독하는 리스트 닉네임 받기	
 		mav.addObject("subscriptedInfoList", boardService.getSubscriptedInfoListByPublisherEmail(memberVO));
 		// 구독자 email로 내가 구독하는 리스트 닉네임 받기
 		mav.addObject("subscriptingInfoList", boardService.getSubscriptingInfoListBySubscriberEmail(memberVO));
@@ -833,9 +832,49 @@ public class BoardController {
 			}
 		}
 		mav.addObject("joinMainArticleList", joinMainArticleList);
+		
+		// 구독자 email주소로 구독중인 글 받아오기 --2015.12.15
+		List<MainArticleVO> subscriptingMainArticleList
+			= boardService.getSubscriptingMainArticleBySubscriberEmailOrderByDate(memberVO);
+		//2015-12-10 대협추가
+		for(int i=0; i<subscriptingMainArticleList.size(); i++){
+			//태그가 두개인지 확인 -1이면 한개
+			int tagInt = subscriptingMainArticleList.get(i).getTagName().lastIndexOf(" ");
+			String firstTagName = "";
+			if(tagInt!=-1){
+				firstTagName = subscriptingMainArticleList.get(i).getTagName().substring(1, tagInt);
+			}else{
+				firstTagName = subscriptingMainArticleList.get(i).getTagName().substring(1);
+			}
+			MainArticleImgVO mainArticleImgVO =boardService.selectMainArticleImg(subscriptingMainArticleList.get(i).getMainArticleNo());
+			if(mainArticleImgVO==null){
+				mainArticleImgVO = new MainArticleImgVO();
+			}
+			//파일의 경로를 담는다.
+			File dir = new File(articleImgPath+mainArticleImgVO.getMainArticleImgName());
+			//해당 경로에 파일이 존재하는지 확인
+			if (dir.isFile() == false) {
+				//태그명이 게임일때만 .png를 할당한다.
+				if(firstTagName.equals("게임")){
+					subscriptingMainArticleList.get(i).setMainArticleImgVO(
+							new MainArticleImgVO(subscriptingMainArticleList.get(i)
+									.getMainArticleNo(), "basicBg/"+firstTagName+".png"));
+				}else{
+					subscriptingMainArticleList.get(i).setMainArticleImgVO(
+							new MainArticleImgVO(subscriptingMainArticleList.get(i)
+									.getMainArticleNo(), "basicBg/"+firstTagName+".jpg"));
+				}
+			} else {
+				subscriptingMainArticleList.get(i).setMainArticleImgVO(
+						mainArticleImgVO);
+			}
+		}
+		mav.addObject("subscriptingMainArticleList", subscriptingMainArticleList);
+		
 		mav.setViewName("mypage");
 		return mav;
 	}
+	
 	
 	/**
 	 * 회원이 게시물을 신고할때 사용 하는 컨트롤러

@@ -1,3 +1,8 @@
+select ma.MAIN_ARTICLE_NO, si.PUBLISHER
+from main_article ma, SUBSCRIPTION_INFO si
+where ma.MEMBER_EMAIL=si.PUBLISHER and si.SUBSCRIBER = 'b@gmail.com' #{publisher}
+
+
 select count(SUBSCRIBER) from SUBSCRIPTION_INFO
 where PUBLISHER = 'a@gmail.com'
 
