@@ -580,7 +580,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	//완결 글 디테일 뷰(완)
 	$('.completeMainArticle').on('click','.readArticleBtn',function(){
 		var mainArticleNO =$(this).children('#completeMainArticleNo').val();
-		detailItjaView(mainArticleNO,"complete");
+		detailItjaView(mainArticleNO,"new");
 		$('#cardDetailView').modal();
 	});
 	
