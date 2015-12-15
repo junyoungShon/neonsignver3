@@ -6,6 +6,7 @@
 <div class="container-fluid">
 	<!-- 마이페이지 틀 -->
 	<div class="col-lg-12 col-sm-12 myprofile">
+	
 		<!-- 마이페이지 상단 정보 시작 -->
 		<div class="profileCard hovercard">
 			<!-- 마이페이지 상단 백그라운드 이미지 -->
@@ -39,54 +40,56 @@
 		<!-- 마이페이지 상단 정보 끝 -->
 		
 		<!-- 우측 구독 정보 표시 -->
-		<!-- 닉네임을 구독하는 정보 -->
-		<div class="subscriptedInfo">
-			<c:set var="subscriptedCount" value="${fn:length(requestScope.subscriptedInfoList)}"/>
-			<span class="subscriptedList">
-				<a class="btn btn-info popover3" title="" href='#'>
-					${requestScope.rankMemberVO.memberNickName}님을<br>구독하는
-				</a>
-				<h2 class="subscriptedCountInfo">${subscriptedCount}</h2>
-				<c:choose>
-					<c:when test="${subscriptedCount==0}">
-						<div id="subscriptedPopover" style="display: none">
-							구독자가 없습니다.
-						</div>
-					</c:when>
-					<c:otherwise>
-						<div id="subscriptedPopover" style="display: none">
-							<c:forEach var="subscriptedInfoList" items="${requestScope.subscriptedInfoList}">
-								${subscriptedInfoList.memberNickName}<br>
-							</c:forEach>
-						</div>
-					</c:otherwise>
-				</c:choose>
-
-			</span>
-		</div>
-		<!-- 닉네임이 구독하는 정보 -->
-		<div class="subscriptingInfo">
-			<c:set var="subscriptingCount" value="${fn:length(requestScope.subscriptingInfoList)}"/>
-			<span class="subscripingList">
-				<a class="btn btn-danger popover4" title="" href='#'>
-					${requestScope.rankMemberVO.memberNickName}님이<br>구독하는
-				</a>
-				<h2 class="subscriptingCount">${subscriptingCount}</h2>
-				<c:choose>
-					<c:when test="${subscriptingCount==0}">
-						<div id="subscriptingPopover" style="display: none">
-							구독자가 없습니다
-						</div>
-					</c:when>
-					<c:otherwise>
-						<div id="subscriptingPopover" style="display: none">
-							<c:forEach var="subscriptingInfoList" items="${requestScope.subscriptingInfoList}">
-								${subscriptingInfoList.memberNickName}<br>
-							</c:forEach>
-						</div>
-					</c:otherwise>
-				</c:choose>
-			</span>
+		<div class=subscriptionBox>
+			<!-- 닉네임을 구독하는 정보 -->
+			<div class="subscriptedInfo">
+				<c:set var="subscriptedCount" value="${fn:length(requestScope.subscriptedInfoList)}"/>
+				<span class="subscriptedList">
+					<a class="btn btn-info popover3" title="" href='#'>
+						${requestScope.rankMemberVO.memberNickName}님을<br>구독하는
+					</a>
+					<h2 class="subscriptedCountInfo">${subscriptedCount}</h2>
+					<c:choose>
+						<c:when test="${subscriptedCount==0}">
+							<div id="subscriptedPopover" style="display: none">
+								구독자가 없습니다.
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div id="subscriptedPopover" style="display: none">
+								<c:forEach var="subscriptedInfoList" items="${requestScope.subscriptedInfoList}">
+									${subscriptedInfoList.memberNickName}<br>
+								</c:forEach>
+							</div>
+						</c:otherwise>
+					</c:choose>
+	
+				</span>
+			</div>
+			<!-- 닉네임이 구독하는 정보 -->
+			<div class="subscriptingInfo">
+				<c:set var="subscriptingCount" value="${fn:length(requestScope.subscriptingInfoList)}"/>
+				<span class="subscripingList">
+					<a class="btn btn-danger popover4" title="" href='#'>
+						${requestScope.rankMemberVO.memberNickName}님이<br>구독하는
+					</a>
+					<h2 class="subscriptingCount">${subscriptingCount}</h2>
+					<c:choose>
+						<c:when test="${subscriptingCount==0}">
+							<div id="subscriptingPopover" style="display: none">
+								구독자가 없습니다
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div id="subscriptingPopover" style="display: none">
+								<c:forEach var="subscriptingInfoList" items="${requestScope.subscriptingInfoList}">
+									${subscriptingInfoList.memberNickName}<br>
+								</c:forEach>
+							</div>
+						</c:otherwise>
+					</c:choose>
+				</span>
+			</div>
 		</div>
 		<!-- 우측 구독 정보 표시 끝 -->	
 		

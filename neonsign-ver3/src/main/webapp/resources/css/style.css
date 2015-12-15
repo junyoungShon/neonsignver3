@@ -394,25 +394,21 @@ a.myNickDetail{
 }
 
 /* 우측상단 구독정보 위치 */
-.subscriptedInfo{
+.subscriptionBox{
 	font-family: 'Jeju Gothic', sans-serif;
 	text-align: center;
-	margin-bottom:5px;
-	margin-left:1000px;
+	margin-top:5px;
 	position: absolute;
-	top: 170px;
-	left: 0;
-	right: 0;
+	top: 160px;
+	right: 50px;
 }
-.subscriptingInfo{
-	font-family: 'Jeju Gothic', sans-serif;
-	text-align: center;
-	margin-bottom:5px;
-	margin-left:1300px;
-	position: absolute;
-	top: 170px;
-	left: 0;
-	right: 0;
+.subscriptionBox .subscriptedInfo{
+	position:absolute;
+	right:130px;
+}
+.subscriptionBox .subscriptingInfo{
+	position:absolute;
+	right:0;
 }
 .popover3{
 	background-color: rgba(29, 185, 255, 0.5);
