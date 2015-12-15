@@ -1,71 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
  <br><br><br>
 <!-- main -->
 
   <div class="tab-content" class="mainList"> 
   <!-- 관리자 홈 --> 
   <div role="tabpanel" class="tab-pane active mainList" id="adminPageHome" >
-  
-  <div class="container">
-	<div class="row">
-		<div class="col-sm-3">
-    	    <div class="hero-widget well well-sm">
-                <div class="icon">
-                     <i class="fa fa-users"></i>
-                </div>
-                <div class="text">
-                    <var>${requestScope.adminList.memberList.pagingBean.totalContents}</var>
-                    <label class="text-muted">서비스 중인 회원</label>
-                </div>
-                <div class="options">
-                </div>
-            </div>
-		</div>
-        <div class="col-sm-3">
-            <div class="hero-widget well well-sm">
-                <div class="icon">
-                     <i class="fa fa-user-times"></i>
-                </div>
-                <div class="text">
-                    <var>${requestScope.adminList.blokcMemberList.pagingBean.totalContents}</var>
-                    <label class="text-muted">서비스 중지인 회원</label>
-                </div>
-                <div class="options">
-                </div>
-            </div>
-		</div>
-        <div class="col-sm-3">
-            <div class="hero-widget well well-sm">
-                <div class="icon">
-                   <i class="fa fa-spinner"></i>
-                </div>
-                <div class="text">
-                    <var>${requestScope.adminList.mainReportList.pagingBean.totalContents}</var>
-                    <label class="text-muted">주제글 신고 수</label>
-                </div>
-                <div class="options">
-                </div>
-            </div>
-    	</div>
-        <div class="col-sm-3">
-            <div class="hero-widget well well-sm">
-                <div class="icon">
-                     <i class="fa fa-circle-o-notch"></i>
-                </div>
-                <div class="text">
-                    <var>${requestScope.adminList.subReportList.pagingBean.totalContents}</var>
-                    <label class="text-muted">잇는글 신고 수</label>
-                </div>
-                <div class="options">
-                </div>
-            </div>
-		</div>
-	</div>
-</div>
-  
 </div>
 
 <!-- 회원 관리--> 
@@ -110,7 +51,7 @@
 							begin="${requestScope.adminList.memberList.pagingBean.startPageOfPageGroup }"
 							end="${requestScope.adminList.memberList.pagingBean.endPageOfPageGroup }"
 							var="i">
-							<a href="#" class="memberReportPaging">${i}</a>
+							<button class="memberReportPaging">${i}</button>
 							<span> 
 							<input type="hidden" class="pageNo" value="${i}"> 
 							<input type="hidden" class="pagingType" value="memberList">
@@ -167,7 +108,7 @@
 							begin="${requestScope.adminList.blokcMemberList.pagingBean.startPageOfPageGroup }"
 							end="${requestScope.adminList.blokcMemberList.pagingBean.endPageOfPageGroup }"
 							var="i">
-							<a href="#" class="memberReportPaging">${i}</a>
+							<button class="memberReportPaging">${i}</button>
 							<span> 
 							<input type="hidden" class="pageNo" value="${i}"> 
 							<input type="hidden" class="pagingType" value="blockMemberList">
@@ -236,7 +177,7 @@
 							begin="${requestScope.adminList.mainReportList.pagingBean.startPageOfPageGroup }"
 							end="${requestScope.adminList.mainReportList.pagingBean.endPageOfPageGroup }"
 							var="i">
-							<a href="#" class="articleReportPaging">${i}</a>
+							<button class="articleReportPaging">${i}</button>
 							<span> 
 							<input type="hidden" class="pageNo" value="${i}">
 							<input type="hidden" class="pagingType" value="mainArticleList">
@@ -313,7 +254,7 @@
 							begin="${requestScope.adminList.subReportList.pagingBean.startPageOfPageGroup }"
 							end="${requestScope.adminList.subReportList.pagingBean.endPageOfPageGroup }"
 							var="i">
-							<a href="#" class="articleReportPaging">${i}</a>
+							<button class="articleReportPaging">${i}</button>
 							<span> 
 							<input type="hidden" class="pageNo" value="${i}">
 							<input type="hidden" class="pagingType" value="subArticleList">

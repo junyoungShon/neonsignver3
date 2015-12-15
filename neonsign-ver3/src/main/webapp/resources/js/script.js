@@ -670,7 +670,7 @@ $(document).ready(function(){ //DOM이 준비되고
 				var memberEmail=$('#memberUserEmail').val();
 				//잇는 글 폼 히든 input에 데이터 할당 
 				
-				$('form[action="auth_writeSubArticle.neon"]').children('input[name="memberEmail"]').val(data.itjaMemberList[0].memberEmail);
+				//$('form[action="auth_writeSubArticle.neon"]').children('input[name="memberEmail"]').val(data.itjaMemberList[0].memberEmail);
 				$('form[action="auth_writeSubArticle.neon"]').children('input[name="mainArticleNo"]').val(mainArticleNO);
 					
 				// 찜 버튼을 위한 조건문
