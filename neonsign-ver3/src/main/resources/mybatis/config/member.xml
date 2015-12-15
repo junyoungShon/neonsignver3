@@ -240,6 +240,28 @@ SERVICE_CENTER_DATE,SERVICE_CENTER_EMAIL from(
 		)
 )  where page=#{value}
 	</select>
+	
+	<!-- 회원의 최종 접속일을 업데이트 -->
+   <update id="memberLastLoginDateUpdate" parameterType="memberVO">
+   update MEMBER_ACTION set MEMBER_LASTLOGIN_DATE=sysdate where MEMBER_EMAIL=#{memberEmail} and MEMBER_ACTION='최종접속일'
+   </update>
+   
+   <!-- 회원의 최종 접속일을 생성 -->
+   <insert id="memberLastLoginDateInsert" parameterType="memberVO">
+   insert into MEMBER_ACTION(MEMBER_EMAIL,MEMBER_ACTION,MEMBER_LASTLOGIN_DATE,MEMBER_BLACK_DATE) 
+	values(#{memberEmail},'최종접속일',sysdate,null)
+   </insert>
+   
+    <!-- 회원의 정지일을 업데이트 -->
+   <update id="memberBlackdateUpdate" >
+   update MEMBER_ACTION set MEMBER_BLACK_DATE=sysdate where MEMBER_EMAIL=#{value} and MEMBER_ACTION='정지일'
+   </update>
+   
+   <!-- 회원의  정지일을 생성 -->
+   <insert id="memberBlackdateInsert" >
+   insert into MEMBER_ACTION(MEMBER_EMAIL,MEMBER_ACTION,MEMBER_LASTLOGIN_DATE,MEMBER_BLACK_DATE) 
+	values(#{value},'정지일',null,sysdate)
+   </insert>
 </mapper> 		
  
  

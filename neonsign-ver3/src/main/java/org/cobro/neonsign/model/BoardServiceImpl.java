@@ -759,6 +759,44 @@ public class BoardServiceImpl implements BoardService{
 		}
 		return subscriptingMemberList;
 	}
+	
+	/**
+	 * 구독자 email로 구독중인 글 리스트 받기
+	 * @author JeSeong Lee
+	 */
+	@Override
+	public List<MainArticleVO> getSubscriptingMainArticleBySubscriberEmailOrderByDate(
+			MemberVO memberVO) {
+		List<SubscriptionInfoVO> SubscriptingInfoList = boardDAO.getSubscriptingInfoListBySubscriberEmail(memberVO);
+		ArrayList<MainArticleVO> subscriptingMainArticleVOList = new ArrayList<MainArticleVO>();
+		for(int m = 0 ; m<SubscriptingInfoList.size() ; m++){
+			List<MainArticleVO> subscriptingMainArticleNoList = boardDAO.getSubscriptingMainArticleNoBySubscriberEmail(SubscriptingInfoList.get(m).getPublisher());
+			for(int n = 0 ; n<subscriptingMainArticleNoList.size() ; n++){
+				subscriptingMainArticleNoList.get(n);
+				subscriptingMainArticleVOList.add(boardDAO.getMainArticleByMainArticleNoOrderByDate(subscriptingMainArticleNoList.get(n).getMainArticleNo()));
+			}
+		}
+		String tagName = "";
+		for(int j = 0 ; j<subscriptingMainArticleVOList.size() ; j++){
+			List<TagBoardVO> tagBoardList = boardDAO.getMainArticleTagList(subscriptingMainArticleVOList.get(j).getMainArticleNo());
+			for(int k = 0 ; k<tagBoardList.size() ; k++){
+				if(k == tagBoardList.size()-1){
+					tagName += "#" + tagBoardList.get(k).getTagName();
+				}else{
+					tagName += "#" +  tagBoardList.get(k).getTagName() + " ";
+				}
+				subscriptingMainArticleVOList.get(j).setTagName(tagName);
+			}
+			tagName = "";
+		}
+		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
+		for(int l = 0 ; l<subscriptingMainArticleVOList.size() ; l++){
+			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(subscriptingMainArticleVOList.get(l).getMemberVO())); 
+			subscriptingMainArticleVOList.get(l).getMemberVO().setRankingVO(rankingVOList.get(l));
+		}
+		return subscriptingMainArticleVOList;
+	}
+	
 	/**
 	 * 문의글 페이징
 	 */

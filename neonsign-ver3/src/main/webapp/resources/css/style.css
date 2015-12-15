@@ -394,23 +394,23 @@ a.myNickDetail{
 }
 
 /* 우측상단 구독정보 위치 */
-.profileCard.hovercard .profileCard-subscriptedInfo{
+.subscriptedInfo{
 	font-family: 'Jeju Gothic', sans-serif;
 	text-align: center;
 	margin-bottom:5px;
 	margin-left:1000px;
 	position: absolute;
-	bottom: 14px;
+	top: 170px;
 	left: 0;
 	right: 0;
 }
-.profileCard.hovercard .profileCard-subscriptingInfo{
+.subscriptingInfo{
 	font-family: 'Jeju Gothic', sans-serif;
 	text-align: center;
 	margin-bottom:5px;
 	margin-left:1300px;
 	position: absolute;
-	bottom: 14px;
+	top: 170px;
 	left: 0;
 	right: 0;
 }
@@ -424,7 +424,7 @@ a.myNickDetail{
 	color:#fff;
 	font-weight: 900;
 }
-.subscriptedCount{
+.subscriptedList{
 	color:#13a6f4;
 }
 .subscriptingCount{

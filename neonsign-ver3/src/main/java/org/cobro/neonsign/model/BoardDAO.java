@@ -98,10 +98,16 @@ public interface BoardDAO {
 	// 게시자 email로 나를 구독하는 리스트 받기
 	public List<SubscriptionInfoVO> getSubscriptedInfoListByPublisherEmail(
 			MemberVO memberVO);
-	// 게시자 email로 내가 구독하는 리스트 받기
+	// 구독자 email로 내가 구독하는 리스트 받기
 	public List<SubscriptionInfoVO> getSubscriptingInfoListBySubscriberEmail(
 			MemberVO memberVO);
+	// 준영 완결 붙이기 글에
 	public MainArticleVO selectMainArticleTitleByMainArticleNo(int mainArticleNo);
 	public void appendToCompleteArticle(MainArticleVO mainArticleVO);
+	
+	// 구독자 email로 Publisher들이 작성한 글 번호 받기
+	public List<MainArticleVO> getSubscriptingMainArticleNoBySubscriberEmail(
+			String publisher);
+	
 	public List<ServiceCenterVO> ServiceCenterList(int pageNumber);
 }

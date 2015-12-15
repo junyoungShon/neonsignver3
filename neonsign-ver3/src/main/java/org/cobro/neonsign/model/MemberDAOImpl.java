@@ -321,4 +321,34 @@ public class MemberDAOImpl implements MemberDAO{
 			return sqlSessionTemplate.selectOne("member.ServiceCenterView",serviceCenterNo);
 		}
 	
+
+/**
+	 * 최종 접속일을 Update하는 메서드
+	 */
+	@Override
+	public int memberLastLoginDateUpdate(MemberVO memberVO) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.update("member.memberLastLoginDateUpdate",memberVO);
+	}
+	/**
+	 *  최종 접속일을 Insert하는 메서드
+	 */
+	@Override
+	public void memberLastLoginDateInsert(MemberVO memberVO) {
+		// TODO Auto-generated method stub
+		sqlSessionTemplate.insert("member.memberLastLoginDateInsert",memberVO);
+	}
+
+	@Override
+	public int memberBlackdateUpdate(String memberEmail) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.update("member.memberBlackdateUpdate",memberEmail);
+	}
+
+	@Override
+	public void memberBlackdateInsert(String memberEmail) {
+		// TODO Auto-generated method stub
+		sqlSessionTemplate.insert("member.memberBlackdateInsert",memberEmail);
+	}
+
 }

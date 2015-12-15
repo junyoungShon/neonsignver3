@@ -84,6 +84,9 @@ public interface BoardService {
 			MemberVO memberVO);
 	// 구독자 email로 나를 구독하는 리스트 닉네임 받기
 	public List<MemberVO> getSubscriptingInfoListBySubscriberEmail(MemberVO memberVO);
+	// 구독자 email로 구독중인 글 리스트 받기
+	public List<MainArticleVO> getSubscriptingMainArticleBySubscriberEmailOrderByDate(
+			MemberVO memberVO);
 	
 	public List<ServiceCenterVO> ServiceCenterList(int pageNumber);
 }
