@@ -126,7 +126,7 @@
 					<!-- ******************** 찜, 작성, 이은글 보기 ******************** -->
 					<!-- 찜한 주제글 보여주기 시작 -->
 					<div class="itjaSlide">
-						<h2 class="itjaMainTitle">${requestScope.rankMemberVO.memberNickName}이 찜한 주제글!<br></h2>
+						<h2 class="itjaMainTitle">${requestScope.rankMemberVO.memberNickName}님이 찜한 주제글!<br></h2>
 						<div class="container-fluid">
 							<div class="gallery js-flickity" data-flickity-options='{ "freeScroll": true, "wrapAround": true ,"pageDots": false}'>
 								<!-- 찜 카드 for문 시작 -->
@@ -265,7 +265,7 @@
 					
 					<!-- 작성 주제글 보여주기 시작 -->
 					<div class="itjaSlide">
-						<h2 class="itjaMainTitle">${requestScope.rankMemberVO.memberNickName}이 작성한 주제글!<br></h2>
+						<h2 class="itjaMainTitle">${requestScope.rankMemberVO.memberNickName}님이 작성한 주제글!<br></h2>
 						<div class="container-fluid">
 							<div class="gallery js-flickity" data-flickity-options='{ "freeScroll": true, "wrapAround": true ,"pageDots": false}'>
 								<!-- 작성 카드 for문 -->
@@ -403,7 +403,7 @@
 					
 					<!-- 참여, 이은 주제글 -->
 					<div class="itjaSlide">
-						<h2 class="itjaMainTitle">${requestScope.rankMemberVO.memberNickName}이 이은 주제글!<br></h2>
+						<h2 class="itjaMainTitle">${requestScope.rankMemberVO.memberNickName}님이 이은 주제글!<br></h2>
 						<div class="container-fluid">
 							<div class="gallery js-flickity" data-flickity-options='{ "freeScroll": true, "wrapAround": true ,"pageDots": false}'>
 								<!-- 참여 카드 for문 -->
