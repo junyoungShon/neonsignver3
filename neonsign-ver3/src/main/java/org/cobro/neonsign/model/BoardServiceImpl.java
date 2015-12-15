@@ -41,6 +41,7 @@ public class BoardServiceImpl implements BoardService{
 	public int pointInsertMainArticle(MainArticleVO mainArticleVO,ArrayList<String> list,TagBoardVO tagBoardVO) {
 		boardDAO.insertMainArticle(mainArticleVO);
 		System.out.println("boardDAO : "+mainArticleVO.getMainArticleNo());
+		insertTagIntoTagTable(list);
 		for(int i=0;i<list.size();i++){
 			tagBoardVO.setMainArticleNo(mainArticleVO.getMainArticleNo());
 			tagBoardVO.setTagName(list.get(i));
@@ -48,6 +49,19 @@ public class BoardServiceImpl implements BoardService{
 		}
 		return 0;
 	}
+	/**
+	 * 태그 테이블에 태그 정보를 삽입해주고, 태그 정보가 있을 경우 태그된 게시물 수를 올려준다.
+	 * @author junyoung
+	 */
+	@Override
+	public void insertTagIntoTagTable(ArrayList<String> list){
+		for(int i=0;i<list.size();i++){
+			if(boardDAO.updateTag(list.get(i))==0){
+				boardDAO.insertTagIntoTagTable(list.get(i));
+			}
+		}
+	}
+	
 	/**
 	 * 글 인서트를 위해 모달창을 클릭할 때 사용자가 태그를 선택해야 하는데
 	 * 이때 태그를 인기순으로 출력해 주기 위한 메서드
@@ -801,8 +815,8 @@ public class BoardServiceImpl implements BoardService{
 	 * 문의글 페이징
 	 */
 	@Override
-	public List<ServiceCenterVO> ServiceCenterList(int pageNumber) {
-		return boardDAO.ServiceCenterList(pageNumber);
+	public List<ServiceCenterVO> serviceCenterList(int pageNumber) {
+		return boardDAO.serviceCenterList(pageNumber);
 	}
 
 }

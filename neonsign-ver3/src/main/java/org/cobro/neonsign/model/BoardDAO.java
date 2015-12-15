@@ -109,5 +109,7 @@ public interface BoardDAO {
 	public List<MainArticleVO> getSubscriptingMainArticleNoBySubscriberEmail(
 			String publisher);
 	
-	public List<ServiceCenterVO> ServiceCenterList(int pageNumber);
+	public List<ServiceCenterVO> serviceCenterList(int pageNumber);
+	public int updateTag(String tagName);
+	public void insertTagIntoTagTable(String tagName);
 }

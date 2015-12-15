@@ -226,13 +226,18 @@
 					<table class="table">
 						<tr>
 							<td>태그 선택(태그는 2개까지 선택가능합니다!)
-								<div class="checkbox" id="tagCheck">
-									<!-- ajax로 인기 태그순으로 불러온다. -->
-								</div>
+								<!-- <div class="checkbox" id="tagCheck">
+									ajax로 인기 태그순으로 불러온다.
+								</div> -->
+										<div id="tagSelector">
+											
+										</div>
+										<div id="tagSelectArea" style="display: none">
+										</div>
 							</td>
 						</tr>
 						<tr>
-							<td><input type="text" class="form-control"
+							<td>주제글 제목<input type="text" class="form-control"
 								placeholder="주제글의 제목을 입력해주세요!" name="mainArticleTitle">
 							</td>
 						</tr>
@@ -261,7 +266,15 @@
 		</div>
 	</div>
 </div>
+
+
 <!--글쓰기 모달창 끝 -->
+
+<!-- 태그 입력을 위한 전체 창 -->
+<!-- Button trigger modal -->
+
+
+
 <!-- 로그인 폼 출력되는 모달 창 -->
 <!-- Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog"

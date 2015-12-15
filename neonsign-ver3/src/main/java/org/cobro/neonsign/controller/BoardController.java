@@ -239,12 +239,14 @@ public class BoardController {
 	@RequestMapping("auth_insertNewMainArticle.neon")
 	public ModelAndView insertMainArticle(FileVO fvo, MainArticleVO mainArticleVO,HttpServletRequest request,TagBoardVO tagBoardVO){
 		String[] tagNameList = request.getParameterValues("tagName") ;
+		
 		ArrayList<String> list = new ArrayList<String>();
 		//System.out.println(tagBoardVO);
 		//System.out.println(tagNameList.toString());
 		for(int i=0;i<tagNameList.length;i++){
 			list.add(tagNameList[i]);
 		}
+		System.out.println(list);
 		boardService.pointInsertMainArticle(mainArticleVO,list,tagBoardVO);
 		//2015-12-08 대협추가
 		MultipartFile file = fvo.getFile();
@@ -374,7 +376,7 @@ public class BoardController {
 		List<ServiceCenterVO> serviceCenterList=null;
 			int pageNumber=Integer.parseInt(pageNo);
 				System.out.println("Servicecenter 문의글 리스트");
-				serviceCenterList=boardService.ServiceCenterList(pageNumber);
+				serviceCenterList=boardService.serviceCenterList(pageNumber);
 				System.out.println(serviceCenterList);
 			return serviceCenterList;
 	}

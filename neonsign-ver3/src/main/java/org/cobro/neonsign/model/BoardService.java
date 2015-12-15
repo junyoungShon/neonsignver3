@@ -88,5 +88,6 @@ public interface BoardService {
 	public List<MainArticleVO> getSubscriptingMainArticleBySubscriberEmailOrderByDate(
 			MemberVO memberVO);
 	
-	public List<ServiceCenterVO> ServiceCenterList(int pageNumber);
+	public List<ServiceCenterVO> serviceCenterList(int pageNumber);
+	void insertTagIntoTagTable(ArrayList<String> list);
 }

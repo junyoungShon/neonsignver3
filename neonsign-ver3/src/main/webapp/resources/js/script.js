@@ -1,5 +1,6 @@
 $(document).ready(function(){ //DOM이 준비되고
 	
+	
 	//아이프레임 리로딩
 	function iframeReload(){
 		$('#bestMainArticleArea',window.parent.document).attr('src',$('#bestMainArticleArea',window.parent.document).attr('src'));
@@ -1196,23 +1197,56 @@ $(document).ready(function(){ //DOM이 준비되고
 	 * 회원이 글쓰기 폼을 열었을 때 인기 태그를 불러오는 에이잭스를 시작으로
 	 * 글자수 제한을 위한 keyup이벤트 및 공란체크 그리고 서밋을 담고 잇다.
 	 * */
-	
+	/*$(function() {
+		  var ms1 = $('#ms1').magicSuggest({
+		    data: ['New York','Los Angeles','Chicago','Houston','Philadelphia','Phoenix','San Antonio','San Diego','Dallas','San Jose','Jacksonville']
+		  });
+		});*/
 	$('.openModalInsertArticleForm').click(function(){
 		$.ajax({
 			type:"post",
 			url:"auth_openMainArticleModal.neon",
 			dataType:"json",
-			success:function(data){
-				tagList = '';
-				for(var i=0;i<data.length;i++){
-					tagList += 
-						'<label><input type="checkbox" name="tagName" value="'+data[i].tagName+'">#'+data[i].tagName+'</label>'+'&nbsp&nbsp&nbsp'
-					if(i!=0){
-						if(i%6==0){
-							tagList +='<br>'
-						}
-					}
+			success:function(recommendedTag){
+				
+				var tagList = [];
+				var userSelectedTagList = [] ;
+				for(var i=0;i<recommendedTag.length;i++){
+					tagList[i]=recommendedTag[i].tagName;
 				}
+				$(function() {	
+					var ms1 = $('#tagSelector').magicSuggest({
+						placeholder: 'Make a selection',
+					    data:tagList,
+					    useZebraStyle: true,
+					    maxDropHeight: 300,
+					    maxSelection: 2,
+					    maxEntryLength: 5,
+					    maxEntryRenderer: function() {
+					        return '태그는 5글자 이하로 입력하세요';
+					    },
+					 });
+					$(ms1).on('keyup', function(){
+						  if(ms1.getRawValue().length > 5){
+						    alert("태그는 다섯글자 이하로 작성해주세욥!");
+						    ms1.empty();
+						  }
+					});
+					$(ms1).on('selectionchange', function(){
+						userSelectedTagList = this.getValue();
+						alert(userSelectedTagList.length);
+						//userSelectedTagList= userSelectedTagList.split(',');
+						var tagSelectInfo = "";
+						$('#tagSelectArea').html("");
+						for(var i =0;i<userSelectedTagList.length;i++){
+							tagSelectInfo = tagSelectInfo+'<input type="checkbox" name="tagName" value="'+userSelectedTagList[i]+'" checked="checked">'
+						}
+						$('#tagSelectArea').html(tagSelectInfo);
+					});
+					
+						              
+				});
+				
 				$('#writeMainArticle').modal({
 					//취소버튼으로만 창을 끌 수 있도록 지정
 					backdrop: 'static',
@@ -1220,22 +1254,15 @@ $(document).ready(function(){ //DOM이 준비되고
 				});
 				
 				$('#writeMainArticle').on('shown.bs.modal', function () {
-					$('#tagCheck').html(tagList);
-					//태그는 2개까지 선택이 가능하도록 강제함
-					$('input[name="tagName"]').on('click',function(){
-						if($('input[name="tagName"]:checked').length>2){
-							alert('태그는 2개 까지만 선택이 가능합니다.');
-							$(this).attr("checked", false);
-						}
-					});
+					
 					//태그 공란 체크
 					$('button[name="newMainArticleSubmit"]').click(function(){
-						if($('input[name="tagName"]:checked').length<1){
-							alert('태그는 1개 이상 선택해주세요.');
+						if(userSelectedTagList.length<1){
+							alert('태그는 1개 이상 입력해주세요.');
 							return false;
 						}
 						//제목 공란체크
-						if($('input[name="mainArticleTltle"]').val()==''){
+						if($('input[name="mainArticleTitle"]').val()==''){
 							alert('글 제목을 입력해주세요');
 							$('input[name="mainArticleTltle"]').focus();
 							return false;
@@ -2345,5 +2372,5 @@ $(document).ready(function(){ //DOM이 준비되고
 		});
 	})
 	//문의글쓰기 끝
-    
+    	
 });//document.ready

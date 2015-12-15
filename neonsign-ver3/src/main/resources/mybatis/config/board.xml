@@ -228,7 +228,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			and main_article_no = #{mainArticleNo} and sub_article_grade=#{subAtricleGrade} order by sub_article_date desc
 	</select>
 	
-	
+	<!-- 태그 정보 수정 -->
+	<update id="updateTag" parameterType="string">
+		update tag set search_count = search_count + 1 where tag_name=#{value}
+	</update>
+	<!-- 태그 정보 삽입 -->
+	<insert id="insertTagIntoTagTable" parameterType="string">
+		insert into tag (tag_name,search_count) values (#{value},0)
+	</insert>
 	
 	<!-- 윤택 -->
 

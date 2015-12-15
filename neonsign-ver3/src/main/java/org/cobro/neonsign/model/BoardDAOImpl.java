@@ -680,7 +680,24 @@ public class BoardDAOImpl implements BoardDAO{
 	 * 문의글 리스트를 받아오는 메서드
 	 */
 	@Override
-	public List<ServiceCenterVO> ServiceCenterList(int pageNumber) {
+	public List<ServiceCenterVO> serviceCenterList(int pageNumber) {
 		return sqlSessionTemplate.selectList("member.ServiceCenterList",pageNumber);
+	}
+	
+	/**
+	 * 이미 해당 태그가 태그 테이블에 있을 경우 해당 태그의 게시물수를 1올려준다.
+	 * @author junyoung
+	 */
+	@Override
+	public int updateTag(String tagName) {
+		return sqlSessionTemplate.update("board.updateTag", tagName);
+	}
+	/**
+	 * 태그 테이블에 새로운 태그 네임을 삽입해준다.
+	 * @author junyoung
+	 */
+	@Override
+	public void insertTagIntoTagTable(String tagName) {
+		sqlSessionTemplate.insert("board.insertTagIntoTagTable",tagName);
 	}
 }
