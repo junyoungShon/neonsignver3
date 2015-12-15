@@ -20,6 +20,12 @@ public class PagingBean {
 	public int getNowPage(){
 		return nowPage;
 	}
+	public int getTotalContents() {
+		return totalContents;
+	}
+	public void setTotalContents(int totalContents) {
+		this.totalContents = totalContents;
+	}
 	public int getNextPage(){
 		return getNowPageGroup()*4+1;
 		

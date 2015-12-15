@@ -129,6 +129,18 @@ public class MemberController {
 		memberService.memberBlock(memberEmail);
 		return new ModelAndView("redirect:getMemberList.neon");
 	}
+	
+	/**
+	 * 회원 이메일을 받아 그 회원을 블락 해제 시키는 메서드
+	 * @author 윤택
+	 */
+	@RequestMapping("memberBlockRelease.neon")
+	public ModelAndView memberBlockRelease(HttpServletRequest request){
+		String memberEmail=request.getParameter("memberEmail");
+		memberService.memberBlockRelease(memberEmail);
+		return new ModelAndView("redirect:getMemberList.neon");
+	}
+	
 	/**
 	 * 관리자 페이지에서 일반&블락 회원멤버들 리스트를 출력
 	 * @author 한솔
