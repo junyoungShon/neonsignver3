@@ -530,18 +530,10 @@ public class BoardController {
 				//System.out.println("꺄-오-오! : " + newMainArticleVOList.get(i).getTagName().substring(1));
 				firstTagName = completeMainArticleList.get(i).getTagName().substring(1);
 			}
-			MainArticleImgVO mainArticleImgVOComp =boardService.selectMainArticleImg(completeMainArticleList.get(i).getMainArticleNo());
-			MainArticleImgVO mainArticleImgVO = new MainArticleImgVO();
-			//주제글이미지VO가 없을때 태그명에 맞는 이미지를 삽입해준다.
-			if(mainArticleImgVOComp==null){
-				if(firstTagName.equals("게임")){
-					boardService.insertMainArticleImg(completeMainArticleList.get(i).getMainArticleNo(), "basicBg/"+firstTagName+".png");
-				}else{
-					boardService.insertMainArticleImg(completeMainArticleList.get(i).getMainArticleNo(), "basicBg/"+firstTagName+".jpg");
-				}
-				mainArticleImgVO =boardService.selectMainArticleImg(completeMainArticleList.get(i).getMainArticleNo());
-			}else{
-				mainArticleImgVO =boardService.selectMainArticleImg(completeMainArticleList.get(i).getMainArticleNo());
+
+			MainArticleImgVO mainArticleImgVO =boardService.selectMainArticleImg(completeMainArticleList.get(i).getMainArticleNo());
+			if(mainArticleImgVO==null){
+				mainArticleImgVO = new MainArticleImgVO();
 			}
 			//파일의 경로를 담는다.
 			File dir = new File(articleImgPath+mainArticleImgVO.getMainArticleImgName());

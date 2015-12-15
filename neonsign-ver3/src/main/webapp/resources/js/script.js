@@ -593,7 +593,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	//완결글 디테일 뷰(완) - 무한 스크롤 
 	$('#pinBoot').on('click','.readArticleBtn',function(){
 		var mainArticleNO =$(this).next().children().find(':input[name="mainArticleNo"]').eq(0).val();
-		detailItjaView(mainArticleNO,"complete");
+		detailItjaView(mainArticleNO,"new");
 		$('#cardDetailView').modal();
 	});
 	
