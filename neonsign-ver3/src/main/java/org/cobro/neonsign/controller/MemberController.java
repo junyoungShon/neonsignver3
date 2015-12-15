@@ -88,6 +88,13 @@ public class MemberController {
 			}
 			request.getSession().setAttribute("memberVO",memberVO);		
 			mav = new ModelAndView("redirect:getMainList.neon");
+			
+			//만약 블락 회원이라면 세션을 없애고 loginPage로 이동 후 블락 회원이라고 한다
+			if(memberVO.getMemberCategory().equals("BLACK")){
+				request.getSession().invalidate();
+				String fail="해당 계정은 관리자에 의해 정지된 계정입니다";
+				mav=new ModelAndView("loginPage","fail",fail);
+			}
 		}else{
 			memberVO=memberService.defaultMemberLogin(memberVO1);
 			String fail="아이디와 비밀번호가 맞지 않습니다.";

@@ -53,4 +53,8 @@ public interface MemberDAO {
 	public List<ServiceCenterVO> ServiceCenterList(int pageNo);
 	public int AllCount();
 	public ServiceCenterVO ServiceCenterView(int serviceCenterNo);
+	public int memberLastLoginDateUpdate(MemberVO memberVO);
+	public void memberLastLoginDateInsert(MemberVO memberVO);
+	public int memberBlackdateUpdate(String memberEmail);
+	public void memberBlackdateInsert(String memberEmail);
 }

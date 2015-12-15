@@ -43,8 +43,18 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override
 	public MemberVO memberLogin(MemberVO memberVO) {
-		return memberDAO.memberLogin(memberVO);
+		MemberVO mvo=memberDAO.memberLogin(memberVO);
+		if(mvo!=null){
+			//최종 접속 일시를 체킹하는 메서드
+			int result=memberDAO.memberLastLoginDateUpdate(memberVO);
+			//만약 Update가 되지 않으면 Inert를 진행한다
+			if(result==0){
+				memberDAO.memberLastLoginDateInsert(memberVO);
+			}
+		}
+		return mvo;
 	}
+
 	
 	@Override
 	public ArrayList<MemberVO> getNotifyMemberList(MemberVO mvo) {
@@ -94,7 +104,14 @@ public class MemberServiceImpl implements MemberService{
 	public void memberBlock(String memberEmail) {
 		// TODO Auto-generated method stub
 		memberDAO.memberBlock(memberEmail);
+		//블락 시킨뒤 회원의 블락 일시를 업데이트 또는 생성
+		int result = memberDAO.memberBlackdateUpdate(memberEmail);
+		System.out.println("업데이트 여부 : "+result);
+		if(result==0){
+			memberDAO.memberBlackdateInsert(memberEmail);
+		}
 	}
+
 	/**
 	 * 회원 이메일을 받아 그 회원을 블락해제 시키는 메서드
 	 * @author 윤택
@@ -110,7 +127,16 @@ public class MemberServiceImpl implements MemberService{
 	 */
 	@Override
 	public MemberVO defaultMemberLogin(MemberVO memberVO) {
-		return memberDAO.defaultMemberLogin(memberVO);
+		MemberVO mvo=memberDAO.defaultMemberLogin(memberVO);
+		if(mvo!=null){
+			//최종 접속 일시를 체킹하는 메서드
+			int result=memberDAO.memberLastLoginDateUpdate(memberVO);
+			//만약 Update가 되지 않으면 Inert를 진행한다
+			if(result==0){
+				memberDAO.memberLastLoginDateInsert(memberVO);
+			}
+		}
+		return mvo;
 	}
 	
 	/**

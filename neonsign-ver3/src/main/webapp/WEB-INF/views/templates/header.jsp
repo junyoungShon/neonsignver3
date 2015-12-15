@@ -12,7 +12,7 @@
           
          
           
-        <a class="navbar-brand top-menu" href="#">
+        <a class="navbar-brand top-menu" href="${initParam.root}getMainList.neon">
         <img class="logoImg" src="${initParam.root}resources/img/width_logo_BrainOnSign.png">
 		</a>
         </div>
