@@ -71,7 +71,7 @@
 /*     General overwrite     */
 body {
   font-family: "Helvetica Neue","Open Sans",Arial,sans-serif;
-  background-color: #cccccc;
+  /* background-color: #cccccc; */
 }
 
 a {

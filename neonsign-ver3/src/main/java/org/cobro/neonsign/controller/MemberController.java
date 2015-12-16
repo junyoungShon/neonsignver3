@@ -290,6 +290,13 @@ public class MemberController {
 		HttpSession session = request.getSession(false);
 		String path="redirect:memberLogin.neon";
 		if(session!=null){
+			List<ItjaMemberVO> list = itjaMemberBean.getItjaListByMemberEmail(memberVO);
+			//0,0번째 글은 존재하지 않는다. 잇자를 누른 글이 하나도 없어도 사용자의 이메일을 얻기 위함이다.
+			list.add(new ItjaMemberVO(0,0,memberVO.getMemberEmail()));
+			if(list!=null){
+				memberVO.setItjaMemberList(list);
+			}
+			request.getSession().setAttribute("memberVO",memberVO);
 			memberService.memberUpdate(memberVO);
 			session.setAttribute("memberVO", memberVO);
 			path="redirect:getMainList.neon";

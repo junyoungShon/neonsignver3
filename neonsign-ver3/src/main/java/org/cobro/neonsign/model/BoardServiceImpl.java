@@ -38,7 +38,7 @@ public class BoardServiceImpl implements BoardService{
 	 * 트랜젝션의 대상이 되는지 고민해 볼 것!!
 	 * @junyoung
 	 */
-	@Transactional
+	//@Transactional
 	@Override
 	public int pointInsertMainArticle(MainArticleVO mainArticleVO,ArrayList<String> list,TagBoardVO tagBoardVO) {
 		boardDAO.insertMainArticle(mainArticleVO);

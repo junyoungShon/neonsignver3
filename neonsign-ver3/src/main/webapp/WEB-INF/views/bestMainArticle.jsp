@@ -36,14 +36,18 @@
  <link rel="stylesheet" type="text/css" href="${initParam.root}resources/css/toasty-min.css">
 	<style type="text/css">
 		body {
-		 background-color:#eee;   
 		 background-image: url('${initParam.root}resources/img/iframeBG.PNG')
 		} 
 		.itjaSlide{
-			background-color: rgba( 255, 255, 255, 0.6 );
+		 background-color: rgba( 255, 255, 255, 0.6 );
+		 margin-top:20px;
 		}
 		.jumbotron{
-			/* //background-color: rgba( 255, 255, 255, 0.6 ); */
+			background-color: rgba( 255, 255, 255, 0 );
+		}
+		.itjaMainTitle{
+			margin-top:0px;
+			padding-top:30px;
 		}
 	</style>
 

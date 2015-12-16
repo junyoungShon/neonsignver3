@@ -61,7 +61,7 @@ $(document).ready(function(){ //DOM이 준비되고
 					          "<button class='closeToast'>Cancel</button>";
 						}
 						$().toasty({
-						    autoHide: 2000,
+							autohide:4000,
 						    message: msg,
 						    modal: false
 						});
@@ -226,7 +226,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	              			for(var j=0;j<data.itjaMemberList.length;j++){
 	              				if(data.itjaMemberList[j].mainArticleNo == data.newMainArticleArrayList[i].mainArticleNo){
 	              					mainLikeItHTML 
-	              					='<button class="btn btn-social btn-twitter itja" style="width:100%; margin-top:10px;">'
+	              					='<button class="btn btn-social btn-twitter itja" style="width:23%; margin-top:10px;">'
 	              					+'<span class="itjaCount"><i class="fa fa-link"></i><br>'+data.newMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'
 	              					+'<form name="itJaInfo" style="display:none;"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
 	              					+'"><input type="hidden" name="mainArticleNo" value="'+data.newMainArticleArrayList[i].mainArticleNo
@@ -614,6 +614,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	
 	//베스트 디테일 뷰(완) , 마이페이지(완)
 	$('.itjaSlide').on('click','.actions :button',function(){
+		alert('베스트 및 마이페이지')
 		$('#bestMainArticleArea',parent.document).attr('height','1000px');
 		var mainArticleNO =$(this).parent().siblings('input[class="mainArticleTitleNO"]').val();
 		if($('#isComplete').val()=='best'){
@@ -624,14 +625,16 @@ $(document).ready(function(){ //DOM이 준비되고
 		
 	});
 	
-	//새로운 글 디테일 뷰(완)
+	/*	//새로운 글 디테일 뷰(완)
 	$('.newMainArticle').on('click','.readArticleBtn',function(){
+		alert('새로운 글')
 		var mainArticleNO =$(this).children('#newMainArticleNo').val();
 		detailItjaView(mainArticleNO,"new");
 		$('#cardDetailView').modal();
 	});
 	//완결 글 디테일 뷰(완)
 	$('.completeMainArticle').on('click','.readArticleBtn',function(){
+		alert('완결 글')
 		var mainArticleNO =$(this).children('#completeMainArticleNo').val();
 		detailItjaView(mainArticleNO,"new");
 		$('#cardDetailView').modal();
@@ -639,12 +642,14 @@ $(document).ready(function(){ //DOM이 준비되고
 	
 	//새로운 글 디테일 뷰(완) - 무한 스크롤 
 	$('#pinBoot').on('click','.readArticleBtn',function(){
+		alert('새로운 글 무한 스크롤')
 		var mainArticleNO =$(this).find(':input[name="mainArticleNo"]').eq(0).val();
 		detailItjaView(mainArticleNO,"new");
 		$('#cardDetailView').modal();
-	});
+	});*/
 	//완결글 디테일 뷰(완) - 무한 스크롤 
 	$('#pinBoot').on('click','.readArticleBtn',function(){
+		alert('완결 글 무한 스크롤')
 		var mainArticleNO =$(this).next().children().find(':input[name="mainArticleNo"]').eq(0).val();
 		detailItjaView(mainArticleNO,"new");
 		$('#cardDetailView').modal();
@@ -682,7 +687,9 @@ $(document).ready(function(){ //DOM이 준비되고
 				var subArticleWriteFormHTML = "";
 				var memberEmail=$('#memberUserEmail').val();
 				//잇는 글 폼 히든 input에 데이터 할당 
-				
+				if(data.mainArticle.mainArticleComplete==1){
+					$('#completeDetailViewAlert').css('display','block');
+				}
 				//$('form[action="auth_writeSubArticle.neon"]').children('input[name="memberEmail"]').val(data.itjaMemberList[0].memberEmail);
 				$('form[action="auth_writeSubArticle.neon"]').children('input[name="mainArticleNo"]').val(mainArticleNO);
 					
@@ -1130,13 +1137,13 @@ $(document).ready(function(){ //DOM이 준비되고
 				if(AllOrOne=="total"){
 					if(data.itjaSuccess==1){
 						//itjaWriteFormCheck=1;
-						itjaCountSpan.html('<i class="fa fa-chain-broken"></i>'+data.itjaTotalCount+'it<br>');
+						itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaTotalCount+'it');
 						//잇는글 폼 비 활성화
 						if($('#isComplete').val()!='complete'){
 							$('.itjaWriteForm').css('display','none');
 						}
 					}else{
-						itjaCountSpan.html('<i class="fa fa-link"></i>'+data.itjaTotalCount+'it<br>');
+						itjaCountSpan.html('<i class="fa fa-link"></i><br>'+data.itjaTotalCount+'it');
 						//잇는글 폼 활성화
 						if($('#isComplete').val()!='complete'){
 							$('.itjaWriteForm').css('display','block');	
@@ -1166,7 +1173,7 @@ $(document).ready(function(){ //DOM이 준비되고
 					"onclick='detailItjaView(mainArticleNO);'>Ok</button> "+
 					"<button class='closeToast'>Cancel</button>";
 					$().toasty({
-						autoHide: 2000,
+						autoHide: 4000,
 						message: msg,
 						modal: false
 					});

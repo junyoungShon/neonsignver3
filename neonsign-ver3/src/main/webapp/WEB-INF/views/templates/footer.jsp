@@ -148,7 +148,7 @@
 			<div class="modal-body detailView">
 				<div class= "detailLeft">
 					<div class="panelForDetail panelForDetail-white postForDetail panelForDetail-shadow" >
-					<h4 class="modal-title cardDetailViewTitle" id="cardDetailViewLabel"></h4>
+					<h4 class="modal-title cardDetailViewTitle" id="cardDetailViewLabel" style="color:black;"></h4>
 						<div class="mainArticleContentsInModal">
 							<div class="mainArticleContentInModal">
 								<a class="postForDetail-description mainArticleWriterDetail" data-toggle="collapse" data-target="" aria-expanded="false" aria-controls="collapseExample1">
@@ -183,10 +183,12 @@
     		</div>
 				<div class= "detailRight">
 					<div class="panelForDetail panelForDetail-white postForDetail panelForDetail-shadow" >
+						
 						<div class="unLinkingSubArticleList">
 							
           				</div>
 						<DIV class="itjaWriteForm">
+							<span id="completeDetailViewAlert" style="display: none; color:red">완결된 게시물 입니다. 댓글은 가능하지만 이야기가 이어지지 않습니다</span>
 							<form action="auth_writeSubArticle.neon" class="form-horizontal">
 								
 							</form>
