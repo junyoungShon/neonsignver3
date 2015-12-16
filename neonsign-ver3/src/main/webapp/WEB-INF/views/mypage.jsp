@@ -128,7 +128,8 @@
 					<div class="itjaSlide">
 						<h2 class="itjaMainTitle">${requestScope.rankMemberVO.memberNickName}님이 찜한 주제글!<br></h2>
 						<div class="container-fluid">
-							<div class="gallery js-flickity" data-flickity-options='{ "freeScroll": true, "wrapAround": true ,"pageDots": false}'>
+							<div class="gallery js-flickity"
+         					data-flickity-options='{ "freeScroll": false, "wrapAround": true ,"pageDots": false, "autoPlay" : 2000}'>
 								<!-- 찜 카드 for문 시작 -->
 								<c:forEach var="pickMainArticle" items="${requestScope.pickedMainArticleList}">
 									<!-- 찜 카드 틀 -->
@@ -267,7 +268,8 @@
 					<div class="itjaSlide">
 						<h2 class="itjaMainTitle">${requestScope.rankMemberVO.memberNickName}님이 작성한 주제글!<br></h2>
 						<div class="container-fluid">
-							<div class="gallery js-flickity" data-flickity-options='{ "freeScroll": true, "wrapAround": true ,"pageDots": false}'>
+							<div class="gallery js-flickity"
+         					data-flickity-options='{ "freeScroll": false, "wrapAround": true ,"pageDots": false, "autoPlay" : 2000}'>
 								<!-- 작성 카드 for문 -->
 								<c:forEach var="writeMainArticle" items="${requestScope.writeMainArticleList}">
 									<!-- 작성 카드 틀 -->
@@ -405,7 +407,8 @@
 					<div class="itjaSlide">
 						<h2 class="itjaMainTitle">${requestScope.rankMemberVO.memberNickName}님이 이은 주제글!<br></h2>
 						<div class="container-fluid">
-							<div class="gallery js-flickity" data-flickity-options='{ "freeScroll": true, "wrapAround": true ,"pageDots": false}'>
+							<div class="gallery js-flickity"
+        					 data-flickity-options='{ "freeScroll": false, "wrapAround": true ,"pageDots": false, "autoPlay" : 2000}'>
 								<!-- 참여 카드 for문 -->
 								<c:forEach var="joinMainArticle" items="${requestScope.joinMainArticleList}">
 									<!-- 참여 카드 틀 -->
@@ -539,10 +542,8 @@
 					</div><!-- end jumbotron itjaSlide -->
 					<!-- 끝 참여주제글 -->
 					<!-- ************************* 찜, 작성, 이은글 보기 끝 ************************* -->
-					
 				</div>
 				<!-- 마이페이지 탭1 내용 카드보여주기 -->
-				
 				<!-- 마이페이지 탭2 내용 개인정보 통계 -->
 				<div class="tab-pane fade in" id="tab2">
 					<!-- 개인 정보 카드틀 -->

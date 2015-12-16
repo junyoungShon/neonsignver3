@@ -10,7 +10,7 @@
 }
 
 .itjaTopMenu{
-	border-color: red;
+	border-color: indigo;
 	background-color: white;
 	
 }
@@ -19,7 +19,8 @@
 	width:100%;
 }
 .card{
-   margin-bottom: 70px;
+   margin-bottom: 20px;
+   margin-top: 20px;
 }
 .itjaMainTitle{
 	color:black;

@@ -854,7 +854,7 @@ $(document).ready(function(){ //DOM이 준비되고
                     +'<input type="hidden" name="memberEmail" value="'+memberEmail
                     +'"><input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo
                     +'"><input type="hidden" name="subArticleNo" value='+data.likingSubArticle[i].subArticleNo+'></form></a>'
-           			+'</div></div>'
+           			+'</div></div><br>'
 				}
 				$('.linkingSubArticleContentInModal').html(mainArticle);//이어진 글 할당
 				
@@ -1130,13 +1130,13 @@ $(document).ready(function(){ //DOM이 준비되고
 				if(AllOrOne=="total"){
 					if(data.itjaSuccess==1){
 						//itjaWriteFormCheck=1;
-						itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaTotalCount+'it');
+						itjaCountSpan.html('<i class="fa fa-chain-broken"></i>'+data.itjaTotalCount+'it<br>');
 						//잇는글 폼 비 활성화
 						if($('#isComplete').val()!='complete'){
 							$('.itjaWriteForm').css('display','none');
 						}
 					}else{
-						itjaCountSpan.html('<i class="fa fa-link"></i><br>'+data.itjaTotalCount+'it');
+						itjaCountSpan.html('<i class="fa fa-link"></i>'+data.itjaTotalCount+'it<br>');
 						//잇는글 폼 활성화
 						if($('#isComplete').val()!='complete'){
 							$('.itjaWriteForm').css('display','block');	
@@ -1145,13 +1145,13 @@ $(document).ready(function(){ //DOM이 준비되고
 				}else if(AllOrOne="one"){
 					if(data.itjaSuccess==1){
 						//1이면 잇자를 하지 않은것 0이면 잇자를 한것
-						itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaCount+'it');
+						itjaCountSpan.html('<i class="fa fa-chain-broken"></i>'+data.itjaCount+'it<br>');
 						//잇는글 폼 비활성화
 						if($('#isComplete').val()!='complete'){
 							$('.itjaWriteForm').css('display','none');	
 						}
 					}else{
-						itjaCountSpan.html('<i class="fa fa-link"></i><br>'+data.itjaCount+'it');
+						itjaCountSpan.html('<i class="fa fa-link"></i>'+data.itjaCount+'it<br> ');
 						//잇는글 폼 활성화
 						if($('#isComplete').val()!='complete'){
 							$('.itjaWriteForm').css('display','block');	
@@ -1273,8 +1273,31 @@ $(document).ready(function(){ //DOM이 준비되고
 							 $('textarea[name="mainArticleContent"]').focus();
 							 return false;
 						}
+						//제목 길이 검색
+						if($('input[name="mainArticleTitle"]').val().length>30){
+							return false;
+						}
 						$('form[action="auth_insertNewMainArticle.neon"]').submit();
 					});
+					
+					$('input[name="mainArticleTitle"]').keyup(function(){
+						var userTitleWrite = $(this).val();
+						if($('input[name="mainArticleTitle"]').val().length>30){
+							$('input[name="mainArticleTitle"]').val(userTitleWrite.cut(30));
+							$('#titleAlert').text('제목은 15자 이하로 입력해주세요!');
+						}else{
+							$('#titleAlert').text('');
+						}
+					});
+					String.prototype.cut = function(len) {
+		                var str = this;
+		                var l = 0;
+		                for (var i=0; i<str.length; i++) {
+		                        l += (str.charCodeAt(i) > 128) ? 2 : 1;
+		                        if (l > len) return str.substring(0,i) + "";
+		                }
+		                return str;
+					}
 					//주제글 작성 제한을 위한 keyUp 이벤트 - 글자수를 제한해준다.
 					$('textarea[name="mainArticleContent"]').keyup(function(){
 						function korTextCheck($str){
@@ -1295,7 +1318,7 @@ $(document).ready(function(){ //DOM이 준비되고
 								wrtingByte += 1; 
 							}
 							if(wrtingByte>400){
-								$('textarea[name="mainArticleContent"]').val(userWriting.substring(0,400));
+								$('textarea[name="mainArticleContent"]').val(userWriting.cut(400));
 							}
 						}
 						$('.userLength').text(wrtingByte);

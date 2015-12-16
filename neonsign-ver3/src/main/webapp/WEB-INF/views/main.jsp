@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <div class="bestMainArticleSlide">
-	<iframe id="bestMainArticleArea" src="${initParam.root}getMainBestList.neon" width="100%" height="460px;" scrolling="no" style="overflow: hidden; margin-top:50px;"></iframe>
+	<iframe id="bestMainArticleArea" src="${initParam.root}getMainBestList.neon" width="100%" height="600px;" scrolling="no" style="overflow: hidden; margin-top:50px;"></iframe>
 </div>
 <!-- 태그 소트 버튼 부분 -->
 <div class="container tags-container">

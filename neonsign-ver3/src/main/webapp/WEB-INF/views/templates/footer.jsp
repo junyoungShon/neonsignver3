@@ -237,7 +237,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td>주제글 제목<input type="text" class="form-control"
+							<td>주제글 제목 <span id="titleAlert" style="color: red"></span><br><input type="text" class="form-control"
 								placeholder="주제글의 제목을 입력해주세요!" name="mainArticleTitle">
 							</td>
 						</tr>

@@ -34,14 +34,26 @@
  
  <!-- 잇자 또는 공지를 사이트 측면에서 띄워주는 간이모달 CSS -->
  <link rel="stylesheet" type="text/css" href="${initParam.root}resources/css/toasty-min.css">
+	<style type="text/css">
+		body {
+		 background-color:#eee;   
+		 background-image: url('${initParam.root}resources/img/iframeBG.PNG')
+		} 
+		.itjaSlide{
+			background-color: rgba( 255, 255, 255, 0.6 );
+		}
+		.jumbotron{
+			/* //background-color: rgba( 255, 255, 255, 0.6 ); */
+		}
+	</style>
 
 </head>
 
 
 <body>
+   <h2 class="itjaMainTitle">베스트 잇자!</h2>
 <div class="itjaSlide">
 <div class="bestMainArticle">
-   <h2 class="itjaMainTitle">베스트 잇자!</h2>
    <div class="container-fluid">
       <div class="gallery js-flickity"
          data-flickity-options='{ "freeScroll": false, "wrapAround": true ,"pageDots": false, "autoPlay" : 2000}'>
@@ -71,9 +83,9 @@
          	</c:choose>  
 	         <c:if test="${empty cardList}">
 	         	<div class="jumbotron">
-				  <h1>현재 베스트 잇자가 없습니다.</h1>
-				  <p>아래의 새로운 주제글들 중 마음에 드는 글들의 잇자! 버튼을 눌러주세요 10개가 되면 베스트 잇자가 됩니다.</p>
-				  <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+				  <h1 style="color: indigo;">현재 베스트 잇자가 없습니다.</h1>
+				  <p style="color: indigo; font-weight: bold; ">아래의 새로운 주제글들 중 마음에 드는 글들의 잇자! 버튼을 눌러주세요 10개가 되면 베스트 잇자가 됩니다.</p>
+				  <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p> -->
 				</div>
 	         </c:if>
          	<c:if test="${!empty cardList}">
@@ -266,7 +278,7 @@
 				                    	</a>
 		               				</div>
 		          				</div>
-		          			</div>
+		          			</div><br>
 		          				<div class="linkingSubArticleContentInModal">
 		          				</div> 
           				</div>

@@ -28,7 +28,6 @@
 				<aop:around method="aroundSearch" pointcut-ref="st" />
 			</aop:aspect>
 		</aop:config>
-	
 	<!-- dataSource -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName">
