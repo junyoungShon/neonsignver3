@@ -1,5 +1,7 @@
 $(document).ready(function(){ //DOM이 준비되고
 	
+
+	
 	
 	//아이프레임 리로딩
 	function iframeReload(){

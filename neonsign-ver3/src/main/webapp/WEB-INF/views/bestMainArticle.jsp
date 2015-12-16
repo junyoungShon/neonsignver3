@@ -47,8 +47,41 @@
          data-flickity-options='{ "freeScroll": false, "wrapAround": true ,"pageDots": false, "autoPlay" : 2000}'>
          <!-- el 문 및 ajax로 베스트글이 표시되는 슬라이드 지역 -->
          <!-- 카드 1개 -->
+         	<c:set var="cardList" value="${requestScope.bestMainArticleVOListOrderByDate}"/>
+         	<c:set var="cardNum" value="${fn:length(cardList)}"/>
+         	<c:choose>
+         		<c:when test="${cardNum==1}">
+         			<c:set var="cardCol" value="col-lg-6"/>
+         		</c:when>
+         		<c:when test="${cardNum==2}">
+         			<c:set var="cardCol" value="col-lg-6"/>
+         		</c:when>
+         		<c:when test="${cardNum==3}">
+         			<c:set var="cardCol" value="col-lg-4"/>
+         		</c:when>
+         		<c:when test="${cardNum==4}">
+         			<c:set var="cardCol" value="col-lg-3"/>
+         		</c:when>
+         		<c:when test="${cardNum==5}">
+         			<c:set var="cardCol" value="col-lg-3"/>
+         		</c:when>
+         		<c:otherwise>
+         			<c:set var="cardCol" value="col-lg-2"/>
+         		</c:otherwise>
+         	</c:choose>  
+	         <c:if test="${empty cardList}">
+	         	<div class="jumbotron">
+				  <h1>현재 베스트 잇자가 없습니다.</h1>
+				  <p>아래의 새로운 주제글들 중 마음에 드는 글들의 잇자! 버튼을 눌러주세요 10개가 되면 베스트 잇자가 됩니다.</p>
+				  <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+				</div>
+	         </c:if>
+         	<c:if test="${!empty cardList}">
          <c:forEach var="bestMainArticle"  items="${requestScope.bestMainArticleVOListOrderByDate}">
-            <div class="card-box col-lg-3">
+	         <c:if test="${!empty bestMainArticle}">
+	         
+	         <div class="card-box ${cardCol}">
+               
                <div class="card card-with-border" data-background="image"
                   data-src="${initParam.root}resources/uploadImg/articleBg/${bestMainArticle.mainArticleImgVO.mainArticleImgName}">
                   <div class="content">
@@ -174,7 +207,9 @@
                <!-- end card -->
             </div>
             <!-- card-box col-md-4 -->
+            	</c:if>
          </c:forEach>
+         </c:if>
          <!--끝!! 카드 1개 -->
       </div>
       <!--  end gallery js-flickity -->
