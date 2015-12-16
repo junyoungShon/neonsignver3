@@ -115,8 +115,6 @@ public class PointAspect {
 			Date dt = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//현재 시간 객체
 			String lastLoginDate=memberDAO.getLastLoginDate(((MemberVO)parameterArr[0]).getMemberEmail());//최종접속일
-			System.out.println("현재 날짜 : "+sdf.format(dt).toString());
-			System.out.println("최종 접속일 : "+lastLoginDate);
 			if(!sdf.format(dt).toString().equals(lastLoginDate)||lastLoginDate==null){
 				//최종 접속일과 현재 시간과 다르다면 10포인트를 지급
 				memberDAO.memberPointPlusUpdater(((MemberVO)parameterArr[0]).getMemberEmail(),10);
