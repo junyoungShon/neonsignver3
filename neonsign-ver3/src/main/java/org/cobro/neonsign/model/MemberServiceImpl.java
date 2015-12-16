@@ -106,7 +106,7 @@ public class MemberServiceImpl implements MemberService{
 		memberDAO.memberBlock(memberEmail);
 		//블락 시킨뒤 회원의 블락 일시를 업데이트 또는 생성
 		int result = memberDAO.memberBlackdateUpdate(memberEmail);
-		System.out.println("업데이트 여부 : "+result);
+		//System.out.println("업데이트 여부 : "+result);
 		if(result==0){
 			memberDAO.memberBlackdateInsert(memberEmail);
 		}
@@ -145,7 +145,7 @@ public class MemberServiceImpl implements MemberService{
 	 */
 	@Override
 	public HashMap<String, Object> updatePickedVO(PickedVO pvo) {
-		System.out.println(memberDAO.selectPickedVO(pvo));
+		//System.out.println(memberDAO.selectPickedVO(pvo));
 		HashMap<String,Object> map = new HashMap<String, Object>();
 		if(memberDAO.selectPickedVO(pvo) == null){
 			memberDAO.insertPickedVO(pvo);
@@ -201,7 +201,7 @@ public class MemberServiceImpl implements MemberService{
 	 */
 	@Override
 	public MemberVO requestTemporaryPassword(FindPasswordVO findPasswordVO) {
-		System.out.println("멤버 서비스에 들어오나"+findPasswordVO);
+		//System.out.println("멤버 서비스에 들어오나"+findPasswordVO);
 		MemberVO memberVO = memberDAO.requestTemporaryPasswordCheckRandomSentence(findPasswordVO);
 		String temporaryPassword = passwordFinder.randomSentenceMaker(7);
 		//만료된 요청이 아닐 경우에만 동작
@@ -227,7 +227,7 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public HashMap<String, Object> updateSubscriptionInfo(
 			SubscriptionInfoVO subscriptionInfoVO) {
-		System.out.println(memberDAO.selectSubscriptionInfoVO(subscriptionInfoVO));
+		//System.out.println(memberDAO.selectSubscriptionInfoVO(subscriptionInfoVO));
 		HashMap<String,Object> map = new HashMap<String, Object>();
 		if(memberDAO.selectSubscriptionInfoVO(subscriptionInfoVO) == null){
 			memberDAO.insertSubscriptionInfoVO(subscriptionInfoVO);
@@ -281,7 +281,7 @@ public class MemberServiceImpl implements MemberService{
 			PagingBean pb=null;
 			List<ServiceCenterVO>list=memberDAO.ServiceCenterList(pageNo);
 			int totalReports=memberDAO.AllCount();
-			System.out.println(totalReports);
+			//System.out.println(totalReports);
 			if(pageNo!=0){
 				pb= new PagingBean(totalReports,pageNo);
 				}else{

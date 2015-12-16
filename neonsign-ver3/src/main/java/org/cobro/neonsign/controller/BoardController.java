@@ -64,7 +64,7 @@ public class BoardController {
 					if(mainArticleImgVO==null){
 						mainArticleImgVO = new MainArticleImgVO();
 					}
-					System.out.println("까-아 : " + mainArticleImgVO.getMainArticleImgName());
+					//System.out.println("까-아 : " + mainArticleImgVO.getMainArticleImgName());
 					//태그가 두개인지 확인 -1이면 한개
 					int tagInt = bestMainArticleVOListOrderByDate.get(i).getTagName().lastIndexOf(" ");
 					//System.out.println("끼-이 : " + tagInt);
@@ -176,7 +176,7 @@ public class BoardController {
 	@ResponseBody
 	public HashMap<String, Object> getNewMainArticle(HttpServletRequest request, 
 			int pageNo, String orderBy,String tagName) {
-		System.out.println("con getNewMainArticle.neon tagName : " + tagName);
+		//System.out.println("con getNewMainArticle.neon tagName : " + tagName);
 		HashMap<String, Object> map = memberBoardInfo(request);
 		if (orderBy == null||orderBy.equals("")||orderBy.equals("undefined")) {
 			orderBy = "date";
@@ -246,7 +246,7 @@ public class BoardController {
 		for(int i=0;i<tagNameList.length;i++){
 			list.add(tagNameList[i]);
 		}
-		System.out.println(list);
+		//System.out.println(list);
 		boardService.pointInsertMainArticle(mainArticleVO,list,tagBoardVO);
 		//2015-12-08 대협추가
 		MultipartFile file = fvo.getFile();
@@ -267,9 +267,9 @@ public class BoardController {
 			}else{
 				firstTag = "/basicBg/"+list.get(0) + ".jpg";
 			}
-			System.out.println("firstTag : " + firstTag);
+			//System.out.println("firstTag : " + firstTag);
 			fileName = firstTag;
-			System.out.println("fileName : " + fileName);
+			//System.out.println("fileName : " + fileName);
 		}
 		boardService.insertMainArticleImg(mainArticleVO.getMainArticleNo(), fileName);
 		return new ModelAndView("redirect:getMainList.neon");
@@ -289,7 +289,7 @@ public class BoardController {
 	@RequestMapping("storyLinking.neon")
 	@ResponseBody
 	public HashMap<String, Object> storyLinking(SubArticleVO subArticleVO){
-		System.out.println("스토리링킨 컨트롤러");
+		//System.out.println("스토리링킨 컨트롤러");
 		return boardService.storyLinking(subArticleVO);
 	}
 	/**
@@ -372,12 +372,12 @@ public class BoardController {
 	@RequestMapping("ServiceCenterList.neon")
 	@ResponseBody
 	public List<ServiceCenterVO> ServiceCenterListPaging(String pageNo){
-		System.out.println("AJax 연동 페이징 넘버 "+pageNo);
+		//System.out.println("AJax 연동 페이징 넘버 "+pageNo);
 		List<ServiceCenterVO> serviceCenterList=null;
 			int pageNumber=Integer.parseInt(pageNo);
-				System.out.println("Servicecenter 문의글 리스트");
+				//System.out.println("Servicecenter 문의글 리스트");
 				serviceCenterList=boardService.serviceCenterList(pageNumber);
-				System.out.println(serviceCenterList);
+				//System.out.println(serviceCenterList);
 			return serviceCenterList;
 	}
 	/**
@@ -388,15 +388,15 @@ public class BoardController {
 	@RequestMapping("mainreportListPaging.neon")
 	@ResponseBody
 	public ReportListVO articleReportListPaging(String pageNo, String pageType){
-		System.out.println("AJax 연동 페이징 넘버 "+pageNo);
-		System.out.println("Ajax 연동 페이징 타입 "+pageType);
+		//System.out.println("AJax 연동 페이징 넘버 "+pageNo);
+		//System.out.println("Ajax 연동 페이징 타입 "+pageType);
 		ReportListVO articlereportList=null;
 			int pageNumber=Integer.parseInt(pageNo);
 			if(pageType.equals("mainArticleList")){
-				System.out.println("mainArticle 신고 리스트");
+				//System.out.println("mainArticle 신고 리스트");
 				articlereportList=boardService.mainArticleReportList(pageNumber);
 			}else{
-				System.out.println("subArticle 신고 리스트");
+				//System.out.println("subArticle 신고 리스트");
 				articlereportList=boardService.subArticleReportList(pageNumber);
 			}
 			return articlereportList;
@@ -420,12 +420,12 @@ public class BoardController {
 			 * 잇는글을 Block하거나 반려한다*/
 			int subArticleNumber=Integer.parseInt(subArticleNO);//만약에 형변환중 Exception이 발생하면 Catch문 수행
 		if(command.equals("report")){
-			System.out.println("서브아티클 신고 접수");
+			//System.out.println("서브아티클 신고 접수");
 			boardService.subArticleBlock(subArticleNumber,articleNumber,reportNumber);
 			//report에 성공하면 신고한 회원들에게 포인트 지급
 			boardService.memberPointUpdate(reportNumber);
 		}else{
-			System.out.println("subArticle 신고 목록에서 반려");
+			//System.out.println("subArticle 신고 목록에서 반려");
 			ReportVO reportVO=new ReportVO();		
 			reportVO.setReportNo(reportNumber);
 			boardService.reportListDelete(reportVO);
@@ -436,14 +436,14 @@ public class BoardController {
 			/* * Catch문은 주제글을 Block하거나 주제글의 신고를 반려처리하는데
 			 * 쓰인다*/	 
 			if(command.equals("report")){
-				System.out.println("메인아티클 신고접수");
+				//System.out.println("메인아티클 신고접수");
 				MainArticleVO mainArticleVO= new MainArticleVO();
 				mainArticleVO.setMainArticleNo(articleNumber);
 				boardService.articleBlock(mainArticleVO,reportNumber);
 				//report에 성공하면 신고한 회원들에게 포인트 지급
 				boardService.memberPointUpdate(reportNumber);
 			}else{
-				System.out.println("메인아티클 신고 반려");
+				//System.out.println("메인아티클 신고 반려");
 				ReportVO reportVO=new ReportVO();		
 				reportVO=new ReportVO();
 				reportVO.setReportNo(reportNumber);
@@ -483,7 +483,7 @@ public class BoardController {
 	@RequestMapping("selectOneNotCompleteMainArticleByMainArticleNo.neon")
 	@ResponseBody
 	public HashMap<String, Object> selectOneNotCompleteMainArticleByMainArticleNo(HttpServletRequest request,MainArticleVO mainArticleVO){
-		System.out.println(mainArticleVO);
+		//System.out.println(mainArticleVO);
 		HashMap<String, Object> map= memberBoardInfo(request);
 		if (mainArticleVO!=null) {
 			Map<String,Object> mainArticle=boardService.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
@@ -505,7 +505,7 @@ public class BoardController {
 	public HashMap<String, Object> insertSubArticle(SubArticleVO subArticleVO){
 		HashMap<String, Object> map = new HashMap<String, Object>();	
 		//memberBoardInfo(request);
-		System.out.println(subArticleVO);
+		//System.out.println(subArticleVO);
 		boolean result = boardService.pointInsertSubArticle(subArticleVO);
 		map.put("result",result);
 		map.put("subArticleVO",subArticleVO);
@@ -526,7 +526,7 @@ public class BoardController {
 	 */
 	@RequestMapping("selectListCompleteMainArticle.neon")
 	public ModelAndView selectListCompleteMainArticle(String orderBy, String tagName) {
-		System.out.println("Controller orderBy : " + orderBy);
+		//System.out.println("Controller orderBy : " + orderBy);
 		ModelAndView mav = new ModelAndView();
 		int pageNo=1;
 		if(orderBy==null){
@@ -698,11 +698,11 @@ public class BoardController {
 		HttpSession session = request.getSession(false);
 		if(session!=null){
 			MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
-			System.out.println("멤버VO ; " + memberVO);
+			//System.out.println("멤버VO ; " + memberVO);
 			if(memberVO!=null){
 				map.put("itjaMemberList", memberVO.getItjaMemberList());
 				map.put("pickedList", memberVO.getPickedVOList());
-				System.out.println(map.get("pickedList"));
+				//System.out.println(map.get("pickedList"));
 			}
 		}
 		return map;
@@ -714,7 +714,7 @@ public class BoardController {
 	 */
 	@RequestMapping("mypage.neon")
 	public ModelAndView myPage(MemberVO memberVO){
-		System.out.println("넘어온 email : " + memberVO);
+		//System.out.println("넘어온 email : " + memberVO);
 		ModelAndView mav = new ModelAndView();
 		// 마이페이지 주인 email주소로 랭킹 받아서 memberVO에 set + 구독정보도 추가함
 		memberVO = boardService.getMemberRankingByMemberEmail(memberVO);
@@ -916,7 +916,7 @@ public class BoardController {
 	 */
 	@RequestMapping("findBy.neon")
 	public ModelAndView SearchOnTopMenu(String selector, String keyword){	
-		System.out.println("selector : "+ selector+" keyword : "+keyword);
+		//System.out.println("selector : "+ selector+" keyword : "+keyword);
 		List<MainArticleVO> list= boardService.SearchOnTopMenu(selector,keyword);		
 			//MainArticleVO의 포문
 			for(int i=0;i<list.size();i++){
@@ -942,7 +942,7 @@ public class BoardController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("findBy");
 		List<HashMap<String, String>> aoplist = utilService.selectReport();
-	    System.out.println(aoplist);
+	    //System.out.println(aoplist);
 		mv.addObject("aoplist", aoplist);
 		return mv;
 	}

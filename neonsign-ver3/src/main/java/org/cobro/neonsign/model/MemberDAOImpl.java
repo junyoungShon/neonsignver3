@@ -39,7 +39,7 @@ public class MemberDAOImpl implements MemberDAO{
 	@Override
 	public int memberUpdate(MemberVO memberVO) {
 		// TODO Auto-generated method stub
-		System.out.println(memberVO.getMemberPassword());
+		//System.out.println(memberVO.getMemberPassword());
 		return sqlSessionTemplate.update("member.memberUpdate",memberVO);
 	}
 
@@ -65,7 +65,7 @@ public class MemberDAOImpl implements MemberDAO{
 
 	@Override
 	public List<MemberVO> getMemberList(int pageNo) {
-		System.out.println("getMemberList 실행");
+		//System.out.println("getMemberList 실행");
 		List<MemberVO> list=null;
 		try{
 		list=sqlSessionTemplate.selectList("member.RegisterMemberList",pageNo);
@@ -98,7 +98,7 @@ public class MemberDAOImpl implements MemberDAO{
 	@Override
 	public void memberBlockRelease(String memberEmail) {
 		// TODO Auto-generated method stub
-		System.out.println(memberEmail);
+		//System.out.println(memberEmail);
 		sqlSessionTemplate.update("member.memberBlockRelease",memberEmail);
 	}
 
@@ -109,7 +109,7 @@ public class MemberDAOImpl implements MemberDAO{
 	 */
 	@Override
 	public MemberVO defaultMemberLogin(MemberVO memberVO) {
-		System.out.println(memberVO);
+		//System.out.println(memberVO);
 		return sqlSessionTemplate.selectOne("member.defaultMemberLogin", memberVO);
 	}
 	
@@ -218,7 +218,7 @@ public class MemberDAOImpl implements MemberDAO{
 	@Override
 	public void memberPointPlusUpdater(String memberEmail, int point) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		System.out.println(memberEmail+" 여기는 DAO"+point);
+		//System.out.println(memberEmail+" 여기는 DAO"+point);
 		map.put( "memberEmail", memberEmail );
 		map.put( "memberPoint", point );
 		sqlSessionTemplate.update("member.memberPointPlusUpdater",map);

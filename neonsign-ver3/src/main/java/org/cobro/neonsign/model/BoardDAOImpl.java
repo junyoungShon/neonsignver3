@@ -29,7 +29,7 @@ public class BoardDAOImpl implements BoardDAO{
 	 */
 	@Override
 	public void insertMainArticle(MainArticleVO mainArticleVO) {
-		System.out.println(mainArticleVO);
+		//System.out.println(mainArticleVO);
 		sqlSessionTemplate.insert("board.insertMainArticle", mainArticleVO);
 	}
 	/**
@@ -116,10 +116,10 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate(
 			int pageNo) {
-		System.out.println("DAO selectListNotCompleteMainArticleOrderByDate pageNo : " + pageNo);
+		//System.out.println("DAO selectListNotCompleteMainArticleOrderByDate pageNo : " + pageNo);
 		List<MainArticleVO> list = sqlSessionTemplate.selectList(
 				"board.selectListNotCompleteMainArticleOrderByDate", pageNo);
-		System.out.println("DAO selectListNotCompleteMainArticleOrderByDate size : " + list.size());
+		//System.out.println("DAO selectListNotCompleteMainArticleOrderByDate size : " + list.size());
 		return list;
 	}
 	/**
@@ -129,12 +129,12 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTag(int pageNo, String getTagName){
 		HashMap<String,String> map = new HashMap<String,String>();
-		System.out.println("dao selectListNotCompleteMainArticleOrderByTag getTagName : " + getTagName);
+		//System.out.println("dao selectListNotCompleteMainArticleOrderByTag getTagName : " + getTagName);
 		String strPageNo = String.valueOf(pageNo);
 		map.put("pageNo", strPageNo);
 		map.put("tagName", getTagName);
-		System.out.println("map : " + map);
-		System.out.println("dao!! : " + sqlSessionTemplate.selectList("board.selectListNotCompleteMainArticleOrderByTag",map));
+		//System.out.println("map : " + map);
+		//System.out.println("dao!! : " + sqlSessionTemplate.selectList("board.selectListNotCompleteMainArticleOrderByTag",map));
 		return sqlSessionTemplate.selectList("board.selectListNotCompleteMainArticleOrderByTag",map);
 	}
 
@@ -155,7 +155,7 @@ public class BoardDAOImpl implements BoardDAO{
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo(
 			MainArticleVO mainArticleVO) {
 		// TODO Auto-generated method stub
-		System.out.println("MainArticle받아오기 실행");
+		//System.out.println("MainArticle받아오기 실행");
 				MainArticleVO main=null;
 				try{
 				main=sqlSessionTemplate.selectOne("board.selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo",mainArticleVO);
@@ -174,7 +174,7 @@ public class BoardDAOImpl implements BoardDAO{
 	 */
 	@Override
 	public void insertSubArticle(SubArticleVO subArticleVO) {
-		System.out.println("dao insertSubArticle : "+subArticleVO);
+		//System.out.println("dao insertSubArticle : "+subArticleVO);
 		sqlSessionTemplate.insert("board.insertSubArticle", subArticleVO);
 	}
 
@@ -343,7 +343,7 @@ public class BoardDAOImpl implements BoardDAO{
 	 */
 	@Override
 	public void updateSubPlusItjaHit(ItjaMemberVO itjaMemberVO) {
-		System.out.println(itjaMemberVO);
+		//System.out.println(itjaMemberVO);
 		sqlSessionTemplate.update("board.updateSubPlusItjaHit", itjaMemberVO);
 		
 	}
@@ -362,7 +362,7 @@ public class BoardDAOImpl implements BoardDAO{
 	 */
 	@Override
 	public void updateMainMinusItjaHit(ItjaMemberVO itjaMemberVO) {
-		System.out.println(itjaMemberVO);
+		//System.out.println(itjaMemberVO);
 		sqlSessionTemplate.update("board.updateMainMinusItjaHit", itjaMemberVO);
 		
 	}
@@ -461,13 +461,13 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	   public int selectSubArticleCurruntGrade(SubArticleVO subArticleVO) {
 		int grade=0;
-		System.out.println("selectSubArticleCurruntGrade 실행됨");
-		System.out.println("aa3"+subArticleVO.getSubAtricleGrade());
+		//System.out.println("selectSubArticleCurruntGrade 실행됨");
+		//System.out.println("aa3"+subArticleVO.getSubAtricleGrade());
 			SubArticleVO gradeVO=sqlSessionTemplate.selectOne("board.selectSubArticleCurruntGrade",subArticleVO);
 			if(gradeVO!=null){//만약 Grade가 null이라면 0을 할당해준다
 				grade=gradeVO.getSubAtricleGrade();
 			}
-			System.out.println("selectSubArticleCurruntGrade : "+grade);
+			//System.out.println("selectSubArticleCurruntGrade : "+grade);
 	      return grade;
 	   }
 	/**
@@ -490,11 +490,11 @@ public class BoardDAOImpl implements BoardDAO{
 	 */
 	@Override
 	public int alreadyWriteSubArticleInThisGrade(SubArticleVO subArticleVO) {
-		System.out.println("dao alreadyWriteSubArticleInThisGrade : "+subArticleVO);
-		System.out.println("aa5"+subArticleVO.getSubAtricleGrade());
+		//System.out.println("dao alreadyWriteSubArticleInThisGrade : "+subArticleVO);
+		//System.out.println("aa5"+subArticleVO.getSubAtricleGrade());
 		int result = sqlSessionTemplate.selectOne("board.alreadyWriteSubArticleInThisGrade",subArticleVO);
-		System.out.println("aa6"+subArticleVO.getSubAtricleGrade());
-		System.out.println("alreadyWriteSubArticleInThisGrade : "+result);
+		//System.out.println("aa6"+subArticleVO.getSubAtricleGrade());
+		//System.out.println("alreadyWriteSubArticleInThisGrade : "+result);
 		return  result;
 	}
 	/**
@@ -661,7 +661,7 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 	@Override
 	public void appendToCompleteArticle(MainArticleVO mainArticleVO) {
-		System.out.println(mainArticleVO);
+		//System.out.println(mainArticleVO);
 		sqlSessionTemplate.update("board.appendToCompleteArticle",mainArticleVO);
 	}
 	

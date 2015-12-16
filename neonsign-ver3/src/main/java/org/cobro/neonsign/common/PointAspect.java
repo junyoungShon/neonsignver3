@@ -65,10 +65,10 @@ public class PointAspect {
 		Object retValue = null;	
 		retValue = point.proceed();
 		List<Object> list = (List<Object>)retValue;
-		System.out.println(list);
+		//System.out.println(list);
 		if(!list.isEmpty()){
 			Object param[]=point.getArgs();// 메서드 인자값 - 매개변수
-			System.out.println(param[1].toString());
+			//System.out.println(param[1].toString());
 			utilService.saveSearch(param[1].toString());	
 		}		
 		return retValue;
@@ -100,12 +100,12 @@ public class PointAspect {
 				memberDAO.memberPointMinusUpdater(itjaMemberVO.getMemberEmail(),1);
 				//잇자 받은 게시물의 작성자를 찾아서 1점 차감해준다.
 				memberDAO.memberPointMinusUpdater(boardDAO.selectWriterEmailByArticleNO(itjaMemberVO), 1);
-				System.out.println(itjaMemberVO.getMemberEmail()+"와"+boardDAO.selectWriterEmailByArticleNO(itjaMemberVO)+"점수 차감");
+				//System.out.println(itjaMemberVO.getMemberEmail()+"와"+boardDAO.selectWriterEmailByArticleNO(itjaMemberVO)+"점수 차감");
 			}else{
 				memberDAO.memberPointPlusUpdater(itjaMemberVO.getMemberEmail(),1);
 				//잇자 받은 게시물의 작성자를 찾아서 1점 더해준다.
 				memberDAO.memberPointPlusUpdater(boardDAO.selectWriterEmailByArticleNO(itjaMemberVO), 1);
-				System.out.println(itjaMemberVO.getMemberEmail()+"와"+boardDAO.selectWriterEmailByArticleNO(itjaMemberVO)+"점수 준다");
+				//System.out.println(itjaMemberVO.getMemberEmail()+"와"+boardDAO.selectWriterEmailByArticleNO(itjaMemberVO)+"점수 준다");
 			}
 		}else if(methodName.equals("pointMemberRegister")){
 			//회원 가입시 50점 부여

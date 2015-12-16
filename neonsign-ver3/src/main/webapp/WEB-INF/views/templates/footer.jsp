@@ -295,13 +295,16 @@
 							class="form-control" id="InputPassword1" name="memberPassword"
 							placeholder="암호">
 					</div>
-					<div class="checkbox">
+					<div class="checkbox" align="center">
 						<label> <input type="checkbox"> 입력을 기억합니다
-						</label>
+						</label><br>
 					</div>
-					비밀번호를 잊어버렸습니까?&nbsp;&nbsp;<a href="#">비밀번호 찾기</a>
-
-					<button type="submit" class="btn btn-primary">제출</button>
+					<div align="center">
+					비밀번호를 잊어버렸습니까?&nbsp;&nbsp;<a href="#">비밀번호 찾기</a><br><br>
+					</div>
+					<div align="center">
+					<button type="submit" class="btn btn-primary" >제출</button>
+					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
