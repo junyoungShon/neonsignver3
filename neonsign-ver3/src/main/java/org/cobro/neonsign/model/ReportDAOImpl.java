@@ -31,7 +31,7 @@ public class ReportDAOImpl implements ReportDAO{
 	@Override
 	public List<ReportVO> subArticleReportList(int pageNo) {
 		List<ReportVO> list=sqlSessionTemplate.selectList("report.subArticleReportList",pageNo);
-		System.out.println(list);
+		//System.out.println(list);
 		return list;
 	}
 
@@ -115,7 +115,7 @@ public class ReportDAOImpl implements ReportDAO{
 	@Override
 	public void mainArticleReport(MainArticleVO mainArticleVO) {
 		// TODO Auto-generated method stub
-		System.out.println("신고 할려는 주제글 넘버 : "+mainArticleVO.getMainArticleNo());
+		//System.out.println("신고 할려는 주제글 넘버 : "+mainArticleVO.getMainArticleNo());
 		sqlSessionTemplate.insert("report.mainArticleReport",mainArticleVO);
 		//int reportNo=sqlSessionTemplate.selectOne("report.nowReportNumber");
 		//System.out.println("신고 번호 : "+reportNo);

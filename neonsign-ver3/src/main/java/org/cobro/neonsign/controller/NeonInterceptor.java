@@ -18,7 +18,7 @@ public class NeonInterceptor extends HandlerInterceptorAdapter{
 		@Override
 		public boolean preHandle(HttpServletRequest request,
 				HttpServletResponse response, Object handler) throws Exception {
-			System.out.println("interceptor 실행");
+			//System.out.println("interceptor 실행");
 			HttpSession session = request.getSession(false);
 			if(session==null || session.getAttribute("memberVO")==null){
 				String ajaxCall = (String) request.getHeader("AJAX");

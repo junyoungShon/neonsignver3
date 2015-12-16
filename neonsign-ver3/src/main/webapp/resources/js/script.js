@@ -919,7 +919,6 @@ $(document).ready(function(){ //DOM이 준비되고
 	
 	// 잇는글 신고 버튼 클릭시 실행되는 스크립트
 	$('.unLinkingSubArticleList').on('click','.articleReport',function(){
-		alert($($(this).next()).html());
 		var dataForm=$($(this).next()).serialize();
 		if(confirm("해당글을 신고 하시겠습니까?")){
 		$.ajax({
@@ -1234,7 +1233,6 @@ $(document).ready(function(){ //DOM이 준비되고
 					});
 					$(ms1).on('selectionchange', function(){
 						userSelectedTagList = this.getValue();
-						alert(userSelectedTagList.length);
 						//userSelectedTagList= userSelectedTagList.split(',');
 						var tagSelectInfo = "";
 						$('#tagSelectArea').html("");
@@ -1614,7 +1612,6 @@ $(document).ready(function(){ //DOM이 준비되고
 		var pageNo=$($(this).next().children()).val();
 		var pageType=$($(this).next().children().eq(1)).val();
 		var reportIndex=(pageNo-1)*13;
-		alert("type : "+pageType);
 		$.ajax({
 			type:"post",
 			url:"mainreportListPaging.neon",
@@ -1622,7 +1619,6 @@ $(document).ready(function(){ //DOM이 준비되고
 			dataType:"json",
 			success:function(data){ 
 				if(pageType=="mainArticleList"){
-					alert("주제글");
 					for(var i=0; i<data.list.length;i++){
 						articleReportList=articleReportList+"<tr><td>"+(reportIndex+i)+"</td><td>"+
 						data.list[i].reportNo+"</td><td>"+data.list[i].mainArticleNo+"</td><td>"+
@@ -1634,7 +1630,6 @@ $(document).ready(function(){ //DOM이 준비되고
 					}
 					$('#mainReportList').html(articleReportList);
 				}else{
-					alert("잇는글");
 					for(var i=0; i<data.list.length;i++){
 						articleReportList=articleReportList+"<tr><td>"+(reportIndex+i)+"</td><td>"+
 						data.list[i].reportNo+"</td><td>"+data.list[i].mainArticleNo+"</td><td>"+
@@ -2326,7 +2321,7 @@ $(document).ready(function(){ //DOM이 준비되고
     			data:"ServiceCenterNo="+pageNo,
     			dataType:"json",
     			success:function(data){ 
-    				serviceCenterView=serviceCenterView+"<tr><td align='center'>"+data.serviceCenterTitle+"</td></tr><tr><td align='right'>"+
+    				serviceCenterView=serviceCenterView+"<tr><td align='center'>"+data.serviceCenterTitle+"</td></tr><tr><td align='center'>"+
     				data.serviceCenterEmail+"</td></tr><tr><td>"+data.serviceCenterContext+"</td></tr>";
     				$("#ServiceCenterTable").html(serviceCenterView);
     				if(data!=null){

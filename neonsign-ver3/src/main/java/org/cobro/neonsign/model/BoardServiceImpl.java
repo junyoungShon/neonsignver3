@@ -40,7 +40,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int pointInsertMainArticle(MainArticleVO mainArticleVO,ArrayList<String> list,TagBoardVO tagBoardVO) {
 		boardDAO.insertMainArticle(mainArticleVO);
-		System.out.println("boardDAO : "+mainArticleVO.getMainArticleNo());
+		//System.out.println("boardDAO : "+mainArticleVO.getMainArticleNo());
 		insertTagIntoTagTable(list);
 		for(int i=0;i<list.size();i++){
 			tagBoardVO.setMainArticleNo(mainArticleVO.getMainArticleNo());
@@ -77,14 +77,14 @@ public class BoardServiceImpl implements BoardService{
 	 * @author junyoung
 	 */
 	public HashMap<String,Object> storyLinking(SubArticleVO subArticleVO){
-		System.out.println("스토리링킨 서비스"+subArticleVO);
+		//System.out.println("스토리링킨 서비스"+subArticleVO);
 		int curruntGrade = boardDAO.selectSubArticleCurruntGrade(subArticleVO);
-		System.out.println("스토리링킨 서비스 현재 스토리 단계"+curruntGrade);
+		//System.out.println("스토리링킨 서비스 현재 스토리 단계"+curruntGrade);
 		List<SubArticleVO> list = boardDAO.selectListHigherLikeSubArticle(subArticleVO);
 		HashMap<String,Object> map = new HashMap<String, Object>();
 		subArticleVO.setSubAtricleGrade(curruntGrade);
-		System.out.println(list.toString());
-		System.out.println("스토리링킨 서비스 관련 글 몇개 출력?"+list.size());
+		//System.out.println(list.toString());
+		//System.out.println("스토리링킨 서비스 관련 글 몇개 출력?"+list.size());
 		//댓글이 없는 경우 자동 완결 처리 한다.
 		if(list.size()==0){
 			//메인 아티클의 타이틀을 가져온다.
@@ -101,7 +101,7 @@ public class BoardServiceImpl implements BoardService{
 				//최고 잇자 수 득표한 댓글이 계속 잇는 글일 경우 최종 수정일을 고쳐준다.
 				boardDAO.updateDateForMainArticle(subArticleVO.getMainArticleNo());
 				//우선 연결을 해준다.
-				System.out.println("여기로 오지 ?");
+				//System.out.println("여기로 오지 ?");
 				subArticleVO.setSubArticleNo(list.get(0).getSubArticleNo());
 				boardDAO.updateIsConnect(subArticleVO);
 				map.put("result","continue");
@@ -114,10 +114,10 @@ public class BoardServiceImpl implements BoardService{
 				boardDAO.updateBestToCompletArticle(subArticleVO.getMainArticleNo());
 				//메인 아티클의 타이틀을 가져온다.
 				MainArticleVO mainArticleVO = boardDAO.selectMainArticleTitleByMainArticleNo(subArticleVO.getMainArticleNo());
-				System.out.println("서비스 : "+mainArticleVO);
+				//System.out.println("서비스 : "+mainArticleVO);
 				//베스트 글이 완결 글로 이동할 때 타이틀에 [완결]표시를 달아준다.
 				mainArticleVO.setMainArticleTitle("[완결]"+mainArticleVO.getMainArticleTitle());
-				System.out.println("서비스(수정 후) : "+mainArticleVO);
+				//System.out.println("서비스(수정 후) : "+mainArticleVO);
 				boardDAO.appendToCompleteArticle(mainArticleVO);
 				map.put("result","complete");
 			}
@@ -127,7 +127,7 @@ public class BoardServiceImpl implements BoardService{
 			Long max = 0L;
 			//동점 댓글들 중 가장 최근의 댓글들을 찾는다.
 			for(int i=0;i<list.size();i++){
-				System.out.println();
+				//System.out.println();
 				 
 				if(max<Long.parseLong(list.get(i).getSubArticleDate())){
 					max=Long.parseLong(list.get(i).getSubArticleDate());
@@ -219,7 +219,7 @@ public class BoardServiceImpl implements BoardService{
 		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
 		for(int i = 0 ; i<completeMainArticleList.size() ; i++){
 			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(completeMainArticleList.get(i).getMemberVO()));
-			System.out.println(rankingVOList);
+			//System.out.println(rankingVOList);
 			completeMainArticleList.get(i).getMemberVO().setRankingVO(rankingVOList.get(i));
 		}
 		return completeMainArticleList;
@@ -240,7 +240,7 @@ public class BoardServiceImpl implements BoardService{
 	 */
 	public List<MainArticleVO> selectListNotCompleteMainArticle(int pageNo,
 			String orderBy, String getTagName) {
-		System.out.println("service selectListNotCompleteMainArticle getTagName : " + getTagName);
+		//System.out.println("service selectListNotCompleteMainArticle getTagName : " + getTagName);
 		List<MainArticleVO> newMainArticleList = null;
 		if (orderBy.equals("date")) {
 			newMainArticleList
@@ -265,7 +265,7 @@ public class BoardServiceImpl implements BoardService{
 		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
 		for(int i = 0 ; i<newMainArticleList.size() ; i++){
 			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(newMainArticleList.get(i).getMemberVO()));
-			System.out.println(rankingVOList);
+			//System.out.println(rankingVOList);
 			newMainArticleList.get(i).getMemberVO().setRankingVO(rankingVOList.get(i));
 		}
 		return newMainArticleList;
@@ -295,7 +295,7 @@ public class BoardServiceImpl implements BoardService{
 		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
 		for(int i = 0 ; i<bestMainArticleList.size() ; i++){
 			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(bestMainArticleList.get(i).getMemberVO()));
-			System.out.println(rankingVOList);
+			//System.out.println(rankingVOList);
 			bestMainArticleList.get(i).getMemberVO().setRankingVO(rankingVOList.get(i));
 		}
 		return bestMainArticleList;
@@ -330,7 +330,7 @@ public class BoardServiceImpl implements BoardService{
 				(ArrayList<SubArticleVO>)boardDAO.likingSubArticleFindByMainArticleNo(subArticleVO);
 		//MainArticl의 잇는 글을 받아오는 메서드
 		ArrayList<SubArticleVO> subArticleVOList=(ArrayList<SubArticleVO>)boardDAO.selectListSubArticle(subArticleVO);
-		System.out.println("SubArticle 여부 : "+subArticleVOList);
+		//System.out.println("SubArticle 여부 : "+subArticleVOList);
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("mainArticleVO", mainVO);map.put("likingSubArticle", likingSubArticleList);map.put("subArticleVO", subArticleVOList);
 		return map;
@@ -348,7 +348,7 @@ public class BoardServiceImpl implements BoardService{
 		subArticleVO.setSubAtricleGrade(subArticleCurruntGrade);
 		//현재 진행되는 이야기에 이미 사용자가 글을 썻는지 반환 썻으면 1 안썼으면 0
 		int alreadyWriteSubArticleInThisGrade = boardDAO.alreadyWriteSubArticleInThisGrade(subArticleVO);
-		System.out.println("출력안되냐:"+alreadyWriteSubArticleInThisGrade);
+		//System.out.println("출력안되냐:"+alreadyWriteSubArticleInThisGrade);
 		if(alreadyWriteSubArticleInThisGrade==0){
 			flag=true;
 			boardDAO.insertSubArticle(subArticleVO);
@@ -574,17 +574,17 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<MainArticleVO> getJoinMainArticleByEmailOrderByDate(
 			MemberVO memberVO) {
-		System.out.println("넘어온 이메일 : " + memberVO);
+		//System.out.println("넘어온 이메일 : " + memberVO);
 		ArrayList<Integer> joinMainArticleNoList = (ArrayList<Integer>) boardDAO.getJoinMainArticleNoByEmail(memberVO);
-		System.out.println("joinMainArticleNoList : " + joinMainArticleNoList);
+		//System.out.println("joinMainArticleNoList : " + joinMainArticleNoList);
 		HashSet hs = new HashSet(joinMainArticleNoList);
 		ArrayList<Integer> nonDupJoinMainArticleNoList = new ArrayList<Integer>(hs);
-		System.out.println("nonDupJoinMainArticleNoList : " + nonDupJoinMainArticleNoList);
+		//System.out.println("nonDupJoinMainArticleNoList : " + nonDupJoinMainArticleNoList);
 		ArrayList<MainArticleVO> joinMainArticleVOList = new ArrayList<MainArticleVO>();
 		for(int i = 0 ; i<nonDupJoinMainArticleNoList.size() ; i++){
 			joinMainArticleVOList.add(boardDAO.getMainArticleByMainArticleNoOrderByDate(nonDupJoinMainArticleNoList.get(i)));
 		}
-		System.out.println("joinMainArticleVOList : " + joinMainArticleVOList);
+		//System.out.println("joinMainArticleVOList : " + joinMainArticleVOList);
 		String tagName = "";
 		for(int j = 0 ; j<joinMainArticleVOList.size() ; j++){
 			List<TagBoardVO> tagBoardList = boardDAO.getMainArticleTagList(joinMainArticleVOList.get(j).getMainArticleNo());
@@ -598,13 +598,13 @@ public class BoardServiceImpl implements BoardService{
 			}
 			tagName = "";
 		}
-		System.out.println("* joinMainArticleVOList : " + joinMainArticleVOList);
+		//System.out.println("* joinMainArticleVOList : " + joinMainArticleVOList);
 		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
 		for(int l = 0 ; l<joinMainArticleVOList.size() ; l++){
 			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(joinMainArticleVOList.get(l).getMemberVO())); 
 			joinMainArticleVOList.get(l).getMemberVO().setRankingVO(rankingVOList.get(l));
 		}
-		System.out.println("최종 : " + joinMainArticleVOList);
+		//System.out.println("최종 : " + joinMainArticleVOList);
 		return joinMainArticleVOList; 
 	}
 	/**

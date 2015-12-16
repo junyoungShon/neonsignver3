@@ -39,20 +39,20 @@ public class SearchDAOImpl implements SearchDAO{
 	}
 	@Override
 	public List<MainArticleVO> searchBytitle(String text) {
-		System.out.println("제목 DAO:"+text);
+		//System.out.println("제목 DAO:"+text);
 		
 		return sqlSessionTemplate.selectList("search.searchBytitle",text);
 	}
 
 	@Override
 	public List<MainArticleVO> searchByContext(String keyword) {
-		System.out.println("내용 DAO:"+keyword);
+		//System.out.println("내용 DAO:"+keyword);
 		return sqlSessionTemplate.selectList("search.searchByContext", keyword);
 	}
 
 	@Override
 	public List<MainArticleVO> searchByNickName(String keyword) {
-		System.out.println("닉네임 DAO:"+keyword);
+		//System.out.println("닉네임 DAO:"+keyword);
 		return sqlSessionTemplate.selectList("search.searchByNickName", keyword);
 	}
 

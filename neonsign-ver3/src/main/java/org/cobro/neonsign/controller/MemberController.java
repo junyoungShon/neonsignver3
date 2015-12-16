@@ -172,9 +172,9 @@ public class MemberController {
 	 */
 	@RequestMapping("writeServiceCenter.neon")
 	public ModelAndView insertServiceCenter(ServiceCenterVO ServiceCenterVO){
-		System.out.println(ServiceCenterVO);
+		//System.out.println(ServiceCenterVO);
 		memberService.insertServiceCenter(ServiceCenterVO);
-		System.out.println(ServiceCenterVO);
+		//System.out.println(ServiceCenterVO);
 		return new ModelAndView("redirect:getMainList.neon");
 	}
 	/**
@@ -185,9 +185,9 @@ public class MemberController {
 	@ResponseBody
 	public ServiceCenterVO ServiceCenterView(ServiceCenterVO ServiceCenterVO){
 		int ServiceCenterNo= ServiceCenterVO.getServiceCenterNo();
-		System.out.println(ServiceCenterNo);
+		//System.out.println(ServiceCenterNo);
 		ServiceCenterVO serviceCenterview=memberService.ServiceCenterView(ServiceCenterNo);
-		System.out.println(serviceCenterview);
+		//System.out.println(serviceCenterview);
 		return serviceCenterview;
 	}
 
@@ -200,15 +200,15 @@ public class MemberController {
 	@RequestMapping("memberReportListPaging.neon")
 	@ResponseBody
 	public MemberListVO articleReportListPaging(String pageNo, String pageType){
-		System.out.println("AJax 연동 페이징 넘버 "+pageNo);
-		System.out.println("Ajax 연동 페이징 타입 "+pageType);
+		//System.out.println("AJax 연동 페이징 넘버 "+pageNo);
+		//System.out.println("Ajax 연동 페이징 타입 "+pageType);
 		MemberListVO memberReportList=null;
 			int pageNumber=Integer.parseInt(pageNo);
 			if(pageType.equals("memberList")){
-				System.out.println("memberList");
+				//System.out.println("memberList");
 				memberReportList=memberService.getMemberList(pageNumber);
 			}else{
-				System.out.println("blockMemberList ");
+				//System.out.println("blockMemberList ");
 				memberReportList=memberService.getBlockMemberList(pageNumber);
 			}
 			return memberReportList;
@@ -221,7 +221,7 @@ public class MemberController {
 	@RequestMapping(value="auth_updatePickedVO.neon", method=RequestMethod.POST)
 	@ResponseBody
 	public HashMap<String,Object> updatePickedVO(PickedVO pvo, HttpServletRequest request){
-		System.out.println("넘어오는 찜 정보 : " + pvo);
+		//System.out.println("넘어오는 찜 정보 : " + pvo);
 		HttpSession session = request.getSession(false);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		if(session != null){
@@ -243,7 +243,7 @@ public class MemberController {
 	@RequestMapping(value="auth_updateSubscriptionInfo.neon", method=RequestMethod.POST)
 	@ResponseBody
 	public HashMap<String, Object> updateSubscriptionInfo(SubscriptionInfoVO subscriptionInfoVO, HttpServletRequest request){
-		System.out.println("넘어온 구독정보 : " + subscriptionInfoVO);
+		//System.out.println("넘어온 구독정보 : " + subscriptionInfoVO);
 		HttpSession session = request.getSession(false);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		if(session != null){

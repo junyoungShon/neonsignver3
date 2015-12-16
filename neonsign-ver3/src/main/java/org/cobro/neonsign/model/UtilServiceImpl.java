@@ -63,7 +63,7 @@ public class UtilServiceImpl implements UtilService{
 		PagingBean pb=null;
 		ArrayList<ReportVO> list=(ArrayList<ReportVO>)reportDAO.mainArticleReportList(pageNo);
 		int totalReports=reportDAO.allMianReports();
-		System.out.println("totalContenrs : "+totalReports);
+		//System.out.println("totalContenrs : "+totalReports);
 		if(pageNo!=0){
 		pb= new PagingBean(totalReports, pageNo);
 		}else{
@@ -85,7 +85,7 @@ public class UtilServiceImpl implements UtilService{
 		PagingBean pb=null;
 		ArrayList<ReportVO> list=(ArrayList<ReportVO>)reportDAO.subArticleReportList(pageNo);
 		int totalReports=reportDAO.allSubReports();
-		System.out.println("totalContenrs : "+totalReports);
+		//System.out.println("totalContenrs : "+totalReports);
 		if(pageNo!=0){
 		pb= new PagingBean(totalReports, pageNo);
 		}else{
@@ -154,15 +154,15 @@ public class UtilServiceImpl implements UtilService{
 		//신고자의 report넘버에 대응하는 MainArticleNo가 있으면 신고를 하지않고
 		//reporterCheck에 fail을 할당한다
 		for(int i=0; i<reporterReportNoList.size();i++){
-			System.out.println("index : "+reporterReportNoList.get(i));
+			//System.out.println("index : "+reporterReportNoList.get(i));
 			ReportVO reportVO=reportDAO.findReportByReportNoAndMainArticleNo(reporterReportNoList.get(i),mainArticleVO);
-			System.out.println("reportVO : "+reportVO);
+			//System.out.println("reportVO : "+reportVO);
 			if(reportVO!=null){
 				reporterCheck="fail";
 				break;
 			}
 		}
-		System.out.println("result : "+reporterCheck);
+		//System.out.println("result : "+reporterCheck);
 		if(reporterCheck.equals("ok")){
 		int result=0;
 		//subArticleNo가 있다면 else문 수행
@@ -170,17 +170,17 @@ public class UtilServiceImpl implements UtilService{
 			//주제글 신고를 업데이트
 			//주제글 신고 업데이트 후 업데이트가 실패했다면 신고하는메서드 실행 (실패시 result에 0이 할당된다)
 			result=reportDAO.updateMainArticleReport(mainArticleVO);
-			System.out.println("reulst : "+result);
+			//System.out.println("reulst : "+result);
 			if(result==0){
 			//주제글 신고하는 메서드
-				System.out.println("주제글 신고 생성");
+				//System.out.println("주제글 신고 생성");
 				reportDAO.mainArticleReport(mainArticleVO);
 			}
 		}else{
 			//잇는글 신고를 업데이트
 			//잇는글 업데이트 후 업데이트가 실패했다면 신고하는메서드 실행 (실패시 result에 0이 할당된다)
 			result=reportDAO.updateSubArticleReport(subArticleVO);
-			System.out.println("reulst : "+result);
+			//System.out.println("reulst : "+result);
 			if(result==0){
 			//잇는글 신고 수행하는 메서드
 				reportDAO.subArticleReport(subArticleVO);
@@ -188,7 +188,7 @@ public class UtilServiceImpl implements UtilService{
 		}
 		//현재 ReportNumber를 받아오는 메서드
 		int reportNo=reportDAO.nowReportNumber();
-		System.out.println("현재 리포트 넘버 : "+reportNo );
+		//System.out.println("현재 리포트 넘버 : "+reportNo );
 		//신고자를 추가해주는 메서드
 		reportDAO.insertReporter(memberVO, reportNo);
 		//신고한 report의 신고수를 받아와 10이상이되면 Block해준다
@@ -210,7 +210,7 @@ public class UtilServiceImpl implements UtilService{
 	}
 	@Override
 	public List<MainArticleVO> SearchOnTopMenu(String selector,String keyword) {
-		System.out.println("유틸서비스:"+selector+""+keyword);
+		//System.out.println("유틸서비스:"+selector+""+keyword);
 	
 		if(selector.equals("제목")){
 			return searchDAO.searchBytitle(keyword);
