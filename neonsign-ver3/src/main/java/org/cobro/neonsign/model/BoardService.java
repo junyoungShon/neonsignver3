@@ -89,5 +89,4 @@ public interface BoardService {
 			MemberVO memberVO);
 	
 	public List<ServiceCenterVO> serviceCenterList(int pageNumber);
-	void insertTagIntoTagTable(ArrayList<String> list);
 }

@@ -22,6 +22,7 @@ import org.cobro.neonsign.vo.SubscriptionInfoVO;
 import org.cobro.neonsign.vo.TagBoardVO;
 import org.cobro.neonsign.vo.TagVO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -37,29 +38,22 @@ public class BoardServiceImpl implements BoardService{
 	 * 트랜젝션의 대상이 되는지 고민해 볼 것!!
 	 * @junyoung
 	 */
+	@Transactional
 	@Override
 	public int pointInsertMainArticle(MainArticleVO mainArticleVO,ArrayList<String> list,TagBoardVO tagBoardVO) {
 		boardDAO.insertMainArticle(mainArticleVO);
 		//System.out.println("boardDAO : "+mainArticleVO.getMainArticleNo());
-		insertTagIntoTagTable(list);
+		for(int i=0;i<list.size();i++){
+			if(boardDAO.updateTag(list.get(i))==0){
+				boardDAO.insertTagIntoTagTable(list.get(i));
+			}
+		}
 		for(int i=0;i<list.size();i++){
 			tagBoardVO.setMainArticleNo(mainArticleVO.getMainArticleNo());
 			tagBoardVO.setTagName(list.get(i));
 			boardDAO.insertTagBoardVO(tagBoardVO);
 		}
 		return 0;
-	}
-	/**
-	 * 태그 테이블에 태그 정보를 삽입해주고, 태그 정보가 있을 경우 태그된 게시물 수를 올려준다.
-	 * @author junyoung
-	 */
-	@Override
-	public void insertTagIntoTagTable(ArrayList<String> list){
-		for(int i=0;i<list.size();i++){
-			if(boardDAO.updateTag(list.get(i))==0){
-				boardDAO.insertTagIntoTagTable(list.get(i));
-			}
-		}
 	}
 	
 	/**

@@ -14,6 +14,7 @@ import org.cobro.neonsign.vo.ReportListVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.SubArticleVO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UtilServiceImpl implements UtilService{
@@ -27,11 +28,12 @@ public class UtilServiceImpl implements UtilService{
 		return null;
 	}
 
-	@Override
 	/**
 	 * 반려한 신고글의 리스트를 삭제
 	 * @author 윤택
 	 */
+	@Transactional
+	@Override
 	public void deleteByNotify(ReportVO notifyVO) {
 		// TODO Auto-generated method stub
 		reportDAO.deleteByReporter(notifyVO);
@@ -135,7 +137,8 @@ public class UtilServiceImpl implements UtilService{
 		}
 		return result;
 	}
-	@Override
+	
+	
 	/** 사용자가 신고를 했을떄 실행되는 메서드
 	 *  신고 처리 순서
 		 * --주제글 신고인지 잇는글 신고인지 걸러준다
@@ -146,22 +149,24 @@ public class UtilServiceImpl implements UtilService{
 		 * --만약에 현재 신고 횟수가 10이 된다면 Block 하고 
 		 * 	신고자들에게 포인트를 준다
 	 */
+	@Transactional
+	@Override
 	public String articleReport(MainArticleVO mainArticleVO,
 			SubArticleVO subArticleVO, MemberVO memberVO) {
 		String reporterCheck="ok";
 		//신고한 회원의 신고한 리포트 넘버를 받아온다
-		List<Integer> reporterReportNoList=reportDAO.selectReporterReportNo(memberVO);
+		//List<Integer> reporterReportNoList=reportDAO.selectReporterReportNo(memberVO);
 		//신고자의 report넘버에 대응하는 MainArticleNo가 있으면 신고를 하지않고
 		//reporterCheck에 fail을 할당한다
-		for(int i=0; i<reporterReportNoList.size();i++){
+		//for(int i=0; i<reporterReportNoList.size();i++){
 			//System.out.println("index : "+reporterReportNoList.get(i));
-			ReportVO reportVO=reportDAO.findReportByReportNoAndMainArticleNo(reporterReportNoList.get(i),mainArticleVO);
+			//ReportVO reportVO=reportDAO.findReportByReportNoAndMainArticleNo(reporterReportNoList.get(i),mainArticleVO);
 			//System.out.println("reportVO : "+reportVO);
-			if(reportVO!=null){
+		/*	if(reportVO!=null){
 				reporterCheck="fail";
 				break;
 			}
-		}
+		}*/
 		//System.out.println("result : "+reporterCheck);
 		if(reporterCheck.equals("ok")){
 		int result=0;
@@ -223,6 +228,7 @@ public class UtilServiceImpl implements UtilService{
 		
 	}
 
+	@Transactional
 	@Override
 	public void saveSearch(String keyword){
 		 int result= searchDAO.updateSearch(keyword);
