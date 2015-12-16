@@ -74,10 +74,10 @@ public class MemberController {
 	@RequestMapping("memberLogin.neon")
 	public ModelAndView memberLogin(HttpServletRequest request, MemberVO memberVO){
 		MemberVO memberVO1 = memberVO;
-		memberVO=memberService.memberLogin(memberVO);
+		memberVO=memberService.pointMemberLogin(memberVO);
 		ModelAndView mav = new ModelAndView();
 		if(memberVO==null){
-			memberVO=memberService.defaultMemberLogin(memberVO1);
+			memberVO=memberService.pointDefaultMemberLogin(memberVO1);
 		}
 		if(memberVO!=null){
 			List<ItjaMemberVO> list = itjaMemberBean.getItjaListByMemberEmail(memberVO);
@@ -96,7 +96,7 @@ public class MemberController {
 				mav=new ModelAndView("loginPage","fail",fail);
 			}
 		}else{
-			memberVO=memberService.defaultMemberLogin(memberVO1);
+			memberVO=memberService.pointDefaultMemberLogin(memberVO1);
 			String fail="아이디와 비밀번호가 맞지 않습니다.";
 			mav=new ModelAndView("loginPage","fail",fail);
 		}

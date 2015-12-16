@@ -57,4 +57,5 @@ public interface MemberDAO {
 	public void memberLastLoginDateInsert(MemberVO memberVO);
 	public int memberBlackdateUpdate(String memberEmail);
 	public void memberBlackdateInsert(String memberEmail);
+	String getLastLoginDate(String memberEmail);
 }

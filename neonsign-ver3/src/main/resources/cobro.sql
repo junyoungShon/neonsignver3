@@ -1,6 +1,6 @@
 -- 2015.12.12(토) 1차구현 대비 DB setting
 -- ** DB 초기화 순서 ** -------------------------------------------------------------------
-drop table searchRanking
+drop table searchRanking;
 drop table RANKING;
 drop table REPORTER;
 drop table REPORT;

@@ -17,7 +17,6 @@ public interface MemberService {
 	public MemberVO findMemberByNickName(String nameComp);
 	public int pointMemberRegister(MemberVO mvo);
 	public int memberUpdate(MemberVO memberVO);
-	public MemberVO memberLogin(MemberVO mvo);
 	public void memberDelete(MemberVO mvo);
 	public ArrayList<MemberVO> getNotifyMemberList(MemberVO mvo);
 	public MemberListVO getMemberList(int i);
@@ -25,7 +24,6 @@ public interface MemberService {
 	public void memberBlockRelease(String memberEmail);
 	public HashMap<String, Object> updatePickedVO(PickedVO pvo);
 	public List<PickedVO> getPickListByMemberEmail(String memberEmail);
-	public MemberVO defaultMemberLogin(MemberVO memberVO);
 	public MemberVO findByPassword(String mailComp);
 	public MemberListVO getBlockMemberList(int i);
 	public void findPasswordMailRequest(FindPasswordVO findPasswordVO);
@@ -43,4 +41,6 @@ public interface MemberService {
 	public ServiceCenterListVO ServiceCenterList(int i);
 	public ServiceCenterVO ServiceCenterView(
 			int serviceCenterNo);
+	public MemberVO pointMemberLogin(MemberVO memberVO);
+	public MemberVO pointDefaultMemberLogin(MemberVO memberVO1);
 }

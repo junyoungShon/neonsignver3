@@ -351,4 +351,14 @@ public class MemberDAOImpl implements MemberDAO{
 		sqlSessionTemplate.insert("member.memberBlackdateInsert",memberEmail);
 	}
 
+	/**
+	 * 최종 접속일을 받아옴
+	 * @author Youn
+	 */
+	@Override
+	public String getLastLoginDate(String memberEmail) {
+		// TODO Auto-generated method stub
+		System.out.println(memberEmail);
+		return sqlSessionTemplate.selectOne("member.getLastLoginDate",memberEmail);
+	}
 }

@@ -262,6 +262,12 @@ SERVICE_CENTER_DATE,SERVICE_CENTER_EMAIL from(
    insert into MEMBER_ACTION(MEMBER_EMAIL,MEMBER_ACTION,MEMBER_LASTLOGIN_DATE,MEMBER_BLACK_DATE) 
 	values(#{value},'정지일',null,sysdate)
    </insert>
+   
+   <!-- 회원의 최종 접속일을 받아옴 -->
+   <select id="getLastLoginDate" parameterType="string" resultType="string">
+   select to_char(MEMBER_LASTLOGIN_DATE,'yyyy-MM-dd') from MEMBER_ACTION 
+   where MEMBER_EMAIL=#{value} and MEMBER_ACTION='최종접속일'
+   </select>
 </mapper> 		
  
  

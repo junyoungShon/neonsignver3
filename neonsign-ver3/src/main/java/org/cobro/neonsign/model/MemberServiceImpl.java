@@ -42,7 +42,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	@Override
-	public MemberVO memberLogin(MemberVO memberVO) {
+	public MemberVO pointMemberLogin(MemberVO memberVO) {
 		MemberVO mvo=memberDAO.memberLogin(memberVO);
 		if(mvo!=null){
 			//최종 접속 일시를 체킹하는 메서드
@@ -126,7 +126,7 @@ public class MemberServiceImpl implements MemberService{
 	 * @author junyoung
 	 */
 	@Override
-	public MemberVO defaultMemberLogin(MemberVO memberVO) {
+	public MemberVO pointDefaultMemberLogin(MemberVO memberVO) {
 		MemberVO mvo=memberDAO.defaultMemberLogin(memberVO);
 		if(mvo!=null){
 			//최종 접속 일시를 체킹하는 메서드
