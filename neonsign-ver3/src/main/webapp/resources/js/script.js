@@ -1504,23 +1504,17 @@ $(document).ready(function(){ //DOM이 준비되고
 					$('.passInput').attr('class','form-group has-feedback passInput has-error');
 					$('.passInput > .control-label').html('암호를 입력해주세요');
 					$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-<<<<<<< HEAD
-				}else if(passwordComp.length<7|| passwordComp.length>16){
-=======
-				}else if(passwordComp.length<6|| passwordComp.length>16){
->>>>>>> branch 'master' of https://github.com/junyoungShon/neonsignver3.git
+				}else if(passwordComp.length<7|| passwordComp.length>18){
 					userPassFlag = false;
 					$('.passInput').attr('class','form-group has-feedback passInput has-error');
-					$('.passInput > .control-label').html('암호는 6글자 이상 ~16글자 이하로 입력해주세요');
-<<<<<<< HEAD
+					$('.passInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
 					$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			
 				}else if(passwordComp!=rePasswordComp && rePasswordComp!=""){
-					userPassFlag = false;
-					$('.passInput').attr('class','form-group has-feedback passInput has-error');
-					$('.passInput > .control-label').html("암호를 확인해 주세요");
-=======
->>>>>>> branch 'master' of https://github.com/junyoungShon/neonsignver3.git
-					$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+				userPassFlag = false;
+				$('.passInput').attr('class','form-group has-feedback passInput has-error');
+				$('.passInput > .control-label').html("암호를 확인해 주세요");
+				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 				}else{
 					userPassFlag = true;
 					$('.passInput').attr('class','form-group has-feedback passInput has-success');
@@ -1537,19 +1531,15 @@ $(document).ready(function(){ //DOM이 준비되고
 					$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
 					$('.rePassInput > .control-label').html('암호를 확인해주세요');
 					$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-<<<<<<< HEAD
-				}else if(rePasswordComp.length<7|| rePasswordComp.length>16){
-=======
-				}else if(rePasswordComp.length<6|| rePasswordComp.length>16){
->>>>>>> branch 'master' of https://github.com/junyoungShon/neonsignver3.git
+				}else if(rePasswordComp.length<7 || rePasswordComp.length>18){
 					userRePassFlag = false;
 					$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
-					$('.rePassInput > .control-label').html('암호는 6글자 이상 ~16글자 이하로 입력해주세요');
+					$('.rePassInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
 					$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-				}else if(passComp!=rePasswordComp){
+				}else if(passComp!=rePasswordComp ){
 					userRePassFlag = false;
 					$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
-					$('.rePassInput > .control-label').html('암호확인이 제대로 이루어지지 않았습니다.');
+					$('.rePassInput > .control-label').html('암호를 확인해주세요.');
 					$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 				}else{
 					userRePassFlag = true;
@@ -2016,21 +2006,17 @@ $(document).ready(function(){ //DOM이 준비되고
 				$('.passInput').attr('class','form-group has-feedback passInput has-error');
 				$('.passInput > .control-label').html('암호를 입력해주세요');
 				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-			}else if(passwordComp.length<7 || passwordComp.length>16){
+			}else if(passwordComp.length<7 || passwordComp.length>18){
 				userPassFlag = false;
 				$('.passInput').attr('class','form-group has-feedback passInput has-error');
-<<<<<<< HEAD
 				$('.passInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
 				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 			}else if(passwordComp!=rePasswordComp && rePasswordComp!=""){
 				userPassFlag = false;
 				$('.passInput').attr('class','form-group has-feedback passInput has-error');
 				$('.passInput > .control-label').html("암호를 확인해 주세요");
-=======
-				$('.passInput > .control-label').html('암호는 7글자 이상 ~15글자 이하로 입력해주세요');
->>>>>>> branch 'master' of https://github.com/junyoungShon/neonsignver3.git
 				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-			}else{
+				}else{
 				userPassFlag = true;
 				$('.passInput').attr('class','form-group has-feedback passInput has-success');
 				$('.passInput > .control-label').html('압호가 입력되었습니다.');
@@ -2041,16 +2027,15 @@ $(document).ready(function(){ //DOM이 준비되고
 		$("#memberupdateRepassword").keyup(function(){
 			var passComp = $('#memberupdatepassword').val();
 			var rePasswordComp = $(this).val();
-			
 			if(rePasswordComp==""){
 				userRePassFlag = false;
 				$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
 				$('.rePassInput > .control-label').html('암호를 확인해주세요');
 				$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-			}else if(rePasswordComp.length<7 || rePasswordComp.length>16){
+			}else if(rePasswordComp.length<7 || rePasswordComp.length>18){
 				userRePassFlag = false;
 				$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
-				$('.rePassInput > .control-label').html('암호는 7글자 이상 ~15글자 이하로 입력해주세요');
+				$('.rePassInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
 				$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 			}else if(passComp!=rePasswordComp){
 				userRePassFlag = false;
@@ -2207,7 +2192,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	 });
     // 비밀번호 찾기를 위한 요청 폼 검증 끝
     $("#navbar").ready( function () {
-		$("#serch_result").click( function () {
+    	$("#serch_result").click( function () {
 	    	var text=$("#serch").val();
 	    	var check=$('#search_concept').text();    	
 	    	if(text==""){
@@ -2216,9 +2201,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	    	location.href = "findBy.neon?selector="+check+"&keyword="+text;
 	    	}
 	   	});//serch_result
-  
-		
-	});//serch ready
+    	});//serch click
     
     //카드를 위한 js
     

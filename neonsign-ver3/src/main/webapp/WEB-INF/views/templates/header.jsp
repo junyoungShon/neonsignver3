@@ -27,6 +27,7 @@
                       <li><a href="#" class="title" >제목</a></li>
                       <li><a href="#" >내용</a></li>
                       <li><a href="#" >작성자</a></li>
+                       <li><a href="#" >회원찾기</a></li>
                    </ul> 
          </div>
                 <input type="hidden" name="search_param" value="all" id="search_param">         

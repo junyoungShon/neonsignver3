@@ -73,4 +73,10 @@ public class SearchDAOImpl implements SearchDAO{
 		return sqlSessionTemplate.selectList("search.selectSearch");
 	}
 
+	@Override
+	public List<MainArticleVO> searchByPerson(String keyword) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList("search.searchByPerson",keyword);
+	}
+
 }

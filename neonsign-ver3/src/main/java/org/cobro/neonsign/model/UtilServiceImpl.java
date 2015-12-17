@@ -215,17 +215,17 @@ public class UtilServiceImpl implements UtilService{
 	}
 	@Override
 	public List<MainArticleVO> SearchOnTopMenu(String selector,String keyword) {
-		//System.out.println("유틸서비스:"+selector+""+keyword);
-	
+		System.out.println("유틸서비스:"+selector+""+keyword);
+		
 		if(selector.equals("제목")){
 			return searchDAO.searchBytitle(keyword);
 		}else if(selector.equals("내용")){
 			return searchDAO.searchByContext(keyword);
-		}else{
+		}else if(selector.equals("작성자")){
 			return searchDAO.searchByNickName(keyword);
+		}else{
+			return searchDAO.searchByPerson(keyword);
 		}
-		
-		
 	}
 
 	@Transactional
