@@ -28,10 +28,10 @@
 	font-family: 'Nanum Pen Script', serif;
 }
 .tags-container{
-	margin-bottom: 60px;
+	margin-bottom: 30px;
 	margin-top:30px;
 }
-.tags-container> span{
+.tags-container> .tagName{
 	display: inline-block;
     border: 2px solid;
     color: cornflowerblue;
@@ -48,6 +48,7 @@
     -o-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
 }
+
 .tags-container> .tag-active {
     border: 2px solid #000;
     color: #000;
@@ -60,4 +61,54 @@
 }
 .ajaxLoader{
 	display: none;
+}
+ .ui-autocomplete {
+	text-align:left;
+	color : black;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    float: left;
+    display: none;
+    min-width: 160px;   
+    padding: 4px 0;
+    margin: 0 0 10px 25px;
+    list-style: none;
+    background-color: #ffffff;
+    border-color: #ccc;
+    border-color: rgba(0, 0, 0, 0.2);
+    border-style: solid;
+    border-width: 1px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+    *border-right-width: 2px;
+    *border-bottom-width: 2px;
+}
+
+.ui-menu-item > a.ui-corner-all {
+    display: block;
+    padding: 3px 15px;
+    clear: both;
+    font-weight: bold;
+    line-height: 18px;
+    color: #555555;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.ui-state-hover, .ui-state-active {
+    text-decoration: none;
+    background-color: black;
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    background-image: none;
 }

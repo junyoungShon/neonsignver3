@@ -59,6 +59,7 @@
 <!-- 부트 스트랩 사용을 위한 하단 설정 -->
 <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
 <script src="${initParam.root}resources/js/jquery.js"></script>
+<script src="${initParam.root}resources/js/jquery-ui.min.js"></script>
 <script src="${initParam.root}resources/js/script.js"></script>
  <!-- 잇자 또는 공지를 사이트 측면에서 띄워주는 간이모달 js -->
 <script src="${initParam.root}resources/js/toasty-min.js"></script>

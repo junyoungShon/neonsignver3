@@ -437,7 +437,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 전체 태그 불러오기 -->
 	<select id="getTagVOList" resultMap="tagResultMap">
-		select TAG_NAME from tag
+		select TAG_NAME,SEARCH_COUNT from tag
 	</select>
 	
 	<!-- 메인아티클 넘버에 해당하는 태그목록 불러오기 -->

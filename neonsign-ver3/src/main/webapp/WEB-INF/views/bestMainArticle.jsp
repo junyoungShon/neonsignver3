@@ -53,7 +53,6 @@
 
 </head>
 
-
 <body>
    <h2 class="itjaMainTitle">베스트 잇자!</h2>
 <div class="itjaSlide">
