@@ -1,9 +1,9 @@
 package org.cobro.neonsign.model;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -141,6 +141,7 @@ public class UtilServiceImpl implements UtilService{
 	
 	/** 사용자가 신고를 했을떄 실행되는 메서드
 	 *  신고 처리 순서
+	 *  
 		 * --주제글 신고인지 잇는글 신고인지 걸러준다
 		 * 1. 신고 업데이트 (신고 업데이트가 되지 않는다면 1-1.)
 		 * 1-1. 신고 생성 
@@ -276,6 +277,27 @@ public class UtilServiceImpl implements UtilService{
 	}
 	public List<HashMap<String, String>> selectReport(){
 		return searchDAO.selectReport();
+	}
+	
+	@Override
+	public String memberReport(String memberReportEmail,
+			String memberReporterEmail) {
+		// TODO Auto-generated method stub
+		//회원 신고 테이블에 Insert
+		Map<String, String> map=new HashMap<String, String>();
+		map.put("memberReportEmail", memberReportEmail); map.put("memberReporterEmail", memberReporterEmail);
+		String result=reportDAO.memberReport(map);
+		//신고후 신고 당한 회원의 신고 횟수를 업데이트
+		if(result.equals("ok")){
+			MemberVO memberVO=new MemberVO();
+			memberVO.setMemberEmail(memberReportEmail);
+			reportDAO.memberReportAmountUpdate(memberVO);
+			//만약 회원의 신고 횟수가 50이상이 된다면 블락한다
+			if(reportDAO.getMemeberReportAmount(memberVO)>=50){
+				reportDAO.memberBlack(memberVO);
+			}
+		}
+		return result;
 	}
 	
 }

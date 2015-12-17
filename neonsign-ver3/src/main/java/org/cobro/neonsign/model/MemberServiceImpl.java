@@ -298,5 +298,15 @@ public class MemberServiceImpl implements MemberService{
 		public ServiceCenterVO ServiceCenterView(int ServiceCenterNo){
 			return memberDAO.ServiceCenterView(ServiceCenterNo);
 		}
+		
+		/**
+		 * 회원을 신고하는 메서드
+		 */
+		@Override
+		public String memberReport(String memberReportEmail,
+				String memberReporterEmail) {
+			// TODO Auto-generated method stub
+			return utilService.memberReport(memberReportEmail,memberReporterEmail);
+		}
 	
 }

@@ -207,6 +207,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	select * from REPORT 
  	where REPORT_NO=#{reportNo} and MAIN_ARTICLE_NO=#{mainArticleNo} and SUB_ARTICLE_NO=#{subArticleNo}
  	</select>
+ 	
+ 	<!-- 회원을 신고한다 -->
+ 	<insert id="memberReport" parameterType="map">
+ 		insert into MEMBER_REPORT(REPORTER_EMAIL,REPORT_EMAIL) values(#{memberReporterEmail},#{memberReportEmail})
+ 	</insert>
  </mapper> 		
  
  

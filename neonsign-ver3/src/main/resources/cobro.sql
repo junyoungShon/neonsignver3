@@ -258,6 +258,16 @@ create table searchRanking(
 -- DROP table searchRanking
 -- select * from searchRanking
 -----------------------------------------------------------------------------------
+-- ** 회원 신고 테이블 ** -----------------------------------------------------
+create table MEMBER_REPORT(
+	REPORTER_EMAIL varchar2(50) not null,--신고자
+	REPORT_EMAIL varchar2(50) not null,--신고 당하는 자
+	constraint fk_REPORTER_EMAIL foreign key(REPORTER_EMAIL) references brain_member(MEMBER_EMAIL),
+	constraint fk_REPORT_EMAIL foreign key(REPORT_EMAIL) references brain_member(MEMBER_EMAIL),
+	constraint pk_MEMBER_REPORT primary key(REPORTER_EMAIL, REPORT_EMAIL)
+)
+--drop table MEMBER_REPORT;
+--select * from MEMBER_REPORT;
 -----------------------------------------------------------------------------------
 ----------------------------- *** 구현 확인용 DATA 삽입 *** ----------------------------------
 -- ▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽ --

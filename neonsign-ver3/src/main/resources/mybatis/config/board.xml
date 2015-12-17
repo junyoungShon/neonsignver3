@@ -472,7 +472,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		and bm.MEMBER_EMAIL = #{memberEmail}]]> 
 	</select>
 	<select id="getMemberNickNameByEmail" resultMap="memberResultMap">
-		select MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_POINT,
+		select MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_POINT, MEMBER_REPORT_AMOUNT, 
 		to_char(MEMBER_JOIN_DATE,'YYYY/MM/DD') as MEMBER_JOIN_DATE
 		from brain_member where MEMBER_EMAIL = #{memberEmail}
 	</select>

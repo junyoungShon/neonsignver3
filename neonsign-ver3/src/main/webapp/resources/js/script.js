@@ -935,6 +935,37 @@ $(document).ready(function(){ //DOM이 준비되고
 	}
 	//끝
 	
+	//회원 신고 버튼 클릭시 실행되는 스크립트
+	$('.options').on('click','.memberReport',function(){
+		var memberReportEmail=$(this).next().val();
+		var memberReporterEmail=$(this).next().next().val();
+		if(confirm("신고하시겠습니까?")){
+			$.ajax({
+				beforeSend : function(xmlHttpRequest){
+			           xmlHttpRequest.setRequestHeader("AJAX", "true");
+			
+				},
+				type : "POST",
+				url : "auth_MemberReport.neon",
+				data : "memberReportEmail="+memberReportEmail+"&memberReporterEmail="+memberReporterEmail,
+				success : function(data){
+					if(data=="ok"){
+					alert("신고를 완료하였습니다.");
+					}else{
+						alert("이미 신고를 하셨습니다")
+					}
+
+				},
+				error:function(xhr, textStatus, error){
+					if(xhr.status=="901"){
+						if(confirm('로그인이 필요합니다. 로그인하시겠어요?')){
+							parent.location.href = 'loginPage.neon';
+						}
+					}
+				}
+			});
+		}
+	});
 	
 	// 잇는글 신고 버튼 클릭시 실행되는 스크립트
 	$('.unLinkingSubArticleList').on('click','.articleReport',function(){
@@ -958,7 +989,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			},
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+					if(confirm('로그인이 필요합니다. 로그인하시겠어요?')){
 						parent.location.href = 'loginPage.neon';
 					}
 				}
@@ -989,7 +1020,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			},
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+					if(confirm('로그인이 필요합니다. 로그인하시겠어요?')){
 						parent.location.href = 'loginPage.neon';
 					}
 				}
@@ -1020,7 +1051,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			},
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+					if(confirm('로그인이 필요합니다. 로그인하시겠어요?')){
 						parent.location.href = 'loginPage.neon';
 					}
 				}
@@ -1073,7 +1104,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			data : formData,
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+					if(confirm('로그인이 필요합니다. 로그인하시겠어요?')){
 						parent.location.href = 'loginPage.neon';
 					}
 				}
@@ -1195,7 +1226,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			},
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+					if(confirm('로그인이 필요합니다. 로그인하시겠어요?')){
 						parent.location.href = 'loginPage.neon';
 					}
 				}
@@ -1349,7 +1380,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			},
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+					if(confirm('로그인이 필요합니다. 로그인하시겠어요?')){
 						parent.location.href = 'loginPage.neon';
 					}
 				}
@@ -1799,7 +1830,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			},
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+					if(confirm('로그인이 필요합니다. 로그인하시겠어요?')){
 						parent.location.href = 'loginPage.neon';
 					}
 				}
@@ -1852,7 +1883,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			},
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
+					if(confirm('로그인이 필요합니다. 로그인하시겠어요?')){
 						parent.location.href = 'loginPage.neon';
 					}
 				}

@@ -281,6 +281,20 @@ public class ReportDAOImpl implements ReportDAO{
 		map.put("subArticleNo",subArticleVO.getSubArticleNo());
 		return sqlSessionTemplate.selectOne("report.findReportByReportNoAndSubArticleNo",map);
 	}
+	/**
+	 * 회원을 신고하고 성공하면 ok 실패하면 fail을 반환
+	 */
+	@Override
+	public String memberReport(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		String result="ok";
+		try{
+		sqlSessionTemplate.insert("report.memberReport",map);
+		}catch(Exception e){
+			result="fail";
+		}
+		return result;
+	}
 
 
 }
