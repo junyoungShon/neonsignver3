@@ -52,11 +52,7 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="configLocation"
-			value="classpath:mybatis/config/SqlSessionConfig.xml">
-		</property>
-		 <property name="transactionFactory">
-   		 <bean class="org.apache.ibatis.transaction.managed.ManagedTransactionFactory" />
- 		 </property> 
+			value="classpath:mybatis/config/SqlSessionConfig.xml"/>
 	</bean>
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactory"></constructor-arg>
