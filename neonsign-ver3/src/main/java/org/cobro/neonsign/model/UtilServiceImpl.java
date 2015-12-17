@@ -173,6 +173,18 @@ public class UtilServiceImpl implements UtilService{
 		int result=0;
 		//subArticleNo가 있다면 else문 수행
 		if(subArticleVO.getSubArticleNo()==0){
+			//주제글 신고 전 신고자가 다시 신고를 했는지 확인
+			for(int i=0; i<reporterReportNoList.size();i++){
+				//System.out.println("index : "+reporterReportNoList.get(i));
+				ReportVO reportVO=reportDAO.findReportByReportNoAndMainArticleNo(reporterReportNoList.get(i),mainArticleVO);
+				//System.out.println("reportVO : "+reportVO);
+				if(reportVO!=null){
+					reporterCheck="fail";
+					break;
+				}
+			}
+			//만약 신고자가 또 신고를 했다면 업데이트나 인서트를 안한다
+			if(reporterCheck.equals("ok")){//신고를 안했다면 reporterCheck 는 ok가 되고 신고를 실행한다
 			//주제글 신고를 업데이트
 			//주제글 신고 업데이트 후 업데이트가 실패했다면 신고하는메서드 실행 (실패시 result에 0이 할당된다)
 			result=reportDAO.updateMainArticleReport(mainArticleVO);
@@ -183,9 +195,22 @@ public class UtilServiceImpl implements UtilService{
 				reportDAO.mainArticleReport(mainArticleVO);
 			}
 			reportNo=reportDAO.nowMainArticleReportNumber(mainArticleVO);
+			}
 		}else{
-			//잇는글 신고를 업데이트
-			//잇는글 업데이트 후 업데이트가 실패했다면 신고하는메서드 실행 (실패시 result에 0이 할당된다)
+			//잇는글 신고 전 신고자가 또 신고를 했는지 확인
+			for(int i=0; i<reporterReportNoList.size();i++){
+				//System.out.println("index : "+reporterReportNoList.get(i));
+				ReportVO reportVO=reportDAO.findReportByReportNoAndSubArticleNo(reporterReportNoList.get(i),subArticleVO);
+				//System.out.println("reportVO : "+reportVO);
+				if(reportVO!=null){
+					reporterCheck="fail";
+					break;
+				}
+			}
+			//만약 신고자가 또 신고를 했다면 업데이트나 인서트를 안한다
+			if(reporterCheck.equals("ok")){//신고를 안했다면 reporterCheck 는 ok가 되고 신고를 실행한다
+				//잇는글 신고를 업데이트
+				//잇는글 업데이트 후 업데이트가 실패했다면 신고하는메서드 실행 (실패시 result에 0이 할당된다)
 			result=reportDAO.updateSubArticleReport(subArticleVO);
 			//System.out.println("reulst : "+result);
 			if(result==0){
@@ -193,7 +218,9 @@ public class UtilServiceImpl implements UtilService{
 				reportDAO.subArticleReport(subArticleVO);
 			}
 			reportNo=reportDAO.nowSubArticleReportNumber(subArticleVO);
+			}
 		}
+		if(reporterCheck.equals("ok")){
 		//신고 후 신고당한 회원의 신고 횟수를 업데이트
 		reportDAO.memberReportAmountUpdate(memberVO);
 		//만약 회원의 신고 횟수가 50이상이 된다면 블락한다
@@ -204,7 +231,7 @@ public class UtilServiceImpl implements UtilService{
 		//int reportNo=reportDAO.nowReportNumber();
 		//System.out.println("현재 리포트 넘버 : "+reportNo );
 		//신고자를 추가해주는 메서드
-		System.out.println("reportNo : "+reportNo);
+		
 		reportDAO.insertReporter(memberVO, reportNo);
 		//신고한 report의 신고수를 받아와 10이상이되면 Block해준다
 		int reportAmount=reportDAO.reportCount(reportNo);
@@ -219,6 +246,7 @@ public class UtilServiceImpl implements UtilService{
 				//Block처리가 완료된 신고자들은 신고자 목록에서 지워주는 메서드
 				reportDAO.deleteByReporter(rvo);
 			}
+		}
 		}
 		}
 		return reporterCheck;

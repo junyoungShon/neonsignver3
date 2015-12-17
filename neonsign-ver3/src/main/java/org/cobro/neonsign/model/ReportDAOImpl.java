@@ -269,6 +269,18 @@ public class ReportDAOImpl implements ReportDAO{
 		// TODO Auto-generated method stub
 		sqlSessionTemplate.update("report.memberBlack",memberVO);
 	}
+	/**
+	 * 서브아티클의 중복되는 신고자를 Select
+	 */
+	@Override
+	public ReportVO findReportByReportNoAndSubArticleNo(Integer reportNO,
+			SubArticleVO subArticleVO) {
+		// TODO Auto-generated method stub
+		HashMap<String,Integer>map=new HashMap<String, Integer>();
+		map.put("reportNo", reportNO); map.put("mainArticleNo",subArticleVO.getMainArticleNo());
+		map.put("subArticleNo",subArticleVO.getSubArticleNo());
+		return sqlSessionTemplate.selectOne("report.findReportByReportNoAndSubArticleNo",map);
+	}
 
 
 }

@@ -63,4 +63,7 @@ public interface ReportDAO {
 	public int getMemeberReportAmount(MemberVO memberVO);
 
 	public void memberBlack(MemberVO memberVO);
+
+	public ReportVO findReportByReportNoAndSubArticleNo(
+			Integer integer, SubArticleVO subArticleVO);
 }
