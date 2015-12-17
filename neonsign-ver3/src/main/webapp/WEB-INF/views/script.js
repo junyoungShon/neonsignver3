@@ -115,9 +115,9 @@ $(document).ready(function(){ //DOM이 준비되고
               							='<button class="btn btn-social btn-twitter itja" style="width:23%;">'
               							+'<span class="itjaCount"><i class="fa fa-link"></i><br>'+data.completeMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'
               							+'<form name="itJaInfo" style="display:none;"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+              							+'"><input type="hidden" name="mainArticleNo" value="'+data.completeMainArticleArrayList[i].mainArticleNo
               							+'"><input type="hidden" name="mainArticleBlack" value="'+data.completeMainArticleArrayList[i].block+'">'+
-              							'<input type="hidden" name="mainArticleNo" value="'+data.completeMainArticleArrayList[i].mainArticleNo
-              							+'"><input type="hidden" name="subArticleNo" value=0></form></button>'
+              							'<input type="hidden" name="subArticleNo" value=0></form></button>'
               							flag=false;
               							break;
               						}	
@@ -128,7 +128,7 @@ $(document).ready(function(){ //DOM이 준비되고
               						'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.completeMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'+
               						'<form name="itJaInfo" style="display:none;"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
               						+'"><input type="hidden" name="mainArticleBlack" value="'+data.completeMainArticleArrayList[i].block+'">'+
-              						'<input type="hidden" name="mainArticleNo" value="'+data.completeMainArticleArrayList[i].mainArticleNo
+          							'<input type="hidden" name="mainArticleNo" value="'+data.completeMainArticleArrayList[i].mainArticleNo
               						+'"><input type="hidden" name="subArticleNo" value=0></form></button>'
               					}
               				}
@@ -231,9 +231,9 @@ $(document).ready(function(){ //DOM이 준비되고
 	              					='<button class="btn btn-social btn-twitter itja" style="width:23%; margin-top:10px;">'
 	              					+'<span class="itjaCount"><i class="fa fa-link"></i><br>'+data.newMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'
 	              					+'<form name="itJaInfo" style="display:none;"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
-	              					+'"><input type="hidden" name="mainArticleBlack" value="'+data.newMainArticleArrayList[i].block+'">'
-	              					+'<input type="hidden" name="mainArticleNo" value="'+data.newMainArticleArrayList[i].mainArticleNo
-	           						+'"><input type="hidden" name="subArticleNo" value=0></form></button>'
+	              					+'"><input type="hidden" name="mainArticleNo" value="'+data.newMainArticleArrayList[i].mainArticleNo
+	              					+'"><input type="hidden" name="mainArticleBlack" value="'+data.newMainArticleArrayList[i].block+'">'+
+	           						'<input type="hidden" name="subArticleNo" value=0></form></button>'
 	      							flag=false;
 	       							break;
 	      						}	
@@ -243,9 +243,9 @@ $(document).ready(function(){ //DOM이 준비되고
 	           					='<button class="btn btn-social btn-twitter itja" style="width:23%;">'+
 	           					'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.newMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'+
 	          					'<form name="itJaInfo" style="display:none;"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
-	          					+'"><input type="hidden" name="mainArticleBlack" value="'+data.newMainArticleArrayList[i].block+'">'
 	           					+'"><input type="hidden" name="mainArticleNo" value="'+data.newMainArticleArrayList[i].mainArticleNo
-	           					+'"><input type="hidden" name="subArticleNo" value=0></form></button>'
+	           					+'"><input type="hidden" name="mainArticleBlack" value="'+data.newMainArticleArrayList[i].block+'">'+
+	           					'<input type="hidden" name="subArticleNo" value=0></form></button>'
 	           					}
 	           				}
 	            			if(mainLikeItHTML==""){
@@ -325,18 +325,13 @@ $(document).ready(function(){ //DOM이 준비되고
 		}
 		}
 	};
-<<<<<<< HEAD
-/*	//무한스크롤 끝
-=======
 	//무한스크롤 끝
-	
->>>>>>> branch 'master' of https://github.com/junyoungShon/neonsignver3.git
 	//tag sort 버튼 활성화
 	$('.tags-container>span').hover(function(){
 		$(this).attr('class','tag-mouseon');
 	},function(){
 		$(this).attr('class','tag-mouseoff');
-	});*/
+	});
 	$('.tags-container>span').click(function(){
 		var tagName = $(this);
 		var infinityScrollTestSource = "";
@@ -658,11 +653,12 @@ $(document).ready(function(){ //DOM이 준비되고
 	});*/
 	//완결글 디테일 뷰(완) - 무한 스크롤 
 	$('#pinBoot').on('click','.readArticleBtn',function(){
-		//alert('완결 글 무한 스크롤')
+		//alert('완결 글 무한 스크롤');
 		var mainArticleNO =$(this).next().children().find(':input[name="mainArticleNo"]').eq(0).val();
 		var mainArticleBlack =$(this).next().children().find(':input[name="mainArticleBlack"]').eq(0).val();
+		//alert(mainArticleBlack);
 		if(mainArticleBlack==1){
-			alert("해당글은 관리자에 의해 차단된 글 입니다.");
+			alert("해당글은 관리자에 의해 차단된 글 입니다!");
 		}else{
 			detailItjaView(mainArticleNO,"new");
 			$('#cardDetailView').modal();
@@ -939,37 +935,6 @@ $(document).ready(function(){ //DOM이 준비되고
 	}
 	//끝
 	
-	//회원 신고 버튼 클릭시 실행되는 스크립트
-	$('.options').on('click','.memberReport',function(){
-		var memberReportEmail=$(this).next().val();
-		var memberReporterEmail=$(this).next().next().val();
-		if(confirm("신고하시겠습니까?")){
-			$.ajax({
-				beforeSend : function(xmlHttpRequest){
-			           xmlHttpRequest.setRequestHeader("AJAX", "true");
-			
-				},
-				type : "POST",
-				url : "auth_MemberReport.neon",
-				data : "memberReportEmail="+memberReportEmail+"&memberReporterEmail="+memberReporterEmail,
-				success : function(data){
-					if(data=="ok"){
-					alert("신고를 완료하였습니다.");
-					}else{
-						alert("이미 신고를 하셨습니다")
-					}
-
-				},
-				error:function(xhr, textStatus, error){
-					if(xhr.status=="901"){
-						if(confirm('로그인이 필요합니다. 로그인하시겠어요?')){
-							parent.location.href = 'loginPage.neon';
-						}
-					}
-				}
-			});
-		}
-	});
 	
 	// 잇는글 신고 버튼 클릭시 실행되는 스크립트
 	$('.unLinkingSubArticleList').on('click','.articleReport',function(){
@@ -993,7 +958,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			},
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 로그인하시겠어요?')){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
 						parent.location.href = 'loginPage.neon';
 					}
 				}
@@ -1024,7 +989,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			},
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 로그인하시겠어요?')){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
 						parent.location.href = 'loginPage.neon';
 					}
 				}
@@ -1055,7 +1020,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			},
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 로그인하시겠어요?')){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
 						parent.location.href = 'loginPage.neon';
 					}
 				}
@@ -1108,7 +1073,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			data : formData,
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 로그인하시겠어요?')){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
 						parent.location.href = 'loginPage.neon';
 					}
 				}
@@ -1230,7 +1195,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			},
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 로그인하시겠어요?')){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
 						parent.location.href = 'loginPage.neon';
 					}
 				}
@@ -1384,7 +1349,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			},
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 로그인하시겠어요?')){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
 						parent.location.href = 'loginPage.neon';
 					}
 				}
@@ -1549,12 +1514,12 @@ $(document).ready(function(){ //DOM이 준비되고
 					$('.passInput').attr('class','form-group has-feedback passInput has-error');
 					$('.passInput > .control-label').html('암호를 입력해주세요');
 					$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-				}else if(passwordComp.length<7|| passwordComp.length>18){
+				}else if(passwordComp.length<7|| passwordComp.length>16){
+				}else if(passwordComp.length<6|| passwordComp.length>16){
 					userPassFlag = false;
 					$('.passInput').attr('class','form-group has-feedback passInput has-error');
-					$('.passInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
+					$('.passInput > .control-label').html('암호는 6글자 이상 ~16글자 이하로 입력해주세요');
 					$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-			
 				}else if(passwordComp!=rePasswordComp && rePasswordComp!=""){
 					userPassFlag = false;
 					$('.passInput').attr('class','form-group has-feedback passInput has-error');
@@ -1576,15 +1541,16 @@ $(document).ready(function(){ //DOM이 준비되고
 					$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
 					$('.rePassInput > .control-label').html('암호를 확인해주세요');
 					$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-				}else if(rePasswordComp.length<7 || rePasswordComp.length>18){
+				}else if(rePasswordComp.length<7|| rePasswordComp.length>16){
+				}else if(rePasswordComp.length<6|| rePasswordComp.length>16){
 					userRePassFlag = false;
 					$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
-					$('.rePassInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
+					$('.rePassInput > .control-label').html('암호는 6글자 이상 ~16글자 이하로 입력해주세요');
 					$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-				}else if(passComp!=rePasswordComp ){
+				}else if(passComp!=rePasswordComp){
 					userRePassFlag = false;
 					$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
-					$('.rePassInput > .control-label').html('암호를 확인해주세요.');
+					$('.rePassInput > .control-label').html('암호확인이 제대로 이루어지지 않았습니다.');
 					$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 				}else{
 					userRePassFlag = true;
@@ -1834,7 +1800,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			},
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 로그인하시겠어요?')){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
 						parent.location.href = 'loginPage.neon';
 					}
 				}
@@ -1887,7 +1853,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			},
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
-					if(confirm('로그인이 필요합니다. 로그인하시겠어요?')){
+					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
 						parent.location.href = 'loginPage.neon';
 					}
 				}
@@ -2051,17 +2017,18 @@ $(document).ready(function(){ //DOM이 준비되고
 				$('.passInput').attr('class','form-group has-feedback passInput has-error');
 				$('.passInput > .control-label').html('암호를 입력해주세요');
 				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-			}else if(passwordComp.length<7 || passwordComp.length>18){
+			}else if(passwordComp.length<7 || passwordComp.length>16){
 				userPassFlag = false;
 				$('.passInput').attr('class','form-group has-feedback passInput has-error');
 				$('.passInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
 				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 			}else if(passwordComp!=rePasswordComp && rePasswordComp!=""){
 				userPassFlag = false;
-				$('.passInput').attr('class','form-group has-feedback passInput has-error');
+				$('.passInput').attr('class','form-group has-feedback passInput has-error');	
 				$('.passInput > .control-label').html("암호를 확인해 주세요");
+				$('.passInput > .control-label').html('암호는 7글자 이상 ~15글자 이하로 입력해주세요');
 				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-				}else{
+			}else{
 				userPassFlag = true;
 				$('.passInput').attr('class','form-group has-feedback passInput has-success');
 				$('.passInput > .control-label').html('압호가 입력되었습니다.');
@@ -2072,15 +2039,16 @@ $(document).ready(function(){ //DOM이 준비되고
 		$("#memberupdateRepassword").keyup(function(){
 			var passComp = $('#memberupdatepassword').val();
 			var rePasswordComp = $(this).val();
+			
 			if(rePasswordComp==""){
 				userRePassFlag = false;
 				$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
 				$('.rePassInput > .control-label').html('암호를 확인해주세요');
 				$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-			}else if(rePasswordComp.length<7 || rePasswordComp.length>18){
+			}else if(rePasswordComp.length<7 || rePasswordComp.length>16){
 				userRePassFlag = false;
 				$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
-				$('.rePassInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
+				$('.rePassInput > .control-label').html('암호는 7글자 이상 ~15글자 이하로 입력해주세요');
 				$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 			}else if(passComp!=rePasswordComp){
 				userRePassFlag = false;
@@ -2237,7 +2205,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	 });
     // 비밀번호 찾기를 위한 요청 폼 검증 끝
     $("#navbar").ready( function () {
-    	$("#serch_result").click( function () {
+		$("#serch_result").click( function () {
 	    	var text=$("#serch").val();
 	    	var check=$('#search_concept').text();    	
 	    	if(text==""){
@@ -2246,7 +2214,9 @@ $(document).ready(function(){ //DOM이 준비되고
 	    	location.href = "findBy.neon?selector="+check+"&keyword="+text;
 	    	}
 	   	});//serch_result
-    	});//serch click
+  
+		
+	});//serch ready
     
     //카드를 위한 js
     
@@ -2456,25 +2426,5 @@ $(document).ready(function(){ //DOM이 준비되고
 		});
 	})
 	//문의글쓰기 끝
-    $('.tagSearcher').keyup(function(){
-    	var tagName=$(this).val();
-    	$.ajax({
-			type:"post",
-			url:"tagAutoComplete.neon",
-			data:"tagName="+tagName,
-			dataType:"json",
-			success:function(data){ 
-				$(function() {
-		    	    var availableTags = [];
-		    	    for(var i=0;i<data.length;i++){
-		    	    	availableTags.push(data[i].tagName+"-"+'총 게시물 수:'+data[i].searchCount);
-		    	    }
-		    	    $( ".tagSearcher" ).autocomplete({
-		    	      source: availableTags
-		    	    });
-		    	});
-			}
-		});
-    });
     	
 });//document.ready

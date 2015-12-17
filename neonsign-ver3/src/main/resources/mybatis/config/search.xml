@@ -147,7 +147,17 @@ select bm.MEMBER_NICKNAME, ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_AR
 	]]>
 	</select>	
  
+  <select id="searchByPerson"  resultType="mainArticleVO" resultMap="mainArticleResultMap">
+  select bm.MEMBER_NICKNAME, ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
+		ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date, 
+		ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_EMAIL, tb.TAG_NAME, bm.MEMBER_POINT
+	from main_article ma, brain_member bm, tag_board tb
+    where bm.MEMBER_EMAIL like '%'||#{value}||'%' 
+      and ma.MEMBER_EMAIL=bm.MEMBER_EMAIL
+      and tb.MAIN_ARTICLE_NO = ma.MAIN_ARTICLE_NO
+    order by ma_date desc
  
+ </select>
  </mapper> 		
 
  

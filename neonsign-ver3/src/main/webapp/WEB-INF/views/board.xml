@@ -437,7 +437,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 전체 태그 불러오기 -->
 	<select id="getTagVOList" resultMap="tagResultMap">
-		select TAG_NAME,SEARCH_COUNT from tag
+		select TAG_NAME from tag
 	</select>
 	
 	<!-- 메인아티클 넘버에 해당하는 태그목록 불러오기 -->
@@ -472,7 +472,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		and bm.MEMBER_EMAIL = #{memberEmail}]]> 
 	</select>
 	<select id="getMemberNickNameByEmail" resultMap="memberResultMap">
-		select MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_POINT, MEMBER_REPORT_AMOUNT, 
+		select MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_POINT,
 		to_char(MEMBER_JOIN_DATE,'YYYY/MM/DD') as MEMBER_JOIN_DATE
 		from brain_member where MEMBER_EMAIL = #{memberEmail}
 	</select>

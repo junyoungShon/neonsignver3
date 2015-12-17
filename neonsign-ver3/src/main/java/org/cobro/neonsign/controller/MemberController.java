@@ -19,6 +19,7 @@ import org.cobro.neonsign.vo.ServiceCenterListVO;
 import org.cobro.neonsign.vo.ServiceCenterVO;
 import org.cobro.neonsign.vo.SubscriptionInfoVO;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -335,5 +336,15 @@ public class MemberController {
 		mav.setViewName("temporaryPasswordView");
 		return mav;
 	}
-
+	
+	/**
+	 * 회원을 신고하는 컨트롤러
+	 * @윤택
+	 */
+	@RequestMapping("auth_MemberReport.neon")
+	@ResponseBody
+	public String memberReport(String memberReportEmail, String memberReporterEmail){
+		String result=memberService.memberReport(memberReportEmail,memberReporterEmail);
+		return result;
+	}
 }

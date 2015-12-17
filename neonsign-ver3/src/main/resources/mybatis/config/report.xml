@@ -178,8 +178,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	</select>
  	
  	<select id="findReportByReportNoAndMainArticleNo" parameterType="map" resultType="reportVO" resultMap="reportResultMap">
- 	select * from REPORT where REPORT_NO=#{reportNo} and MAIN_ARTICLE_NO=#{mainArticleNo}
+ 	select * from REPORT where REPORT_NO=#{reportNo} and MAIN_ARTICLE_NO=#{mainArticleNo} and SUB_ARTICLE_NO is null
  	</select>
+ 	
+ 	<update id="memberReportAmountUpdate" parameterType="memberVO">
+ 	update BRAIN_MEMBER set MEMBER_REPORT_AMOUNT=MEMBER_REPORT_AMOUNT+1 
+ 	where MEMBER_EMAIL=#{memberEmail}
+ 	</update>
+ 	
+ 	 	<select id="nowMainArticleReportNumber" parameterType="mainArticleVO" resultType="int">
+ 	SELECT report_no FROM report where MAIN_ARTICLE_NO=#{mainArticleNo} and SUB_ARTICLE_NO is null
+ 	</select>
+ 	
+ 	<select id="nowSubArticleReportNumber" parameterType="subArticleVO" resultType="int">
+ 	SELECT report_no FROM report where MAIN_ARTICLE_NO=#{mainArticleNo} and SUB_ARTICLE_NO=#{subArticleNo}
+ 	</select>
+ 	
+ 	<select id="getMemeberReportAmount" parameterType="memberVO" resultType="int">
+ 		select MEMBER_REPORT_AMOUNT from BRAIN_MEMBER where MEMBER_EMAIL=#{memberEmail}
+ 	</select>
+ 	
+ 	<update id="memberBlack" parameterType="memberVO">
+ 	update brain_member set MEMBER_CATEGORY='BLACK' where MEMBER_EMAIL=#{memberEmail}
+ 	</update>
+ 	
+ 	<select id="findReportByReportNoAndSubArticleNo" parameterType="map" resultType="reportVO" 
+ 	resultMap="reportResultMap">
+ 	select * from REPORT 
+ 	where REPORT_NO=#{reportNo} and MAIN_ARTICLE_NO=#{mainArticleNo} and SUB_ARTICLE_NO=#{subArticleNo}
+ 	</select>
+ 	
+ 	<!-- 회원을 신고한다 -->
+ 	<insert id="memberReport" parameterType="map">
+ 		insert into MEMBER_REPORT(REPORTER_EMAIL,REPORT_EMAIL) values(#{memberReporterEmail},#{memberReportEmail})
+ 	</insert>
  </mapper> 		
  
  

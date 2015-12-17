@@ -1,6 +1,7 @@
 package org.cobro.neonsign.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.MemberVO;
@@ -53,4 +54,19 @@ public interface ReportDAO {
 
 	public ReportVO findReportByReportNoAndMainArticleNo(Integer integer,
 			MainArticleVO mainArticleVO);
+
+	public void memberReportAmountUpdate(MemberVO memberVO);
+
+	public int nowMainArticleReportNumber(MainArticleVO mainArticleVO);
+
+	public int nowSubArticleReportNumber(SubArticleVO subArticleVO);
+
+	public int getMemeberReportAmount(MemberVO memberVO);
+
+	public void memberBlack(MemberVO memberVO);
+
+	public ReportVO findReportByReportNoAndSubArticleNo(
+			Integer integer, SubArticleVO subArticleVO);
+
+	public String memberReport(Map<String, String> map);
 }

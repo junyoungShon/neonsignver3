@@ -1,10 +1,10 @@
-		select * from main_article m,  brain_member b   where
-		 m.MAIN_ARTICLE_NO=1
-		and b.MEMBER_EMAIL=m.MAIN_ARTICLE_EMAIL 
+		select * from REPORT where REPORT_NO=25 and MAIN_ARTICLE_NO=41 and SUB_ARTICLE_NO is null
 		 
 		SELECT MAX(report_no) as report_no FROM report
 		
-		select * from REPORTER
+		select * from REPORT where REPORT_NO=23 and MAIN_ARTICLE_NO=42 and SUB_ARTICLE_NO=1
+		
+		select * from REPORTER where REPORT_NO=22 and MEMBER_EMAIL='b@gmail.com' 
 		
 		    select max(SUB_ARTICLE_GRADE)+1 as SUB_ARTICLE_GRADE from sub_article where MAIN_ARTICLE_NO=1 and IS_CONNECT=1
 		--이어진글 쿼리

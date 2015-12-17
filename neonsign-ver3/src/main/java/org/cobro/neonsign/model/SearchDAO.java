@@ -26,4 +26,6 @@ public interface SearchDAO {
 	public int updateSearch(String keyword) ;
 
 	public List<HashMap<String, String>> selectReport();
+
+	public List<MainArticleVO> searchByPerson(String keyword);
 }

@@ -806,27 +806,46 @@
 								<!-- 카드7. 태그 정보 끝 -->
 							</div>
 							<!-- 카드7. 태그 정보 틀 끝 -->
-							<!-- 카드8.  틀 끝 -->
-							<div class="col-sm-3">
-								<!-- 카드8.   끝 -->
-								<div class="hero-widget well well-sm">
-									<!-- 카드8.  아이콘 -->
-									<div class="icon">
-										<i class="fa fa-exclamation-triangle ready"></i>
-									</div>
-									<!-- 카드8.  아이콘 내용 -->
-									<div class="text">
-										<var>-</var>
-										<label class="text-muted">준비중입니다</label>
-									</div>
-									<!-- 카드8.  하단 버튼 -->
-									<div class="options">
-										<a href="javascript:;" class="btn btn-default btn-lg"><i class="fa fa-wrench"></i></a>
-									</div>
-								</div>
-								<!-- 카드8.   끝 -->
-							</div>
-							<!-- 카드8.  틀 끝 -->
+		                     <!-- 카드8.  신고정보 틀  -->
+		                     <div class="col-sm-3">
+		                        <!-- 카드8.신고정보 -->
+		                        <div class="hero-widget well well-sm">
+		                           <!-- 카드8. 신고정보 아이콘 -->
+		                           <div class="icon">
+		                           <c:set var="memberReportCount" value="${requestScope.rankMemberVO.memberReportAmount}"/>
+		                           <c:set var="reportGrade" value=""/>
+		                              <!-- <i class="fa fa-exclamation-triangle ready"></i> -->
+		                              <c:choose>
+		                                 <c:when test="${memberReportCount<11}">
+		                                    <i class="fa fa-thumbs-o-up"></i>
+		                                    <c:set var="reportGrade" value="클린회원"/>   
+		                                 </c:when>
+		                                 <c:when test="${memberReportCount >10 && memberReportCount<50}">
+		                                    <i class="fa fa-thumbs-up"></i>
+		                                    <c:set var="reportGrade" value="보통회원"/>   
+		                                 </c:when>
+		                                 <c:when test="${memberReportCount>49}">
+		                                    <i class="fa fa-bomb"></i>
+		                                    <c:set var="reportGrade" value="불량회원"/>   
+		                                 </c:when>
+		                              </c:choose>
+		                           </div>
+		                           <!-- 카드8. 신고정보 아이콘 내용 -->
+		                           <div class="text">
+		                              <var>${memberReportCount}</var>
+		                              <label class="text-muted">신고횟수 / ${reportGrade}</label>
+		                           </div>
+		                           <!-- 카드8. 신고정보 하단 버튼 -->
+		                           <div class="options">
+		                              <a href="#" class="btn btn-default btn-lg memberReport">
+		                              신고하기&nbsp;&nbsp;<i class="fa fa-ban"></i></a>
+		                              	<input type="hidden" id="memberReportEmail" value="${requestScope.rankMemberVO.memberEmail}">
+		                              	<input type="hidden" id="memberUserEmail" value="${sessionScope.memberVO.memberEmail}">
+		                           </div>
+		                        </div>
+		                        <!-- 카드8. 신고정보 끝 -->
+		                     </div>
+		                     <!-- 카드8. 신고정보 틀 끝 -->
 						</div>
 						<!-- 개인 정보 카드틀2 -->	
 					</div>
