@@ -1504,15 +1504,22 @@ $(document).ready(function(){ //DOM이 준비되고
 					$('.passInput').attr('class','form-group has-feedback passInput has-error');
 					$('.passInput > .control-label').html('암호를 입력해주세요');
 					$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+<<<<<<< HEAD
 				}else if(passwordComp.length<7|| passwordComp.length>16){
+=======
+				}else if(passwordComp.length<6|| passwordComp.length>16){
+>>>>>>> branch 'master' of https://github.com/junyoungShon/neonsignver3.git
 					userPassFlag = false;
 					$('.passInput').attr('class','form-group has-feedback passInput has-error');
 					$('.passInput > .control-label').html('암호는 6글자 이상 ~16글자 이하로 입력해주세요');
+<<<<<<< HEAD
 					$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 				}else if(passwordComp!=rePasswordComp && rePasswordComp!=""){
 					userPassFlag = false;
 					$('.passInput').attr('class','form-group has-feedback passInput has-error');
 					$('.passInput > .control-label').html("암호를 확인해 주세요");
+=======
+>>>>>>> branch 'master' of https://github.com/junyoungShon/neonsignver3.git
 					$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 				}else{
 					userPassFlag = true;
@@ -1530,7 +1537,11 @@ $(document).ready(function(){ //DOM이 준비되고
 					$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
 					$('.rePassInput > .control-label').html('암호를 확인해주세요');
 					$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+<<<<<<< HEAD
 				}else if(rePasswordComp.length<7|| rePasswordComp.length>16){
+=======
+				}else if(rePasswordComp.length<6|| rePasswordComp.length>16){
+>>>>>>> branch 'master' of https://github.com/junyoungShon/neonsignver3.git
 					userRePassFlag = false;
 					$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
 					$('.rePassInput > .control-label').html('암호는 6글자 이상 ~16글자 이하로 입력해주세요');
@@ -2005,15 +2016,19 @@ $(document).ready(function(){ //DOM이 준비되고
 				$('.passInput').attr('class','form-group has-feedback passInput has-error');
 				$('.passInput > .control-label').html('암호를 입력해주세요');
 				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-			}else if(passwordComp.length<7 || passwordComp.length>18){
+			}else if(passwordComp.length<7 || passwordComp.length>16){
 				userPassFlag = false;
 				$('.passInput').attr('class','form-group has-feedback passInput has-error');
+<<<<<<< HEAD
 				$('.passInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
 				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 			}else if(passwordComp!=rePasswordComp && rePasswordComp!=""){
 				userPassFlag = false;
 				$('.passInput').attr('class','form-group has-feedback passInput has-error');
 				$('.passInput > .control-label').html("암호를 확인해 주세요");
+=======
+				$('.passInput > .control-label').html('암호는 7글자 이상 ~15글자 이하로 입력해주세요');
+>>>>>>> branch 'master' of https://github.com/junyoungShon/neonsignver3.git
 				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 			}else{
 				userPassFlag = true;
@@ -2032,10 +2047,10 @@ $(document).ready(function(){ //DOM이 준비되고
 				$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
 				$('.rePassInput > .control-label').html('암호를 확인해주세요');
 				$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-			}else if(rePasswordComp.length<7 || rePasswordComp.length>18){
+			}else if(rePasswordComp.length<7 || rePasswordComp.length>16){
 				userRePassFlag = false;
 				$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
-				$('.rePassInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
+				$('.rePassInput > .control-label').html('암호는 7글자 이상 ~15글자 이하로 입력해주세요');
 				$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 			}else if(passComp!=rePasswordComp){
 				userRePassFlag = false;

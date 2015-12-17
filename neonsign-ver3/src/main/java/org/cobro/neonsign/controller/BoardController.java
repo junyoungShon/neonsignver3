@@ -916,18 +916,58 @@ public class BoardController {
 	 */
 	@RequestMapping("findBy.neon")
 	public ModelAndView SearchOnTopMenu(String selector, String keyword){	
-		//System.out.println("selector : "+ selector+" keyword : "+keyword);
-		List<MainArticleVO> list= boardService.SearchOnTopMenu(selector,keyword);		
-			//MainArticleVO의 포문
-			for(int i=0;i<list.size();i++){
-				String txt = "";
+		System.out.println("selector : "+ selector+" keyword : "+keyword);
+		List<MainArticleVO> list= boardService.SearchOnTopMenu(selector,keyword);	
+		//MainArticleVO의 포문
+		for(int i=0;i<list.size();i++){
+			String txt = "";
 			//MainArticle 안에 있는 TagBoardVOList의 사이즈
-				for(int j=0;j<list.get(i).getTagBoardVOList().size();j++){
-					txt+="#"+list.get(i).getTagBoardVOList().get(j).getTagName()+" ";
-				}
-		//		System.out.println(i+"번째 "+txt);
-				list.get(i).setTagName(txt);
+			for(int j=0;j<list.get(i).getTagBoardVOList().size();j++){
+				txt+="#"+list.get(i).getTagBoardVOList().get(j).getTagName()+" ";
 			}
+			//		System.out.println(i+"번째 "+txt);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+			list.get(i).setTagName(txt);
+		}
+		for(int i=0; i<list.size(); i++){
+			MainArticleImgVO mainArticleImgVO =boardService.selectMainArticleImg(list.get(i).getMainArticleNo());
+			if(mainArticleImgVO==null){
+				mainArticleImgVO = new MainArticleImgVO();
+			}
+			
+			//System.out.println("까-아 : " + mainArticleImgVO.getMainArticleImgName());
+			//태그가 두개인지 확인 -1이면 한개
+			int tagInt = list.get(i).getTagName().lastIndexOf(" ");
+			//System.out.println("끼-이 : " + tagInt);
+			String firstTagName = "";
+			if(tagInt!=-1){
+				//System.out.println("끄-오-오! : " + newMainArticleVOList.get(i).getTagName().substring(1, tagInt));
+				firstTagName = list.get(i).getTagName().substring(1, tagInt);
+			}else{
+				//System.out.println("꺄-오-오! : " + newMainArticleVOList.get(i).getTagName().substring(1));
+				firstTagName = list.get(i).getTagName().substring(1);
+			}
+			//파일의 경로를 담는다.
+			File dir = new File(articleImgPath+mainArticleImgVO.getMainArticleImgName());
+			//해당 경로에 파일이 존재하는지 확인
+			if (dir.isFile() == false) {
+			
+				//태그명이 게임일때만 .png를 할당한다.
+				if(firstTagName.equals("게임")){
+					list.get(i).setMainArticleImgVO(
+							new MainArticleImgVO(list.get(i)
+									.getMainArticleNo(), "basicBg/"+firstTagName+".png"));
+				}else{
+					//System.out.println("낫겜 : " + "basicBg/"+firstTagName+".jpg");
+					list.get(i).setMainArticleImgVO(
+							new MainArticleImgVO(list.get(i)
+									.getMainArticleNo(), "basicBg/"+firstTagName+".jpg"));
+				}
+			} else {
+				// System.out.println("낫 퍽! : " + dir.toString());
+				list.get(i).setMainArticleImgVO(
+						mainArticleImgVO);
+			}
+		}
 		
 		ModelAndView mv = new ModelAndView();
 		List<TagVO> tagVOList = boardService.getTagVOList();
@@ -937,6 +977,7 @@ public class BoardController {
 		mv.setViewName("findBy");
 	    return mv;	
 	}
+	
 	@RequestMapping("report.neon")
 	public ModelAndView selectReport(HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView();
