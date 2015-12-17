@@ -115,7 +115,8 @@ $(document).ready(function(){ //DOM이 준비되고
               							='<button class="btn btn-social btn-twitter itja" style="width:23%;">'
               							+'<span class="itjaCount"><i class="fa fa-link"></i><br>'+data.completeMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'
               							+'<form name="itJaInfo" style="display:none;"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
-              							+'"><input type="hidden" name="mainArticleNo" value="'+data.completeMainArticleArrayList[i].mainArticleNo
+              							+'"><input type="hidden" name="mainArticleBlack" value="'+data.completeMainArticleArrayList[i].block+'">'+
+              							'<input type="hidden" name="mainArticleNo" value="'+data.completeMainArticleArrayList[i].mainArticleNo
               							+'"><input type="hidden" name="subArticleNo" value=0></form></button>'
               							flag=false;
               							break;
@@ -126,7 +127,8 @@ $(document).ready(function(){ //DOM이 준비되고
               						='<button class="btn btn-social btn-twitter itja" style="width:23%;">'+
               						'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.completeMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'+
               						'<form name="itJaInfo" style="display:none;"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
-              						+'"><input type="hidden" name="mainArticleNo" value="'+data.completeMainArticleArrayList[i].mainArticleNo
+              						+'"><input type="hidden" name="mainArticleBlack" value="'+data.completeMainArticleArrayList[i].block+'">'+
+              						'<input type="hidden" name="mainArticleNo" value="'+data.completeMainArticleArrayList[i].mainArticleNo
               						+'"><input type="hidden" name="subArticleNo" value=0></form></button>'
               					}
               				}
@@ -229,7 +231,8 @@ $(document).ready(function(){ //DOM이 준비되고
 	              					='<button class="btn btn-social btn-twitter itja" style="width:23%; margin-top:10px;">'
 	              					+'<span class="itjaCount"><i class="fa fa-link"></i><br>'+data.newMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'
 	              					+'<form name="itJaInfo" style="display:none;"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
-	              					+'"><input type="hidden" name="mainArticleNo" value="'+data.newMainArticleArrayList[i].mainArticleNo
+	              					+'"><input type="hidden" name="mainArticleBlack" value="'+data.newMainArticleArrayList[i].block+'">'
+	              					+'<input type="hidden" name="mainArticleNo" value="'+data.newMainArticleArrayList[i].mainArticleNo
 	           						+'"><input type="hidden" name="subArticleNo" value=0></form></button>'
 	      							flag=false;
 	       							break;
@@ -240,6 +243,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	           					='<button class="btn btn-social btn-twitter itja" style="width:23%;">'+
 	           					'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.newMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'+
 	          					'<form name="itJaInfo" style="display:none;"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+	          					+'"><input type="hidden" name="mainArticleBlack" value="'+data.newMainArticleArrayList[i].block+'">'
 	           					+'"><input type="hidden" name="mainArticleNo" value="'+data.newMainArticleArrayList[i].mainArticleNo
 	           					+'"><input type="hidden" name="subArticleNo" value=0></form></button>'
 	           					}
@@ -322,6 +326,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		}
 	};
 	//무한스크롤 끝
+	
 	//tag sort 버튼 활성화
 	$('.tags-container>span').hover(function(){
 		$(this).attr('class','tag-mouseon');
@@ -649,10 +654,15 @@ $(document).ready(function(){ //DOM이 준비되고
 	});*/
 	//완결글 디테일 뷰(완) - 무한 스크롤 
 	$('#pinBoot').on('click','.readArticleBtn',function(){
-		alert('완결 글 무한 스크롤')
+		//alert('완결 글 무한 스크롤')
 		var mainArticleNO =$(this).next().children().find(':input[name="mainArticleNo"]').eq(0).val();
-		detailItjaView(mainArticleNO,"new");
-		$('#cardDetailView').modal();
+		var mainArticleBlack =$(this).next().children().find(':input[name="mainArticleBlack"]').eq(0).val();
+		if(mainArticleBlack==1){
+			alert("해당글은 관리자에 의해 차단된 글 입니다.");
+		}else{
+			detailItjaView(mainArticleNO,"new");
+			$('#cardDetailView').modal();
+		}
 	});
 	
 	

@@ -97,6 +97,7 @@
 					<form name="itJaInfo">
 						<input type="hidden" name="memberEmail" value="${sessionScope.memberVO.memberEmail}">
 						<input type="hidden" name="mainArticleNo" value="${newMainArticle.mainArticleNo}">
+						<input type="hidden" name="mainArticleBlack" value="${newMainArticle.block}">
 						<input type="hidden" name="subArticleNo" value=0>
 					</form>
 					<%--
