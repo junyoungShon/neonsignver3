@@ -53,4 +53,14 @@ public interface ReportDAO {
 
 	public ReportVO findReportByReportNoAndMainArticleNo(Integer integer,
 			MainArticleVO mainArticleVO);
+
+	public void memberReportAmountUpdate(MemberVO memberVO);
+
+	public int nowMainArticleReportNumber(MainArticleVO mainArticleVO);
+
+	public int nowSubArticleReportNumber(SubArticleVO subArticleVO);
+
+	public int getMemeberReportAmount(MemberVO memberVO);
+
+	public void memberBlack(MemberVO memberVO);
 }

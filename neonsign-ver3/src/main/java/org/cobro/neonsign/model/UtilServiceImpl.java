@@ -153,20 +153,21 @@ public class UtilServiceImpl implements UtilService{
 	@Override
 	public String articleReport(MainArticleVO mainArticleVO,
 			SubArticleVO subArticleVO, MemberVO memberVO) {
+		int reportNo=0;
 		String reporterCheck="ok";
 		//신고한 회원의 신고한 리포트 넘버를 받아온다
-		//List<Integer> reporterReportNoList=reportDAO.selectReporterReportNo(memberVO);
+		List<Integer> reporterReportNoList=reportDAO.selectReporterReportNo(memberVO);
 		//신고자의 report넘버에 대응하는 MainArticleNo가 있으면 신고를 하지않고
 		//reporterCheck에 fail을 할당한다
-		//for(int i=0; i<reporterReportNoList.size();i++){
+		for(int i=0; i<reporterReportNoList.size();i++){
 			//System.out.println("index : "+reporterReportNoList.get(i));
-			//ReportVO reportVO=reportDAO.findReportByReportNoAndMainArticleNo(reporterReportNoList.get(i),mainArticleVO);
+			ReportVO reportVO=reportDAO.findReportByReportNoAndMainArticleNo(reporterReportNoList.get(i),mainArticleVO);
 			//System.out.println("reportVO : "+reportVO);
-		/*	if(reportVO!=null){
+			if(reportVO!=null){
 				reporterCheck="fail";
 				break;
 			}
-		}*/
+		}
 		//System.out.println("result : "+reporterCheck);
 		if(reporterCheck.equals("ok")){
 		int result=0;
@@ -181,6 +182,7 @@ public class UtilServiceImpl implements UtilService{
 				//System.out.println("주제글 신고 생성");
 				reportDAO.mainArticleReport(mainArticleVO);
 			}
+			reportNo=reportDAO.nowMainArticleReportNumber(mainArticleVO);
 		}else{
 			//잇는글 신고를 업데이트
 			//잇는글 업데이트 후 업데이트가 실패했다면 신고하는메서드 실행 (실패시 result에 0이 할당된다)
@@ -190,11 +192,19 @@ public class UtilServiceImpl implements UtilService{
 			//잇는글 신고 수행하는 메서드
 				reportDAO.subArticleReport(subArticleVO);
 			}
+			reportNo=reportDAO.nowSubArticleReportNumber(subArticleVO);
+		}
+		//신고 후 신고당한 회원의 신고 횟수를 업데이트
+		reportDAO.memberReportAmountUpdate(memberVO);
+		//만약 회원의 신고 횟수가 50이상이 된다면 블락한다
+		if(reportDAO.getMemeberReportAmount(memberVO)>=50){
+			reportDAO.memberBlack(memberVO);
 		}
 		//현재 ReportNumber를 받아오는 메서드
-		int reportNo=reportDAO.nowReportNumber();
+		//int reportNo=reportDAO.nowReportNumber();
 		//System.out.println("현재 리포트 넘버 : "+reportNo );
 		//신고자를 추가해주는 메서드
+		System.out.println("reportNo : "+reportNo);
 		reportDAO.insertReporter(memberVO, reportNo);
 		//신고한 report의 신고수를 받아와 10이상이되면 Block해준다
 		int reportAmount=reportDAO.reportCount(reportNo);

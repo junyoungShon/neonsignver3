@@ -225,6 +225,50 @@ public class ReportDAOImpl implements ReportDAO{
 		map.put("reportNo", reportNo); map.put("mainArticleNo",mainArticleVO.getMainArticleNo());
 		return sqlSessionTemplate.selectOne("report.findReportByReportNoAndMainArticleNo",map);
 	}
+	/**
+	 * 신고당한 회원의 신고수를 업데이트 해주는 메서드
+	 * @윤택
+	 */
+	@Override
+	public void memberReportAmountUpdate(MemberVO memberVO) {
+		// TODO Auto-generated method stub
+		sqlSessionTemplate.update("report.memberReportAmountUpdate",memberVO);
+	}
+	/**
+	 * 메인아티클의 리포트 넘버를 받아옴
+	 * @윤택
+	 */
+	@Override
+	public int nowMainArticleReportNumber(MainArticleVO mainArticleVO) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne("report.nowMainArticleReportNumber",mainArticleVO);
+	}
+	/**
+	 * 서브아티클의 리포트 넘버를 받아옴
+	 * @윤택
+	 */
+	@Override
+	public int nowSubArticleReportNumber(SubArticleVO subArticleVO) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne("report.nowSubArticleReportNumber",subArticleVO);
+	}
+	/**
+	 * 회원의 신고 횟수를 받아옴
+	 * @윤택
+	 */
+	@Override
+	public int getMemeberReportAmount(MemberVO memberVO) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne("report.getMemeberReportAmount",memberVO);
+	}
+	/**
+	 * 회원을 블락
+	 */
+	@Override
+	public void memberBlack(MemberVO memberVO) {
+		// TODO Auto-generated method stub
+		sqlSessionTemplate.update("report.memberBlack",memberVO);
+	}
 
 
 }
