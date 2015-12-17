@@ -11,7 +11,7 @@ drop table PICKED_ARTICLE;
 drop table ITJA_MEMBER;
 drop table SUBSCRIPTION_INFO;
 drop table MAIN_ARTICLE_IMG;
-drop table PROFILE_IMG;
+--drop table PROFILE_IMG;
 drop table FIND_PASSWORD;
 drop table SUB_ARTICLE;
 drop table MAIN_ARTICLE;
@@ -35,7 +35,7 @@ select * from PICKED_ARTICLE;
 select * from ITJA_MEMBER;
 select * from SUBSCRIPTION_INFO;
 select * from MAIN_ARTICLE_IMG;
-select * from PROFILE_IMG;
+--select * from PROFILE_IMG;
 select * from FIND_PASSWORD
 select * from SUB_ARTICLE;
 select * from MAIN_ARTICLE;
@@ -45,15 +45,19 @@ select * from SERVICE_CENTER;
 -- ** 뇌온사인 회원 테이블 생성 / 삭제 ** -----------------------------------------------------------
 create table BRAIN_MEMBER(
 MEMBER_EMAIL varchar2(50) primary key,
-MEMBER_NICKNAME varchar2(20) not null,
-MEMBER_PASSWORD varchar2(16) not null,
+MEMBER_NICKNAME varchar2(24) not null,
+MEMBER_PASSWORD varchar2(54) not null,
 MEMBER_JOIN_DATE date not null,
 MEMBER_POINT number default 0,
 MEMBER_REPORT_AMOUNT number default 0,
-MEMBER_CATEGORY varchar2(30) not null
+MEMBER_CATEGORY varchar2(30) not null,
+PROFILE_IMG_NAME clob default 'basicImg/abok.png' -- 2015-12-15 대협추가 프로필 사진 저장 컬럼
 );
 --drop table BRAIN_MEMBER
--- alter table BRAIN_MEMBER modify(MEMBER_EMAIL varchar2(50))
+--alter table BRAIN_MEMBER modify(MEMBER_NICKNAME varchar2(24))
+--alter table BRAIN_MEMBER modify(MEMBER_PASSWORD varchar2(54))
+
+--drop table BRAIN_MEMBER
 --select * from BRAIN_MEMBER;
 -----------------------------------------------------------------------------------
 -- ** 주제글 테이블, 시퀀스 생성 / 삭제 ** --------------------------------------------------------
@@ -204,15 +208,6 @@ constraint fk_img_main_article_no foreign key(MAIN_ARTICLE_NO) references MAIN_A
 );
 --drop table MAIN_ARTICLE_IMG
 --select * from MAIN_ARTICLE_IMG;
--- 2015-12-08 대협추가 ---------------------------------------------------------------------
--- ** 프로필이미지 테이블 ** -------------------------------------------------------------
-create table PROFILE_IMG(
-MEMBER_EMAIL varchar2(50) primary key,
-PROFILE_IMG_NAME clob not null,
-constraint fk_img_member_email foreign key(MEMBER_EMAIL) references BRAIN_MEMBER(MEMBER_EMAIL)	
-);
---drop table PROFILE_IMG
---select * from PROFILE_IMG;
 -----------------------------------------------------------------------------------
 -- ** 구독 테이블(복합키 적용) 생성 / 삭제 ** -----------------------------------------------------
 create table SUBSCRIPTION_INFO(

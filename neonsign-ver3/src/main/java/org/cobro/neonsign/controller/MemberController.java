@@ -1,6 +1,7 @@
 package org.cobro.neonsign.controller;
 
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.cobro.neonsign.model.ItjaMemberBean;
 import org.cobro.neonsign.model.MemberService;
+import org.cobro.neonsign.vo.FileVO;
 import org.cobro.neonsign.vo.FindPasswordVO;
 import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MemberListVO;
@@ -19,10 +21,10 @@ import org.cobro.neonsign.vo.ServiceCenterListVO;
 import org.cobro.neonsign.vo.ServiceCenterVO;
 import org.cobro.neonsign.vo.SubscriptionInfoVO;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -113,11 +115,31 @@ public class MemberController {
 	}
 	
 	/**
+	 * 글카드 배경파일을 업로드하기 위한 멤버변수
+	 * 2015-12-15 대협추가
+	 * @author daehyeop
+	 */
+	@Resource(name="profileImgUploadPath")
+	private String profileImgPath; 
+	
+	/**
 	 *  가입후 바로 로그인 가능하도록함 
 	 *  @author 한솔
 	 */
 	@RequestMapping("memberJoinByEmail.neon")
-	public ModelAndView memberRegister(HttpServletRequest request,MemberVO memberVO){
+	public ModelAndView memberRegister(FileVO fvo, HttpServletRequest request,MemberVO memberVO){
+		//2015-12-15 대협추가
+		MultipartFile file = fvo.getFile();
+		String fileName = file.getOriginalFilename();
+		if(!fileName.equals("")){
+			try{
+				fileName = memberVO.getMemberEmail()+"_"+fileName;
+				file.transferTo(new File(profileImgPath+fileName));
+				memberVO.setProfileImgName(fileName);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
 		memberService.pointMemberRegister(memberVO);
 		request.setAttribute("memberVO", memberVO);
 		return new ModelAndView("forward:memberLogin.neon");
@@ -286,8 +308,22 @@ public class MemberController {
 	 * @author 한솔
 	 */
 	@RequestMapping("memberUpate.neon")
-	public String memberUpdate(HttpServletRequest request,MemberVO memberVO){
-		//System.out.println("업데이트비번 :"+memberVO.getMemberPassword());
+	public String memberUpdate(FileVO fvo, HttpServletRequest request,MemberVO memberVO){
+		//2015-12-15 대협추가
+		MultipartFile file = fvo.getFile();
+		String fileName = file.getOriginalFilename();
+		if(!fileName.equals("")){
+			try{
+				fileName = memberVO.getMemberEmail()+"_"+fileName;
+				file.transferTo(new File(profileImgPath+fileName));
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}else{
+			MemberVO memberVo = memberService.findMemberByEmail(memberVO.getMemberEmail());
+			fileName = memberVo.getProfileImgName();
+		}
+		memberVO.setProfileImgName(fileName);
 		HttpSession session = request.getSession(false);
 		String path="redirect:memberLogin.neon";
 		if(session!=null){

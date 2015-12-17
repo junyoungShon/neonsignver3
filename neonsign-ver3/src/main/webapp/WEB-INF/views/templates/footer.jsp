@@ -16,7 +16,8 @@
 				<h4 class="modal-title" id="myModalLabel">뇌온사인 회원가입</h4>
 			</div>
 			<div class="modal-body">
-				<form id="memberJoinByEmail" action="memberJoinByEmail.neon">
+				<!-- 2015-12-15 대협추가 -->
+				<form id="memberJoinByEmail" enctype="multipart/form-data" action="memberJoinByEmail.neon" method="post">
 					<!-- 개인정보 입력 부분 -->
 					<div class="personInfoForJoin">
 						<!-- 
@@ -52,6 +53,8 @@
 								id="memberJoinInputRePassword" placeholder="암호를 한번 더 입력해주세요!">
 							<span class="glyphicon form-control-feedback" aria-hidden="ture"></span>
 						</div>
+						<!-- 2015-12-15 대협추가 -->
+						<input type="file" name="file" accept="image/*">
 					</div>
 				</form>
 			</div>
@@ -159,7 +162,7 @@
 								<div class="writersNickNameAtDetail"><br></div>
 		           				<div class="collapse postForDetail-heading mainArticleWriterDetailCollapse" id="">
 		                			<div class="pull-left imageForDetail">
-		                    			<img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatarForDetail" alt="user profile image">
+		                			<!-- 2015-12-15 대협삭제 -->
 		                			</div>
 		               				<div class="pull-left metaForDetail">
 			                    		<div class="titleForDetail h5 ">
@@ -359,7 +362,8 @@
 					수정</h4>
 			</div>
 			<div class="modal-body">
-				<form action="memberUpate.neon" method="post" name="memberUpdate"
+				<!-- 2015-12-15 대협추가 -->
+				<form action="memberUpate.neon" method="post" enctype="multipart/form-data" name="memberUpdate"
 					id="memberUpdate">
 					<div class="form-group has-feedback emailInput">
 						<label class="control-label" for="inputSuccess2">이메일</label> <input
@@ -401,8 +405,8 @@
 							id="memberupdateRepassword" placeholder="암호를 한번 더 입력해주세요!">
 						<span class="glyphicon form-control-feedback" aria-hidden="ture"></span>
 					</div>
-
-
+					<!-- 2015-12-15 대협추가 -->
+					<input type="file" name="file" accept="image/*">
 
 				</form>
 			</div>

@@ -325,12 +325,10 @@ $(document).ready(function(){ //DOM이 준비되고
 		}
 		}
 	};
-<<<<<<< HEAD
-/*	//무한스크롤 끝
-=======
+
 	//무한스크롤 끝
 	
->>>>>>> branch 'master' of https://github.com/junyoungShon/neonsignver3.git
+	/*
 	//tag sort 버튼 활성화
 	$('.tags-container>span').hover(function(){
 		$(this).attr('class','tag-mouseon');
@@ -814,6 +812,8 @@ $(document).ready(function(){ //DOM이 준비되고
 				$('.mainArticleWriterDetail').attr('data-target','#collapseExample'+data.mainArticle.mainArticleNo);
 				$('.mainArticleWriterDetailCollapse').attr('id','collapseExample'+data.mainArticle.mainArticleNo);
 				$('.writersNickNameAtDetail').text(data.mainArticle.memberVO.memberNickname);
+				//2015-12-15 대협추가
+				$('.imageForDetail').html('<img src="resources/uploadImg/profileImg/'+data.mainArticle.memberVO.profileImgName+'" class="img-circle avatarForDetail" alt="user profile image">');
 				
 				$('#detailSubTable').html("");
 					var mainArticle="";
@@ -866,7 +866,8 @@ $(document).ready(function(){ //DOM이 준비되고
 					+'<div class="writersNickNameAtDetail">'+data.likingSubArticle[i].memberVO.memberNickName+'<br></div>'
        				+'<div class="collapse postForDetail-heading mainArticleWriterDetailCollapse" id="'+data.likingSubArticle[i].subArticleNo+'">'
             		+'<div class="pull-left imageForDetail">'
-                	+'<img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatarForDetail" alt="user profile image"></div>'
+            		//2015-12-15 대협수정
+                	+'<img src="resources/uploadImg/profileImg/'+data.likingSubArticle[i].memberVO.profileImgName+'" class="img-circle avatarForDetail" alt="user profile image"></div>'
             		+'<div class="pull-left metaForDetail"><div class="titleForDetail h5 "><a href="#" class="writersNickNameAtDetail"><b>'
             		+data.likingSubArticle[i].memberVO.memberNickName+'</b></a></div>'
                     +'<h6 class="text-muted timeForDetail"></h6><a href="#" class="btn btn-default statForDetail-item mainLikeIt">'+mainLikeItHTML
@@ -917,7 +918,8 @@ $(document).ready(function(){ //DOM이 준비되고
 		  					  }
 		  					subAtricleOrder=subAtricleOrder+
 		  					'<div class="postForDetail-heading"><div class="pull-left imageForDetail">'
-		  					+'<img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatarForDetail" alt="user profile image"></div>'
+		  					//2015-12-15 대협수정
+		  					+'<img src="resources/uploadImg/profileImg/'+data.subArticleVO[i].memberVO.profileImgName+'" class="img-circle avatarForDetail" alt="user profile image"></div>'
                 			+'<div class="pull-left metaForDetail"><div class="titleForDetail h5"><a href="#"><b>'+ data.subArticleVO[i].memberVO.memberNickName+'</b></a>'
                    			+'</div><h6 class="text-muted timeForDetail">'+data.subArticleVO[i].subArticleDate+'</h6>'
                    			+'<a href="#" class="btn btn-default statForDetail-item mainLikeIt">'+mainLikeItHTML+'</a>'

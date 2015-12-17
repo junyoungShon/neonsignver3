@@ -229,6 +229,14 @@ public class BoardController {
 	@Resource(name="articleImgUploadPath")
 	private String articleImgPath; 
 	
+	/**
+	 * 글카드 배경파일을 업로드하기 위한 멤버변수
+	 * 2015-12-15 대협추가
+	 * @author daehyeop
+	 */
+	@Resource(name="profileImgUploadPath")
+	private String profileImgPath;
+	
 	/**Controller1
 	 * 사용자가 주제글을 작성할 때 사용한다.
 	 * 태그와 주제글 테이블 동시에 적용
@@ -719,6 +727,11 @@ public class BoardController {
 		// 마이페이지 주인 email주소로 랭킹 받아서 memberVO에 set + 구독정보도 추가함
 		memberVO = boardService.getMemberRankingByMemberEmail(memberVO);
 		// System.out.println("con : " + memberVO);
+		//2015-12-15 대협추가
+		File profileDir = new File(profileImgPath+memberVO.getProfileImgName());
+		if(profileDir.isFile()==false){
+			memberVO.setProfileImgName("basicImg/not_found.png");
+		}
 		mav.addObject("rankMemberVO", memberVO);
 		// Rank에 따른 image 따오기 위한것
 		List<RankingVO> rankingVOList = boardService.getRankingList();

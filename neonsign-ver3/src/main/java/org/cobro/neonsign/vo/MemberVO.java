@@ -13,8 +13,9 @@ public class MemberVO {
 	private RankingVO rankingVO;
 	private List<PickedVO> pickedVOList; // 2015.11.28 추가함
 	private List<ItjaMemberVO> itjaMemberList;
-	private List<SubscriptionInfoVO> subscriptionInfoList;  // 2015.12.11 추가
-	
+	private List<SubscriptionInfoVO> subscriptionInfoList; // 2015.12.11 추가
+	private String profileImgName; // 2015-12-15 대협추가
+
 	public MemberVO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -24,7 +25,7 @@ public class MemberVO {
 			String memberPassword, String memberJoinDate, int memberPoint,
 			int memberReportAmount, String memberCategory, RankingVO rankingVO,
 			List<PickedVO> pickedVOList, List<ItjaMemberVO> itjaMemberList,
-			List<SubscriptionInfoVO> subscriptionInfoList) {
+			List<SubscriptionInfoVO> subscriptionInfoList, String profileImgName) {
 		super();
 		this.memberEmail = memberEmail;
 		this.memberNickName = memberNickName;
@@ -37,6 +38,7 @@ public class MemberVO {
 		this.pickedVOList = pickedVOList;
 		this.itjaMemberList = itjaMemberList;
 		this.subscriptionInfoList = subscriptionInfoList;
+		this.profileImgName = profileImgName;
 	}
 
 	public String getMemberEmail() {
@@ -128,6 +130,14 @@ public class MemberVO {
 		this.subscriptionInfoList = subscriptionInfoList;
 	}
 
+	public String getProfileImgName() {
+		return profileImgName;
+	}
+
+	public void setProfileImgName(String profileImgName) {
+		this.profileImgName = profileImgName;
+	}
+
 	@Override
 	public String toString() {
 		return "MemberVO [memberEmail=" + memberEmail + ", memberNickName="
@@ -137,7 +147,8 @@ public class MemberVO {
 				+ ", memberCategory=" + memberCategory + ", rankingVO="
 				+ rankingVO + ", pickedVOList=" + pickedVOList
 				+ ", itjaMemberList=" + itjaMemberList
-				+ ", subscriptionInfoList=" + subscriptionInfoList + "]";
+				+ ", subscriptionInfoList=" + subscriptionInfoList
+				+ ", profileImgName=" + profileImgName + "]";
 	}
-	
+
 }
