@@ -36,10 +36,10 @@
  <link rel="stylesheet" type="text/css" href="${initParam.root}resources/css/toasty-min.css">
 	<style type="text/css">
 		body {
-		 background-image: url('${initParam.root}resources/img/iframeBG.PNG')
+		 background-image: url('${initParam.root}resources/img/iframeBG.png')
 		} 
 		.itjaSlide{
-		 background-color: rgba( 255, 255, 255, 0.6 );
+		 background-color: rgba( 255, 255, 255, 0.5 );
 		 margin-top:20px;
 		}
 		.jumbotron{
