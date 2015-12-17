@@ -12,7 +12,7 @@
           
          
           
-        <a class="navbar-brand top-menu" href="#">
+        <a class="navbar-brand top-menu" href="${initParam.root}getMainList.neon">
         <img class="logoImg" src="${initParam.root}resources/img/width_logo_BrainOnSign.png">
 		</a>
         </div>
@@ -76,6 +76,8 @@
 		            <li class="divider"></li>
 		            <li><a href="mypage.neon?memberEmail=${sessionScope.memberVO.memberEmail}" class="top-menu">회원 정보 보기</a></li>
 		            <li class="divider"></li>
+		            <li><a href="#" class="ServiceCenter">문의글쓰기</a></li>
+		             <li class="divider"></li>
 		            <li><a href="${initParam.root}memberLogout.neon" id="logout" class="top-menu">로그아웃</a></li>
 		             <li class="divider"></li>
 		               <li><a href="#" class="memberDelete top-menu">회원탈퇴</a></li>

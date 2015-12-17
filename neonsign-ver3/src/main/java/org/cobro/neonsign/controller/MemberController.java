@@ -1,10 +1,8 @@
 package org.cobro.neonsign.controller;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +15,8 @@ import org.cobro.neonsign.vo.ItjaMemberVO;
 import org.cobro.neonsign.vo.MemberListVO;
 import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.PickedVO;
+import org.cobro.neonsign.vo.ServiceCenterListVO;
+import org.cobro.neonsign.vo.ServiceCenterVO;
 import org.cobro.neonsign.vo.SubscriptionInfoVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,10 +74,10 @@ public class MemberController {
 	@RequestMapping("memberLogin.neon")
 	public ModelAndView memberLogin(HttpServletRequest request, MemberVO memberVO){
 		MemberVO memberVO1 = memberVO;
-		memberVO=memberService.memberLogin(memberVO);
+		memberVO=memberService.pointMemberLogin(memberVO);
 		ModelAndView mav = new ModelAndView();
 		if(memberVO==null){
-			memberVO=memberService.defaultMemberLogin(memberVO1);
+			memberVO=memberService.pointDefaultMemberLogin(memberVO1);
 		}
 		if(memberVO!=null){
 			List<ItjaMemberVO> list = itjaMemberBean.getItjaListByMemberEmail(memberVO);
@@ -88,8 +88,15 @@ public class MemberController {
 			}
 			request.getSession().setAttribute("memberVO",memberVO);		
 			mav = new ModelAndView("redirect:getMainList.neon");
+			
+			//만약 블락 회원이라면 세션을 없애고 loginPage로 이동 후 블락 회원이라고 한다
+			if(memberVO.getMemberCategory().equals("BLACK")){
+				request.getSession().invalidate();
+				String fail="해당 계정은 관리자에 의해 정지된 계정입니다";
+				mav=new ModelAndView("loginPage","fail",fail);
+			}
 		}else{
-			memberVO=memberService.defaultMemberLogin(memberVO1);
+			memberVO=memberService.pointDefaultMemberLogin(memberVO1);
 			String fail="아이디와 비밀번호가 맞지 않습니다.";
 			mav=new ModelAndView("loginPage","fail",fail);
 		}
@@ -129,6 +136,18 @@ public class MemberController {
 		memberService.memberBlock(memberEmail);
 		return new ModelAndView("redirect:getMemberList.neon");
 	}
+	
+	/**
+	 * 회원 이메일을 받아 그 회원을 블락 시키는 메서드
+	 * @author 윤택
+	 */
+	@RequestMapping("memberBlockRelease.neon")
+	public ModelAndView memberBlockRelease(HttpServletRequest request){
+		String memberEmail=request.getParameter("memberEmail");
+		memberService.memberBlockRelease(memberEmail);
+		return new ModelAndView("redirect:getMemberList.neon");
+	}
+	
 	/**
 	 * 관리자 페이지에서 일반&블락 회원멤버들 리스트를 출력
 	 * @author 한솔
@@ -138,12 +157,40 @@ public class MemberController {
 		ModelAndView mv = new ModelAndView();
 		 MemberListVO memberList=memberService.getMemberList(1);//회원 리스트를 받아온다
 		 MemberListVO blockMemberList=memberService.getBlockMemberList(1);//회원 리스트를 받아온다
+		 ServiceCenterListVO serviceCenterList=memberService.ServiceCenterList(1);//문의글 리스트를 받아온다
 		 HashMap<String, MemberListVO> memberMap=new HashMap<String, MemberListVO>();
 		 memberMap.put("memberList",memberList); memberMap.put("blokcMemberList", blockMemberList);
 		mv.addObject("memberMap", memberMap);
+		mv.addObject("serviceCenterList",serviceCenterList);
 		mv.setViewName("forward:adminPageView.neon");
 		return mv;
 	}
+
+/**
+	 * 문의글 쓰기 
+	 * @author 전재영
+	 */
+	@RequestMapping("writeServiceCenter.neon")
+	public ModelAndView insertServiceCenter(ServiceCenterVO ServiceCenterVO){
+		//System.out.println(ServiceCenterVO);
+		memberService.insertServiceCenter(ServiceCenterVO);
+		//System.out.println(ServiceCenterVO);
+		return new ModelAndView("redirect:getMainList.neon");
+	}
+	/**
+	 * 문의글 상세히 보기
+	 * @author 전재영
+	 */
+	@RequestMapping("ServiceCenterView.neon")
+	@ResponseBody
+	public ServiceCenterVO ServiceCenterView(ServiceCenterVO ServiceCenterVO){
+		int ServiceCenterNo= ServiceCenterVO.getServiceCenterNo();
+		//System.out.println(ServiceCenterNo);
+		ServiceCenterVO serviceCenterview=memberService.ServiceCenterView(ServiceCenterNo);
+		//System.out.println(serviceCenterview);
+		return serviceCenterview;
+	}
+
 	
 	/**
 	 * 관리자 페이지에서 type을 받아 그 type에 맞게
@@ -153,15 +200,15 @@ public class MemberController {
 	@RequestMapping("memberReportListPaging.neon")
 	@ResponseBody
 	public MemberListVO articleReportListPaging(String pageNo, String pageType){
-		System.out.println("AJax 연동 페이징 넘버 "+pageNo);
-		System.out.println("Ajax 연동 페이징 타입 "+pageType);
+		//System.out.println("AJax 연동 페이징 넘버 "+pageNo);
+		//System.out.println("Ajax 연동 페이징 타입 "+pageType);
 		MemberListVO memberReportList=null;
 			int pageNumber=Integer.parseInt(pageNo);
 			if(pageType.equals("memberList")){
-				System.out.println("memberList");
+				//System.out.println("memberList");
 				memberReportList=memberService.getMemberList(pageNumber);
 			}else{
-				System.out.println("blockMemberList ");
+				//System.out.println("blockMemberList ");
 				memberReportList=memberService.getBlockMemberList(pageNumber);
 			}
 			return memberReportList;
@@ -174,7 +221,7 @@ public class MemberController {
 	@RequestMapping(value="auth_updatePickedVO.neon", method=RequestMethod.POST)
 	@ResponseBody
 	public HashMap<String,Object> updatePickedVO(PickedVO pvo, HttpServletRequest request){
-		System.out.println("넘어오는 찜 정보 : " + pvo);
+		//System.out.println("넘어오는 찜 정보 : " + pvo);
 		HttpSession session = request.getSession(false);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		if(session != null){
@@ -196,7 +243,7 @@ public class MemberController {
 	@RequestMapping(value="auth_updateSubscriptionInfo.neon", method=RequestMethod.POST)
 	@ResponseBody
 	public HashMap<String, Object> updateSubscriptionInfo(SubscriptionInfoVO subscriptionInfoVO, HttpServletRequest request){
-		System.out.println("넘어온 구독정보 : " + subscriptionInfoVO);
+		//System.out.println("넘어온 구독정보 : " + subscriptionInfoVO);
 		HttpSession session = request.getSession(false);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		if(session != null){
@@ -243,6 +290,13 @@ public class MemberController {
 		HttpSession session = request.getSession(false);
 		String path="redirect:memberLogin.neon";
 		if(session!=null){
+			List<ItjaMemberVO> list = itjaMemberBean.getItjaListByMemberEmail(memberVO);
+			//0,0번째 글은 존재하지 않는다. 잇자를 누른 글이 하나도 없어도 사용자의 이메일을 얻기 위함이다.
+			list.add(new ItjaMemberVO(0,0,memberVO.getMemberEmail()));
+			if(list!=null){
+				memberVO.setItjaMemberList(list);
+			}
+			request.getSession().setAttribute("memberVO",memberVO);
 			memberService.memberUpdate(memberVO);
 			session.setAttribute("memberVO", memberVO);
 			path="redirect:getMainList.neon";
@@ -281,4 +335,5 @@ public class MemberController {
 		mav.setViewName("temporaryPasswordView");
 		return mav;
 	}
+
 }

@@ -33,7 +33,7 @@ public class NeonsignEmailSenderAPI{
 			messageHelper.setSubject(subject);	// 메일제목은 생략이 가능하다
 			neonsignMailSender.send(message);
 		} catch(Exception e){
-			System.out.println(e);
+			//System.out.println(e);
 		}
 	}
 }

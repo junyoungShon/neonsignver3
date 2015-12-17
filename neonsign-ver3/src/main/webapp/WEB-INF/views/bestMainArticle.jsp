@@ -34,21 +34,70 @@
  
  <!-- 잇자 또는 공지를 사이트 측면에서 띄워주는 간이모달 CSS -->
  <link rel="stylesheet" type="text/css" href="${initParam.root}resources/css/toasty-min.css">
+	<style type="text/css">
+		body {
+		 background-image: url('${initParam.root}resources/img/iframeBG.png')
+		} 
+		.itjaSlide{
+		 background-color: rgba( 255, 255, 255, 0.5 );
+		 margin-top:20px;
+		}
+		.jumbotron{
+			background-color: rgba( 255, 255, 255, 0 );
+		}
+		.itjaMainTitle{
+			margin-top:0px;
+			padding-top:30px;
+		}
+	</style>
 
 </head>
 
 
 <body>
+   <h2 class="itjaMainTitle">베스트 잇자!</h2>
 <div class="itjaSlide">
 <div class="bestMainArticle">
-   <h2 class="itjaMainTitle">베스트 잇자!</h2>
    <div class="container-fluid">
       <div class="gallery js-flickity"
          data-flickity-options='{ "freeScroll": false, "wrapAround": true ,"pageDots": false, "autoPlay" : 2000}'>
          <!-- el 문 및 ajax로 베스트글이 표시되는 슬라이드 지역 -->
          <!-- 카드 1개 -->
+         	<c:set var="cardList" value="${requestScope.bestMainArticleVOListOrderByDate}"/>
+         	<c:set var="cardNum" value="${fn:length(cardList)}"/>
+         	<c:choose>
+         		<c:when test="${cardNum==1}">
+         			<c:set var="cardCol" value="col-lg-6"/>
+         		</c:when>
+         		<c:when test="${cardNum==2}">
+         			<c:set var="cardCol" value="col-lg-6"/>
+         		</c:when>
+         		<c:when test="${cardNum==3}">
+         			<c:set var="cardCol" value="col-lg-4"/>
+         		</c:when>
+         		<c:when test="${cardNum==4}">
+         			<c:set var="cardCol" value="col-lg-3"/>
+         		</c:when>
+         		<c:when test="${cardNum==5}">
+         			<c:set var="cardCol" value="col-lg-3"/>
+         		</c:when>
+         		<c:otherwise>
+         			<c:set var="cardCol" value="col-lg-2"/>
+         		</c:otherwise>
+         	</c:choose>  
+	         <c:if test="${empty cardList}">
+	         	<div class="jumbotron">
+				  <h1 style="color: indigo;">현재 베스트 잇자가 없습니다.</h1>
+				  <p style="color: indigo; font-weight: bold; ">아래의 새로운 주제글들 중 마음에 드는 글들의 잇자! 버튼을 눌러주세요 10개가 되면 베스트 잇자가 됩니다.</p>
+				  <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p> -->
+				</div>
+	         </c:if>
+         	<c:if test="${!empty cardList}">
          <c:forEach var="bestMainArticle"  items="${requestScope.bestMainArticleVOListOrderByDate}">
-            <div class="card-box col-lg-3">
+	         <c:if test="${!empty bestMainArticle}">
+	         
+	         <div class="card-box ${cardCol}">
+               
                <div class="card card-with-border" data-background="image"
                   data-src="${initParam.root}resources/uploadImg/articleBg/${bestMainArticle.mainArticleImgVO.mainArticleImgName}">
                   <div class="content">
@@ -82,7 +131,7 @@
                      </c:otherwise>
                      </c:choose>
                      </p>
-                     <a href="mypage.neon?memberEmail=${bestMainArticle.memberVO.memberEmail}" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" 
+                     <a href="mypage.neon?memberEmail=${bestMainArticle.memberVO.memberEmail}" target="_parent" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" 
                      data-toggle="popover" 
                      title="${bestMainArticle.memberVO.memberNickName}님, ${bestMainArticle.memberVO.rankingVO.memberGrade} PTS(${bestMainArticle.memberVO.memberPoint} / ${bestMainArticle.memberVO.rankingVO. maxPoint})" 
                      data-content="${bestMainArticle.memberVO.memberNickName}님 Click하여 페이지 보기" >
@@ -174,7 +223,9 @@
                <!-- end card -->
             </div>
             <!-- card-box col-md-4 -->
+            	</c:if>
          </c:forEach>
+         </c:if>
          <!--끝!! 카드 1개 -->
       </div>
       <!--  end gallery js-flickity -->
@@ -198,7 +249,8 @@
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title" id="cardDetailViewLabel"><span class="time_area_modal"></span></h4>
+				<h4 class="modal-title" id="cardDetailViewLabel"></h4>
+				<span id="timeAreaModalBest"></span>
 				<input type="hidden" name="memberEmail" value="${sesseionScope.memberVO.memberEmail}">
 				<input type="hidden" name="mainArticleNo" value="">
 				
@@ -221,7 +273,7 @@
 		                			</div>
 		               				<div class="pull-left metaForDetail">
 			                    		<div class="titleForDetail h5 ">
-			                       			<a href="#" class="writersNickNameAtDetail"><b></b></a>
+			                       			<a href="#" class="writersNickNameAtDetail" target="_parent"><b></b></a>
 			                   			</div>
 		                    			<h6 class="text-muted timeForDetail"></h6>
 		                    			<a href="#" class="btn btn-default statForDetail-item mainLikeIt">
@@ -230,7 +282,7 @@
 				                    	</a>
 		               				</div>
 		          				</div>
-		          			</div>
+		          			</div><br>
 		          				<div class="linkingSubArticleContentInModal">
 		          				</div> 
           				</div>

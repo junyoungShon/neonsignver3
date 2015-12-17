@@ -1,6 +1,12 @@
 $(document).ready(function(){ //DOM이 준비되고
 	
+
 	
+	
+	//아이프레임 리로딩
+	function iframeReload(){
+		$('#bestMainArticleArea',window.parent.document).attr('src',$('#bestMainArticleArea',window.parent.document).attr('src'));
+	}
 	//타이머
 	window.setInterval(function(){
 		//날짜 형식
@@ -35,7 +41,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			}
 			var bestMainArticleNo = $('.bestMainArticleNo').eq(i).val();
 			if(remind_seconds==0){
-				
+				$('.time_area').eq(i).html('종료된<br>잇자!');
 				$.ajax({
 					type : "POST",
 					url : "storyLinking.neon",
@@ -43,33 +49,28 @@ $(document).ready(function(){ //DOM이 준비되고
 					dataType:"json",
 					success : function(data){
 						if(data.result=="complete"){
-							/*var msg = bestMainArticleNo+
+							var msg = bestMainArticleNo+
 					          "번이 완결되었습니다. 바로 확인 하실래요?<br/><br/>"+
 					          "<center><button class='closeToast' "+
-					          "onclick='detailItjaView(mainArticleNO"+bestMainArticleNo+");'>Ok</button> "+
-					          "<button class='closeToast'>Cancel</button>";*/
-							$('.time_area').eq(i).html('새로고침<br>필요');
+					          "onclick='detailItjaView("+bestMainArticleNo+");'>Ok</button> "+
+					          "<button class='closeToast'>Cancel</button>";
 						}else if(data.result="continue"){
-							/*"번 주제글에 새로운 잇자 타임이 시작되었습니다. 바로 참여 하실래요?<br/><br/>"+
+							var msg= bestMainArticleNo+"번 주제글에 새로운 잇자 타임이 시작되었습니다. 바로 참여 하실래요?<br/><br/>"+
 					          "<center><button class='closeToast' "+
 					          "onclick='detailItjaView(mainArticleNO"+bestMainArticleNo+");'>Ok</button> "+
 					          "<button class='closeToast'>Cancel</button>";
-							alert( $('.updateDate').val());*/
-							$('.time_area').eq(i).html('새로고침<br>필요');
 						}
-						$('iframe').attr('src', $('iframe').attr('src'));
-						/*$().toasty({
-						    autoHide: 2000,
+						$().toasty({
+							autohide:4000,
 						    message: msg,
 						    modal: false
-						});*/
+						});
 					}
 				});
 				
 			}
 		}
 	}, 1000);
-	
 	//main 부분
 	//무한 스크롤 (테스트 완료 ajax와 연동 필요)
 	// hipster 카드에서 동적으로 style을 입혀주지 못하는 문제점이 있어서 반드시 소스를 넣을 때 style을 수기로 기록해줘야함
@@ -225,7 +226,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	              			for(var j=0;j<data.itjaMemberList.length;j++){
 	              				if(data.itjaMemberList[j].mainArticleNo == data.newMainArticleArrayList[i].mainArticleNo){
 	              					mainLikeItHTML 
-	              					='<button class="btn btn-social btn-twitter itja" style="width:100%; margin-top:10px;">'
+	              					='<button class="btn btn-social btn-twitter itja" style="width:23%; margin-top:10px;">'
 	              					+'<span class="itjaCount"><i class="fa fa-link"></i><br>'+data.newMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'
 	              					+'<form name="itJaInfo" style="display:none;"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
 	              					+'"><input type="hidden" name="mainArticleNo" value="'+data.newMainArticleArrayList[i].mainArticleNo
@@ -559,8 +560,61 @@ $(document).ready(function(){ //DOM이 준비되고
 		var mainArticleNO =$(this).parent().parent().siblings('input[class="mainArticleTitleNO"]').val();
 		detailItjaView(mainArticleNO);
 	});*/
+	var detailViewTimeChecker;
+	//디테일 뷰의 타이머
+	function detailViewTimer(mainArticleNO){
+		var updateDates = $('.updateDate');
+		var bestMainArticleSNo = $('.bestMainArticleNo'); 
+		
+		var i =0;
+		for(i;i<updateDates.length;i++){
+			if($('.bestMainArticleNo').eq(i).val() == mainArticleNO){
+				break;
+			}
+		}
+		detailViewTimeChecker
+		= window.setInterval(function(){
+			//날짜 형식
+			// 2015-12-03 13:05:17
+			var updateDates = $('.updateDate');
+			
+				//현재 시간	
+				var currunt_date = new Date();
+				var currunt_timestamp = Math.floor(currunt_date.getTime()/1000)
+				var updateYear = $(updateDates[i]).val().substring(0,4);
+				var updateMonth = $(updateDates[i]).val().substring(5,7);
+				var updateDay =$(updateDates[i]).val().substring(8,10);
+				var updateHour=$(updateDates[i]).val().substring(11,13);;
+				var updateMinute =$(updateDates[i]).val().substring(14,16);
+				var second= $(updateDates[i]).val().substring(17,19);
+				//완결 시간(서버에서 최종 수정시간을  받아와옴)
+				var update_date = new Date(updateYear, (updateMonth-1), updateDay, updateHour, updateMinute, second);
+				var update_date_timestamp = Math.floor(update_date.getTime()/1000);
+				//투표 마감 시간(10분)
+				var close_timestamp = update_date_timestamp+60;
+				//
+				var remind_timestamp = close_timestamp-currunt_timestamp
+				var remind_minutes = Math.floor(remind_timestamp/60);
+				var remind_seconds = remind_timestamp%60;
+				if(remind_minutes >= 1 && remind_seconds>=10) {
+					$('#timeAreaModalBest').html('잇자타임 - '+remind_minutes+':'+remind_seconds+'초 남음!!');
+				} else if(remind_minutes == 0 && remind_seconds<=9){
+					$('#timeAreaModalBest').html('잇자타임 - '+'00:0'+remind_seconds+'초 남음!!');
+				} else if(remind_minutes == 0 && remind_seconds>=10){
+					$('#timeAreaModalBest').html('잇자타임 - '+'00:'+remind_seconds+'초 남음!!');
+				}
+				if(remind_seconds==0){
+					alert('잇자 타임이 종료되었습니다. 다음번에 도전해 주세요!');
+					$('#bestMainArticleArea',parent.document).attr('height','460px');
+					iframeReload();
+			}
+				//$('.time_area_modal').text($('.time_area').eq(i).text());
+		}, 1000);
+	}
+	
 	//베스트 디테일 뷰(완) , 마이페이지(완)
 	$('.itjaSlide').on('click','.actions :button',function(){
+		alert('베스트 및 마이페이지')
 		$('#bestMainArticleArea',parent.document).attr('height','1000px');
 		var mainArticleNO =$(this).parent().siblings('input[class="mainArticleTitleNO"]').val();
 		if($('#isComplete').val()=='best'){
@@ -571,14 +625,16 @@ $(document).ready(function(){ //DOM이 준비되고
 		
 	});
 	
-	//새로운 글 디테일 뷰(완)
+	/*	//새로운 글 디테일 뷰(완)
 	$('.newMainArticle').on('click','.readArticleBtn',function(){
+		alert('새로운 글')
 		var mainArticleNO =$(this).children('#newMainArticleNo').val();
 		detailItjaView(mainArticleNO,"new");
 		$('#cardDetailView').modal();
 	});
 	//완결 글 디테일 뷰(완)
 	$('.completeMainArticle').on('click','.readArticleBtn',function(){
+		alert('완결 글')
 		var mainArticleNO =$(this).children('#completeMainArticleNo').val();
 		detailItjaView(mainArticleNO,"new");
 		$('#cardDetailView').modal();
@@ -586,75 +642,37 @@ $(document).ready(function(){ //DOM이 준비되고
 	
 	//새로운 글 디테일 뷰(완) - 무한 스크롤 
 	$('#pinBoot').on('click','.readArticleBtn',function(){
+		alert('새로운 글 무한 스크롤')
 		var mainArticleNO =$(this).find(':input[name="mainArticleNo"]').eq(0).val();
 		detailItjaView(mainArticleNO,"new");
 		$('#cardDetailView').modal();
-	});
+	});*/
 	//완결글 디테일 뷰(완) - 무한 스크롤 
 	$('#pinBoot').on('click','.readArticleBtn',function(){
+		alert('완결 글 무한 스크롤')
 		var mainArticleNO =$(this).next().children().find(':input[name="mainArticleNo"]').eq(0).val();
 		detailItjaView(mainArticleNO,"new");
 		$('#cardDetailView').modal();
 	});
 	
 	
-	//아이프레임을 제자리로 바꿔줌
+	//아이프레임을 제자리로 바꿔줌 , 디테일 뷰 타이머를 정지시켜 줌 , 잇는글 초기화 해줌
 	$('#cardDetailView').on('hidden.bs.modal', function (e) {
 		$('#bestMainArticleArea',parent.document).attr('height','460px');
+		clearInterval(detailViewTimeChecker);
+		$('.unLinkingSubArticleList').html('');
 	})
+	
 	//디테일 뷰 함수 정의
 	function detailItjaView(mainArticleNO,isComplete){
 		
 		if(isComplete=="complete"){
 			$('#isComplete').val(isComplete);
 		}	
-		var updateDates = $('.updateDate');
-		var bestMainArticleSNo = $('.bestMainArticleNo'); 
 		
-		var i =0;
-		for(i;i<updateDates.length;i++){
-			if($('.bestMainArticleNo').eq(i).val() == mainArticleNO){
-				break;
-			}
-		}
 		//타이머
 		if(isComplete=="best"){
-			window.setInterval(function(){
-				//날짜 형식
-				// 2015-12-03 13:05:17
-				var updateDates = $('.updateDate');
-				
-					//현재 시간	
-					var currunt_date = new Date();
-					var currunt_timestamp = Math.floor(currunt_date.getTime()/1000)
-					var updateYear = $(updateDates[i]).val().substring(0,4);
-					var updateMonth = $(updateDates[i]).val().substring(5,7);
-					var updateDay =$(updateDates[i]).val().substring(8,10);
-					var updateHour=$(updateDates[i]).val().substring(11,13);;
-					var updateMinute =$(updateDates[i]).val().substring(14,16);
-					var second= $(updateDates[i]).val().substring(17,19);
-					//완결 시간(서버에서 최종 수정시간을  받아와옴)
-					var update_date = new Date(updateYear, (updateMonth-1), updateDay, updateHour, updateMinute, second);
-					var update_date_timestamp = Math.floor(update_date.getTime()/1000);
-					//투표 마감 시간(10분)
-					var close_timestamp = update_date_timestamp+60;
-					//
-					var remind_timestamp = close_timestamp-currunt_timestamp
-					var remind_minutes = Math.floor(remind_timestamp/60);
-					var remind_seconds = remind_timestamp%60;
-					if(remind_minutes >= 1 && remind_seconds>=10) {
-						$('.time_area_modal').html(remind_minutes+':'+remind_seconds+'<br>빨리!');
-					} else if(remind_minutes == 0 && remind_seconds<=9){
-						$('.time_area_modal').html('00:0'+remind_seconds+'<br>빨리!');
-					} else if(remind_minutes == 0 && remind_seconds>=10){
-						$('.time_area_modal').html('00:'+remind_seconds+'<br>빨리!');
-					}
-					if(remind_seconds==0){
-						//alert('잇자 타임이 종료되었습니다. 재가동 됩니다.');
-						detailItjaView(mainArticleNO);
-				}
-					//$('.time_area_modal').text($('.time_area').eq(i).text());
-			}, 1000);
+			detailViewTimer(mainArticleNO);
 		}
 		
 		var subAtricleOrder='';
@@ -669,7 +687,9 @@ $(document).ready(function(){ //DOM이 준비되고
 				var subArticleWriteFormHTML = "";
 				var memberEmail=$('#memberUserEmail').val();
 				//잇는 글 폼 히든 input에 데이터 할당 
-				
+				if(data.mainArticle.mainArticleComplete==1){
+					$('#completeDetailViewAlert').css('display','block');
+				}
 				//$('form[action="auth_writeSubArticle.neon"]').children('input[name="memberEmail"]').val(data.itjaMemberList[0].memberEmail);
 				$('form[action="auth_writeSubArticle.neon"]').children('input[name="mainArticleNo"]').val(mainArticleNO);
 					
@@ -724,7 +744,7 @@ $(document).ready(function(){ //DOM이 준비되고
 							+'"><input type="hidden" name="subArticleNo" value=0></form>'
 							
 							modalFooterLikeHTML // 모달 하단에 있는 타임체크, 찜, 공유, 잇자 버튼
-							='<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">05:22<br>빨리!</button>'
+							='<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">재밋게<br>살자!</button>'
 							+'<button class="btn btn-social btn-twitter itja">'
 							+'<span class="itjaCount"><i class="fa fa-link"></i><br>'+data.mainArticle.mainArticleTotalLike+'it</span></button>'
 							+pickMainArticleHTML
@@ -745,7 +765,7 @@ $(document).ready(function(){ //DOM이 준비되고
 						+'"><input type="hidden" name="subArticleNo" value=0></form>'
 						
 						modalFooterLikeHTML 
-						='<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">05:22<br>빨리!</button><button class="btn btn-social btn-twitter itja">'
+						='<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">재밋게<br>살자!</button><button class="btn btn-social btn-twitter itja">'
 							+'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.mainArticle.mainArticleTotalLike+'it</span></button>'
 							+pickMainArticleHTML
 							+'<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유!</button>'
@@ -760,7 +780,7 @@ $(document).ready(function(){ //DOM이 준비되고
 					mainLikeItHTML = 
 						'<span class="itjaCount itja"><i class="fa fa-chain-broken"></i>'+data.mainArticle.mainArticleLike+'it</span>'
 					modalFooterLikeHTML = 
-						'<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">05:22<br>빨리!</button><button class="btn btn-social btn-twitter itja">'+
+						'<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">재밋게<br>살자!</button><button class="btn btn-social btn-twitter itja">'+
 						'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.mainArticle.mainArticleTotalLike+'it</span></button>'
 						+pickMainArticleHTML
 						+'<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button><div>';
@@ -841,7 +861,7 @@ $(document).ready(function(){ //DOM이 준비되고
                     +'<input type="hidden" name="memberEmail" value="'+memberEmail
                     +'"><input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo
                     +'"><input type="hidden" name="subArticleNo" value='+data.likingSubArticle[i].subArticleNo+'></form></a>'
-           			+'</div></div>'
+           			+'</div></div><br>'
 				}
 				$('.linkingSubArticleContentInModal').html(mainArticle);//이어진 글 할당
 				
@@ -908,7 +928,6 @@ $(document).ready(function(){ //DOM이 준비되고
 	
 	// 잇는글 신고 버튼 클릭시 실행되는 스크립트
 	$('.unLinkingSubArticleList').on('click','.articleReport',function(){
-		alert($($(this).next()).html());
 		var dataForm=$($(this).next()).serialize();
 		if(confirm("해당글을 신고 하시겠습니까?")){
 		$.ajax({
@@ -930,7 +949,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
 					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
+						parent.location.href = 'loginPage.neon';
 					}
 				}
 			}
@@ -961,7 +980,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
 					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
+						parent.location.href = 'loginPage.neon';
 					}
 				}
 			}
@@ -992,7 +1011,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
 					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
+						parent.location.href = 'loginPage.neon';
 					}
 				}
 			}
@@ -1045,7 +1064,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
 					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
+						parent.location.href = 'loginPage.neon';
 					}
 				}
 			},
@@ -1133,13 +1152,13 @@ $(document).ready(function(){ //DOM이 준비되고
 				}else if(AllOrOne="one"){
 					if(data.itjaSuccess==1){
 						//1이면 잇자를 하지 않은것 0이면 잇자를 한것
-						itjaCountSpan.html('<i class="fa fa-chain-broken"></i><br>'+data.itjaCount+'it');
+						itjaCountSpan.html('<i class="fa fa-chain-broken"></i>'+data.itjaCount+'it<br>');
 						//잇는글 폼 비활성화
 						if($('#isComplete').val()!='complete'){
 							$('.itjaWriteForm').css('display','none');	
 						}
 					}else{
-						itjaCountSpan.html('<i class="fa fa-link"></i><br>'+data.itjaCount+'it');
+						itjaCountSpan.html('<i class="fa fa-link"></i>'+data.itjaCount+'it<br> ');
 						//잇는글 폼 활성화
 						if($('#isComplete').val()!='complete'){
 							$('.itjaWriteForm').css('display','block');	
@@ -1147,12 +1166,14 @@ $(document).ready(function(){ //DOM이 준비되고
 					}
 				}
 				if(data.itjaTotalCount==10){
+					//아이프레임 리로드
+					iframeReload();
 					var msg="새 베스트 잇자 타임이 시작되었습니다. 바로 참여 하실래요?<br/><br/>"+
 					"<center><button class='closeToast' "+
 					"onclick='detailItjaView(mainArticleNO);'>Ok</button> "+
 					"<button class='closeToast'>Cancel</button>";
 					$().toasty({
-						autoHide: 2000,
+						autoHide: 4000,
 						message: msg,
 						modal: false
 					});
@@ -1165,7 +1186,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
 					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
+						parent.location.href = 'loginPage.neon';
 					}
 				}
 			}
@@ -1184,23 +1205,55 @@ $(document).ready(function(){ //DOM이 준비되고
 	 * 회원이 글쓰기 폼을 열었을 때 인기 태그를 불러오는 에이잭스를 시작으로
 	 * 글자수 제한을 위한 keyup이벤트 및 공란체크 그리고 서밋을 담고 잇다.
 	 * */
-	
+	/*$(function() {
+		  var ms1 = $('#ms1').magicSuggest({
+		    data: ['New York','Los Angeles','Chicago','Houston','Philadelphia','Phoenix','San Antonio','San Diego','Dallas','San Jose','Jacksonville']
+		  });
+		});*/
 	$('.openModalInsertArticleForm').click(function(){
 		$.ajax({
 			type:"post",
 			url:"auth_openMainArticleModal.neon",
 			dataType:"json",
-			success:function(data){
-				tagList = '';
-				for(var i=0;i<data.length;i++){
-					tagList += 
-						'<label><input type="checkbox" name="tagName" value="'+data[i].tagName+'">#'+data[i].tagName+'</label>'+'&nbsp&nbsp&nbsp'
-					if(i!=0){
-						if(i%6==0){
-							tagList +='<br>'
-						}
-					}
+			success:function(recommendedTag){
+				
+				var tagList = [];
+				var userSelectedTagList = [] ;
+				for(var i=0;i<recommendedTag.length;i++){
+					tagList[i]=recommendedTag[i].tagName;
 				}
+				$(function() {	
+					var ms1 = $('#tagSelector').magicSuggest({
+						placeholder: 'Make a selection',
+					    data:tagList,
+					    useZebraStyle: true,
+					    maxDropHeight: 300,
+					    maxSelection: 2,
+					    maxEntryLength: 5,
+					    maxEntryRenderer: function() {
+					        return '태그는 5글자 이하로 입력하세요';
+					    },
+					 });
+					$(ms1).on('keyup', function(){
+						  if(ms1.getRawValue().length > 5){
+						    alert("태그는 다섯글자 이하로 작성해주세욥!");
+						    ms1.empty();
+						  }
+					});
+					$(ms1).on('selectionchange', function(){
+						userSelectedTagList = this.getValue();
+						//userSelectedTagList= userSelectedTagList.split(',');
+						var tagSelectInfo = "";
+						$('#tagSelectArea').html("");
+						for(var i =0;i<userSelectedTagList.length;i++){
+							tagSelectInfo = tagSelectInfo+'<input type="checkbox" name="tagName" value="'+userSelectedTagList[i]+'" checked="checked">'
+						}
+						$('#tagSelectArea').html(tagSelectInfo);
+					});
+					
+						              
+				});
+				
 				$('#writeMainArticle').modal({
 					//취소버튼으로만 창을 끌 수 있도록 지정
 					backdrop: 'static',
@@ -1208,22 +1261,15 @@ $(document).ready(function(){ //DOM이 준비되고
 				});
 				
 				$('#writeMainArticle').on('shown.bs.modal', function () {
-					$('#tagCheck').html(tagList);
-					//태그는 2개까지 선택이 가능하도록 강제함
-					$('input[name="tagName"]').on('click',function(){
-						if($('input[name="tagName"]:checked').length>2){
-							alert('태그는 2개 까지만 선택이 가능합니다.');
-							$(this).attr("checked", false);
-						}
-					});
+					
 					//태그 공란 체크
 					$('button[name="newMainArticleSubmit"]').click(function(){
-						if($('input[name="tagName"]:checked').length<1){
-							alert('태그는 1개 이상 선택해주세요.');
+						if(userSelectedTagList.length<1){
+							alert('태그는 1개 이상 입력해주세요.');
 							return false;
 						}
 						//제목 공란체크
-						if($('input[name="mainArticleTltle"]').val()==''){
+						if($('input[name="mainArticleTitle"]').val()==''){
 							alert('글 제목을 입력해주세요');
 							$('input[name="mainArticleTltle"]').focus();
 							return false;
@@ -1234,8 +1280,31 @@ $(document).ready(function(){ //DOM이 준비되고
 							 $('textarea[name="mainArticleContent"]').focus();
 							 return false;
 						}
+						//제목 길이 검색
+						if($('input[name="mainArticleTitle"]').val().length>30){
+							return false;
+						}
 						$('form[action="auth_insertNewMainArticle.neon"]').submit();
 					});
+					
+					$('input[name="mainArticleTitle"]').keyup(function(){
+						var userTitleWrite = $(this).val();
+						if($('input[name="mainArticleTitle"]').val().length>30){
+							$('input[name="mainArticleTitle"]').val(userTitleWrite.cut(30));
+							$('#titleAlert').text('제목은 15자 이하로 입력해주세요!');
+						}else{
+							$('#titleAlert').text('');
+						}
+					});
+					String.prototype.cut = function(len) {
+		                var str = this;
+		                var l = 0;
+		                for (var i=0; i<str.length; i++) {
+		                        l += (str.charCodeAt(i) > 128) ? 2 : 1;
+		                        if (l > len) return str.substring(0,i) + "";
+		                }
+		                return str;
+					}
 					//주제글 작성 제한을 위한 keyUp 이벤트 - 글자수를 제한해준다.
 					$('textarea[name="mainArticleContent"]').keyup(function(){
 						function korTextCheck($str){
@@ -1256,7 +1325,7 @@ $(document).ready(function(){ //DOM이 준비되고
 								wrtingByte += 1; 
 							}
 							if(wrtingByte>400){
-								$('textarea[name="mainArticleContent"]').val(userWriting.substring(0,400));
+								$('textarea[name="mainArticleContent"]').val(userWriting.cut(400));
 							}
 						}
 						$('.userLength').text(wrtingByte);
@@ -1271,7 +1340,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
 					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
+						parent.location.href = 'loginPage.neon';
 					}
 				}
 			}
@@ -1428,20 +1497,27 @@ $(document).ready(function(){ //DOM이 준비되고
 			//암호 공란 검사 및 암호 길이 검사
 			$('#memberJoinInputpassword').keyup(function(){
 				var passwordComp = $(this).val();
+				var rePasswordComp =$("#memberJoinInputRePassword").val();
+				
 				if(passwordComp==""){
 					userPassFlag = false;
 					$('.passInput').attr('class','form-group has-feedback passInput has-error');
 					$('.passInput > .control-label').html('암호를 입력해주세요');
 					$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-				}else if(passwordComp.length<7|| passwordComp.length>18){
+				}else if(passwordComp.length<7|| passwordComp.length>16){
 					userPassFlag = false;
 					$('.passInput').attr('class','form-group has-feedback passInput has-error');
-					$('.passInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
+					$('.passInput > .control-label').html('암호는 6글자 이상 ~16글자 이하로 입력해주세요');
+					$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+				}else if(passwordComp!=rePasswordComp && rePasswordComp!=""){
+					userPassFlag = false;
+					$('.passInput').attr('class','form-group has-feedback passInput has-error');
+					$('.passInput > .control-label').html("암호를 확인해 주세요");
 					$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 				}else{
 					userPassFlag = true;
 					$('.passInput').attr('class','form-group has-feedback passInput has-success');
-					$('.passInput > .control-label').html('압호가 입력되었습니다.');
+					$('.passInput > .control-label').html('암호가 입력되었습니다.');
 					$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
 				};
 			});
@@ -1454,10 +1530,10 @@ $(document).ready(function(){ //DOM이 준비되고
 					$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
 					$('.rePassInput > .control-label').html('암호를 확인해주세요');
 					$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-				}else if(rePasswordComp.length<7 || rePasswordComp.length>18){
+				}else if(rePasswordComp.length<7|| rePasswordComp.length>16){
 					userRePassFlag = false;
 					$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
-					$('.rePassInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
+					$('.rePassInput > .control-label').html('암호는 6글자 이상 ~16글자 이하로 입력해주세요');
 					$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 				}else if(passComp!=rePasswordComp){
 					userRePassFlag = false;
@@ -1467,7 +1543,7 @@ $(document).ready(function(){ //DOM이 준비되고
 				}else{
 					userRePassFlag = true;
 					$('.rePassInput').attr('class','form-group has-feedback rePassInput has-success');
-					$('.rePassInput > .control-label').html('압호가 입력되었습니다.');
+					$('.rePassInput > .control-label').html('암호가 입력되었습니다.');
 					$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
 				};
 			});
@@ -1575,7 +1651,6 @@ $(document).ready(function(){ //DOM이 준비되고
 		var pageNo=$($(this).next().children()).val();
 		var pageType=$($(this).next().children().eq(1)).val();
 		var reportIndex=(pageNo-1)*13;
-		alert("type : "+pageType);
 		$.ajax({
 			type:"post",
 			url:"mainreportListPaging.neon",
@@ -1583,7 +1658,6 @@ $(document).ready(function(){ //DOM이 준비되고
 			dataType:"json",
 			success:function(data){ 
 				if(pageType=="mainArticleList"){
-					alert("주제글");
 					for(var i=0; i<data.list.length;i++){
 						articleReportList=articleReportList+"<tr><td>"+(reportIndex+i)+"</td><td>"+
 						data.list[i].reportNo+"</td><td>"+data.list[i].mainArticleNo+"</td><td>"+
@@ -1595,7 +1669,6 @@ $(document).ready(function(){ //DOM이 준비되고
 					}
 					$('#mainReportList').html(articleReportList);
 				}else{
-					alert("잇는글");
 					for(var i=0; i<data.list.length;i++){
 						articleReportList=articleReportList+"<tr><td>"+(reportIndex+i)+"</td><td>"+
 						data.list[i].reportNo+"</td><td>"+data.list[i].mainArticleNo+"</td><td>"+
@@ -1716,7 +1789,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
 					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
+						parent.location.href = 'loginPage.neon';
 					}
 				}
 			}
@@ -1753,11 +1826,11 @@ $(document).ready(function(){ //DOM이 준비되고
 				}else if(data.subscriptionResult == "delete"){
 					subscriptionInfoSpan.html("<i class='fa fa-plus-square'></i>&nbsp;구독 하기");
 				}
-				$('.subscriptedCount').html(data.subscriberCount);
+				$('.subscriptedCountInfo').html(data.subscriberCount);
 				for(var i=0 ; i<data.subscriberMemberList.length ; i++){
 					subscriptedInfoHTML += data.subscriberMemberList[i].memberNickName+'<br>';
 				}
-				$('.subscriptedInfo').html(subscriptedInfoHTML);
+				$('#subscriptedPopover').html(subscriptedInfoHTML);
 				
 				
 				
@@ -1769,7 +1842,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){
 					if(confirm('로그인이 필요합니다. 가입하시겠어요?')){
-						location.href="loginPage.neon"
+						parent.location.href = 'loginPage.neon';
 					}
 				}
 			}
@@ -1799,6 +1872,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		  	content: $('#subscriptedPopover').html(),
 		    html: true
 	  });
+	  
 	  $('.popover4').popover({ 
 		  	trigger:'focus',
 		  	placement: 'bottom',
@@ -1851,7 +1925,7 @@ $(document).ready(function(){ //DOM이 준비되고
 				$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
 				$('.checkpassInput > .control-label').html('현재비밀번호를 입력해 주세요');
 				$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-			}else if(checkPassComp.length<7 || checkPassComp.length>18){
+			}else if(checkPassComp.length<7 || checkPassComp.length>16){
 				userPassFlag = false;
 				$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
 				$('.checkpassInput > .control-label').html('비밀번호 확인중 입니다');
@@ -1924,6 +1998,8 @@ $(document).ready(function(){ //DOM이 준비되고
 		});//keyup
 		$("#memberupdatepassword").keyup(function(){
 			var passwordComp = $(this).val();
+			var rePasswordComp = $("#memberupdateRepassword").val();
+			
 			if(passwordComp==""){
 				userPassFlag = false;
 				$('.passInput').attr('class','form-group has-feedback passInput has-error');
@@ -1933,6 +2009,11 @@ $(document).ready(function(){ //DOM이 준비되고
 				userPassFlag = false;
 				$('.passInput').attr('class','form-group has-feedback passInput has-error');
 				$('.passInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
+				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+			}else if(passwordComp!=rePasswordComp && rePasswordComp!=""){
+				userPassFlag = false;
+				$('.passInput').attr('class','form-group has-feedback passInput has-error');
+				$('.passInput > .control-label').html("암호를 확인해 주세요");
 				$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
 			}else{
 				userPassFlag = true;
@@ -1945,6 +2026,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		$("#memberupdateRepassword").keyup(function(){
 			var passComp = $('#memberupdatepassword').val();
 			var rePasswordComp = $(this).val();
+			
 			if(rePasswordComp==""){
 				userRePassFlag = false;
 				$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
@@ -2002,7 +2084,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
 			$('.checkpassInput > .control-label').html('현재비밀번호를 입력해 주세요');
 			$('.checkpassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-		}else if(PassComp.length<7 || PassComp.length>18){
+		}else if(PassComp.length<7 || PassComp.length>16){
 			userPassFlag = false;
 			$('.checkpassInput').attr('class','form-group has-feedback checkpassInput has-error');
 			$('.checkpassInput > .control-label').html('비밀번호 확인중 입니다');
@@ -2110,19 +2192,18 @@ $(document).ready(function(){ //DOM이 준비되고
 	 });
     // 비밀번호 찾기를 위한 요청 폼 검증 끝
     $("#navbar").ready( function () {
-    	$("#serch_result").click( function () {
-    		//keyword
-    	var text=$("#serch").val();
-    	//alert(text);
-    	//select
-    	var check=$('#search_concept').text();
-    	//alert(check);
-    	
-    	location.href = "findBy.neon?selector="+check+"&keyword="+text;
-    	
-    	
-    	});//click
-    	});//serch click
+		$("#serch_result").click( function () {
+	    	var text=$("#serch").val();
+	    	var check=$('#search_concept').text();    	
+	    	if(text==""){
+	    		return false;
+	    	}else{
+	    	location.href = "findBy.neon?selector="+check+"&keyword="+text;
+	    	}
+	   	});//serch_result
+  
+		
+	});//serch ready
     
     //카드를 위한 js
     
@@ -2277,6 +2358,60 @@ $(document).ready(function(){ //DOM이 준비되고
     	    }
 
     	})(jQuery, window, document);
-    
-    
+    	$('.serviceCenterList').on('click','.ServiceCenterView',function(){
+    		var serviceCenterView="";
+    		var pageNo=$(".ServiceCenterNo").val();
+    		$.ajax({
+    			type:"post",
+    			url:"ServiceCenterView.neon",
+    			data:"ServiceCenterNo="+pageNo,
+    			dataType:"json",
+    			success:function(data){ 
+    				serviceCenterView=serviceCenterView+"<tr><td align='center'>"+data.serviceCenterTitle+"</td></tr><tr><td align='center'>"+
+    				data.serviceCenterEmail+"</td></tr><tr><td>"+data.serviceCenterContext+"</td></tr>";
+    				$("#ServiceCenterTable").html(serviceCenterView);
+    				if(data!=null){
+    					$('#ServiceCenterViewModal').modal({
+    				         backdrop: 'static',
+    				         keyboard: false
+    				      });
+    				}else{
+    				}
+    			}
+    	});
+    	})
+    	//문의글 모달 끝
+    	
+    	//문의글 페이징
+    	$(".serviceCenterPaging").click(function(){
+    		var serviceCenterList="";
+    		var pageNo=$($(this).next().children()).val();
+    		var serviceIndex=(pageNo-1)*13;
+    		$.ajax({
+    			type:"post",
+    			url:"ServiceCenterList.neon",
+    			data:"pageNo="+pageNo,
+    			dataType:"json",
+    			success:function(data){ 
+    				for(var i=0; i<data.length;i++){
+    					serviceCenterList=serviceCenterList+"<tr><td>"+(serviceIndex+i)+"</td><td>"+
+    					"<a href='#' class='ServiceCenterView'>"+data[i].serviceCenterTitle+"</a>"+
+    					"<input type='hidden' value='"+data[i].serviceCenterNo+"' class='ServiceCenterNo'></td><td>"+data[i].serviceCenterDate+"</td><td>"+
+    					data[i].serviceCenterEmail+"</td></tr>"
+    				}
+    				$('#serviceCenterList').html(serviceCenterList);
+    				}
+    		});
+    	})
+    	//문의글 페이징 끝
+    		//문의글 쓰기
+	$('.ServiceCenter').click(function(){
+		$('#writeServiceCenter').modal({
+			//취소버튼으로만 창을 끌 수 있도록 지정
+			backdrop: 'static',
+			keyboard: false
+		});
+	})
+	//문의글쓰기 끝
+    	
 });//document.ready

@@ -23,6 +23,8 @@ import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.RankingVO;
 import org.cobro.neonsign.vo.ReportListVO;
 import org.cobro.neonsign.vo.ReportVO;
+import org.cobro.neonsign.vo.ServiceCenterListVO;
+import org.cobro.neonsign.vo.ServiceCenterVO;
 import org.cobro.neonsign.vo.SubArticleVO;
 import org.cobro.neonsign.vo.TagBoardVO;
 import org.cobro.neonsign.vo.TagVO;
@@ -62,7 +64,7 @@ public class BoardController {
 					if(mainArticleImgVO==null){
 						mainArticleImgVO = new MainArticleImgVO();
 					}
-					System.out.println("까-아 : " + mainArticleImgVO.getMainArticleImgName());
+					//System.out.println("까-아 : " + mainArticleImgVO.getMainArticleImgName());
 					//태그가 두개인지 확인 -1이면 한개
 					int tagInt = bestMainArticleVOListOrderByDate.get(i).getTagName().lastIndexOf(" ");
 					//System.out.println("끼-이 : " + tagInt);
@@ -174,7 +176,7 @@ public class BoardController {
 	@ResponseBody
 	public HashMap<String, Object> getNewMainArticle(HttpServletRequest request, 
 			int pageNo, String orderBy,String tagName) {
-		System.out.println("con getNewMainArticle.neon tagName : " + tagName);
+		//System.out.println("con getNewMainArticle.neon tagName : " + tagName);
 		HashMap<String, Object> map = memberBoardInfo(request);
 		if (orderBy == null||orderBy.equals("")||orderBy.equals("undefined")) {
 			orderBy = "date";
@@ -191,18 +193,9 @@ public class BoardController {
 			}else{
 				firstTagName = newMainArticleArrayList.get(i).getTagName().substring(1);
 			}
-			MainArticleImgVO mainArticleImgVOComp =boardService.selectMainArticleImg(newMainArticleArrayList.get(i).getMainArticleNo());
-			MainArticleImgVO mainArticleImgVO = new MainArticleImgVO();
-			//주제글이미지VO가 없을때 태그명에 맞는 이미지를 삽입해준다.
-			if(mainArticleImgVOComp==null){
-				if(firstTagName.equals("게임")){
-					boardService.insertMainArticleImg(newMainArticleArrayList.get(i).getMainArticleNo(), "basicBg/"+firstTagName+".png");
-				}else{
-					boardService.insertMainArticleImg(newMainArticleArrayList.get(i).getMainArticleNo(), "basicBg/"+firstTagName+".jpg");
-				}
-				mainArticleImgVO =boardService.selectMainArticleImg(newMainArticleArrayList.get(i).getMainArticleNo());
-			}else{
-				mainArticleImgVO =boardService.selectMainArticleImg(newMainArticleArrayList.get(i).getMainArticleNo());
+			MainArticleImgVO mainArticleImgVO =boardService.selectMainArticleImg(newMainArticleArrayList.get(i).getMainArticleNo());
+			if(mainArticleImgVO==null){
+				mainArticleImgVO = new MainArticleImgVO();
 			}
 			//파일의 경로를 담는다.
 			File dir = new File(articleImgPath+mainArticleImgVO.getMainArticleImgName());
@@ -246,12 +239,14 @@ public class BoardController {
 	@RequestMapping("auth_insertNewMainArticle.neon")
 	public ModelAndView insertMainArticle(FileVO fvo, MainArticleVO mainArticleVO,HttpServletRequest request,TagBoardVO tagBoardVO){
 		String[] tagNameList = request.getParameterValues("tagName") ;
+		
 		ArrayList<String> list = new ArrayList<String>();
 		//System.out.println(tagBoardVO);
 		//System.out.println(tagNameList.toString());
 		for(int i=0;i<tagNameList.length;i++){
 			list.add(tagNameList[i]);
 		}
+		//System.out.println(list);
 		boardService.pointInsertMainArticle(mainArticleVO,list,tagBoardVO);
 		//2015-12-08 대협추가
 		MultipartFile file = fvo.getFile();
@@ -272,9 +267,9 @@ public class BoardController {
 			}else{
 				firstTag = "/basicBg/"+list.get(0) + ".jpg";
 			}
-			System.out.println("firstTag : " + firstTag);
+			//System.out.println("firstTag : " + firstTag);
 			fileName = firstTag;
-			System.out.println("fileName : " + fileName);
+			//System.out.println("fileName : " + fileName);
 		}
 		boardService.insertMainArticleImg(mainArticleVO.getMainArticleNo(), fileName);
 		return new ModelAndView("redirect:getMainList.neon");
@@ -294,7 +289,7 @@ public class BoardController {
 	@RequestMapping("storyLinking.neon")
 	@ResponseBody
 	public HashMap<String, Object> storyLinking(SubArticleVO subArticleVO){
-		System.out.println("스토리링킨 컨트롤러");
+		//System.out.println("스토리링킨 컨트롤러");
 		return boardService.storyLinking(subArticleVO);
 	}
 	/**
@@ -364,12 +359,26 @@ public class BoardController {
 	@RequestMapping("adminPageView.neon")
 	public ModelAndView adminPageNotifyArticleList(HttpServletRequest request){
 		Map<String,MemberListVO> memberMap=(Map<String,MemberListVO>)request.getAttribute("memberMap");
+		ServiceCenterListVO serviceCenterMap=(ServiceCenterListVO)request.getAttribute("serviceCenterList");
 		ReportListVO mainReportList=boardService.mainArticleReportList(1);//주제글 신고 리스트를 받아온다
 		ReportListVO subReportList=boardService.subArticleReportList(1);//잇는글 신고 리스트를 받아온다
 		HashMap<String,Object> map=new HashMap<String, Object>();//회원관리 리스트, 게시물 신고 리스트 를 map에 put 해준다
 		map.put("mainReportList", mainReportList); map.put("subReportList", subReportList);
-		 map.put("memberList",memberMap.get("memberList"));  map.put("blokcMemberList",memberMap.get("blokcMemberList"));
+		 map.put("memberList",memberMap.get("memberList"));map.put("blokcMemberList",memberMap.get("blokcMemberList"));
+		 map.put("serviceCenterList",serviceCenterMap);
 		return new ModelAndView("adminPageView","adminList",map);
+	}
+
+	@RequestMapping("ServiceCenterList.neon")
+	@ResponseBody
+	public List<ServiceCenterVO> ServiceCenterListPaging(String pageNo){
+		//System.out.println("AJax 연동 페이징 넘버 "+pageNo);
+		List<ServiceCenterVO> serviceCenterList=null;
+			int pageNumber=Integer.parseInt(pageNo);
+				//System.out.println("Servicecenter 문의글 리스트");
+				serviceCenterList=boardService.serviceCenterList(pageNumber);
+				//System.out.println(serviceCenterList);
+			return serviceCenterList;
 	}
 	/**
 	 * 관리자 페이지에서 type을 받아 그 type에 맞게
@@ -379,15 +388,15 @@ public class BoardController {
 	@RequestMapping("mainreportListPaging.neon")
 	@ResponseBody
 	public ReportListVO articleReportListPaging(String pageNo, String pageType){
-		System.out.println("AJax 연동 페이징 넘버 "+pageNo);
-		System.out.println("Ajax 연동 페이징 타입 "+pageType);
+		//System.out.println("AJax 연동 페이징 넘버 "+pageNo);
+		//System.out.println("Ajax 연동 페이징 타입 "+pageType);
 		ReportListVO articlereportList=null;
 			int pageNumber=Integer.parseInt(pageNo);
 			if(pageType.equals("mainArticleList")){
-				System.out.println("mainArticle 신고 리스트");
+				//System.out.println("mainArticle 신고 리스트");
 				articlereportList=boardService.mainArticleReportList(pageNumber);
 			}else{
-				System.out.println("subArticle 신고 리스트");
+				//System.out.println("subArticle 신고 리스트");
 				articlereportList=boardService.subArticleReportList(pageNumber);
 			}
 			return articlereportList;
@@ -411,12 +420,12 @@ public class BoardController {
 			 * 잇는글을 Block하거나 반려한다*/
 			int subArticleNumber=Integer.parseInt(subArticleNO);//만약에 형변환중 Exception이 발생하면 Catch문 수행
 		if(command.equals("report")){
-			System.out.println("서브아티클 신고 접수");
+			//System.out.println("서브아티클 신고 접수");
 			boardService.subArticleBlock(subArticleNumber,articleNumber,reportNumber);
 			//report에 성공하면 신고한 회원들에게 포인트 지급
 			boardService.memberPointUpdate(reportNumber);
 		}else{
-			System.out.println("subArticle 신고 목록에서 반려");
+			//System.out.println("subArticle 신고 목록에서 반려");
 			ReportVO reportVO=new ReportVO();		
 			reportVO.setReportNo(reportNumber);
 			boardService.reportListDelete(reportVO);
@@ -427,14 +436,14 @@ public class BoardController {
 			/* * Catch문은 주제글을 Block하거나 주제글의 신고를 반려처리하는데
 			 * 쓰인다*/	 
 			if(command.equals("report")){
-				System.out.println("메인아티클 신고접수");
+				//System.out.println("메인아티클 신고접수");
 				MainArticleVO mainArticleVO= new MainArticleVO();
 				mainArticleVO.setMainArticleNo(articleNumber);
 				boardService.articleBlock(mainArticleVO,reportNumber);
 				//report에 성공하면 신고한 회원들에게 포인트 지급
 				boardService.memberPointUpdate(reportNumber);
 			}else{
-				System.out.println("메인아티클 신고 반려");
+				//System.out.println("메인아티클 신고 반려");
 				ReportVO reportVO=new ReportVO();		
 				reportVO=new ReportVO();
 				reportVO.setReportNo(reportNumber);
@@ -474,7 +483,7 @@ public class BoardController {
 	@RequestMapping("selectOneNotCompleteMainArticleByMainArticleNo.neon")
 	@ResponseBody
 	public HashMap<String, Object> selectOneNotCompleteMainArticleByMainArticleNo(HttpServletRequest request,MainArticleVO mainArticleVO){
-		System.out.println(mainArticleVO);
+		//System.out.println(mainArticleVO);
 		HashMap<String, Object> map= memberBoardInfo(request);
 		if (mainArticleVO!=null) {
 			Map<String,Object> mainArticle=boardService.selectOneNotCompleteMainArticleByMainArticleNo(mainArticleVO);
@@ -496,7 +505,7 @@ public class BoardController {
 	public HashMap<String, Object> insertSubArticle(SubArticleVO subArticleVO){
 		HashMap<String, Object> map = new HashMap<String, Object>();	
 		//memberBoardInfo(request);
-		System.out.println(subArticleVO);
+		//System.out.println(subArticleVO);
 		boolean result = boardService.pointInsertSubArticle(subArticleVO);
 		map.put("result",result);
 		map.put("subArticleVO",subArticleVO);
@@ -517,7 +526,7 @@ public class BoardController {
 	 */
 	@RequestMapping("selectListCompleteMainArticle.neon")
 	public ModelAndView selectListCompleteMainArticle(String orderBy, String tagName) {
-		System.out.println("Controller orderBy : " + orderBy);
+		//System.out.println("Controller orderBy : " + orderBy);
 		ModelAndView mav = new ModelAndView();
 		int pageNo=1;
 		if(orderBy==null){
@@ -539,18 +548,9 @@ public class BoardController {
 				//System.out.println("꺄-오-오! : " + newMainArticleVOList.get(i).getTagName().substring(1));
 				firstTagName = completeMainArticleList.get(i).getTagName().substring(1);
 			}
-			MainArticleImgVO mainArticleImgVOComp =boardService.selectMainArticleImg(completeMainArticleList.get(i).getMainArticleNo());
-			MainArticleImgVO mainArticleImgVO = new MainArticleImgVO();
-			//주제글이미지VO가 없을때 태그명에 맞는 이미지를 삽입해준다.
-			if(mainArticleImgVOComp==null){
-				if(firstTagName.equals("게임")){
-					boardService.insertMainArticleImg(completeMainArticleList.get(i).getMainArticleNo(), "basicBg/"+firstTagName+".png");
-				}else{
-					boardService.insertMainArticleImg(completeMainArticleList.get(i).getMainArticleNo(), "basicBg/"+firstTagName+".jpg");
-				}
-				mainArticleImgVO =boardService.selectMainArticleImg(completeMainArticleList.get(i).getMainArticleNo());
-			}else{
-				mainArticleImgVO =boardService.selectMainArticleImg(completeMainArticleList.get(i).getMainArticleNo());
+			MainArticleImgVO mainArticleImgVO =boardService.selectMainArticleImg(completeMainArticleList.get(i).getMainArticleNo());
+			if(mainArticleImgVO==null){
+				mainArticleImgVO = new MainArticleImgVO();
 			}
 			//파일의 경로를 담는다.
 			File dir = new File(articleImgPath+mainArticleImgVO.getMainArticleImgName());
@@ -612,18 +612,9 @@ public class BoardController {
 			}else{
 				firstTagName = completeMainArticleArrayList.get(i).getTagName().substring(1);
 			}
-			MainArticleImgVO mainArticleImgVOComp =boardService.selectMainArticleImg(completeMainArticleArrayList.get(i).getMainArticleNo());
-			MainArticleImgVO mainArticleImgVO = new MainArticleImgVO();
-			//주제글이미지VO가 없을때 태그명에 맞는 이미지를 삽입해준다.
-			if(mainArticleImgVOComp==null){
-				if(firstTagName.equals("게임")){
-					boardService.insertMainArticleImg(completeMainArticleArrayList.get(i).getMainArticleNo(), "basicBg/"+firstTagName+".png");
-				}else{
-					boardService.insertMainArticleImg(completeMainArticleArrayList.get(i).getMainArticleNo(), "basicBg/"+firstTagName+".jpg");
-				}
-				mainArticleImgVO =boardService.selectMainArticleImg(completeMainArticleArrayList.get(i).getMainArticleNo());
-			}else{
-				mainArticleImgVO =boardService.selectMainArticleImg(completeMainArticleArrayList.get(i).getMainArticleNo());
+			MainArticleImgVO mainArticleImgVO =boardService.selectMainArticleImg(completeMainArticleArrayList.get(i).getMainArticleNo());
+			if(mainArticleImgVO==null){
+				mainArticleImgVO = new MainArticleImgVO();
 			}
 			//파일의 경로를 담는다.
 			File dir = new File(articleImgPath+mainArticleImgVO.getMainArticleImgName());
@@ -707,11 +698,11 @@ public class BoardController {
 		HttpSession session = request.getSession(false);
 		if(session!=null){
 			MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
-			System.out.println("멤버VO ; " + memberVO);
+			//System.out.println("멤버VO ; " + memberVO);
 			if(memberVO!=null){
 				map.put("itjaMemberList", memberVO.getItjaMemberList());
 				map.put("pickedList", memberVO.getPickedVOList());
-				System.out.println(map.get("pickedList"));
+				//System.out.println(map.get("pickedList"));
 			}
 		}
 		return map;
@@ -723,7 +714,7 @@ public class BoardController {
 	 */
 	@RequestMapping("mypage.neon")
 	public ModelAndView myPage(MemberVO memberVO){
-		System.out.println("넘어온 email : " + memberVO);
+		//System.out.println("넘어온 email : " + memberVO);
 		ModelAndView mav = new ModelAndView();
 		// 마이페이지 주인 email주소로 랭킹 받아서 memberVO에 set + 구독정보도 추가함
 		memberVO = boardService.getMemberRankingByMemberEmail(memberVO);
@@ -735,7 +726,6 @@ public class BoardController {
 		// email주소로 찜한글 받아오기
 		List<MainArticleVO> pickedMainArticleList
 			= boardService.getPickedMainArticleByMemberEmailOrderByDate(memberVO);
-		mav.addObject("pickedMainArticleList", pickedMainArticleList);
 		//2015-12-10 대협추가
 		for(int i=0; i<pickedMainArticleList.size(); i++){
 			//태그가 두개인지 확인 -1이면 한개
@@ -746,18 +736,9 @@ public class BoardController {
 			}else{
 				firstTagName = pickedMainArticleList.get(i).getTagName().substring(1);
 			}
-			MainArticleImgVO mainArticleImgVOComp =boardService.selectMainArticleImg(pickedMainArticleList.get(i).getMainArticleNo());
-			MainArticleImgVO mainArticleImgVO = new MainArticleImgVO();
-			//주제글이미지VO가 없을때 태그명에 맞는 이미지를 삽입해준다.
-			if(mainArticleImgVOComp==null){
-				if(firstTagName.equals("게임")){
-					boardService.insertMainArticleImg(pickedMainArticleList.get(i).getMainArticleNo(), "basicBg/"+firstTagName+".png");
-				}else{
-					boardService.insertMainArticleImg(pickedMainArticleList.get(i).getMainArticleNo(), "basicBg/"+firstTagName+".jpg");
-				}
-				mainArticleImgVO =boardService.selectMainArticleImg(pickedMainArticleList.get(i).getMainArticleNo());
-			}else{
-				mainArticleImgVO =boardService.selectMainArticleImg(pickedMainArticleList.get(i).getMainArticleNo());
+			MainArticleImgVO mainArticleImgVO =boardService.selectMainArticleImg(pickedMainArticleList.get(i).getMainArticleNo());
+			if(mainArticleImgVO==null){
+				mainArticleImgVO = new MainArticleImgVO();
 			}
 			//파일의 경로를 담는다.
 			File dir = new File(articleImgPath+mainArticleImgVO.getMainArticleImgName());
@@ -792,18 +773,9 @@ public class BoardController {
 			}else{
 				firstTagName = writeMainArticleList.get(i).getTagName().substring(1);
 			}
-			MainArticleImgVO mainArticleImgVOComp =boardService.selectMainArticleImg(writeMainArticleList.get(i).getMainArticleNo());
-			MainArticleImgVO mainArticleImgVO = new MainArticleImgVO();
-			//주제글이미지VO가 없을때 태그명에 맞는 이미지를 삽입해준다.
-			if(mainArticleImgVOComp==null){
-				if(firstTagName.equals("게임")){
-					boardService.insertMainArticleImg(writeMainArticleList.get(i).getMainArticleNo(), "basicBg/"+firstTagName+".png");
-				}else{
-					boardService.insertMainArticleImg(writeMainArticleList.get(i).getMainArticleNo(), "basicBg/"+firstTagName+".jpg");
-				}
-				mainArticleImgVO =boardService.selectMainArticleImg(writeMainArticleList.get(i).getMainArticleNo());
-			}else{
-				mainArticleImgVO =boardService.selectMainArticleImg(writeMainArticleList.get(i).getMainArticleNo());
+			MainArticleImgVO mainArticleImgVO =boardService.selectMainArticleImg(writeMainArticleList.get(i).getMainArticleNo());
+			if(mainArticleImgVO==null){
+				mainArticleImgVO = new MainArticleImgVO();
 			}
 			//파일의 경로를 담는다.
 			File dir = new File(articleImgPath+mainArticleImgVO.getMainArticleImgName());
@@ -831,12 +803,11 @@ public class BoardController {
 		// email 주소로 작성한 태그 리스트 받기 : 태그 수 확인
 		List<TagBoardVO> writeTagListbyEmailList
 			= boardService.writeTagListbyEmail(memberVO);
-		mav.addObject("writeTagListbyEmailList", writeTagListbyEmailList);
 		// email 주소로 가장 많이 작성한 태그이름 받기
 		TagBoardVO tagBoardVO
 			= boardService.getMostWriteTagByEmail(memberVO);
 		mav.addObject("tagBoardVO", tagBoardVO);
-		// 게시자 email로 나를 구독하는 리스트 닉네임 받기
+		// 게시자 email로 나를 구독하는 리스트 닉네임 받기	
 		mav.addObject("subscriptedInfoList", boardService.getSubscriptedInfoListByPublisherEmail(memberVO));
 		// 구독자 email로 내가 구독하는 리스트 닉네임 받기
 		mav.addObject("subscriptingInfoList", boardService.getSubscriptingInfoListBySubscriberEmail(memberVO));
@@ -854,18 +825,9 @@ public class BoardController {
 			}else{
 				firstTagName = joinMainArticleList.get(i).getTagName().substring(1);
 			}
-			MainArticleImgVO mainArticleImgVOComp =boardService.selectMainArticleImg(joinMainArticleList.get(i).getMainArticleNo());
-			MainArticleImgVO mainArticleImgVO = new MainArticleImgVO();
-			//주제글이미지VO가 없을때 태그명에 맞는 이미지를 삽입해준다.
-			if(mainArticleImgVOComp==null){
-				if(firstTagName.equals("게임")){
-					boardService.insertMainArticleImg(joinMainArticleList.get(i).getMainArticleNo(), "basicBg/"+firstTagName+".png");
-				}else{
-					boardService.insertMainArticleImg(joinMainArticleList.get(i).getMainArticleNo(), "basicBg/"+firstTagName+".jpg");
-				}
-				mainArticleImgVO =boardService.selectMainArticleImg(joinMainArticleList.get(i).getMainArticleNo());
-			}else{
-				mainArticleImgVO =boardService.selectMainArticleImg(joinMainArticleList.get(i).getMainArticleNo());
+			MainArticleImgVO mainArticleImgVO =boardService.selectMainArticleImg(joinMainArticleList.get(i).getMainArticleNo());
+			if(mainArticleImgVO==null){
+				mainArticleImgVO = new MainArticleImgVO();
 			}
 			//파일의 경로를 담는다.
 			File dir = new File(articleImgPath+mainArticleImgVO.getMainArticleImgName());
@@ -887,9 +849,49 @@ public class BoardController {
 			}
 		}
 		mav.addObject("joinMainArticleList", joinMainArticleList);
+		
+		// 구독자 email주소로 구독중인 글 받아오기 --2015.12.15
+		List<MainArticleVO> subscriptingMainArticleList
+			= boardService.getSubscriptingMainArticleBySubscriberEmailOrderByDate(memberVO);
+		//2015-12-10 대협추가
+		for(int i=0; i<subscriptingMainArticleList.size(); i++){
+			//태그가 두개인지 확인 -1이면 한개
+			int tagInt = subscriptingMainArticleList.get(i).getTagName().lastIndexOf(" ");
+			String firstTagName = "";
+			if(tagInt!=-1){
+				firstTagName = subscriptingMainArticleList.get(i).getTagName().substring(1, tagInt);
+			}else{
+				firstTagName = subscriptingMainArticleList.get(i).getTagName().substring(1);
+			}
+			MainArticleImgVO mainArticleImgVO =boardService.selectMainArticleImg(subscriptingMainArticleList.get(i).getMainArticleNo());
+			if(mainArticleImgVO==null){
+				mainArticleImgVO = new MainArticleImgVO();
+			}
+			//파일의 경로를 담는다.
+			File dir = new File(articleImgPath+mainArticleImgVO.getMainArticleImgName());
+			//해당 경로에 파일이 존재하는지 확인
+			if (dir.isFile() == false) {
+				//태그명이 게임일때만 .png를 할당한다.
+				if(firstTagName.equals("게임")){
+					subscriptingMainArticleList.get(i).setMainArticleImgVO(
+							new MainArticleImgVO(subscriptingMainArticleList.get(i)
+									.getMainArticleNo(), "basicBg/"+firstTagName+".png"));
+				}else{
+					subscriptingMainArticleList.get(i).setMainArticleImgVO(
+							new MainArticleImgVO(subscriptingMainArticleList.get(i)
+									.getMainArticleNo(), "basicBg/"+firstTagName+".jpg"));
+				}
+			} else {
+				subscriptingMainArticleList.get(i).setMainArticleImgVO(
+						mainArticleImgVO);
+			}
+		}
+		mav.addObject("subscriptingMainArticleList", subscriptingMainArticleList);
+		
 		mav.setViewName("mypage");
 		return mav;
 	}
+	
 	
 	/**
 	 * 회원이 게시물을 신고할때 사용 하는 컨트롤러
@@ -914,7 +916,7 @@ public class BoardController {
 	 */
 	@RequestMapping("findBy.neon")
 	public ModelAndView SearchOnTopMenu(String selector, String keyword){	
-		System.out.println("selector : "+ selector+" keyword : "+keyword);
+		//System.out.println("selector : "+ selector+" keyword : "+keyword);
 		List<MainArticleVO> list= boardService.SearchOnTopMenu(selector,keyword);		
 			//MainArticleVO의 포문
 			for(int i=0;i<list.size();i++){
@@ -940,7 +942,7 @@ public class BoardController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("findBy");
 		List<HashMap<String, String>> aoplist = utilService.selectReport();
-	    System.out.println(aoplist);
+	    //System.out.println(aoplist);
 		mv.addObject("aoplist", aoplist);
 		return mv;
 	}

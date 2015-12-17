@@ -10,6 +10,7 @@ import org.cobro.neonsign.vo.MainArticleImgVO;
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.RankingVO;
+import org.cobro.neonsign.vo.ServiceCenterVO;
 import org.cobro.neonsign.vo.SubArticleVO;
 import org.cobro.neonsign.vo.SubscriptionInfoVO;
 import org.cobro.neonsign.vo.TagBoardVO;
@@ -28,7 +29,7 @@ public class BoardDAOImpl implements BoardDAO{
 	 */
 	@Override
 	public void insertMainArticle(MainArticleVO mainArticleVO) {
-		System.out.println(mainArticleVO);
+		//System.out.println(mainArticleVO);
 		sqlSessionTemplate.insert("board.insertMainArticle", mainArticleVO);
 	}
 	/**
@@ -115,10 +116,10 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByDate(
 			int pageNo) {
-		System.out.println("DAO selectListNotCompleteMainArticleOrderByDate pageNo : " + pageNo);
+		//System.out.println("DAO selectListNotCompleteMainArticleOrderByDate pageNo : " + pageNo);
 		List<MainArticleVO> list = sqlSessionTemplate.selectList(
 				"board.selectListNotCompleteMainArticleOrderByDate", pageNo);
-		System.out.println("DAO selectListNotCompleteMainArticleOrderByDate size : " + list.size());
+		//System.out.println("DAO selectListNotCompleteMainArticleOrderByDate size : " + list.size());
 		return list;
 	}
 	/**
@@ -128,12 +129,12 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTag(int pageNo, String getTagName){
 		HashMap<String,String> map = new HashMap<String,String>();
-		System.out.println("dao selectListNotCompleteMainArticleOrderByTag getTagName : " + getTagName);
+		//System.out.println("dao selectListNotCompleteMainArticleOrderByTag getTagName : " + getTagName);
 		String strPageNo = String.valueOf(pageNo);
 		map.put("pageNo", strPageNo);
 		map.put("tagName", getTagName);
-		System.out.println("map : " + map);
-		System.out.println("dao!! : " + sqlSessionTemplate.selectList("board.selectListNotCompleteMainArticleOrderByTag",map));
+		//System.out.println("map : " + map);
+		//System.out.println("dao!! : " + sqlSessionTemplate.selectList("board.selectListNotCompleteMainArticleOrderByTag",map));
 		return sqlSessionTemplate.selectList("board.selectListNotCompleteMainArticleOrderByTag",map);
 	}
 
@@ -154,7 +155,7 @@ public class BoardDAOImpl implements BoardDAO{
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo(
 			MainArticleVO mainArticleVO) {
 		// TODO Auto-generated method stub
-		System.out.println("MainArticle받아오기 실행");
+		//System.out.println("MainArticle받아오기 실행");
 				MainArticleVO main=null;
 				try{
 				main=sqlSessionTemplate.selectOne("board.selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo",mainArticleVO);
@@ -173,7 +174,7 @@ public class BoardDAOImpl implements BoardDAO{
 	 */
 	@Override
 	public void insertSubArticle(SubArticleVO subArticleVO) {
-		System.out.println("dao insertSubArticle : "+subArticleVO);
+		//System.out.println("dao insertSubArticle : "+subArticleVO);
 		sqlSessionTemplate.insert("board.insertSubArticle", subArticleVO);
 	}
 
@@ -342,7 +343,7 @@ public class BoardDAOImpl implements BoardDAO{
 	 */
 	@Override
 	public void updateSubPlusItjaHit(ItjaMemberVO itjaMemberVO) {
-		System.out.println(itjaMemberVO);
+		//System.out.println(itjaMemberVO);
 		sqlSessionTemplate.update("board.updateSubPlusItjaHit", itjaMemberVO);
 		
 	}
@@ -361,7 +362,7 @@ public class BoardDAOImpl implements BoardDAO{
 	 */
 	@Override
 	public void updateMainMinusItjaHit(ItjaMemberVO itjaMemberVO) {
-		System.out.println(itjaMemberVO);
+		//System.out.println(itjaMemberVO);
 		sqlSessionTemplate.update("board.updateMainMinusItjaHit", itjaMemberVO);
 		
 	}
@@ -460,13 +461,13 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	   public int selectSubArticleCurruntGrade(SubArticleVO subArticleVO) {
 		int grade=0;
-		System.out.println("selectSubArticleCurruntGrade 실행됨");
-		System.out.println("aa3"+subArticleVO.getSubAtricleGrade());
+		//System.out.println("selectSubArticleCurruntGrade 실행됨");
+		//System.out.println("aa3"+subArticleVO.getSubAtricleGrade());
 			SubArticleVO gradeVO=sqlSessionTemplate.selectOne("board.selectSubArticleCurruntGrade",subArticleVO);
 			if(gradeVO!=null){//만약 Grade가 null이라면 0을 할당해준다
 				grade=gradeVO.getSubAtricleGrade();
 			}
-			System.out.println("selectSubArticleCurruntGrade : "+grade);
+			//System.out.println("selectSubArticleCurruntGrade : "+grade);
 	      return grade;
 	   }
 	/**
@@ -489,11 +490,11 @@ public class BoardDAOImpl implements BoardDAO{
 	 */
 	@Override
 	public int alreadyWriteSubArticleInThisGrade(SubArticleVO subArticleVO) {
-		System.out.println("dao alreadyWriteSubArticleInThisGrade : "+subArticleVO);
-		System.out.println("aa5"+subArticleVO.getSubAtricleGrade());
+		//System.out.println("dao alreadyWriteSubArticleInThisGrade : "+subArticleVO);
+		//System.out.println("aa5"+subArticleVO.getSubAtricleGrade());
 		int result = sqlSessionTemplate.selectOne("board.alreadyWriteSubArticleInThisGrade",subArticleVO);
-		System.out.println("aa6"+subArticleVO.getSubAtricleGrade());
-		System.out.println("alreadyWriteSubArticleInThisGrade : "+result);
+		//System.out.println("aa6"+subArticleVO.getSubAtricleGrade());
+		//System.out.println("alreadyWriteSubArticleInThisGrade : "+result);
 		return  result;
 	}
 	/**
@@ -648,14 +649,55 @@ public class BoardDAOImpl implements BoardDAO{
 			MemberVO memberVO) {
 		return sqlSessionTemplate.selectList("board.getSubscriptingInfoListBySubscriberEmail", memberVO);
 	}
+	
+	
+	/**
+	 * 글에 완결 표시 붙이기
+	 * @author JunYoung
+	 */
 	@Override
 	public MainArticleVO selectMainArticleTitleByMainArticleNo(int mainArticleNo) {
 		return sqlSessionTemplate.selectOne("board.selectMainArticleTitleByMainArticleNo", mainArticleNo);
 	}
 	@Override
 	public void appendToCompleteArticle(MainArticleVO mainArticleVO) {
-		System.out.println(mainArticleVO);
+		//System.out.println(mainArticleVO);
 		sqlSessionTemplate.update("board.appendToCompleteArticle",mainArticleVO);
 	}
 	
+	/**
+	 * 구독자 email로 Publisher들이 작성한 글 번호 받기
+	 * @author JeSeong Lee
+	 */
+	@Override
+	public List<MainArticleVO> getSubscriptingMainArticleNoBySubscriberEmail(
+			String publisher) {
+		return sqlSessionTemplate.selectList("board.getSubscriptingMainArticleNoBySubscriberEmail", publisher);
+	}
+	
+
+	/**
+	 * 문의글 리스트를 받아오는 메서드
+	 */
+	@Override
+	public List<ServiceCenterVO> serviceCenterList(int pageNumber) {
+		return sqlSessionTemplate.selectList("member.ServiceCenterList",pageNumber);
+	}
+	
+	/**
+	 * 이미 해당 태그가 태그 테이블에 있을 경우 해당 태그의 게시물수를 1올려준다.
+	 * @author junyoung
+	 */
+	@Override
+	public int updateTag(String tagName) {
+		return sqlSessionTemplate.update("board.updateTag", tagName);
+	}
+	/**
+	 * 태그 테이블에 새로운 태그 네임을 삽입해준다.
+	 * @author junyoung
+	 */
+	@Override
+	public void insertTagIntoTagTable(String tagName) {
+		sqlSessionTemplate.insert("board.insertTagIntoTagTable",tagName);
+	}
 }

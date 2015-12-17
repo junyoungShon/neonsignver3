@@ -127,16 +127,6 @@ public class PagingBean {
 	1 2 3 group*/
 		return isNextPageGroup;
 	}
-	public static void main(String[] args) {
-		PagingBean p=new PagingBean(24,5);//<--테스트 40=총 게시물 수 , 5=현재 페이지
-		System.out.println("페이지 수 : "+p.getTotalPage());
-		System.out.println("현재 페이지 : "+p.getNowPage());
-		System.out.println("그룹 수 : "+p.getTotalPageGroup());
-		System.out.println("현재 페이지 그룹 : "+p.getNowPageGroup());
-		System.out.println("현재 페이지 그룹의 시작 수 : "+p.getStartPageOfPageGroup());
-		System.out.println("현재 페이지 그룹의 마지막 수 : "+p.getEndPageOfPageGroup());
-		System.out.println("현제 페이지 그룹의 이전페이지 그룹 체크 : "+p.isPreviousPageGroup());
-		System.out.println("현제 페이지 그룹의 다음페이지 그룹 체크 : "+p.isNextPageGroup());
-	}
+	
 	
 }

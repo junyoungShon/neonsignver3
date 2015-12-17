@@ -394,25 +394,21 @@ a.myNickDetail{
 }
 
 /* 우측상단 구독정보 위치 */
-.profileCard.hovercard .profileCard-subscriptedInfo{
+.subscriptionBox{
 	font-family: 'Jeju Gothic', sans-serif;
 	text-align: center;
-	margin-bottom:5px;
-	margin-left:1000px;
+	margin-top:5px;
 	position: absolute;
-	bottom: 14px;
-	left: 0;
-	right: 0;
+	top: 160px;
+	right: 50px;
 }
-.profileCard.hovercard .profileCard-subscriptingInfo{
-	font-family: 'Jeju Gothic', sans-serif;
-	text-align: center;
-	margin-bottom:5px;
-	margin-left:1300px;
-	position: absolute;
-	bottom: 14px;
-	left: 0;
-	right: 0;
+.subscriptionBox .subscriptedInfo{
+	position:absolute;
+	right:160px;
+}
+.subscriptionBox .subscriptingInfo{
+	position:absolute;
+	right:0;
 }
 .popover3{
 	background-color: rgba(29, 185, 255, 0.5);
@@ -424,7 +420,7 @@ a.myNickDetail{
 	color:#fff;
 	font-weight: 900;
 }
-.subscriptedCount{
+.subscriptedList{
 	color:#13a6f4;
 }
 .subscriptingCount{
@@ -531,7 +527,7 @@ http://www.jqueryscript.net/layout/Simple-jQuery-Plugin-To-Create-Pinterest-Styl
 */
 
 body {
- background-color:#eee;   
+ /* background-color:#eee;    */
 }    
 #pinBoot {
   position: relative;
@@ -775,3 +771,11 @@ stylize any heading tags withing white-panel below
 :form[name="pickInfo"]{
 	display: none;
 }
+/*모달 창 타이머 씨에스에스*/
+#timeAreaModalBest{
+	color: red;
+	font-weight: bolder;
+	font-size: large;
+}
+
+

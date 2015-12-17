@@ -228,7 +228,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			and main_article_no = #{mainArticleNo} and sub_article_grade=#{subAtricleGrade} order by sub_article_date desc
 	</select>
 	
-	
+	<!-- 태그 정보 수정 -->
+	<update id="updateTag" parameterType="string">
+		update tag set search_count = search_count + 1 where tag_name=#{value}
+	</update>
+	<!-- 태그 정보 삽입 -->
+	<insert id="insertTagIntoTagTable" parameterType="string">
+		insert into tag (tag_name,search_count) values (#{value},0)
+	</insert>
 	
 	<!-- 윤택 -->
 
@@ -465,8 +472,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		and bm.MEMBER_EMAIL = #{memberEmail}]]> 
 	</select>
 	<select id="getMemberNickNameByEmail" resultMap="memberResultMap">
-		select MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_POINT from brain_member
-		where MEMBER_EMAIL = #{memberEmail}
+		select MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_POINT,
+		to_char(MEMBER_JOIN_DATE,'YYYY/MM/DD') as MEMBER_JOIN_DATE
+		from brain_member where MEMBER_EMAIL = #{memberEmail}
 	</select>
 	<!-- 랭킹 리스트 get -->
 	<select id="getRankingList" resultMap="rankingResultMap">
@@ -536,10 +544,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where SUBSCRIBER = #{memberEmail}
 	</select>
 	
+	
+	<!-- 완결 표시 붙이기 -->
 	<select id="selectMainArticleTitleByMainArticleNo" resultMap="mainArticleResultMap">
 		select MAIN_ARTICLE_TITLE from main_article where MAIN_ARTICLE_NO = #{value}
 	</select>
 	<update id="appendToCompleteArticle">
 		update main_article set MAIN_ARTICLE_TITLE = #{mainArticleTitle} where main_article_no = #{mainArticleNo}  
 	</update>
+	
+	<!-- 구독자 email로 구독중인 글 번호 받기 -->
+	<select id="getSubscriptingMainArticleNoBySubscriberEmail" resultMap="mainArticleResultMap">
+		select MAIN_ARTICLE_NO	from main_article where MEMBER_EMAIL= #{value}
+	</select>
+	
+	
 </mapper> 		

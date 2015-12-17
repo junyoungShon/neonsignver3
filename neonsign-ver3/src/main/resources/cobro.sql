@@ -1,5 +1,6 @@
 -- 2015.12.12(토) 1차구현 대비 DB setting
 -- ** DB 초기화 순서 ** -------------------------------------------------------------------
+drop table searchRanking;
 drop table RANKING;
 drop table REPORTER;
 drop table REPORT;
@@ -14,14 +15,16 @@ drop table PROFILE_IMG;
 drop table FIND_PASSWORD;
 drop table SUB_ARTICLE;
 drop table MAIN_ARTICLE;
-drop table BRAIN_MEMBER;
 drop table SERVICE_CENTER;
+drop table MEMBER_ACTION;
+drop table BRAIN_MEMBER;
 drop sequence main_article_seq;
 drop sequence sub_article_seq;
 drop sequence report_seq;
 drop sequence service_center_seq;
 -----------------------------------------------------------------------------------
 -- ** 테이블 조회 ** -----------------------------------------------------------
+select * from MEMBER_ACTION;
 select * from RANKING;
 select * from REPORTER;
 select * from REPORT;
@@ -50,6 +53,7 @@ MEMBER_REPORT_AMOUNT number default 0,
 MEMBER_CATEGORY varchar2(30) not null
 );
 --drop table BRAIN_MEMBER
+-- alter table BRAIN_MEMBER modify(MEMBER_EMAIL varchar2(50))
 --select * from BRAIN_MEMBER;
 -----------------------------------------------------------------------------------
 -- ** 주제글 테이블, 시퀀스 생성 / 삭제 ** --------------------------------------------------------
@@ -228,11 +232,31 @@ create table SERVICE_CENTER (
    SERVICE_CENTER_TITLE varchar2(30) not null,
    SERVICE_CENTER_CONTENT varchar2(200) not null,
    SERVICE_CENTER_DATE date not null,
-   SERVICE_CENTER_EMAIL varchar2(16) not null
+   SERVICE_CENTER_EMAIL varchar2(50) not null
 );
 create sequence service_center_seq;
 --drop table SERVICE_CENTER
 --select * from SERVICE_CENTER;
+----------------------------------------------------------------------
+-- ** 회원 행동 테이블 ** -----------------------------------------------------
+create table MEMBER_ACTION(
+   MEMBER_EMAIL varchar2(50) not null,
+   MEMBER_ACTION varchar2(25) not null,
+   MEMBER_LASTLOGIN_DATE date,
+   MEMBER_BLACK_DATE date,
+   constraint fk_MEMBER_ACTION foreign key(MEMBER_EMAIL) references brain_member(MEMBER_EMAIL),
+   constraint pk_MEMBER_ACTION primary key(MEMBER_EMAIL, MEMBER_ACTION)
+);
+-- drop table MEMBER_ACTION
+-- select * from MEMBER_ACTION
+----------------------------------------------------------------------
+-- ** 검색어 테이블 ** -----------------------------------------------------
+create table searchRanking(
+   KEYWORD varchar2(30) primary key,
+   CNT number not null
+)
+-- DROP table searchRanking
+-- select * from searchRanking
 -----------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------
 ----------------------------- *** 구현 확인용 DATA 삽입 *** ----------------------------------

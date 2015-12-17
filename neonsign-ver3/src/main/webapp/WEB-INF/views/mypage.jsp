@@ -6,6 +6,7 @@
 <div class="container-fluid">
 	<!-- 마이페이지 틀 -->
 	<div class="col-lg-12 col-sm-12 myprofile">
+	
 		<!-- 마이페이지 상단 정보 시작 -->
 		<div class="profileCard hovercard">
 			<!-- 마이페이지 상단 백그라운드 이미지 -->
@@ -34,45 +35,65 @@
 					PTS(${requestScope.rankMemberVO.memberPoint} / ${requestScope.rankMemberVO.rankingVO.maxPoint})
 				</span>
 			</div>
-			<!-- 우측 구독 정보 표시 -->
+			<!-- 여기 -->
+		</div>
+		<!-- 마이페이지 상단 정보 끝 -->
+		
+		<!-- 우측 구독 정보 표시 -->
+		<div class=subscriptionBox>
 			<!-- 닉네임을 구독하는 정보 -->
-			<div class="profileCard-subscriptedInfo">
+			<div class="subscriptedInfo">
 				<c:set var="subscriptedCount" value="${fn:length(requestScope.subscriptedInfoList)}"/>
-				<span class="profileCard-subscriptedList">
+				<span class="subscriptedList">
 					<a class="btn btn-info popover3" title="" href='#'>
 						${requestScope.rankMemberVO.memberNickName}님을<br>구독하는
 					</a>
-					<h2 class="subscriptedCount">${subscriptedCount}명</h2>
-					<div id="subscriptedPopover" style="display: none">
-						<span class="subscriptedInfo">
-							<c:forEach var="subscriptedInfoList" items="${requestScope.subscriptedInfoList}">
-								${subscriptedInfoList.memberNickName}<br>
-							</c:forEach>
-						</span>
-					</div>
+					<h2 class="subscriptedCountInfo">${subscriptedCount}</h2>
+					<c:choose>
+						<c:when test="${subscriptedCount==0}">
+							<div id="subscriptedPopover" style="display: none">
+								구독자가 없습니다.
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div id="subscriptedPopover" style="display: none">
+								<c:forEach var="subscriptedInfoList" items="${requestScope.subscriptedInfoList}">
+									${subscriptedInfoList.memberNickName}<br>
+								</c:forEach>
+							</div>
+						</c:otherwise>
+					</c:choose>
+	
 				</span>
 			</div>
 			<!-- 닉네임이 구독하는 정보 -->
-			<div class="profileCard-subscriptingInfo">
-				<span class="profileCard-subscripingList">
+			<div class="subscriptingInfo">
+				<c:set var="subscriptingCount" value="${fn:length(requestScope.subscriptingInfoList)}"/>
+				<span class="subscripingList">
 					<a class="btn btn-danger popover4" title="" href='#'>
 						${requestScope.rankMemberVO.memberNickName}님이<br>구독하는
 					</a>
-					<h2 class="subscriptingCount">${fn:length(requestScope.subscriptingInfoList)}명</h2>
-					<div id="subscriptingPopover" style="display: none">
-						<span class="text-danger">
-							<span class="subscriptingInfo">
+					<h2 class="subscriptingCount">${subscriptingCount}</h2>
+					<c:choose>
+						<c:when test="${subscriptingCount==0}">
+							<div id="subscriptingPopover" style="display: none">
+								구독자가 없습니다
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div id="subscriptingPopover" style="display: none">
 								<c:forEach var="subscriptingInfoList" items="${requestScope.subscriptingInfoList}">
 									${subscriptingInfoList.memberNickName}<br>
 								</c:forEach>
-							</span>
-						</span>
-					</div>
+							</div>
+						</c:otherwise>
+					</c:choose>
 				</span>
 			</div>
-			<!-- 우측 구독 정보 표시 끝 -->
 		</div>
-		<!-- 마이페이지 상단 정보 끝 -->
+		<!-- 우측 구독 정보 표시 끝 -->	
+		
+		
 		<!-- 마이페이지 상단 3탭 시작 -->
 		<div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
 			<!-- 탭1 -->
@@ -95,7 +116,6 @@
 			</div>
 		</div>
 		<!-- 마이페이지 상단 3탭 끝 -->
-		
 		<!-- 마이페이지 탭 내용 틀 -->
 		<div class="well">
 			<!-- 마이페이지 탭 내용 틀2 -->
@@ -106,9 +126,10 @@
 					<!-- ******************** 찜, 작성, 이은글 보기 ******************** -->
 					<!-- 찜한 주제글 보여주기 시작 -->
 					<div class="itjaSlide">
-						<h2 class="itjaMainTitle">${requestScope.rankMemberVO.memberNickName}이 찜한 주제글!<br></h2>
+						<h2 class="itjaMainTitle">${requestScope.rankMemberVO.memberNickName}님이 찜한 주제글!<br></h2>
 						<div class="container-fluid">
-							<div class="gallery js-flickity" data-flickity-options='{ "freeScroll": true, "wrapAround": true ,"pageDots": false}'>
+							<div class="gallery js-flickity"
+         					data-flickity-options='{ "freeScroll": false, "wrapAround": true ,"pageDots": false, "autoPlay" : 2000}'>
 								<!-- 찜 카드 for문 시작 -->
 								<c:forEach var="pickMainArticle" items="${requestScope.pickedMainArticleList}">
 									<!-- 찜 카드 틀 -->
@@ -245,9 +266,10 @@
 					
 					<!-- 작성 주제글 보여주기 시작 -->
 					<div class="itjaSlide">
-						<h2 class="itjaMainTitle">${requestScope.rankMemberVO.memberNickName}이 작성한 주제글!<br></h2>
+						<h2 class="itjaMainTitle">${requestScope.rankMemberVO.memberNickName}님이 작성한 주제글!<br></h2>
 						<div class="container-fluid">
-							<div class="gallery js-flickity" data-flickity-options='{ "freeScroll": true, "wrapAround": true ,"pageDots": false}'>
+							<div class="gallery js-flickity"
+         					data-flickity-options='{ "freeScroll": false, "wrapAround": true ,"pageDots": false, "autoPlay" : 2000}'>
 								<!-- 작성 카드 for문 -->
 								<c:forEach var="writeMainArticle" items="${requestScope.writeMainArticleList}">
 									<!-- 작성 카드 틀 -->
@@ -383,9 +405,10 @@
 					
 					<!-- 참여, 이은 주제글 -->
 					<div class="itjaSlide">
-						<h2 class="itjaMainTitle">${requestScope.rankMemberVO.memberNickName}이 이은 주제글!<br></h2>
+						<h2 class="itjaMainTitle">${requestScope.rankMemberVO.memberNickName}님이 이은 주제글!<br></h2>
 						<div class="container-fluid">
-							<div class="gallery js-flickity" data-flickity-options='{ "freeScroll": true, "wrapAround": true ,"pageDots": false}'>
+							<div class="gallery js-flickity"
+        					 data-flickity-options='{ "freeScroll": false, "wrapAround": true ,"pageDots": false, "autoPlay" : 2000}'>
 								<!-- 참여 카드 for문 -->
 								<c:forEach var="joinMainArticle" items="${requestScope.joinMainArticleList}">
 									<!-- 참여 카드 틀 -->
@@ -519,10 +542,8 @@
 					</div><!-- end jumbotron itjaSlide -->
 					<!-- 끝 참여주제글 -->
 					<!-- ************************* 찜, 작성, 이은글 보기 끝 ************************* -->
-					
 				</div>
 				<!-- 마이페이지 탭1 내용 카드보여주기 -->
-				
 				<!-- 마이페이지 탭2 내용 개인정보 통계 -->
 				<div class="tab-pane fade in" id="tab2">
 					<!-- 개인 정보 카드틀 -->
@@ -539,7 +560,7 @@
 									</div>
 									<!-- 카드1. 아이콘 내용 -->
 									<div class="text">
-										<var class="subscriptedCount">${subscriptedCount}</var>
+										<var class="subscriptedCountInfo">${subscriptedCount}</var>
 										<label class="text-muted">SUBSCRIBERs</label>
 									</div>
 									<!-- 카드1. 하단 버튼 -->
@@ -817,7 +838,117 @@
 				<div class="tab-pane fade in" id="tab3">
 					<!-- 탭3 구독 정보 틀 -->
 					<div class="row">
-
+					
+						<!-- 2015-12-14 대협추가 -->
+						<!-- script.js에서 게시판 종류를 구분하기위한 hidden -대협- -->
+						<input type="hidden" id="articleType" value="mainArticle">
+						<!-- <h2 class="itjaMainTitle">새로운 잇자!</h2> -->
+						<!-- 태그명을 받아 현재 선택한 태그를 표시한다. -대협 -->
+						<span id="getNowTagName"></span> 
+						<!-- 구독 글 시작 -->
+						<section id="pinBoot">
+							<!-- 구독 글 포문 -->
+							<c:forEach var="subscriptingMainArticle" items="${requestScope.subscriptingMainArticleList}">
+								<!-- 구독 글 틀 -->
+								<article class="white-panel">
+									<!-- 2015-12-14 대협추가 -->
+									<input type="hidden" id="articleType" value="mainArticle">
+									<!-- 구독 글 타이틀 -->
+									<h4><a href="#">${subscriptingMainArticle.mainArticleTitle}</a></h4>
+									<!-- 구독 글 태그 -->
+									<h6 class="category">${subscriptingMainArticle.tagName}</h6>
+									<!-- 구독 글 이미지 -->
+									<img src="${initParam.root}resources/uploadImg/articleBg/${subscriptingMainArticle.mainArticleImgVO.mainArticleImgName}" alt="">
+									<!-- 구독 글 버튼들 -->
+									<div class="social-line social-line-visible" data-buttons="4">
+										<!-- 구독글(타임체크) -->
+										<button class="btn btn-social btn-pinterest">
+											<span class="time_area">구독글</span>
+										</button>
+										<!-- 잇자 -->
+										<button class="btn btn-social btn-twitter itja">
+											<c:set var="count" value="false" />
+											<c:forEach var="itjaList" items="${sessionScope.memberVO.itjaMemberList}">
+											<c:choose>
+												<c:when test="${itjaList.mainArticleNo== subscriptingMainArticle.mainArticleNo}">
+													<c:set var="count" value="true" />
+												</c:when>
+												<c:otherwise>
+												</c:otherwise>
+											</c:choose>
+											</c:forEach>
+											<c:choose>
+												<c:when test="${count==true}">
+													<span class="itjaCount"><i class="fa fa-link"></i><br>${subscriptingMainArticle.mainArticleTotalLike }it</span>
+												</c:when>
+												<c:otherwise>
+													<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>${subscriptingMainArticle.mainArticleTotalLike }it</span>
+												</c:otherwise>
+											</c:choose>
+										</button>
+										<!-- 2015-12-14 대협수정 -->
+										<!-- 찜 -->
+										<button class="btn btn-social btn-google pickBtn">
+										<c:set var="breakCheck" value="false"/>
+										<c:forEach var="pickCheck" items="${sessionScope.memberVO.pickedVOList}">
+										<c:choose>
+											<c:when test="${pickCheck.mainArticleNo == subscriptingMainArticle.mainArticleNo}">
+												<c:set var="breakCheck" value="true"/>
+											</c:when>
+											<c:otherwise>
+											</c:otherwise>
+										</c:choose>
+										</c:forEach>
+										<c:choose>
+											<c:when test="${breakCheck == true}">
+												<span class="pickSpan"><i class="fa fa-heart"></i><br>찜!</span>
+											</c:when>
+											<c:otherwise>
+												<span class="pickSpan"><i class="fa fa-heart-o"></i><br>찜하자!</span>
+											</c:otherwise>
+										</c:choose>
+										</button>
+										<!-- 공유 -->
+										<button class="btn btn-social btn-facebook">
+											<i class="fa fa-facebook-official"></i><br> 공유!
+										</button>
+										<%--
+										  잇자 버튼 클릭시 전달 할 정보를 위한 히든 폼
+										  주제글의 잇자 클릭이므로 subArticleNo=0으로 넘어간다 --%>
+										<form name="itJaInfo">
+											<input type="hidden" name="memberEmail" value="${sessionScope.memberVO.memberEmail}">
+											<input type="hidden" name="mainArticleNo" value="${subscriptingMainArticle.mainArticleNo}">
+											<input type="hidden" name="subArticleNo" value=0>
+										</form>
+										<%--
+										   잇자 버튼 클릭시 전달 할 정보를 위한 히든 폼 끝
+										 --%>
+										<!-- 찜 정보를 전달하기 위한 폼 시작 -->
+										<form name="pickInfo">
+											<input type="hidden" name="memberEmail" value="${sessionScope.memberVO.memberEmail}">
+											<input type="hidden" name="mainArticleNo" value="${subscriptingMainArticle.mainArticleNo}">
+										</form>
+										 <!-- 찜 정보를 전달하기 위한 폼 끝 -->
+									</div>
+									<!-- 구독 글 버튼들 -->
+									<!-- 2015-12-14 대협수정 -->
+									<!-- 구독 글 내용 -->
+									<p class="card-content"/>
+									<c:set var="subscriptingMainArticleContent" value="${subscriptingMainArticle.mainArticleContent}" />
+									<p class="description">
+									${subscriptingMainArticleContent}
+									</p>
+									<!-- 구독 글 닉네임 -->
+									<a href="mypage.neon?memberEmail=${subscriptingMainArticle.memberVO.memberEmail}" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" data-toggle="popover" title="${newMainArticle.memberVO.memberNickName}님, ${newMainArticle.memberVO.rankingVO.memberGrade} PTS(${newMainArticle.memberVO.memberPoint} / ${newMainArticle.memberVO.rankingVO.maxPoint})" data-content="${newMainArticle.memberVO.memberNickName}님 Click하여 페이지 보기" >
+										<span class="writersNickName">- ${subscriptingMainArticle.memberVO.memberNickName} -</span>
+									</a>
+								</article>
+								<!-- 구독 글 틀 끝 -->
+							</c:forEach>
+							<!-- 구독 글 포문 끝 -->
+						</section>
+						<!-- 구독 글 끝 -->
+						
 					</div>
 					<!-- 탭3 구독 정보 틀 끝 -->
 				</div>
@@ -825,6 +956,7 @@
 				
 			</div>
 			<!-- 마이페이지 탭 내용 틀2 -->
+		
 		</div>
 		<!-- 마이페이지 탭 내용 틀 -->
 	</div>

@@ -3,7 +3,6 @@ package org.cobro.neonsign.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -13,6 +12,8 @@ import org.cobro.neonsign.vo.MemberListVO;
 import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.PagingBean;
 import org.cobro.neonsign.vo.PickedVO;
+import org.cobro.neonsign.vo.ServiceCenterListVO;
+import org.cobro.neonsign.vo.ServiceCenterVO;
 import org.cobro.neonsign.vo.SubscriptionInfoVO;
 import org.springframework.stereotype.Service;
 
@@ -41,9 +42,19 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	@Override
-	public MemberVO memberLogin(MemberVO memberVO) {
-		return memberDAO.memberLogin(memberVO);
+	public MemberVO pointMemberLogin(MemberVO memberVO) {
+		MemberVO mvo=memberDAO.memberLogin(memberVO);
+		if(mvo!=null){
+			//최종 접속 일시를 체킹하는 메서드
+			int result=memberDAO.memberLastLoginDateUpdate(memberVO);
+			//만약 Update가 되지 않으면 Inert를 진행한다
+			if(result==0){
+				memberDAO.memberLastLoginDateInsert(memberVO);
+			}
+		}
+		return mvo;
 	}
+
 	
 	@Override
 	public ArrayList<MemberVO> getNotifyMemberList(MemberVO mvo) {
@@ -93,7 +104,14 @@ public class MemberServiceImpl implements MemberService{
 	public void memberBlock(String memberEmail) {
 		// TODO Auto-generated method stub
 		memberDAO.memberBlock(memberEmail);
+		//블락 시킨뒤 회원의 블락 일시를 업데이트 또는 생성
+		int result = memberDAO.memberBlackdateUpdate(memberEmail);
+		//System.out.println("업데이트 여부 : "+result);
+		if(result==0){
+			memberDAO.memberBlackdateInsert(memberEmail);
+		}
 	}
+
 	/**
 	 * 회원 이메일을 받아 그 회원을 블락해제 시키는 메서드
 	 * @author 윤택
@@ -108,8 +126,17 @@ public class MemberServiceImpl implements MemberService{
 	 * @author junyoung
 	 */
 	@Override
-	public MemberVO defaultMemberLogin(MemberVO memberVO) {
-		return memberDAO.defaultMemberLogin(memberVO);
+	public MemberVO pointDefaultMemberLogin(MemberVO memberVO) {
+		MemberVO mvo=memberDAO.defaultMemberLogin(memberVO);
+		if(mvo!=null){
+			//최종 접속 일시를 체킹하는 메서드
+			int result=memberDAO.memberLastLoginDateUpdate(memberVO);
+			//만약 Update가 되지 않으면 Inert를 진행한다
+			if(result==0){
+				memberDAO.memberLastLoginDateInsert(memberVO);
+			}
+		}
+		return mvo;
 	}
 	
 	/**
@@ -118,7 +145,7 @@ public class MemberServiceImpl implements MemberService{
 	 */
 	@Override
 	public HashMap<String, Object> updatePickedVO(PickedVO pvo) {
-		System.out.println(memberDAO.selectPickedVO(pvo));
+		//System.out.println(memberDAO.selectPickedVO(pvo));
 		HashMap<String,Object> map = new HashMap<String, Object>();
 		if(memberDAO.selectPickedVO(pvo) == null){
 			memberDAO.insertPickedVO(pvo);
@@ -174,7 +201,7 @@ public class MemberServiceImpl implements MemberService{
 	 */
 	@Override
 	public MemberVO requestTemporaryPassword(FindPasswordVO findPasswordVO) {
-		System.out.println("멤버 서비스에 들어오나"+findPasswordVO);
+		//System.out.println("멤버 서비스에 들어오나"+findPasswordVO);
 		MemberVO memberVO = memberDAO.requestTemporaryPasswordCheckRandomSentence(findPasswordVO);
 		String temporaryPassword = passwordFinder.randomSentenceMaker(7);
 		//만료된 요청이 아닐 경우에만 동작
@@ -200,7 +227,7 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public HashMap<String, Object> updateSubscriptionInfo(
 			SubscriptionInfoVO subscriptionInfoVO) {
-		System.out.println(memberDAO.selectSubscriptionInfoVO(subscriptionInfoVO));
+		//System.out.println(memberDAO.selectSubscriptionInfoVO(subscriptionInfoVO));
 		HashMap<String,Object> map = new HashMap<String, Object>();
 		if(memberDAO.selectSubscriptionInfoVO(subscriptionInfoVO) == null){
 			memberDAO.insertSubscriptionInfoVO(subscriptionInfoVO);
@@ -236,6 +263,40 @@ public class MemberServiceImpl implements MemberService{
 		return memberDAO.getSubscriptionListBySubscriberMemberEmail(subscriptionInfoVO);
 	}
 	
-	
+	/**
+	 * 문의글 쓰기
+	 * @author 재영
+	 */
+		@Override
+		public void insertServiceCenter(ServiceCenterVO ServiceCenterVO){
+			 memberDAO.insertServiceCenter(ServiceCenterVO);
+	    }
+		
+	/**
+	 * 문의글 리스트를 받아오는 메서드
+	 * @author 재영
+	 */
+		@Override
+		public ServiceCenterListVO ServiceCenterList(int pageNo){
+			PagingBean pb=null;
+			List<ServiceCenterVO>list=memberDAO.ServiceCenterList(pageNo);
+			int totalReports=memberDAO.AllCount();
+			//System.out.println(totalReports);
+			if(pageNo!=0){
+				pb= new PagingBean(totalReports,pageNo);
+				}else{
+					pb= new PagingBean(totalReports);
+				}
+			ServiceCenterListVO ServiceCenterListVO=new ServiceCenterListVO(list,pb);
+			return ServiceCenterListVO;
+		}
+		/**
+		 * 문의글 상세히보기 메서드
+		 * @author 재영
+		 */
+		@Override
+		public ServiceCenterVO ServiceCenterView(int ServiceCenterNo){
+			return memberDAO.ServiceCenterView(ServiceCenterNo);
+		}
 	
 }

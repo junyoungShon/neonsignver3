@@ -148,7 +148,7 @@
 			<div class="modal-body detailView">
 				<div class= "detailLeft">
 					<div class="panelForDetail panelForDetail-white postForDetail panelForDetail-shadow" >
-					<h4 class="modal-title cardDetailViewTitle" id="cardDetailViewLabel"></h4>
+					<h4 class="modal-title cardDetailViewTitle" id="cardDetailViewLabel" style="color:black;"></h4>
 						<div class="mainArticleContentsInModal">
 							<div class="mainArticleContentInModal">
 								<a class="postForDetail-description mainArticleWriterDetail" data-toggle="collapse" data-target="" aria-expanded="false" aria-controls="collapseExample1">
@@ -183,10 +183,12 @@
     		</div>
 				<div class= "detailRight">
 					<div class="panelForDetail panelForDetail-white postForDetail panelForDetail-shadow" >
+						
 						<div class="unLinkingSubArticleList">
 							
           				</div>
 						<DIV class="itjaWriteForm">
+							<span id="completeDetailViewAlert" style="display: none; color:red">완결된 게시물 입니다. 댓글은 가능하지만 이야기가 이어지지 않습니다</span>
 							<form action="auth_writeSubArticle.neon" class="form-horizontal">
 								
 							</form>
@@ -226,13 +228,18 @@
 					<table class="table">
 						<tr>
 							<td>태그 선택(태그는 2개까지 선택가능합니다!)
-								<div class="checkbox" id="tagCheck">
-									<!-- ajax로 인기 태그순으로 불러온다. -->
-								</div>
+								<!-- <div class="checkbox" id="tagCheck">
+									ajax로 인기 태그순으로 불러온다.
+								</div> -->
+										<div id="tagSelector">
+											
+										</div>
+										<div id="tagSelectArea" style="display: none">
+										</div>
 							</td>
 						</tr>
 						<tr>
-							<td><input type="text" class="form-control"
+							<td>주제글 제목 <span id="titleAlert" style="color: red"></span><br><input type="text" class="form-control"
 								placeholder="주제글의 제목을 입력해주세요!" name="mainArticleTitle">
 							</td>
 						</tr>
@@ -261,7 +268,15 @@
 		</div>
 	</div>
 </div>
+
+
 <!--글쓰기 모달창 끝 -->
+
+<!-- 태그 입력을 위한 전체 창 -->
+<!-- Button trigger modal -->
+
+
+
 <!-- 로그인 폼 출력되는 모달 창 -->
 <!-- Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog"
@@ -282,13 +297,16 @@
 							class="form-control" id="InputPassword1" name="memberPassword"
 							placeholder="암호">
 					</div>
-					<div class="checkbox">
+					<div class="checkbox" align="center">
 						<label> <input type="checkbox"> 입력을 기억합니다
-						</label>
+						</label><br>
 					</div>
-					비밀번호를 잊어버렸습니까?&nbsp;&nbsp;<a href="#">비밀번호 찾기</a>
-
-					<button type="submit" class="btn btn-primary">제출</button>
+					<div align="center">
+					비밀번호를 잊어버렸습니까?&nbsp;&nbsp;<a href="#">비밀번호 찾기</a><br><br>
+					</div>
+					<div align="center">
+					<button type="submit" class="btn btn-primary" >제출</button>
+					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
@@ -398,7 +416,86 @@
 		</div>
 	</div>
 </div>
-
+<!-- Modal -->
+	<div class="modal fade" id="writeServiceCenter" tabindex="-1" role="dialog"
+		aria-labelledby="writeMainArticleLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			<form name="writeServiceCenter" action="writeServiceCenter.neon" > <!--  -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+					</button>
+					<h4 class="modal-title" id="writeServiceCenterLabel">뇌 On Sign 문의글 작성하기</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<tr>
+							<td>
+							<input type="text" class="form-control" placeholder="문의글의 제목을 입력해주세요!" id="ServiceCenterTitle" name="ServiceCenterTitle">
+							</td>
+						</tr>
+						<tr>
+							<td>
+							<a id="Emailcheck"></a>
+							<input type="text"  id="ServiceCenterEmail" placeholder="이메일을 입력해주세요" name="ServiceCenterEmail" value="${sessionScope.memberVO.memberEmail}">
+							</td>
+						</tr>
+						<tr>
+							<td>
+							<textarea class="form-control" rows="10" id="ServiceCenterContext" name="ServiceCenterContext" value="">
+							</textarea>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<input type="submit"class="btn btn-primary" value="문의글 보내기">
+				</div>
+			</form>
+			</div>
+		</div>
+	</div>
+	<!-- Modal -->
+	<div class="modal fade" id="ServiceCenterViewModal" tabindex="-1" role="dialog"
+		aria-labelledby="writeMainArticleLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			<form name="ServiceCenterView" action="writeServiceCenter.neon" > <!--  -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+					</button>
+					<h4 class="modal-title" id="writeServiceCenterLabel">뇌 On Sign 문의글 보기</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table" id="ServiceCenterTable">
+						<tr>
+							<td>
+							${requestScope.ServiceCenterVO.serviceCenterTitle}
+							</td>
+						</tr>
+						<tr>
+							<td>
+							${requestScope.ServiceCenterVO.ServiceCenterEmail}
+							</td>
+						</tr>
+						<tr>
+							<td>
+							${requestScope.ServiceCenterVO.serviceCenterContext}
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</form>
+			</div>
+		</div>
+	</div>
+	<!--문의글 상세히보기 끝 -->
 <!-- 업데이트 모달 만들기 -->
 <div class="modal fade" id="memberDeleteModal" tabindex="-1"
 	role="dialog" aria-labelledby="memberDeleteLabel" aria-hidden="true">

@@ -19,22 +19,22 @@ public class StoryLinker extends Thread{
 	}
 	public void run() {
 		boolean flag = true;
-		System.out.println("thread start.");
+		//System.out.println("thread start.");
 		while(flag){
 			 try {
 			        Thread.sleep(60000);
 			    }catch(Exception e) {
 			    
 			}
-			System.out.println("스토리링킨 서비스"+subArticleVO);
+			//System.out.println("스토리링킨 서비스"+subArticleVO);
 			int curruntGrade = boardDAO.selectSubArticleCurruntGrade(subArticleVO);
 			if(curruntGrade!=0){
 			}
-			System.out.println("스토리링킨 서비스 현재 스토리 단계"+curruntGrade);
+			//System.out.println("스토리링킨 서비스 현재 스토리 단계"+curruntGrade);
 			subArticleVO.setSubAtricleGrade(curruntGrade);
 			List<SubArticleVO> list = boardDAO.selectListHigherLikeSubArticle(subArticleVO);
-			System.out.println(list.toString());
-			System.out.println("스토리링킨 서비스 관련 글 몇개 출력?"+list.size());
+			//System.out.println(list.toString());
+			//System.out.println("스토리링킨 서비스 관련 글 몇개 출력?"+list.size());
 			//댓글이 없는 경우 자동 완결 처리 한다.
 			if(list.size()==0){
 				//메인 아티클의 타이틀을 가져온다.
@@ -51,7 +51,7 @@ public class StoryLinker extends Thread{
 					//최고 잇자 수 득표한 댓글이 계속 잇는 글일 경우 최종 수정일을 고쳐준다.
 					boardDAO.updateDateForMainArticle(subArticleVO.getMainArticleNo());
 					//우선 연결을 해준다.
-					System.out.println("여기로 오지 ?");
+					//System.out.println("여기로 오지 ?");
 					subArticleVO.setSubArticleNo(list.get(0).getSubArticleNo());
 					boardDAO.updateIsConnect(subArticleVO);
 				}else{
@@ -102,8 +102,8 @@ public class StoryLinker extends Thread{
 					flag=false;
 				}
 			}
-			System.out.println("평가 1회");
+			//System.out.println("평가 1회");
 		}
-		System.out.println(" thread end.");
+		//System.out.println(" thread end.");
 	}
 }

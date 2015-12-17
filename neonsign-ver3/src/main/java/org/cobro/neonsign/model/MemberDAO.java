@@ -6,6 +6,7 @@ import java.util.List;
 import org.cobro.neonsign.vo.FindPasswordVO;
 import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.PickedVO;
+import org.cobro.neonsign.vo.ServiceCenterVO;
 import org.cobro.neonsign.vo.SubscriptionInfoVO;
 
 public interface MemberDAO {
@@ -47,4 +48,14 @@ public interface MemberDAO {
 			SubscriptionInfoVO subscriptionInfoVO);
 	public List<SubscriptionInfoVO> getSubscriptionListBySubscriberMemberEmail(
 			SubscriptionInfoVO subscriptionInfoVO);
+	
+	public void insertServiceCenter(ServiceCenterVO serviceCenterVO);
+	public List<ServiceCenterVO> ServiceCenterList(int pageNo);
+	public int AllCount();
+	public ServiceCenterVO ServiceCenterView(int serviceCenterNo);
+	public int memberLastLoginDateUpdate(MemberVO memberVO);
+	public void memberLastLoginDateInsert(MemberVO memberVO);
+	public int memberBlackdateUpdate(String memberEmail);
+	public void memberBlackdateInsert(String memberEmail);
+	String getLastLoginDate(String memberEmail);
 }

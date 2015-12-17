@@ -33,6 +33,8 @@
  <link href="${initParam.root}resources/css/font-awesome.min.css" rel="stylesheet" />
  <!-- 잇자 또는 공지를 사이트 측면에서 띄워주는 간이모달 CSS -->
  <link rel="stylesheet" type="text/css" href="${initParam.root}resources/css/toasty-min.css">
+ <!-- 태그 자동완성 CSS -->
+ <link href="${initParam.root}resources/css/magicsuggest-min.css" rel="stylesheet">
  <style>
         
     </style>
@@ -67,7 +69,12 @@
 <!-- 부트 스트랩 사용을 위한 하단 설정 완료 -->
 <!-- 힙스터 카드 js 파일 -->
 <script src="${initParam.root}resources/js/hipster-cards.js"></script>
+<!-- 태그 자동완성을 위한 js -->
+<script src="${initParam.root}resources/js/magicsuggest-min.js"></script>
 <script type="text/javascript">
+
+
+
 </script>
 
 </body>

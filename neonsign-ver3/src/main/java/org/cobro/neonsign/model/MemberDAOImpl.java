@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.cobro.neonsign.vo.FindPasswordVO;
 import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.PickedVO;
+import org.cobro.neonsign.vo.ServiceCenterVO;
 import org.cobro.neonsign.vo.SubscriptionInfoVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -38,7 +39,7 @@ public class MemberDAOImpl implements MemberDAO{
 	@Override
 	public int memberUpdate(MemberVO memberVO) {
 		// TODO Auto-generated method stub
-		System.out.println(memberVO.getMemberPassword());
+		//System.out.println(memberVO.getMemberPassword());
 		return sqlSessionTemplate.update("member.memberUpdate",memberVO);
 	}
 
@@ -64,7 +65,7 @@ public class MemberDAOImpl implements MemberDAO{
 
 	@Override
 	public List<MemberVO> getMemberList(int pageNo) {
-		System.out.println("getMemberList 실행");
+		//System.out.println("getMemberList 실행");
 		List<MemberVO> list=null;
 		try{
 		list=sqlSessionTemplate.selectList("member.RegisterMemberList",pageNo);
@@ -97,7 +98,7 @@ public class MemberDAOImpl implements MemberDAO{
 	@Override
 	public void memberBlockRelease(String memberEmail) {
 		// TODO Auto-generated method stub
-		System.out.println(memberEmail);
+		//System.out.println(memberEmail);
 		sqlSessionTemplate.update("member.memberBlockRelease",memberEmail);
 	}
 
@@ -108,7 +109,7 @@ public class MemberDAOImpl implements MemberDAO{
 	 */
 	@Override
 	public MemberVO defaultMemberLogin(MemberVO memberVO) {
-		System.out.println(memberVO);
+		//System.out.println(memberVO);
 		return sqlSessionTemplate.selectOne("member.defaultMemberLogin", memberVO);
 	}
 	
@@ -217,7 +218,7 @@ public class MemberDAOImpl implements MemberDAO{
 	@Override
 	public void memberPointPlusUpdater(String memberEmail, int point) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		System.out.println(memberEmail+" 여기는 DAO"+point);
+		//System.out.println(memberEmail+" 여기는 DAO"+point);
 		map.put( "memberEmail", memberEmail );
 		map.put( "memberPoint", point );
 		sqlSessionTemplate.update("member.memberPointPlusUpdater",map);
@@ -284,6 +285,80 @@ public class MemberDAOImpl implements MemberDAO{
 		return sqlSessionTemplate.selectList("member.getSubscriptionListBySubscriberMemberEmail", subscriptionInfoVO);
 	}
 
+
+/**
+	 * 문의글쓰기
+	 * @author 재영
+	 */
+		@Override
+		public void insertServiceCenter(ServiceCenterVO ServiceCenterVO){
+			 sqlSessionTemplate.insert("member.ServiceCenterinsert",ServiceCenterVO);
+		}
+
+		/**
+		 * 문의글리스트
+		 * @author 재영
+		 */
+		@Override
+		public List<ServiceCenterVO> ServiceCenterList(int pageNo){
+			return  sqlSessionTemplate.selectList("member.ServiceCenterList",pageNo);
+			}
+
+		/**
+		 *  총 문의글 수
+		 *  @author 재영
+		 */
+		@Override
+		public int AllCount(){
+			return sqlSessionTemplate.selectOne("member.Allcount");	
+		}
+		/**
+		 * 문의글 상세히보기
+		 * @author 재영
+		 */
+		@Override
+		public ServiceCenterVO ServiceCenterView(int serviceCenterNo) {
+			return sqlSessionTemplate.selectOne("member.ServiceCenterView",serviceCenterNo);
+		}
 	
-	
+
+/**
+	 * 최종 접속일을 Update하는 메서드
+	 */
+	@Override
+	public int memberLastLoginDateUpdate(MemberVO memberVO) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.update("member.memberLastLoginDateUpdate",memberVO);
+	}
+	/**
+	 *  최종 접속일을 Insert하는 메서드
+	 */
+	@Override
+	public void memberLastLoginDateInsert(MemberVO memberVO) {
+		// TODO Auto-generated method stub
+		sqlSessionTemplate.insert("member.memberLastLoginDateInsert",memberVO);
+	}
+
+	@Override
+	public int memberBlackdateUpdate(String memberEmail) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.update("member.memberBlackdateUpdate",memberEmail);
+	}
+
+	@Override
+	public void memberBlackdateInsert(String memberEmail) {
+		// TODO Auto-generated method stub
+		sqlSessionTemplate.insert("member.memberBlackdateInsert",memberEmail);
+	}
+
+	/**
+	 * 최종 접속일을 받아옴
+	 * @author Youn
+	 */
+	@Override
+	public String getLastLoginDate(String memberEmail) {
+		// TODO Auto-generated method stub
+		System.out.println(memberEmail);
+		return sqlSessionTemplate.selectOne("member.getLastLoginDate",memberEmail);
+	}
 }

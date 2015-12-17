@@ -33,7 +33,7 @@ public class ItjaMemberBean {
 	public int checkItja(ItjaMemberVO itjaMemberVO){
 		int result = boardDAO.checkItja(itjaMemberVO);
 		int isMain = itjaMemberVO.getSubArticleNo();
-		System.out.println("제대로 체크하고 있냐"+result);
+		//System.out.println("제대로 체크하고 있냐"+result);
 		if(result==1){
 			boardDAO.deleteItja(itjaMemberVO);
 			if(isMain==0){
