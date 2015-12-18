@@ -13,6 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="memberPoint" column="MEMBER_POINT" />
       	<result property="memberReportAmount" column="MEMBER_REPORT_AMOUNT" />
 		<result property="memberCategory" column="MEMBER_CATEGORY"/>
+		<result property="profileImgName" column="PROFILE_IMG_NAME"/>
 		<collection property="subscriptionInfoList" column="MEMBER_EMAIL"
 			ofType="subscriptionInfoVO" javaType="ArrayList" resultMap ="subscriptionInfoResultMap"/>
 	</resultMap>
@@ -82,10 +83,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
     
 	<!-- 한솔 회원가입 -->
+	<!-- 2015-12-15 대협추가 -->
 	<insert id="memberRegister" parameterType="memberVO">
 		insert into
-		brain_member(MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_PASSWORD,MEMBER_JOIN_DATE,MEMBER_CATEGORY)
-		values(#{memberEmail},#{memberNickName},#{memberPassword},sysdate,'NORMAL')
+		brain_member(MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_PASSWORD,MEMBER_JOIN_DATE,MEMBER_CATEGORY, PROFILE_IMG_NAME)
+		values(#{memberEmail},#{memberNickName},#{memberPassword},sysdate,'일반회원', #{profileImgName})
 	</insert>
 	
 	<!-- 재영 로그인 -->
@@ -106,8 +108,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	select MEMBER_NICKNAME from brain_member where MEMBER_NICKNAME=#{value}
 	 </select>
 	 <!-- 한솔 이메일 중복체크 -->
+	 <!-- 2015-12-15 대협추가 -->
 	 <select id="findMemberByEmail" resultMap="memberResultMap" parameterType="string">
-	 	select MEMBER_EMAIL,MEMBER_NICKNAME from brain_member where MEMBER_EMAIL=#{value}
+	 	select MEMBER_EMAIL,MEMBER_NICKNAME, PROFILE_IMG_NAME from brain_member where MEMBER_EMAIL=#{value}
 	 </select>
 	 	 <!-- 일반회원 목록 -->
 	  <select id="RegisterMemberList" resultMap="memberResultMap" resultType="memberVO">
@@ -173,10 +176,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 select MEMBER_PASSWORD,member_nickname from brain_member where  MEMBER_EMAIL=#{memberEmail}
 	 </select>
        <!-- 회원정보수정 -->
+    <!-- 2015-12-15 대협추가 -->
     <update id="memberUpdate" parameterType="memberVO">
     update brain_member
-    set MEMBER_PASSWORD=#{memberPassword} , MEMBER_NICKNAME=#{memberNickName}
-    where MEMBER_EMAIL=#{memberEmail} 
+    set MEMBER_PASSWORD=#{memberPassword} , MEMBER_NICKNAME=#{memberNickName}, PROFILE_IMG_NAME=#{profileImgName}
+    where MEMBER_EMAIL=#{memberEmail}
     </update>
      <!-- 회원 포인트 플러스 -->
     <update id="memberPointPlusUpdater" parameterType="map">

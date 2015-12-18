@@ -508,9 +508,10 @@ public class BoardServiceImpl implements BoardService{
 	 * + 구독정보 추가함
 	 * email로 받아와서 memberVO에 set
 	 */
+	//2015-12-15 대협수정
 	@Override
 	public MemberVO getMemberRankingByMemberEmail(MemberVO memberVO) {
-		memberVO = boardDAO.getMemberNickNameByEmail(memberVO);
+		memberVO = boardDAO.getMemberVOByEmail(memberVO);
 		RankingVO rankingVO = boardDAO.getMemberRankingByMemberEmail(memberVO);
 		List<SubscriptionInfoVO> subscriptionInfoList
 			= boardDAO.getSubscriptedInfoListByPublisherEmail(memberVO);
@@ -698,15 +699,6 @@ public class BoardServiceImpl implements BoardService{
 	public void insertMainArticleImg(int articleNo, String imgName){
 		boardDAO.insertMainArticleImg(articleNo, imgName);
 	}
-	
-	/**2015-12-08 대협추가
-	 * 프로필이미지를 등록하는 메소드
-	 * @author daehyeop
-	 */
-	@Override
-	public void insertProfileImg(String memberEmail, String imgName){
-		boardDAO.insertProfileImg(memberEmail, imgName);
-	}
 	/**2015-12-08 대협추가
 	 * 주제글 배경이미지를 불러오는 메소드
 	 * @author daehyeop
@@ -745,7 +737,7 @@ public class BoardServiceImpl implements BoardService{
 		for(int i = 0 ; i<SubscriptedInfoList.size() ; i++){
 			memberVO = new MemberVO();
 			memberVO.setMemberEmail(SubscriptedInfoList.get(i).getSubscriber());
-			subscriptedMemberList.add(boardDAO.getMemberNickNameByEmail(memberVO));
+			subscriptedMemberList.add(boardDAO.getMemberVOByEmail(memberVO));
 		}
 		return subscriptedMemberList;
 	}
@@ -763,7 +755,7 @@ public class BoardServiceImpl implements BoardService{
 		for(int i = 0 ; i<SubscriptingInfoList.size() ; i++){
 			memberVO = new MemberVO();
 			memberVO.setMemberEmail(SubscriptingInfoList.get(i).getPublisher());
-			subscriptingMemberList.add(boardDAO.getMemberNickNameByEmail(memberVO));
+			subscriptingMemberList.add(boardDAO.getMemberVOByEmail(memberVO));
 		}
 		return subscriptingMemberList;
 	}

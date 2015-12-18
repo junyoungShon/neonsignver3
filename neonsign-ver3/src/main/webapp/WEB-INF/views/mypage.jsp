@@ -15,7 +15,7 @@
 			</div>
 			<!-- 프로필 둥근 사진 -->
 			<div class="useravatar">
-				<img src="http://vignette1.wikia.nocookie.net/pokemon/images/b/b4/%EB%A1%9C%EC%82%AC%EC%9D%98_%EC%95%84%EB%B3%B4%ED%81%AC.png/revision/latest?cb=20110121121520&path-prefix=ko" >
+				<img src="${initParam.root}resources/uploadImg/profileImg/${requestScope.rankMemberVO.profileImgName}" >
 			</div>
 			<!-- 프로필 상단 정보 내용 -->
 			<div class="profileCard-info">

@@ -72,7 +72,7 @@ public interface BoardDAO {
 	public List<Integer> getPickedMainArticleNoByEmail(MemberVO memberVO);
 	public MainArticleVO getMainArticleByMainArticleNoOrderByDate(
 			Integer integer);
-	public MemberVO getMemberNickNameByEmail(MemberVO memberVO);
+	public MemberVO getMemberVOByEmail(MemberVO memberVO);
 	public List<Integer> getWriteMainArticleNoByEmail(MemberVO memberVO);
 	public List<Integer> getJoinMainArticleNoByEmail(MemberVO memberVO);
 	public List<RankingVO> getRankingList();
@@ -87,7 +87,6 @@ public interface BoardDAO {
 	//2015-12-08 대협추가
 	//이미지 저장 관련 메소드
 	public void insertMainArticleImg(int articleNo, String imgName);
-	public void insertProfileImg(String memberEmail, String imgName);
 	//이미지 로드 관련 메소드
 	public MainArticleImgVO selectMainArticleImg(int articleNo);
 	public String selectWriterEmailByArticleNO(ItjaMemberVO itjaMemberVO);

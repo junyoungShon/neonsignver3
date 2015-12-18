@@ -47,6 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <result property="memberPoint" column="MEMBER_POINT" />
       <result property="memberReportAmount" column="MEMBER_REPORT_AMOUNT" />
       <result property="memberCategory" column="MEMBER_CATEGORY" />
+      <result property="profileImgName" column="PROFILE_IMG_NAME"/>
       <collection property="pickedVOList" column="MEMBER_EMAIL"
 			ofType="pickedVO" javaType="ArrayList" resultMap ="pickedResultMap"/>
 	  <collection property="subscriptionInfoList" column="MEMBER_EMAIL"
@@ -476,10 +477,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<![CDATA[where bm.MEMBER_POINT >= rk.MIN_POINT and bm.MEMBER_POINT <= rk.MAX_POINT 
 		and bm.MEMBER_EMAIL = #{memberEmail}]]> 
 	</select>
-	<select id="getMemberNickNameByEmail" resultMap="memberResultMap">
-		select MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_POINT, MEMBER_REPORT_AMOUNT, 
-		to_char(MEMBER_JOIN_DATE,'YYYY/MM/DD') as MEMBER_JOIN_DATE
-		from brain_member where MEMBER_EMAIL = #{memberEmail}
+	<!-- 2015-12-15 대협수정 -->
+	<select id="getMemberVOByEmail" resultMap="memberResultMap">
+		select MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_POINT,
+		to_char(MEMBER_JOIN_DATE, 'YYYY-MM-DD HH24:MI:SS') as MEMBER_JOIN_DATE,
+		PROFILE_IMG_NAME
+		from brain_member
+		where MEMBER_EMAIL = #{memberEmail}
 	</select>
 	<!-- 랭킹 리스트 get -->
 	<select id="getRankingList" resultMap="rankingResultMap">
@@ -520,10 +524,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 대협 -->
 	<insert id="insertMainArticleImg" parameterType="map">
 		insert into MAIN_ARTICLE_IMG(MAIN_ARTICLE_NO, MAIN_ARTICLE_IMG_NAME) values(#{articleNo}, #{imgName})
-	</insert>
-	<!-- 2015-12-08 대협추가 -->
-	<insert id="insertProfileImg" parameterType="map">
-		insert into MAIN_ARTICLE_IMG(MEMBER_EMAIL, PROFILE_IMG_NAME) values(#{memberEmail}, #{imgName})
 	</insert>
 	<!-- 2015-12-08 대협추가 -->
 	<select id="selectMainArticleImg" resultMap="mainArticleImgResultMap">

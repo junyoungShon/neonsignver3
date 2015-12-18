@@ -251,8 +251,8 @@ public class BoardDAOImpl implements BoardDAO{
 	 * @author JeSeong Lee 
 	 */
 	@Override
-	public MemberVO getMemberNickNameByEmail(MemberVO memberVO) {
-		return sqlSessionTemplate.selectOne("board.getMemberNickNameByEmail", memberVO);
+	public MemberVO getMemberVOByEmail(MemberVO memberVO) {
+		return sqlSessionTemplate.selectOne("board.getMemberVOByEmail", memberVO);
 	}
 	
 	/**
@@ -583,18 +583,6 @@ public class BoardDAOImpl implements BoardDAO{
 		map.put("articleNo", String.valueOf(articleNo));
 		map.put("imgName", imgName);
 		sqlSessionTemplate.insert("board.insertMainArticleImg", map);
-	}
-	
-	/**2015-12-08 대협추가
-	 * 프로필이미지를 등록하는 메소드
-	 * @author daehyeop
-	 */
-	@Override
-	public void insertProfileImg(String memberEmail, String imgName){
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("memberEmail", memberEmail);
-		map.put("imgName", imgName);
-		sqlSessionTemplate.insert("board.insertProfileImg", map);
 	}
 	
 	/**2015-12-08 대협추가
