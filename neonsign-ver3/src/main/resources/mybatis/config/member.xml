@@ -87,7 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="memberRegister" parameterType="memberVO">
 		insert into
 		brain_member(MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_PASSWORD,MEMBER_JOIN_DATE,MEMBER_CATEGORY, PROFILE_IMG_NAME)
-		values(#{memberEmail},#{memberNickName},#{memberPassword},sysdate,'일반회원', #{profileImgName})
+		values(#{memberEmail},#{memberNickName},#{memberPassword},sysdate,'NORMAL', #{profileImgName})
 	</insert>
 	
 	<!-- 재영 로그인 -->

@@ -129,21 +129,31 @@ public class MemberController {
 	@RequestMapping("memberJoinByEmail.neon")
 	public ModelAndView memberRegister(FileVO fvo, HttpServletRequest request,MemberVO memberVO){
 		//2015-12-15 대협추가
+		System.out.println("컨트롤러 경로 : "+ profileImgPath);
 		MultipartFile file = fvo.getFile();
-		String fileName = file.getOriginalFilename();
-		if(!fileName.equals("")){
-			try{
-				fileName = memberVO.getMemberEmail()+"_"+fileName;
-				file.transferTo(new File(profileImgPath+fileName));
-				memberVO.setProfileImgName(fileName);
-			}catch(Exception e){
-				e.printStackTrace();
+		String fileName = null;
+		if(file!=null){
+		 fileName = file.getOriginalFilename();
+			if(!fileName.equals("")){
+				try{
+					fileName = memberVO.getMemberEmail()+"_"+fileName;
+					file.transferTo(new File(profileImgPath+fileName));
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}else{
+				fileName="basicImg/abok.png";
 			}
+		}else{
+			fileName="basicImg/abok.png";
 		}
+		System.out.println(fileName);
+		memberVO.setProfileImgName(fileName);
 		memberService.pointMemberRegister(memberVO);
 		request.setAttribute("memberVO", memberVO);
 		return new ModelAndView("forward:memberLogin.neon");
 	}
+
 /*	
 	public ModelAndView memberUpdate(HttpServletRequest request){
 	

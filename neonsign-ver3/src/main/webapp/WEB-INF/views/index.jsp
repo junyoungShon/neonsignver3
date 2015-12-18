@@ -63,7 +63,7 @@
 			        <h4 class="modal-title" id="myModalLabel">뇌온사인 회원가입</h4>
 			      </div>
 			      <div class="modal-body">
-			        <form id="memberJoinByEmail" action="memberJoinByEmail.neon">
+			        <form id="memberJoinByEmail" action="memberJoinByEmail.neon" method="post">
 			        	<!-- 개인정보 입력 부분 -->
 			        	<div class="personInfoForJoin">
 			        	<!-- 
