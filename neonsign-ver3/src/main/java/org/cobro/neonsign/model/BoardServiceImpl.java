@@ -626,6 +626,8 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public HashMap<String, Object> pointSelectItjaState(ItjaMemberVO itjaMemberVO,SubArticleVO subArticleVO) {
 		HashMap<String,Object> map = new HashMap<String, Object>();
+		System.out.println("잇자 클릭 "+itjaMemberVO);
+		System.out.println("잇자 클릭 "+subArticleVO);
 		map.put("itjaSuccess",itjaMemberBean.checkItja(itjaMemberVO));
 		map.put("itjaCount",itjaMemberBean.itjaCount(itjaMemberVO));
 		int totalCount = itjaMemberBean.itjaTotalCount(itjaMemberVO);

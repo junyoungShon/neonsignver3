@@ -1141,7 +1141,7 @@ $(document).ready(function(){ //DOM이 준비되고
                    			+'<a href="#" class="btn btn-default statForDetail-item mainLikeIt">'+mainLikeItHTML+'</a>'
                    			+'</a><a href="#" class="btn btn-default statForDetail-item report"><span class="articleReport"><i class="fa fa-ban"></i></span>'
         	                +'<form name="subArticleInfo">'
-                            +'<input type="hidden" name="memberEmail" value="'+data.subArticleVO[i].memberEmail
+                            +'<input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
                             +'"><input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo
                             +'"><input type="hidden" name="subArticleNo" value='+data.subArticleVO[i].subArticleNo+'></form></a></div>'
                             +'<div class="unLinkingSubArticleContent">['+isEnd+']'+data.subArticleVO[i].subArticleContent+'</div></div>'
@@ -1368,6 +1368,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	
 	//모달 창에서 아직 안이어진 잇는글들 클릭시 발동하는 잇자 버튼
 	$('.unLinkingSubArticleList').on('click','.itja',function(){
+		alert($($(this).parent().next().children().next()).html());
 		var formData =  $($(this).parent().next().children().next()).serialize();
 		var itjaCountSpan = $(this);
 		itjaClick(formData,itjaCountSpan,'one');
