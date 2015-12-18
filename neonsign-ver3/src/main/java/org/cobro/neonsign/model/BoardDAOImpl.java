@@ -700,4 +700,12 @@ public class BoardDAOImpl implements BoardDAO{
 	public void insertTagIntoTagTable(String tagName) {
 		sqlSessionTemplate.insert("board.insertTagIntoTagTable",tagName);
 	}
+	/**
+	 * @author junyoung
+	 */
+	@Override
+	public List<TagVO> selectListTagNameOrderBykeyWord(String tagName) {
+		System.out.println(tagName);
+		return sqlSessionTemplate.selectList("board.selectListTagNameOrderBykeyWord",tagName);
+	}
 }

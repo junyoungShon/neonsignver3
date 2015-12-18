@@ -3,11 +3,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!-- 태그 소트 버튼 부분 -->
-<div class="container tags-container" style="margin-top: 100px;">
-   <c:forEach items="${requestScope.tagVOList}" var="tagList">
-      <span>#${tagList.tagName}</span>
-   </c:forEach>
+<div class="container tags-container" style="margin-top:100px;">
+	<h2 class="itjaMainTitle">인기 태그 best5</h2>
+	<c:forEach items="${requestScope.tagVOList}" var="tagList" begin="0" end="4">
+		<span class="tagName">#${tagList.tagName}</span><span class="tagCount" style="display: none; color:gray">${tagList.searchCount}</span> 
+	</c:forEach>
+	<br><br><span id="selectedTagCount" style="display: none; color:gray">${tagList.searchCount}</span> 
 </div>
+	<div class="" style="width:400px; margin:0 auto;">
+	    <div class="ui-widget">
+	    <span class="input-group-btn">
+			<input type="text" class="form-control tagSearcher"  id="search" name="search" placeholder="태그 검색해보세요!" style="display:inline; margin:0 auto; margin-top:20px;">
+            <button type="button" class="btn btn-default" id="tagSerch_result"><span class="fa fa-search"></span></button>
+	    </span>
+			  <label for="tagSearcher">Tags: </label>
+		</div>
+		<span class="selectedTagName"></span>
+	</div>
 <!--  태그 소트 버튼 끝 -->
 <!-- script.js에서 게시판 종류를 구분하기위한 hidden -대협- -->
 <input type="hidden" id="articleType" value="completeArticle">

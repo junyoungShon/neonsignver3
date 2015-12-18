@@ -8,14 +8,15 @@
 <div class="container tags-container">
 	<h2 class="itjaMainTitle">인기 태그 best5</h2>
 	<c:forEach items="${requestScope.tagVOList}" var="tagList" begin="0" end="4">
-		<span class="tagName">#${tagList.tagName}</span><span class="tagCount" style="display: inline; color:gray">총 게시물 수 : ${tagList.searchCount}</span> 
+		<span class="tagName">#${tagList.tagName}</span><span class="tagCount" style="display: none; color:gray">${tagList.searchCount}</span> 
 	</c:forEach>
+	<br><br><span id="selectedTagCount" style="display: none; color:gray">${tagList.searchCount}</span> 
 </div>
 	<div class="" style="width:400px; margin:0 auto;">
 	    <div class="ui-widget">
 	    <span class="input-group-btn">
 			<input type="text" class="form-control tagSearcher"  id="search" name="search" placeholder="태그 검색해보세요!" style="display:inline; margin:0 auto; margin-top:20px;">
-                    <button type="button" class="btn btn-default" id="serch_result"><span class="fa fa-search"></span></button>
+            <button type="button" class="btn btn-default" id="tagSerch_result"><span class="fa fa-search"></span></button>
 	    </span>
 			  <label for="tagSearcher">Tags: </label>
 		</div>
@@ -26,11 +27,11 @@
 <!-- 2015-12-14 대협추가 -->
 <!-- script.js에서 게시판 종류를 구분하기위한 hidden -대협- -->
 <input type="hidden" id="articleType" value="mainArticle">
-<h2 class="itjaMainTitle" style="z-index:-9000;">새로운 잇자!</h2>
+<h2 class="itjaMainTitle">새로운 잇자!</h2>
 <!-- 태그명을 받아 현재 선택한 태그를 표시한다. -대협 -->
 <span id="getNowTagName"></span> 
 
-<section id="pinBoot" style="z-index:-3000;">
+<section id="pinBoot">
 	<c:forEach var="newMainArticle" items="${requestScope.newMainArticleVOList}">
 		<article class="white-panel newMainArticle">
 			<!-- 2015-12-14 대협추가 -->
@@ -42,7 +43,6 @@
 					${newMainArticle.tagName}
 				</h6>
 				<img src="${initParam.root}resources/uploadImg/articleBg/${newMainArticle.mainArticleImgVO.mainArticleImgName}" alt="">
-					
 				<!-- 2015-12-14 대협수정 -->
 				<p class="card-content"/>
 				<c:set var="newMainArticleContent" value="${newMainArticle.mainArticleContent}" />

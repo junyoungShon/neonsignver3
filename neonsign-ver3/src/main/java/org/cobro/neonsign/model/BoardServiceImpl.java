@@ -812,5 +812,13 @@ public class BoardServiceImpl implements BoardService{
 	public List<ServiceCenterVO> serviceCenterList(int pageNumber) {
 		return boardDAO.serviceCenterList(pageNumber);
 	}
+	/**
+	 * 키워드에 따라 일치하는 태그 리스트 들을 불러온다.
+	 * @author junyoung
+	 */
+	@Override
+	public List<TagVO> selectListTagNameOrderBykeyWord(String keyword) {
+		return boardDAO.selectListTagNameOrderBykeyWord(keyword);
+	}
 
 }

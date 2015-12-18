@@ -13,6 +13,9 @@ select MAIN_ARTICLE_NO, MAIN_ARTICLE_EMAIL,
 		sysdate, to_date('1970/01/01 00:00:00',  'yyyy/mm/dd hh24:mi:ss'),0);
 		
 		
+		SELECT tag_name,search_count from tag where tag_name like '%공%' ORDER BY search_count DESC
+		select tag_name,search_count from (SELECT tag_name,search_count from tag where tag_name like '%공%' ORDER BY search_count DESC) where ROWNUM < 4
+		
 		select max(SUB_ARTICLE_GRADE)+1 as SUB_ARTICLE_GRADE from sub_article where MAIN_ARTICLE_NO=39 and IS_CONNECT=1
 		select main_article_no,to_char(main_article_update_date,'yyyymmddhh24miss') as MAIN_ARTICLE_UPDATE_DATE from MAIN_ARTICLE where MAIN_ARTICLE_NO = 37
 		update main_article set main_article_update_date = sysdate where  MAIN_ARTICLE_NO = 36

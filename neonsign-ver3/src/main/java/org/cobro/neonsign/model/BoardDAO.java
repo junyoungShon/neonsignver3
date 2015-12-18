@@ -112,4 +112,5 @@ public interface BoardDAO {
 	public List<ServiceCenterVO> serviceCenterList(int pageNumber);
 	public int updateTag(String tagName);
 	public void insertTagIntoTagTable(String tagName);
+	public List<TagVO> selectListTagNameOrderBykeyWord(String keyword);
 }

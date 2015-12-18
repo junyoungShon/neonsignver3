@@ -89,4 +89,5 @@ public interface BoardService {
 			MemberVO memberVO);
 	
 	public List<ServiceCenterVO> serviceCenterList(int pageNumber);
+	public List<TagVO> selectListTagNameOrderBykeyWord(String keyword);
 }

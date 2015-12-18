@@ -276,11 +276,22 @@ public class BoardController {
 	}
 	/**
 	 * 사용자가 주제글 작성을 위해 모달창을 열 때 태그들을 불러오는 메서드
+	 * @author junyuoung
 	 */
 	@RequestMapping("auth_openMainArticleModal.neon")
 	@ResponseBody
 	public List<TagVO> selectListTagNameOrderBySearchCount(){
 		List<TagVO> list = boardService.selectListTagNameOrderBySearchCount();
+		return list;
+	}
+	/**
+	 * 사용자가 주제글 작성을 위해 모달창을 열 때 태그들을 불러오는 메서드
+	 * @author junyoung
+	 */
+	@RequestMapping("tagAutoComplete.neon")
+	@ResponseBody
+	public List<TagVO> selectListTagNameOrderBykeyWord(String tagName){
+		List<TagVO> list = boardService.selectListTagNameOrderBykeyWord(tagName);
 		return list;
 	}
 	/**

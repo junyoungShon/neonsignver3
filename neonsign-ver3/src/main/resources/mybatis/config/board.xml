@@ -236,6 +236,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertTagIntoTagTable" parameterType="string">
 		insert into tag (tag_name,search_count) values (#{value},0)
 	</insert>
+	<!-- 태그 검색 -->
+	<select id="selectListTagNameOrderBykeyWord" parameterType="string" resultMap="tagResultMap">
+		select tag_name,search_count from (SELECT tag_name,search_count from tag where tag_name like '%'||#{value}||'%' ORDER BY search_count DESC) 
+		where ROWNUM <![CDATA[ < ]]>  4 
+	</select>
 	
 	<!-- 윤택 -->
 
