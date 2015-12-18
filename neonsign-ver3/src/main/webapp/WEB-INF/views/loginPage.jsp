@@ -226,6 +226,7 @@ body{
 						    	<input type="password" class="form-control" id="memberJoinInputRePassword" placeholder="암호를 한번 더 입력해주세요!">
 						    	<span class="glyphicon form-control-feedback" aria-hidden="ture"></span>
 					    	</div>
+					    	<input type="file" name="file" accept="image/*">
 					 	</div>
 			        </form>
 			      </div>
