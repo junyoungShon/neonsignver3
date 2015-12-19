@@ -6,11 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.cobro.neonsign.model.ItjaMemberBean;
 import org.cobro.neonsign.model.MemberService;
+import org.cobro.neonsign.utility.SecurityUtil;
 import org.cobro.neonsign.vo.FileVO;
 import org.cobro.neonsign.vo.FindPasswordVO;
 import org.cobro.neonsign.vo.ItjaMemberVO;
@@ -33,6 +36,74 @@ public class MemberController {
 	private MemberService memberService;
 	@Resource
 	private ItjaMemberBean itjaMemberBean;
+	
+	
+	/**
+	 * 쿠키를 통한 자동 로그인 인덱스 적용
+	 * @author JeSeong Lee 
+	 */
+	@RequestMapping("index.neon")
+	public ModelAndView checkCookieIndex(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		// 재 로그인시 자동로그인여부를 확인하여 로그인을 처리하는 부분
+		ModelAndView mav = new ModelAndView();
+	    // 쿠키값을 체크.
+	    String strALID = "";
+	    String strALMD5 = "";
+	    Cookie[] cookies = request.getCookies();
+	    if(cookies != null){
+	        for (int i = 0; i < cookies.length; i++) {
+	            Cookie thisCookie = cookies[i];
+	            if ("COOKIE_MEMBER_EMAIL".equals(thisCookie.getName())){
+	            	strALID = thisCookie.getValue();
+	            }
+	            if ("MEMBER_AUTOLOGIN_MD5".equals(thisCookie.getName())){
+	            	strALMD5 = thisCookie.getValue();
+	            }
+	        }
+	        // 쿠키의 이메일을 보내서 해당 이메일의 난수값 가져옴
+	        String strALKey = memberService.getMemberAutologinMD5(strALID);
+	        // System.out.println("strALKey : " + strALKey + ", strALMD5 : " + strALMD5);
+	        // System.out.println("secu : " + SecurityUtil.getCryptoMD5String(strALKey));
+	        if(strALKey != null && strALKey.equals(strALMD5)){
+	            // 로그인 정보 일치
+	            // 쿠키정보를 업데이트한다(쿠키 저장기간이 한달로 지정되어 있으므로 그냥 두면 한달 뒤에 끊겨버림. 새로 갱신.)
+	            Cookie[] cookiesUpdate = request.getCookies();
+	            for (int i = 0; i < cookiesUpdate.length; i++) {
+	                Cookie thisCookie = cookiesUpdate[i];
+	                if ("COOKIE_MEMBER_EMAIL".equals(thisCookie.getName()) && "MEMBER_AUTOLOGIN_MD5".equals(thisCookie.getName())) {
+	                    thisCookie.setMaxAge(2592000);    // 한달간 저장
+	                    response.addCookie(thisCookie); 
+	                    System.out.println("update thisCookie : " + thisCookie.getValue());
+	                }
+	            }
+	            // 로그인 수행
+	            MemberVO memberVO = new MemberVO();
+	            memberVO.setMemberEmail(strALID);
+	            memberVO.setMemberPassword(memberService.getMemberPasswordByCookieEmail(strALID));
+	            memberVO=memberService.pointDefaultMemberLogin(memberVO);
+	            // System.out.println(memberVO);
+	            request.getSession().setAttribute("memberVO", memberVO);
+	            mav = new ModelAndView("redirect:getMainList.neon");
+	        }else{
+	            // 로그인 정보 불일치, 쿠키 삭제
+	            Cookie[] cookiesDel = request.getCookies();
+	            for (int i = 0; i < cookiesDel.length; i++) {
+	                Cookie thisCookie = cookiesDel[i];
+	                if ("COOKIE_MEMBER_EMAIL".equals(thisCookie.getName()) || "MEMBER_AUTOLOGIN_MD5".equals(thisCookie.getName())) {
+	                    thisCookie.setMaxAge(0);
+	                    response.addCookie(thisCookie); 
+	                    // System.out.println("del thisCookie : " + thisCookie.getValue());
+	                }
+	            }
+	            mav = new ModelAndView("index");
+	        }
+	    }else{
+	    	// 쿠키값 없다. 자동로그인이 아니므로 그냥 패스.
+	    	mav = new ModelAndView("index");
+	    }
+		return mav;
+	}
 	
 	/**
 	 *  ajax 이메일 중복확인 
@@ -74,8 +145,13 @@ public class MemberController {
 		}
 		return check;	
 	}
+	
+	/**
+	 * 로그인, 자동로그인
+	 */
 	@RequestMapping("memberLogin.neon")
-	public ModelAndView memberLogin(HttpServletRequest request, MemberVO memberVO){
+	public ModelAndView memberLogin(HttpServletRequest request, HttpServletResponse response, 
+			MemberVO memberVO, String confirmSaveLog){
 		MemberVO memberVO1 = memberVO;
 		memberVO=memberService.pointMemberLogin(memberVO);
 		ModelAndView mav = new ModelAndView();
@@ -89,8 +165,38 @@ public class MemberController {
 			if(list!=null){
 				memberVO.setItjaMemberList(list);
 			}
-			request.getSession().setAttribute("memberVO",memberVO);		
+			request.getSession().setAttribute("memberVO", memberVO);
 			mav = new ModelAndView("redirect:getMainList.neon");
+			// 자동로그인
+			System.out.println("confirmSaveLog : " + confirmSaveLog);
+			if(confirmSaveLog!=null){
+			    String MD5String = "";
+			    String MD5Key    = "";
+			    try{
+			        // 랜덤한 키값을 생성
+			        StringBuffer sbKey = new StringBuffer();
+			        while(sbKey.length() < 5){
+			            sbKey.append((char)((Math.random() * 26) + 65));
+			        }
+			        MD5Key    = sbKey.toString();
+			        MD5String = SecurityUtil.getCryptoMD5String(MD5Key);
+			    }catch(Exception e) {
+			        e.printStackTrace();
+			        System.out.println("에러맨");
+			    }
+			    // 쿠키에 아이디 저장
+			    Cookie alIDCookie = new Cookie("COOKIE_MEMBER_EMAIL", memberVO.getMemberEmail());
+			    alIDCookie.setMaxAge(2592000);    // 한달간 저장(최대 자동로그인 기간은 한달)
+			    response.addCookie(alIDCookie);
+			    System.out.println("alIDCookie : " + alIDCookie.getValue());
+			    // 쿠키에 암호화된 문자열 저장
+			    Cookie alKeyCookie = new Cookie("MEMBER_AUTOLOGIN_MD5", MD5String);
+			    alKeyCookie.setMaxAge(2592000);
+			    response.addCookie(alKeyCookie);
+			    System.out.println("alKeyCookie : " + alKeyCookie.getValue());
+			    // MD5 키값을 DB에 저장
+			    memberService.saveAutoLogInfo(alIDCookie.getValue(), alKeyCookie.getValue());
+			}
 			
 			//만약 블락 회원이라면 세션을 없애고 loginPage로 이동 후 블락 회원이라고 한다
 			if(memberVO.getMemberCategory().equals("BLACK")){
@@ -148,7 +254,7 @@ public class MemberController {
 			fileName="basicImg/abok.png";
 		}
 		System.out.println(fileName);
-		memberVO.setProfileImgName(fileName);
+		memberVO.setmemberProfileImgName(fileName);
 		memberService.pointMemberRegister(memberVO);
 		request.setAttribute("memberVO", memberVO);
 		return new ModelAndView("forward:memberLogin.neon");
@@ -331,9 +437,9 @@ public class MemberController {
 			}
 		}else{
 			MemberVO memberVo = memberService.findMemberByEmail(memberVO.getMemberEmail());
-			fileName = memberVo.getProfileImgName();
+			fileName = memberVo.getmemberProfileImgName();
 		}
-		memberVO.setProfileImgName(fileName);
+		memberVO.setmemberProfileImgName(fileName);
 		HttpSession session = request.getSession(false);
 		String path="redirect:memberLogin.neon";
 		if(session!=null){

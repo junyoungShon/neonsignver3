@@ -2697,3 +2697,18 @@ $(document).ready(function(){ //DOM이 준비되고
     });
     	
 });//document.ready
+
+/**
+ * 자동 로그인
+ * @author JeSeong Lee
+ */    	
+//자동로그인 경고메세지 출력
+function autoLogSave(checkLogSave){
+	var autoMsg;
+	if(checkLogSave.checked){
+		autoMsg = confirm("자동로그인 하시겠습니까?");
+		if(!autoMsg){
+			checkLogSave.checked = false;
+		}
+	}
+}

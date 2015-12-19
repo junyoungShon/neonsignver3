@@ -309,4 +309,33 @@ public class MemberServiceImpl implements MemberService{
 			return utilService.memberReport(memberReportEmail,memberReporterEmail);
 		}
 	
+		
+		/**
+		 * 자동로그인 용 쿠키 저장
+		 * @author JeSeong Lee
+		 */
+		@Override
+		public void saveAutoLogInfo(String alIDCookie, String alKeyCookie) {
+			System.out.println(alIDCookie + ", " + alKeyCookie);
+			memberDAO.saveAutoLogInfo(alIDCookie, alKeyCookie);
+		}
+		
+		/**
+		 * 난수값을 받아옴
+		 * @author JeSeong Lee
+		 */
+		@Override
+		public String getMemberAutologinMD5(String strALID) {
+			return memberDAO.getMemberAutologinMD5(strALID);
+		}
+		
+		/**
+		 * 쿠키이메일로 비밀번호 받아옴
+		 * @author JeSeong Lee
+		 */
+		@Override
+		public String getMemberPasswordByCookieEmail(String strALID) {
+			return memberDAO.getMemberPasswordByCookieEmail(strALID);
+		}
+		
 }

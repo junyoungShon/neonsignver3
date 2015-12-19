@@ -361,4 +361,34 @@ public class MemberDAOImpl implements MemberDAO{
 		System.out.println(memberEmail);
 		return sqlSessionTemplate.selectOne("member.getLastLoginDate",memberEmail);
 	}
+	
+	/**
+	 * 자동 로그인 용 쿠키 저장
+	 * @author JeSeong Lee
+	 */
+	@Override
+	public void saveAutoLogInfo(String alIDCookie, String alKeyCookie) {
+		HashMap<String, String> logInfoCookie= new HashMap<String, String>();
+		logInfoCookie.put("alIDCookie", alIDCookie);
+		logInfoCookie.put("alKeyCookie", alKeyCookie);
+		sqlSessionTemplate.update("member.saveAutoLogInfo", logInfoCookie);
+	}
+	
+	/**
+	 * DB에 쿠키정보 유무 확인
+	 * @author JeSeong Lee
+	 */
+	@Override
+	public String getMemberAutologinMD5(String strALID) {
+		return sqlSessionTemplate.selectOne("member.getMemberAutologinMD5", strALID);
+	}
+	
+	/**
+	 * 쿠키이메일로 비밀번호 받기
+	 * @author JeSeong Lee
+	 */
+	@Override
+	public String getMemberPasswordByCookieEmail(String strALID) {
+		return sqlSessionTemplate.selectOne("member.getMemberPasswordByCookieEmail", strALID);
+	}
 }

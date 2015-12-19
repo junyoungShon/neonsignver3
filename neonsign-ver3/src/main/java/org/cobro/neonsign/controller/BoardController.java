@@ -739,9 +739,9 @@ public class BoardController {
 		memberVO = boardService.getMemberRankingByMemberEmail(memberVO);
 		// System.out.println("con : " + memberVO);
 		//2015-12-15 대협추가
-		File profileDir = new File(profileImgPath+memberVO.getProfileImgName());
+		File profileDir = new File(profileImgPath+memberVO.getmemberProfileImgName());
 		if(profileDir.isFile()==false){
-			memberVO.setProfileImgName("basicImg/not_found.png");
+			memberVO.setmemberProfileImgName("basicImg/not_found.png");
 		}
 		mav.addObject("rankMemberVO", memberVO);
 		// Rank에 따른 image 따오기 위한것

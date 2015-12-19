@@ -13,9 +13,10 @@ public class MemberVO {
 	private RankingVO rankingVO;
 	private List<PickedVO> pickedVOList; // 2015.11.28 추가함
 	private List<ItjaMemberVO> itjaMemberList;
-	private List<SubscriptionInfoVO> subscriptionInfoList; // 2015.12.11 추가
-	private String profileImgName; // 2015-12-15 대협추가
-
+	private List<SubscriptionInfoVO> subscriptionInfoList;  // 2015.12.11 추가
+	private String memberProfileImgName;
+	private String memberAutologinMD5; 
+	
 	public MemberVO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -25,7 +26,8 @@ public class MemberVO {
 			String memberPassword, String memberJoinDate, int memberPoint,
 			int memberReportAmount, String memberCategory, RankingVO rankingVO,
 			List<PickedVO> pickedVOList, List<ItjaMemberVO> itjaMemberList,
-			List<SubscriptionInfoVO> subscriptionInfoList, String profileImgName) {
+			List<SubscriptionInfoVO> subscriptionInfoList,
+			String memberProfileImgName, String memberAutologinMD5) {
 		super();
 		this.memberEmail = memberEmail;
 		this.memberNickName = memberNickName;
@@ -38,7 +40,8 @@ public class MemberVO {
 		this.pickedVOList = pickedVOList;
 		this.itjaMemberList = itjaMemberList;
 		this.subscriptionInfoList = subscriptionInfoList;
-		this.profileImgName = profileImgName;
+		this.memberProfileImgName = memberProfileImgName;
+		this.memberAutologinMD5 = memberAutologinMD5;
 	}
 
 	public String getMemberEmail() {
@@ -130,12 +133,20 @@ public class MemberVO {
 		this.subscriptionInfoList = subscriptionInfoList;
 	}
 
-	public String getProfileImgName() {
-		return profileImgName;
+	public String getmemberProfileImgName() {
+		return memberProfileImgName;
 	}
 
-	public void setProfileImgName(String profileImgName) {
-		this.profileImgName = profileImgName;
+	public void setmemberProfileImgName(String memberProfileImgName) {
+		this.memberProfileImgName = memberProfileImgName;
+	}
+
+	public String getMemberAutologinMD5() {
+		return memberAutologinMD5;
+	}
+
+	public void setMemberAutologinMD5(String memberAutologinMD5) {
+		this.memberAutologinMD5 = memberAutologinMD5;
 	}
 
 	@Override
@@ -148,7 +159,8 @@ public class MemberVO {
 				+ rankingVO + ", pickedVOList=" + pickedVOList
 				+ ", itjaMemberList=" + itjaMemberList
 				+ ", subscriptionInfoList=" + subscriptionInfoList
-				+ ", profileImgName=" + profileImgName + "]";
+				+ ", memberProfileImgName=" + memberProfileImgName
+				+ ", memberAutologinMD5=" + memberAutologinMD5 + "]";
 	}
-
+	
 }

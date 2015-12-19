@@ -301,8 +301,7 @@
 							placeholder="암호">
 					</div>
 					<div class="checkbox" align="center">
-						<label> <input type="checkbox"> 입력을 기억합니다
-						</label><br>
+						<label><input type="checkbox" name="confirmSaveLog" onclick="autoLogSave(this)">입력을 기억합니다</label>
 					</div>
 					<div align="center">
 					비밀번호를 잊어버렸습니까?&nbsp;&nbsp;<a href="javascript:;" class="forget" data-toggle="modal" data-target=".forget-modal">비밀번호 찾기</a><br><br>
