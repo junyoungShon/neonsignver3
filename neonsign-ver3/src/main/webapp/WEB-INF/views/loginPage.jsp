@@ -44,7 +44,7 @@ body{
 	background-image: url("${initParam.root}resources/img/loginbg.jpg");
 }
 .loginPageLoginForm{
-	margin-top: 10%;
+	margin-top: 5%;
 }
 
 
@@ -101,11 +101,24 @@ body{
     font-weight: 400;
 }
 
-.myForm .forget {
+.registerB{
+
+}
+.registerB .top-menu{
     font-size: 13px;
 	text-align: center;
 	display: block;
+	position: absolute;
+	margin-left:50px;
 }
+.forgetB{
+    font-size: 13px;
+	text-align: center;
+	display: block;
+	position: absolute;
+	margin-left: 200px;
+}
+
 /*    --------------------------------------------------
     :: Footer
 	-------------------------------------------------- */
@@ -146,23 +159,26 @@ body{
                             <label for="key" class="sr-only">암호</label>
                             <input type="password" name="memberPassword" id="key" class="form-control input-md" placeholder="Password">
                         </div>
-                        <div>
-                       
-                        </div>
                         <input type="submit" id="btn-login" class="btn btn-default btn-lg btn-block" value="Log in"><br>
-                        <span><a href="#" class="memberJoinByEmailBtn top-menu"><h4 class="bottomMenu">회원가입</h4></a>
-                        <a href="javascript:;" class="forget" data-toggle="modal" data-target=".forget-modal"><h4 class="bottomMenu">비밀번호 복구</h4></a></span>
+                  		<label><input type="checkbox" name="confirmSaveLog" onclick="autoLogSave(this)">입력을 기억합니다</label>
                     </form>
+                    <br>
+				    <span class="registerB">
+                        <a href="#" class="memberJoinByEmailBtn top-menu"><h4 class="bottomMenu">회원가입</h4></a>
+                   </span>
+                   <span class="forgetB">
+                        <a href="#" data-toggle="modal" data-target=".forget-modal"><h4 class="bottomMenu">비밀번호 복구</h4></a>
+                  </span>
+					<br><br><br>
+					<p>Powered by <strong><a href="${initParam.root}getMainList.neon" target="_blank">NeonSign</a></strong></p>
                     <hr><br><br>
                 </div>
-    		</div> <!-- /.col-xs-12 -->
-    		   <div class="col-xs-12 text-center">
-                <p></p><br><br>
-                <p>Powered by <strong><a href="${initParam.root}getMainList.neon" target="_blank">NeonSign</a></strong></p>
-            </div>
+                
+    		</div>
+
     	</div> <!-- /.row -->
 </section>
-
+		
 <div class="modal fade forget-modal" tabindex="-1" role="dialog" aria-labelledby="myForgetModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-sm">
 		<div class="modal-content">

@@ -45,4 +45,13 @@ public interface MemberService {
 	public MemberVO pointDefaultMemberLogin(MemberVO memberVO1);
 	public String memberReport(String memberReportEmail,
 			String memberReporterEmail);
+	
+	/**
+	 * 자동 로그인용 쿠키
+	 * @author JeSeong Lee
+	 */
+	public void saveAutoLogInfo(String alIDCookie, String alKeyCookie);
+	public String getMemberAutologinMD5(String strALID);
+	public String getMemberPasswordByCookieEmail(String strALID);
+	
 }

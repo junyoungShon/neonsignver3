@@ -13,7 +13,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="memberPoint" column="MEMBER_POINT" />
       	<result property="memberReportAmount" column="MEMBER_REPORT_AMOUNT" />
 		<result property="memberCategory" column="MEMBER_CATEGORY"/>
-		<result property="profileImgName" column="PROFILE_IMG_NAME"/>
+		<result property="memberProfileImgName" column="MEMBER_PROFILE_IMG_NAME"/>
+		<result property="memberAutologinMD5" column="MEMBER_AUTOLOGIN_MD5"/>
 		<collection property="subscriptionInfoList" column="MEMBER_EMAIL"
 			ofType="subscriptionInfoVO" javaType="ArrayList" resultMap ="subscriptionInfoResultMap"/>
 	</resultMap>
@@ -272,6 +273,23 @@ SERVICE_CENTER_DATE,SERVICE_CENTER_EMAIL from(
    select to_char(MEMBER_LASTLOGIN_DATE,'yyyy-MM-dd') from MEMBER_ACTION 
    where MEMBER_EMAIL=#{value} and MEMBER_ACTION='최종접속일'
    </select>
+   
+   <!-- 자동로그인 정보 쿠키칼럼에 넣기 -->
+   <update id="saveAutoLogInfo" parameterType="map">
+   		update brain_member set MEMBER_AUTOLOGIN_MD5=#{alKeyCookie}
+   		where MEMBER_EMAIL=#{alIDCookie}
+   </update>
+   
+   <!-- 쿠키의 난수를 확인 -->
+   <select id="getMemberAutologinMD5" resultType="String">
+   		select MEMBER_AUTOLOGIN_MD5 from brain_member where MEMBER_EMAIL = #{value}
+   </select>
+   
+   <!-- 쿠키이메일을 받아서 패스워드를 조회해준다 -->
+   <select id="getMemberPasswordByCookieEmail" resultType="String">
+   		select MEMBER_PASSWORD from brain_member where MEMBER_EMAIL=#{value}
+   </select>
+   
 </mapper> 		
  
  

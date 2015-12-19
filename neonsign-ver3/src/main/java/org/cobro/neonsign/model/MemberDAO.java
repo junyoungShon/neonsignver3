@@ -57,5 +57,17 @@ public interface MemberDAO {
 	public void memberLastLoginDateInsert(MemberVO memberVO);
 	public int memberBlackdateUpdate(String memberEmail);
 	public void memberBlackdateInsert(String memberEmail);
-	String getLastLoginDate(String memberEmail);
+	public String getLastLoginDate(String memberEmail);
+	
+	/**
+	 * 자동 로그인
+	 * @author JeSeong Lee
+	 */
+	// 로그인시 멤버테이블에 쿠키정보값 저장
+	public void saveAutoLogInfo(String alIDCookie, String alKeyCookie);
+	// auth_* 시 인터셉터에서 쿠키값 확인
+	public String getMemberAutologinMD5(String strALID);
+	// 쿠키이메일로 비밀번호 받아옴
+	public String getMemberPasswordByCookieEmail(String strALID);
+	
 }

@@ -39,20 +39,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 
 	<!-- 3.memberVO resultMap -->
-   <resultMap type="memberVO" id="memberResultMap">
-      <result property="memberEmail" column="MEMBER_EMAIL" />
-      <result property="memberNickName" column="MEMBER_NICKNAME" />
-      <result property="memberPassword" column="MEMBER_PASSWORD" />
-      <result property="memberJoinDate" column="MEMBER_JOIN_DATE" />
-      <result property="memberPoint" column="MEMBER_POINT" />
-      <result property="memberReportAmount" column="MEMBER_REPORT_AMOUNT" />
-      <result property="memberCategory" column="MEMBER_CATEGORY" />
-      <result property="profileImgName" column="PROFILE_IMG_NAME"/>
-      <collection property="pickedVOList" column="MEMBER_EMAIL"
-			ofType="pickedVO" javaType="ArrayList" resultMap ="pickedResultMap"/>
-	  <collection property="subscriptionInfoList" column="MEMBER_EMAIL"
-		ofType="subscriptionInfoVO" javaType="ArrayList" resultMap ="subscriptionInfoResultMap"/>
-   </resultMap>
+	<resultMap type="memberVO" id="memberResultMap">
+		<result property="memberEmail" column="MEMBER_EMAIL" />
+		<result property="memberNickName" column="MEMBER_NICKNAME" />
+		<result property="memberPassword" column="MEMBER_PASSWORD" />
+		<result property="memberJoinDate" column="MEMBER_JOIN_DATE" />
+		<result property="memberPoint" column="MEMBER_POINT" />
+      	<result property="memberReportAmount" column="MEMBER_REPORT_AMOUNT" />
+		<result property="memberCategory" column="MEMBER_CATEGORY"/>
+		<result property="memberProfileImgName" column="MEMBER_PROFILE_IMG_NAME"/>
+		<result property="memberAutologinMD5" column="MEMBER_AUTOLOGIN_MD5"/>
+		<collection property="subscriptionInfoList" column="MEMBER_EMAIL"
+			ofType="subscriptionInfoVO" javaType="ArrayList" resultMap ="subscriptionInfoResultMap"/>
+	</resultMap>
    
    <!-- pickedVO resultMap -->
 	<resultMap type="pickedVO" id="pickedResultMap">
