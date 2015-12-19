@@ -15,7 +15,7 @@
 			</div>
 			<!-- 프로필 둥근 사진 -->
 			<div class="useravatar">
-				<img src="${initParam.root}resources/uploadImg/profileImg/${requestScope.rankMemberVO.profileImgName}" >
+				<img src="${initParam.root}resources/uploadImg/profileImg/${requestScope.rankMemberVO.memberProfileImgName}" >
 			</div>
 			<!-- 프로필 상단 정보 내용 -->
 			<div class="profileCard-info">

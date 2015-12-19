@@ -50,7 +50,7 @@ MEMBER_PASSWORD varchar2(54) not null,
 MEMBER_JOIN_DATE date not null,
 MEMBER_POINT number default 0,
 MEMBER_REPORT_AMOUNT number default 0,
-MEMBER_CATEGORY varchar2(30) not null
+MEMBER_CATEGORY varchar2(30) not null,
 MEMBER_PROFILE_IMG_NAME clob default 'basicImg/abok.png', -- 2015-12-15 대협추가 프로필 사진 저장 컬럼
 MEMBER_AUTOLOGIN_MD5 varchar2(24) -- COOKIE용 랜덤값 추가
 );
@@ -251,7 +251,7 @@ create table MEMBER_ACTION(
 create table searchRanking(
    KEYWORD varchar2(30) primary key,
    CNT number not null
-)
+);
 -- DROP table searchRanking
 -- select * from searchRanking
 -----------------------------------------------------------------------------------
@@ -262,7 +262,7 @@ create table MEMBER_REPORT(
 	constraint fk_REPORTER_EMAIL foreign key(REPORTER_EMAIL) references brain_member(MEMBER_EMAIL),
 	constraint fk_REPORT_EMAIL foreign key(REPORT_EMAIL) references brain_member(MEMBER_EMAIL),
 	constraint pk_MEMBER_REPORT primary key(REPORTER_EMAIL, REPORT_EMAIL)
-)
+);
 --drop table MEMBER_REPORT;
 --select * from MEMBER_REPORT;
 -----------------------------------------------------------------------------------

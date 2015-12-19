@@ -69,5 +69,7 @@ public interface MemberDAO {
 	public String getMemberAutologinMD5(String strALID);
 	// 쿠키이메일로 비밀번호 받아옴
 	public String getMemberPasswordByCookieEmail(String strALID);
+	// 로그아웃시 멤버테이블의 난수값 삭제
+	public void deleteMemberCookieByMemberEmail(String memberEmail);
 	
 }

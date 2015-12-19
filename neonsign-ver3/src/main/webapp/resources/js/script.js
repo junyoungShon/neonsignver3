@@ -1029,7 +1029,7 @@ $(document).ready(function(){ //DOM이 준비되고
 				$('.mainArticleWriterDetailCollapse').attr('id','collapseExample'+data.mainArticle.mainArticleNo);
 				$('.writersNickNameAtDetail').text(data.mainArticle.memberVO.memberNickname);
 				//2015-12-15 대협추가
-				$('.imageForDetail').html('<img src="resources/uploadImg/profileImg/'+data.mainArticle.memberVO.profileImgName+'" class="img-circle avatarForDetail" alt="user profile image">');
+				$('.imageForDetail').html('<img src="resources/uploadImg/profileImg/'+data.mainArticle.memberVO.memberProfileImgName+'" class="img-circle avatarForDetail" alt="user profile image">');
 				
 				$('#detailSubTable').html("");
 					var mainArticle="";
@@ -1083,7 +1083,7 @@ $(document).ready(function(){ //DOM이 준비되고
        				+'<div class="collapse postForDetail-heading mainArticleWriterDetailCollapse" id="'+data.likingSubArticle[i].subArticleNo+'">'
             		+'<div class="pull-left imageForDetail">'
             		//2015-12-15 대협수정
-                	+'<img src="resources/uploadImg/profileImg/'+data.likingSubArticle[i].memberVO.profileImgName+'" class="img-circle avatarForDetail" alt="user profile image"></div>'
+                	+'<img src="resources/uploadImg/profileImg/'+data.likingSubArticle[i].memberVO.memberProfileImgName+'" class="img-circle avatarForDetail" alt="user profile image"></div>'
             		+'<div class="pull-left metaForDetail"><div class="titleForDetail h5 "><a href="#" class="writersNickNameAtDetail"><b>'
             		+data.likingSubArticle[i].memberVO.memberNickName+'</b></a></div>'
                     +'<h6 class="text-muted timeForDetail"></h6><a href="#" class="btn btn-default statForDetail-item mainLikeIt">'+mainLikeItHTML
@@ -1135,7 +1135,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		  					subAtricleOrder=subAtricleOrder+
 		  					'<div class="postForDetail-heading"><div class="pull-left imageForDetail">'
 		  					//2015-12-15 대협수정
-		  					+'<img src="resources/uploadImg/profileImg/'+data.subArticleVO[i].memberVO.profileImgName+'" class="img-circle avatarForDetail" alt="user profile image"></div>'
+		  					+'<img src="resources/uploadImg/profileImg/'+data.subArticleVO[i].memberVO.memberProfileImgName+'" class="img-circle avatarForDetail" alt="user profile image"></div>'
                 			+'<div class="pull-left metaForDetail"><div class="titleForDetail h5"><a href="#"><b>'+ data.subArticleVO[i].memberVO.memberNickName+'</b></a>'
                    			+'</div><h6 class="text-muted timeForDetail">'+data.subArticleVO[i].subArticleDate+'</h6>'
                    			+'<a href="#" class="btn btn-default statForDetail-item mainLikeIt">'+mainLikeItHTML+'</a>'
@@ -1683,7 +1683,7 @@ $(document).ready(function(){ //DOM이 준비되고
 						$('.emailInput').attr('class','form-group has-feedback emailInput has-error');
 						$('.emailInput > .control-label').html('이메일을 입력해주세요');
 						$('.emailInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-					}else if(!regEmail.test(emailComp)){
+					}else if(regEmail.test(emailComp)){
 						userMailFlag = false;
 						$('.emailInput').attr('class','form-group has-feedback emailInput has-error');
 						$('.emailInput > .control-label').html('올바른 이메일을 입력해주세요');

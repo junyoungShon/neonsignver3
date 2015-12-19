@@ -215,8 +215,11 @@ public class MemberController {
 	@RequestMapping("memberLogout.neon")
 	public ModelAndView memberlogout(HttpServletRequest request){
 		HttpSession session=request.getSession(false);
-		if (session != null)
+		MemberVO memberVO=(MemberVO)session.getAttribute("memberVO");
+		if (session != null){
+			memberService.deleteMemberCookieByMemberEmail(memberVO.getMemberEmail());
 			session.invalidate();
+		}	
 		return new ModelAndView("redirect:getMainList.neon");
 	}
 	
@@ -254,7 +257,7 @@ public class MemberController {
 			fileName="basicImg/abok.png";
 		}
 		System.out.println(fileName);
-		memberVO.setmemberProfileImgName(fileName);
+		memberVO.setMemberProfileImgName(fileName);
 		memberService.pointMemberRegister(memberVO);
 		request.setAttribute("memberVO", memberVO);
 		return new ModelAndView("forward:memberLogin.neon");
@@ -437,9 +440,9 @@ public class MemberController {
 			}
 		}else{
 			MemberVO memberVo = memberService.findMemberByEmail(memberVO.getMemberEmail());
-			fileName = memberVo.getmemberProfileImgName();
+			fileName = memberVo.getMemberProfileImgName();
 		}
-		memberVO.setmemberProfileImgName(fileName);
+		memberVO.setMemberProfileImgName(fileName);
 		HttpSession session = request.getSession(false);
 		String path="redirect:memberLogin.neon";
 		if(session!=null){

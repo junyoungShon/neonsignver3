@@ -391,4 +391,9 @@ public class MemberDAOImpl implements MemberDAO{
 	public String getMemberPasswordByCookieEmail(String strALID) {
 		return sqlSessionTemplate.selectOne("member.getMemberPasswordByCookieEmail", strALID);
 	}
+
+	@Override
+	public void deleteMemberCookieByMemberEmail(String memberEmail) {
+		sqlSessionTemplate.delete("member.deleteMemberCookieByMemberEmail", memberEmail);
+	}
 }

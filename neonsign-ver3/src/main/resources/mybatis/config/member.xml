@@ -87,7 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 2015-12-15 대협추가 -->
 	<insert id="memberRegister" parameterType="memberVO">
 		insert into
-		brain_member(MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_PASSWORD,MEMBER_JOIN_DATE,MEMBER_CATEGORY, PROFILE_IMG_NAME)
+		brain_member(MEMBER_EMAIL,MEMBER_NICKNAME,MEMBER_PASSWORD,MEMBER_JOIN_DATE,MEMBER_CATEGORY, MEMBER_PROFILE_IMG_NAME)
 		values(#{memberEmail},#{memberNickName},#{memberPassword},sysdate,'NORMAL', #{profileImgName})
 	</insert>
 	
@@ -111,7 +111,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 <!-- 한솔 이메일 중복체크 -->
 	 <!-- 2015-12-15 대협추가 -->
 	 <select id="findMemberByEmail" resultMap="memberResultMap" parameterType="string">
-	 	select MEMBER_EMAIL,MEMBER_NICKNAME, PROFILE_IMG_NAME from brain_member where MEMBER_EMAIL=#{value}
+	 	select MEMBER_EMAIL,MEMBER_NICKNAME, MEMBER_PROFILE_IMG_NAME from brain_member where MEMBER_EMAIL=#{value}
 	 </select>
 	 	 <!-- 일반회원 목록 -->
 	  <select id="RegisterMemberList" resultMap="memberResultMap" resultType="memberVO">
@@ -180,7 +180,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- 2015-12-15 대협추가 -->
     <update id="memberUpdate" parameterType="memberVO">
     update brain_member
-    set MEMBER_PASSWORD=#{memberPassword} , MEMBER_NICKNAME=#{memberNickName}, PROFILE_IMG_NAME=#{profileImgName}
+    set MEMBER_PASSWORD=#{memberPassword} , MEMBER_NICKNAME=#{memberNickName}, MEMBER_PROFILE_IMG_NAME=#{profileImgName}
     where MEMBER_EMAIL=#{memberEmail}
     </update>
      <!-- 회원 포인트 플러스 -->
@@ -289,6 +289,13 @@ SERVICE_CENTER_DATE,SERVICE_CENTER_EMAIL from(
    <select id="getMemberPasswordByCookieEmail" resultType="String">
    		select MEMBER_PASSWORD from brain_member where MEMBER_EMAIL=#{value}
    </select>
+   
+   <!-- 멤버테이블의 쿠키 난수를 삭제 -->
+   <update id="deleteMemberCookieByMemberEmail">
+   		update brain_member set MEMBER_AUTOLOGIN_MD5 = 'null'
+   		where MEMBER_EMAIL=#{value}
+   </update>
+   
    
 </mapper> 		
  

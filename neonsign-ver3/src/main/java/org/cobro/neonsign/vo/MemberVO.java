@@ -133,11 +133,11 @@ public class MemberVO {
 		this.subscriptionInfoList = subscriptionInfoList;
 	}
 
-	public String getmemberProfileImgName() {
+	public String getMemberProfileImgName() {
 		return memberProfileImgName;
 	}
 
-	public void setmemberProfileImgName(String memberProfileImgName) {
+	public void setMemberProfileImgName(String memberProfileImgName) {
 		this.memberProfileImgName = memberProfileImgName;
 	}
 

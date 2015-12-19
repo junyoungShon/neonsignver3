@@ -53,5 +53,7 @@ public interface MemberService {
 	public void saveAutoLogInfo(String alIDCookie, String alKeyCookie);
 	public String getMemberAutologinMD5(String strALID);
 	public String getMemberPasswordByCookieEmail(String strALID);
+	// 로그아웃시 멤버테이블의 난수값 삭제
+	public void deleteMemberCookieByMemberEmail(String memberEmail);
 	
 }

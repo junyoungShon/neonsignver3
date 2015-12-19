@@ -338,4 +338,13 @@ public class MemberServiceImpl implements MemberService{
 			return memberDAO.getMemberPasswordByCookieEmail(strALID);
 		}
 		
+		/**
+		 * 로그아웃시 멤버테이블의 난수값 삭제
+		 * @author JeSeong Lee
+		 */
+		@Override
+		public void deleteMemberCookieByMemberEmail(String memberEmail) {
+			memberDAO.deleteMemberCookieByMemberEmail(memberEmail);
+		}
+		
 }

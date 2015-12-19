@@ -480,7 +480,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getMemberVOByEmail" resultMap="memberResultMap">
 		select MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_POINT,
 		to_char(MEMBER_JOIN_DATE, 'YYYY-MM-DD') as MEMBER_JOIN_DATE,
-		PROFILE_IMG_NAME
+		MEMBER_PROFILE_IMG_NAME
 		from brain_member
 		where MEMBER_EMAIL = #{memberEmail}
 	</select>
