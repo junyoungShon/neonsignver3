@@ -305,7 +305,7 @@
 						</label><br>
 					</div>
 					<div align="center">
-					비밀번호를 잊어버렸습니까?&nbsp;&nbsp;<a href="#">비밀번호 찾기</a><br><br>
+					비밀번호를 잊어버렸습니까?&nbsp;&nbsp;<a href="javascript:;" class="forget" data-toggle="modal" data-target=".forget-modal">비밀번호 찾기</a><br><br>
 					</div>
 					<div align="center">
 					<button type="submit" class="btn btn-primary" >제출</button>
@@ -319,6 +319,9 @@
 	</div>
 </div>
 <!--로그인모달창 끝 -->
+
+
+
 <!-- 비밀 번호 찾기 모달 -->
 <div class="modal fade forget-modal" tabindex="-1" role="dialog"
 	aria-labelledby="myForgetModalLabel" aria-hidden="true">

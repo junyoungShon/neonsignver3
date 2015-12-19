@@ -47,12 +47,12 @@
 	<!-- upload path 개발시에는 workspace 경로를 주입시키고 운영시에는 실제 서버 경로를 주입시킨다. -->
 	<bean id="articleImgUploadPath" class="java.lang.String">
 		<constructor-arg>
-			<value>C:\\Users\\Kosta-105\\git\\neonsignver3\\neonsign-ver3\\src\\main\\webapp\\resources\\uploadImg\\articleBg\\</value>
+			<value>C:\\java-kosta\WAS\\springmvc-tomcat\\webapps\\neonsign-ver3\\resources\\uploadImg\\articleBg\\</value>
 		</constructor-arg>
 	</bean>
 	<bean id="profileImgUploadPath" class="java.lang.String">
 		<constructor-arg>
-			<value>C:\\Users\\Kosta-105\\git\\neonsignver3\\neonsign-ver3\\src\\main\\webapp\\resources\\uploadImg\\profileImg\\</value>
+			<value>C:\\java-kosta\\WAS\\springmvc-tomcat\\webapps\\neonsign-ver3\\resources\\uploadImg\\profileImg\\</value>
 		</constructor-arg>
 	</bean>
 	<bean id="beanNameViewResolver"
