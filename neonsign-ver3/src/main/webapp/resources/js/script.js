@@ -1619,214 +1619,214 @@ $(document).ready(function(){ //DOM이 준비되고
 	//매인 끝
 	
 	//index부분
-	//회원 가입 모달창 띄우는 부분
-	//index부분
-	//회원 가입 모달창 띄우는 부분
-	$('.memberJoinByEmailBtn').click(function(){
-		$('#memberJoinByEmailModal').modal({
-			//취소버튼으로만 창을 끌 수 있도록 지정
-			backdrop: 'static',
-			keyboard: false
-		});
-		//다시 모달창을 열었을 대 첫 화면 띄움
-		$('.personInfoForJoin').show();
-		$('.babyInfoForJoin').hide();
-	});
-	
-	//모달 창 취소시 경고창 , 
-	$('.InfoForJoinCancel').click(function(){
-		if(confirm('정말 회원가입을 취소하시겠습니까 ?')){
-			$( "#memberJoinByEmail" ).each( function () {
-				$('#memberJoinByEmailModal').modal('hide');
-				/**
-				 * 꼼수의 느낌이 강하지만 소스를 아끼기위함이다.
-				 * 실력이 부족해서 서버에 부하를 많이주고 있따.
-				 * 열심히하자
-				 */
-				//폼 초기화를 위한 새로고침
-				location.reload();
-			});
-		}else{
-			return;
-		};
-	});
-	/**
-	 * 미완성  취소 시 입력 값 및 경고 모두 초기화 시키는 부분
-	 */
-	$('#memberJoinByEmailModal').on('hide.bs.modal', function () {
-			$( "#memberJoinByEmail" ).each( function () {
-				this.reset();
-				location.reload();
-			});
-	});
-	/**
-	 * 미완성 모달 창이 열리는 순간 회원가입 유효성 검증 시작
-	 */
-	$('#memberJoinByEmailModal').on('show.bs.modal', function () {
-			var userMailFlag = false;
-			var userNameFlag = false;
-			var userPassFlag = false;
-			var userRePassFlag = false;
-			/**
-			 * - Ajax방식의 중복검사 추가해야함
-			 */
-			//공랑체크 시작
-			//이메일 공란 및 정규식을 통한 형태 검사  
-			$('#memberJoinInputEmail').keyup(function(){
-					/** 이메일 중복체크 
-					 * @author 한솔
-					 */
-					var regEmail=/^[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[.]{1}[A-Za-z]{2,5}$/;
-					var emailComp = $(this).val();
-					if(emailComp==""){
-						userMailFlag = false;
-						$('.emailInput').attr('class','form-group has-feedback emailInput has-error');
-						$('.emailInput > .control-label').html('이메일을 입력해주세요');
-						$('.emailInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-					}else if(regEmail.test(emailComp)){
-						userMailFlag = false;
-						$('.emailInput').attr('class','form-group has-feedback emailInput has-error');
-						$('.emailInput > .control-label').html('올바른 이메일을 입력해주세요');
-						$('.emailInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-					}else if(emailComp.length<1||emailComp.length>30){
-						userMailFlag = false;
-						$('.emailInput').attr('class','form-group has-feedback emailInput has-error');
-						$('.emailInput > .control-label').html('이메일길이부적합');
-						$('.emailInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');	
-					}else{
-						$.ajax({
-							type:"post",
-							url:"findMemberByEmail.neon",				
-							data:"emailComp="+emailComp,	
-							success:function(result){
-						if(result==false){
-							userMailFlag = false;
-						$('.emailInput').attr('class','form-group has-feedback emailInput has-error');
-						$('.emailInput > .control-label').html('사용할 수 없는 이메일 입니다');
-						$('.emailInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-						}else{
-							userMailFlag = true;
-						$('.emailInput').attr('class','form-group has-feedback emailInput has-success');
-						$('.emailInput > .control-label').html('사용가능한 이메일 입니다');
-						$('.emailInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
-						}//else2
-						}//success
-					});//ajax
-				}//else
-			});//keyup
-			//이름 공란 및 길이 체크
-			
-			$('#memberJoinInputName').keyup(function(){
-				/**  닉네임 중복체크 
-				 * @author 한솔
-				 */
+	   //회원 가입 모달창 띄우는 부분
+	   //index부분
+	   //회원 가입 모달창 띄우는 부분
+	   $('.memberJoinByEmailBtn').click(function(){
+	      $('#memberJoinByEmailModal').modal({
+	         //취소버튼으로만 창을 끌 수 있도록 지정
+	         backdrop: 'static',
+	         keyboard: false
+	      });
+	      //다시 모달창을 열었을 대 첫 화면 띄움
+	      $('.personInfoForJoin').show();
+	      $('.babyInfoForJoin').hide();
+	   });
+	   
+	   //모달 창 취소시 경고창 , 
+	   $('.InfoForJoinCancel').click(function(){
+	      if(confirm('정말 회원가입을 취소하시겠습니까 ?')){
+	         $( "#memberJoinByEmail" ).each( function () {
+	            $('#memberJoinByEmailModal').modal('hide');
+	            /**
+	             * 꼼수의 느낌이 강하지만 소스를 아끼기위함이다.
+	             * 실력이 부족해서 서버에 부하를 많이주고 있따.
+	             * 열심히하자
+	             */
+	            //폼 초기화를 위한 새로고침
+	            location.reload();
+	         });
+	      }else{
+	         return;
+	      };
+	   });
+	   /**
+	    * 미완성  취소 시 입력 값 및 경고 모두 초기화 시키는 부분
+	    */
+	   $('#memberJoinByEmailModal').on('hide.bs.modal', function () {
+	         $( "#memberJoinByEmail" ).each( function () {
+	            this.reset();
+	            location.reload();
+	         });
+	   });
+	   /**
+	    * 미완성 모달 창이 열리는 순간 회원가입 유효성 검증 시작
+	    */
+	   $('#memberJoinByEmailModal').on('show.bs.modal', function () {
+	         var userMailFlag = false;
+	         var userNameFlag = false;
+	         var userPassFlag = false;
+	         var userRePassFlag = false;
+	         /**
+	          * - Ajax방식의 중복검사 추가해야함
+	          */
+	         //공랑체크 시작
+	         //이메일 공란 및 정규식을 통한 형태 검사  
+	         $('#memberJoinInputEmail').keyup(function(){
+	               /** 이메일 중복체크 
+	                * @author 한솔
+	                */
+	               var regEmail=/^[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[.]{1}[A-Za-z]{2,5}$/;
+	               var emailComp = $(this).val();
+	               if(emailComp==""){
+	                  userMailFlag = false;
+	                  $('.emailInput').attr('class','form-group has-feedback emailInput has-error');
+	                  $('.emailInput > .control-label').html('이메일을 입력해주세요');
+	                  $('.emailInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+	               }else if(!regEmail.test(emailComp)){
+	                  userMailFlag = false;
+	                  $('.emailInput').attr('class','form-group has-feedback emailInput has-error');
+	                  $('.emailInput > .control-label').html('올바른 이메일을 입력해주세요');
+	                  $('.emailInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+	               }else if(emailComp.length<1||emailComp.length>30){
+	                  userMailFlag = false;
+	                  $('.emailInput').attr('class','form-group has-feedback emailInput has-error');
+	                  $('.emailInput > .control-label').html('이메일길이부적합');
+	                  $('.emailInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');   
+	               }else{
+	                  $.ajax({
+	                     type:"post",
+	                     url:"findMemberByEmail.neon",            
+	                     data:"emailComp="+emailComp,   
+	                     success:function(result){
+	                  if(result==false){
+	                     userMailFlag = false;
+	                  $('.emailInput').attr('class','form-group has-feedback emailInput has-error');
+	                  $('.emailInput > .control-label').html('사용할 수 없는 이메일 입니다');
+	                  $('.emailInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+	                  }else{
+	                     userMailFlag = true;
+	                  $('.emailInput').attr('class','form-group has-feedback emailInput has-success');
+	                  $('.emailInput > .control-label').html('사용가능한 이메일 입니다');
+	                  $('.emailInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
+	                  }//else2
+	                  }//success
+	               });//ajax
+	            }//else
+	         });//keyup
+	         //이름 공란 및 길이 체크
+	         
+	         $('#memberJoinInputName').keyup(function(){
+	            /**  닉네임 중복체크 
+	             * @author 한솔
+	             */
 
-				var nameComp = $(this).val();
-				if(nameComp==""){
-					userNameFlag = false;
-					$('.nameInput').attr('class','form-group has-feedback nameInput has-error');
-					$('.nameInput > .control-label').html('닉네임을 입력해주세요');
-					$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-				}else if(nameComp.length<1 || nameComp.length>7){
-					userNameFlag = false;
-					$('.nameInput').attr('class','form-group has-feedback nameInput has-error');
-					$('.nameInput > .control-label').html('닉네임은 1글자 이상 ~7글자 이하로 입력해주세요');
-					$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-				}else{					
-					$.ajax({
-						type:"post",
-						url:"findMemberByNickName.neon",				
-						data:"nameComp="+nameComp,	
-						success:function(result){
-							//	alert(result);
-							if(result==false){
-								 userNameFlag = false;
-								$('.nameInput').attr('class','form-group has-feedback nameInput has-error');
-								$('.nameInput > .control-label').html(nameComp+"사용할수 없는 닉네임 입니다.");
-								$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-								  
-							}else{
-								 userNameFlag = true;
-								$('.nameInput').attr('class','form-group has-feedback nameInput has-success');
-								$('.nameInput > .control-label').html(nameComp+"사용 가능한 닉네임 입니다");	
-								$('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
-								   
-							}//else2			
-						}//success			
-					});//ajax
-				
-				}//else1
-			
-			});//keyup
-			//암호 공란 검사 및 암호 길이 검사
-			$('#memberJoinInputpassword').keyup(function(){
-				var passwordComp = $(this).val();
-				var rePasswordComp =$("#memberJoinInputRePassword").val();
-				
-				if(passwordComp==""){
-					userPassFlag = false;
-					$('.passInput').attr('class','form-group has-feedback passInput has-error');
-					$('.passInput > .control-label').html('암호를 입력해주세요');
-					$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-				}else if(passwordComp.length<7|| passwordComp.length>18){
-					userPassFlag = false;
-					$('.passInput').attr('class','form-group has-feedback passInput has-error');
-					$('.passInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
-					$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-			
-				}else if(passwordComp!=rePasswordComp && rePasswordComp!=""){
-					userPassFlag = false;
-					$('.passInput').attr('class','form-group has-feedback passInput has-error');
-					$('.passInput > .control-label').html("암호를 확인해 주세요");
-					$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-				}else{
-					userPassFlag = true;
-					$('.passInput').attr('class','form-group has-feedback passInput has-success');
-					$('.passInput > .control-label').html('암호가 입력되었습니다.');
-					$('.passInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
-				};
-			});
-			//암호확인 공란 검사 및 암호확인 길이 검사 및 암호와 암호확인 값 비교
-			$('#memberJoinInputRePassword').keyup(function(){
-				var passComp = $('#memberJoinInputpassword').val();
-				var rePasswordComp = $(this).val();
-				if(rePasswordComp==""){
-					userRePassFlag = false;
-					$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
-					$('.rePassInput > .control-label').html('암호를 확인해주세요');
-					$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-				}else if(rePasswordComp.length<7 || rePasswordComp.length>18){
-					userRePassFlag = false;
-					$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
-					$('.rePassInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
-					$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-				}else if(passComp!=rePasswordComp ){
-					userRePassFlag = false;
-					$('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
-					$('.rePassInput > .control-label').html('암호를 확인해주세요.');
-					$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
-				}else{
-					userRePassFlag = true;
-					$('.rePassInput').attr('class','form-group has-feedback rePassInput has-success');
-					$('.rePassInput > .control-label').html('암호가 입력되었습니다.');
-					$('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
-				};
-			});
-			
-			//전송 전 유효성 체크 시발
-			$('#submitInfo').click(function(){
-				if(userMailFlag){
-					if(userNameFlag){
-						if(userPassFlag){
-							if(userRePassFlag){
-								$('#memberJoinByEmail').submit();
-							}
-						}
-					}
-				}	
-			});
-			
-		});//모달 유효성 체크
+	            var nameComp = $(this).val();
+	            if(nameComp==""){
+	               userNameFlag = false;
+	               $('.nameInput').attr('class','form-group has-feedback nameInput has-error');
+	               $('.nameInput > .control-label').html('닉네임을 입력해주세요');
+	               $('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+	            }else if(nameComp.length<1 || nameComp.length>7){
+	               userNameFlag = false;
+	               $('.nameInput').attr('class','form-group has-feedback nameInput has-error');
+	               $('.nameInput > .control-label').html('닉네임은 1글자 이상 ~7글자 이하로 입력해주세요');
+	               $('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+	            }else{               
+	               $.ajax({
+	                  type:"post",
+	                  url:"findMemberByNickName.neon",            
+	                  data:"nameComp="+nameComp,   
+	                  success:function(result){
+	                     //   alert(result);
+	                     if(result==false){
+	                         userNameFlag = false;
+	                        $('.nameInput').attr('class','form-group has-feedback nameInput has-error');
+	                        $('.nameInput > .control-label').html(nameComp+"사용할수 없는 닉네임 입니다.");
+	                        $('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+	                          
+	                     }else{
+	                         userNameFlag = true;
+	                        $('.nameInput').attr('class','form-group has-feedback nameInput has-success');
+	                        $('.nameInput > .control-label').html(nameComp+"사용 가능한 닉네임 입니다");   
+	                        $('.nameInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
+	                           
+	                     }//else2         
+	                  }//success         
+	               });//ajax
+	            
+	            }//else1
+	         
+	         });//keyup
+	         //암호 공란 검사 및 암호 길이 검사
+	         $('#memberJoinInputpassword').keyup(function(){
+	            var passwordComp = $(this).val();
+	            var rePasswordComp =$("#memberJoinInputRePassword").val();
+	            
+	            if(passwordComp==""){
+	               userPassFlag = false;
+	               $('.passInput').attr('class','form-group has-feedback passInput has-error');
+	               $('.passInput > .control-label').html('암호를 입력해주세요');
+	               $('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+	            }else if(passwordComp.length<7|| passwordComp.length>18){
+	               userPassFlag = false;
+	               $('.passInput').attr('class','form-group has-feedback passInput has-error');
+	               $('.passInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
+	               $('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+	         
+	            }else if(passwordComp!=rePasswordComp && rePasswordComp!=""){
+	               userPassFlag = false;
+	               $('.passInput').attr('class','form-group has-feedback passInput has-error');
+	               $('.passInput > .control-label').html("암호를 확인해 주세요");
+	               $('.passInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+	            }else{
+	               userPassFlag = true;
+	               $('.passInput').attr('class','form-group has-feedback passInput has-success');
+	               $('.passInput > .control-label').html('암호가 입력되었습니다.');
+	               $('.passInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
+	            };
+	         });
+	         //암호확인 공란 검사 및 암호확인 길이 검사 및 암호와 암호확인 값 비교
+	         $('#memberJoinInputRePassword').keyup(function(){
+	            var passComp = $('#memberJoinInputpassword').val();
+	            var rePasswordComp = $(this).val();
+	            if(rePasswordComp==""){
+	               userRePassFlag = false;
+	               $('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
+	               $('.rePassInput > .control-label').html('암호를 확인해주세요');
+	               $('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+	            }else if(rePasswordComp.length<7 || rePasswordComp.length>18){
+	               userRePassFlag = false;
+	               $('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
+	               $('.rePassInput > .control-label').html('암호는 7글자 이상 ~18글자 이하로 입력해주세요');
+	               $('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+	            }else if(passComp!=rePasswordComp ){
+	               userRePassFlag = false;
+	               $('.rePassInput').attr('class','form-group has-feedback rePassInput has-error');
+	               $('.rePassInput > .control-label').html('암호를 확인해주세요.');
+	               $('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-remove form-control-feedback');
+	            }else{
+	               userRePassFlag = true;
+	               $('.rePassInput').attr('class','form-group has-feedback rePassInput has-success');
+	               $('.rePassInput > .control-label').html('암호가 입력되었습니다.');
+	               $('.rePassInput > .glyphicon').attr('class','glyphicon glyphicon-ok form-control-feedback');
+	            };
+	         });
+	         
+	         //전송 전 유효성 체크 시발
+	         $('#submitInfo').click(function(){
+	            if(userMailFlag){
+	               if(userNameFlag){
+	                  if(userPassFlag){
+	                     if(userRePassFlag){
+	                        $('#memberJoinByEmail').submit();
+	                     }
+	                  }
+	               }
+	            }   
+	         });
+	         
+	      });//모달 유효성 체크
 
 	//로그아웃 confirm
 	$("#memberLogout").click(function(){

@@ -11,7 +11,7 @@ drop table PICKED_ARTICLE;
 drop table ITJA_MEMBER;
 drop table SUBSCRIPTION_INFO;
 drop table MAIN_ARTICLE_IMG;
---drop table PROFILE_IMG;
+drop table PROFILE_IMG;
 drop table FIND_PASSWORD;
 drop table SUB_ARTICLE;
 drop table MAIN_ARTICLE;
