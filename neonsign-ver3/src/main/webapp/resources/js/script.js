@@ -1884,6 +1884,8 @@ $(document).ready(function(){ //DOM이 준비되고
     	var memberEmail=$(this).parent().parent().children().eq(0).text();
     	if(confirm("해당 회원을 Block 하시겠습니까?")){
     		document.location.href = "memberBlock.neon?memberEmail="+memberEmail;
+        	alert("해당 회원이 Block 되었습니다");
+
     	}
 		return false;
 	});
@@ -1895,6 +1897,8 @@ $(document).ready(function(){ //DOM이 준비되고
    	var memberEmail=$(this).parent().parent().children().eq(0).text();
    	if(confirm("해당 회원을 Block해제 하시겠습니까?")){
    		document.location.href = "memberBlockRelease.neon?memberEmail="+memberEmail;
+    	alert("해당 회원이 Block 해제 되었습니다");
+
    	}
 		return false;
 	});
@@ -1906,7 +1910,9 @@ $(document).ready(function(){ //DOM이 준비되고
 		if(confirm("신고처리 하시겠습니까?")){
 			location.href="adminPageDeleteArticle.neon?reportNO="+reportNO+"&articleNO="+articleNO+"&subArticleNO="+subArticleNO+
 			"&command=report";
+	    	alert("신고처리 되었습니다");
 		}
+		
 	});
 	
 	$('#mainReportList').on('click','.ReportCancle',function () {
@@ -1916,6 +1922,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		if(confirm("반려처리 하시겠습니까?")){
 			location.href="adminPageDeleteArticle.neon?reportNO="+reportNO+"&articleNO="+articleNO+"&subArticleNO="+subArticleNO+
 			"&command=cancle";
+	    	alert("반려처리 되었습니다");
 		}
 	});
    
@@ -1926,6 +1933,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		if(confirm("신고처리 하시겠습니까?")){
 			location.href="adminPageDeleteArticle.neon?reportNO="+reportNO+"&articleNO="+articleNO+"&subArticleNO="+subArticleNO+
 			"&command=report";
+			alert("신고처리 되었습니다");
 		}
 	});
 
@@ -1936,6 +1944,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		if(confirm("반려처리 하시겠습니까?")){
 			location.href="adminPageDeleteArticle.neon?reportNO="+reportNO+"&articleNO="+articleNO+"&subArticleNO="+subArticleNO+
 			"&command=cancle";
+			alert("반려처리 되었습니다");
 		}
 	});
 	
