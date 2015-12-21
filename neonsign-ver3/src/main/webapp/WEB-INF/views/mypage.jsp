@@ -246,10 +246,10 @@
 												</form>
 												<!-- 찜 정보를 전달하기 위한 폼 끝 -->
 												<!-- 공유 -->
-												<button class="btn btn-social btn-facebook">
-													<i class="fa fa-facebook-official"></i><br>
-													공유!
-												</button>
+												<button class="btn btn-social btn-primary btn-facebook sharePage"  
+					data-toggle="modal" data-target="#shareModal" style="width:23%;">
+						<i class="fa fa-facebook-official"></i><br> 공유!
+					</button>
 											</div>
 											<!-- 찜카드 하단 버튼들 끝 -->
 											<div class="filter"></div>
@@ -385,10 +385,10 @@
 													<input type="hidden" name="mainArticleNo" value="${writeMainArticle.mainArticleNo}">
 												</form>
 												<!-- 찜 정보를 전달하기 위한 폼 끝 -->
-												<button class="btn btn-social btn-facebook">
-													<i class="fa fa-facebook-official"></i><br>
-													공유!
-												</button>
+												<button class="btn btn-social btn-primary btn-facebook sharePage"  
+					data-toggle="modal" data-target="#shareModal" style="width:23%;">
+						<i class="fa fa-facebook-official"></i><br> 공유!
+					</button>
 											</div>
 											<!-- 작성 카드 하단 버튼들 -->
 											<div class="filter"></div>
@@ -524,10 +524,10 @@
 													<input type="hidden" name="mainArticleNo" value="${joinMainArticle.mainArticleNo}">
 												</form>
 												<!-- 찜 정보를 전달하기 위한 폼 끝 -->
-												<button class="btn btn-social btn-facebook">
-												<i class="fa fa-facebook-official"></i><br>
-												공유!
-												</button>
+												<button class="btn btn-social btn-primary btn-facebook sharePage"  
+					data-toggle="modal" data-target="#shareModal" style="width:23%;">
+						<i class="fa fa-facebook-official"></i><br> 공유!
+					</button>
 											</div>
 											<!-- 참여 카드 하단 버튼들 끝 -->
 											<div class="filter"></div>
@@ -928,8 +928,9 @@
 										</c:choose>
 										</button>
 										<!-- 공유 -->
-										<button class="btn btn-social btn-facebook">
-											<i class="fa fa-facebook-official"></i><br> 공유!
+										<button class="btn btn-social btn-primary btn-facebook sharePage"  
+										data-toggle="modal" data-target="#shareModal" style="width:23%;">
+										<i class="fa fa-facebook-official"></i><br> 공유!
 										</button>
 										<%--
 										  잇자 버튼 클릭시 전달 할 정보를 위한 히든 폼

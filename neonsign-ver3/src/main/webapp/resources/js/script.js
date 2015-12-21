@@ -135,7 +135,10 @@ $(document).ready(function(){ //DOM이 준비되고
               				if(mainLikeItHTML==""){
               					mainLikeItHTML = 
               						'<button class="btn btn-social btn-twitter itja" style="width:23%;">'+
-              						'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.completeMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'
+              						'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.completeMainArticleArrayList[i].mainArticleTotalLike+' it</span>'
+              						+'</button><form name="itJaInfo" style="display:none;"><input type="hidden" name="mainArticleBlack" value="'+data.completeMainArticleArrayList[i].block+'">'+
+              							'<input type="hidden" name="mainArticleNo" value="'+data.completeMainArticleArrayList[i].mainArticleNo
+              							+'"><input type="hidden" name="subArticleNo" value=0></form>'
               				}
               				//잇자버튼 조건 문 끝
               				
@@ -192,7 +195,8 @@ $(document).ready(function(){ //DOM이 준비되고
 							+'</button>'
 							+mainLikeItHTML
 							+pickMainArticleHTML
-							+'<button class="btn btn-social btn-facebook" style="width:23%;">'
+							+'<button class="btn btn-social btn-primary btn-facebook sharePage"' 
+							+'data-toggle="modal" data-target="#shareModal" style="width:23%;">'
 							+'<i class="fa fa-facebook-official"></i><br> 공유!'
 							+'</button>'
 							+'</div>'
@@ -249,9 +253,14 @@ $(document).ready(function(){ //DOM이 준비되고
 	           					}
 	           				}
 	            			if(mainLikeItHTML==""){
+	            				
 	            				mainLikeItHTML = 
 	          					'<button class="btn btn-social btn-twitter itja" style="width:23%;">'+
-	           					'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.newMainArticleArrayList[i].mainArticleTotalLike+' it</span></button>'
+	           					'<span class="itjaCount"><i class="fa fa-chain-broken fafafu"></i><br>'+data.newMainArticleArrayList[i].mainArticleTotalLike+' it</span>'+
+	           					'</button>'
+	           					+'<form name="itJaInfo" style="display:none;"><input type="hidden" name="mainArticleBlack" value="'+data.newMainArticleArrayList[i].block+'">'
+	           					+'<input type="hidden" name="mainArticleNo" value="'+data.newMainArticleArrayList[i].mainArticleNo
+	           					+'"><input type="hidden" name="subArticleNo" value=0></form>'
 	             			}
 	            			
 							// alert(data.pickedList);
@@ -306,7 +315,8 @@ $(document).ready(function(){ //DOM이 준비되고
 								+'</button>'
 								+mainLikeItHTML
 								+pickMainArticleHTML
-								+'<button class="btn btn-social btn-facebook" style="width:23%;">'
+								+'<button class="btn btn-social btn-primary btn-facebook sharePage"' 
+								+'data-toggle="modal" data-target="#shareModal" style="width:23%;">'
 								+'<i class="fa fa-facebook-official"></i><br> 공유!'
 								+'</button>'
 								+'</div>'
@@ -430,7 +440,8 @@ $(document).ready(function(){ //DOM이 준비되고
 								+'</button>'
 								+mainLikeItHTML
 								+pickMainArticleHTML
-								+'<button class="btn btn-social btn-facebook" style="width:23%;">'
+								+'<button class="btn btn-social btn-primary btn-facebook sharePage"' 
+								+'data-toggle="modal" data-target="#shareModal" style="width:23%;">'
 								+'<i class="fa fa-facebook-official"></i><br> 공유!'
 								+'</button>'
 								+'</div>'
@@ -538,7 +549,8 @@ $(document).ready(function(){ //DOM이 준비되고
 								+'</button>'
 								+mainLikeItHTML
 								+pickMainArticleHTML
-								+'<button class="btn btn-social btn-facebook" style="width:23%;">'
+								+'<button class="btn btn-social btn-primary btn-facebook sharePage"' 
+								+'data-toggle="modal" data-target="#shareModal" style="width:23%;">'
 								+'<i class="fa fa-facebook-official"></i><br> 공유!'
 								+'</button>'
 								+'</div>'
@@ -649,7 +661,8 @@ $(document).ready(function(){ //DOM이 준비되고
 								+'</button>'
 								+mainLikeItHTML
 								+pickMainArticleHTML
-								+'<button class="btn btn-social btn-facebook" style="width:23%;">'
+								+'<button class="btn btn-social btn-primary btn-facebook sharePage"' 
+								+'data-toggle="modal" data-target="#shareModal" style="width:23%;">'
 								+'<i class="fa fa-facebook-official"></i><br> 공유!'
 								+'</button>'
 								+'</div>'
@@ -757,7 +770,8 @@ $(document).ready(function(){ //DOM이 준비되고
 								+'</button>'
 								+mainLikeItHTML
 								+pickMainArticleHTML
-								+'<button class="btn btn-social btn-facebook" style="width:23%;">'
+								+'<button class="btn btn-social btn-primary btn-facebook sharePage"' 
+								+'data-toggle="modal" data-target="#shareModal" style="width:23%;">'
 								+'<i class="fa fa-facebook-official"></i><br> 공유!'
 								+'</button>'
 								+'</div>'
@@ -837,7 +851,6 @@ $(document).ready(function(){ //DOM이 준비되고
 	
 	//베스트 디테일 뷰(완) , 마이페이지(완)
 	$('.itjaSlide').on('click','.actions :button',function(){
-		alert('베스트 및 마이페이지')
 		$('#bestMainArticleArea',parent.document).attr('height','1000px');
 		var mainArticleNO =$(this).parent().siblings('input[class="mainArticleTitleNO"]').val();
 		if($('#isComplete').val()=='best'){
@@ -967,7 +980,7 @@ $(document).ready(function(){ //DOM이 준비되고
 							// 주제글 상단에 있는 잇자 버튼
 							mainLikeItHTML 
 							='<span class="itjaCount itja"><i class="fa fa-link itja"></i>'+data.mainArticle.mainArticleLike+'it</span>'
-							+'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+							+'<form name="itJaInfo" class="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
 							+'"><input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo
 							+'"><input type="hidden" name="subArticleNo" value=0></form>'
 							
@@ -976,8 +989,10 @@ $(document).ready(function(){ //DOM이 준비되고
 							+'<button class="btn btn-social btn-twitter itja">'
 							+'<span class="itjaCount"><i class="fa fa-link"></i><br>'+data.mainArticle.mainArticleTotalLike+'it</span></button>'
 							+pickMainArticleHTML
-							+'<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유!</button>'
-							+'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+							+'<button class="btn btn-social btn-primary btn-facebook sharePage"' 
+							+'data-toggle="modal" data-target="#shareModal" style="width:23%;">'
+							+'<i class="fa fa-facebook-official"></i><br> 공유!'
+							+'</button><form name="itJaInfo" class="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
 							+'"><input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo
 							+'"><input type="hidden" name="subArticleNo" value=0></form></div>'
 							
@@ -988,7 +1003,7 @@ $(document).ready(function(){ //DOM이 준비되고
 					if(flag){
 						mainLikeItHTML 
 						='<span class="itjaCount itja"><i class="fa fa-chain-broken"></i>'+data.mainArticle.mainArticleLike+'it</span>'
-						+'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+						+'<form name="itJaInfo" class="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
 						+'"><input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo
 						+'"><input type="hidden" name="subArticleNo" value=0></form>'
 						
@@ -996,8 +1011,10 @@ $(document).ready(function(){ //DOM이 준비되고
 						='<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">재밋게<br>살자!</button><button class="btn btn-social btn-twitter itja">'
 							+'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.mainArticle.mainArticleTotalLike+'it</span></button>'
 							+pickMainArticleHTML
-							+'<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유!</button>'
-							+'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+							+'<button class="btn btn-social btn-primary btn-facebook sharePage"' 
+							+'data-toggle="modal" data-target="#shareModal" style="width:23%;">'
+							+'<i class="fa fa-facebook-official"></i><br> 공유!'
+							+'</button>'+'<form name="itJaInfo" class="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
 							+'"><input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo
 							+'"><input type="hidden" name="subArticleNo" value=0></form></div>'
 						//잇는글 폼 비활성화
@@ -1011,7 +1028,11 @@ $(document).ready(function(){ //DOM이 준비되고
 						'<div class="social-line social-line-visible" data-buttons="4"><button class="btn btn-social btn-pinterest">재밋게<br>살자!</button><button class="btn btn-social btn-twitter itja">'+
 						'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.mainArticle.mainArticleTotalLike+'it</span></button>'
 						+pickMainArticleHTML
-						+'<button class="btn btn-social btn-facebook"><i class="fa fa-facebook-official"></i><br>공유하자!</button><div>';
+						+'<button class="btn btn-social btn-primary btn-facebook sharePage"' 
+						+'data-toggle="modal" data-target="#shareModal" style="width:23%;">'
+						+'<i class="fa fa-facebook-official"></i><br> 공유!'
+						+'</button><form name="itJaInfo" class="itJaInfo"><input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo
+						+'"><input type="hidden" name="subArticleNo" value=0></form></div>';
 					//잇는글 폼 비활성화
 					$('.itjaWriteForm').css('display','none');	
 				}
@@ -1050,7 +1071,7 @@ $(document).ready(function(){ //DOM이 준비되고
 							if(data.itjaMemberList[j].subArticleNo == data.likingSubArticle[i].subArticleNo){
 								mainLikeItHTML 
 								='<span class="itjaCount itja"><i class="fa fa-link"></i><br>'+data.likingSubArticle[i].subArticleLike+'it</span>'
-								+'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+								+'<form name="itJaInfo" class="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
 								+'"><input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo
 								+'"><input type="hidden" name="subArticleNo" value='+data.likingSubArticle[i].subArticleNo+'></form>'
 								flag=false;
@@ -1060,7 +1081,7 @@ $(document).ready(function(){ //DOM이 준비되고
 						if(flag){
 							mainLikeItHTML 
 							='<span class="itjaCount itja"><i class="fa fa-chain-broken"></i><br>'+data.likingSubArticle[i].subArticleLike+'it</span>'+
-							'<form name="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+							'<form name="itJaInfo" class="itJaInfo"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
 							+'"><input type="hidden" name="mainArticleNo" value="'+data.mainArticle.mainArticleNo
 							+'"><input type="hidden" name="subArticleNo" value='+data.likingSubArticle[i].subArticleNo+'></form>'
 						}
@@ -1368,7 +1389,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	
 	//모달 창에서 아직 안이어진 잇는글들 클릭시 발동하는 잇자 버튼
 	$('.unLinkingSubArticleList').on('click','.itja',function(){
-		alert($($(this).parent().next().children().next()).html());
+		//alert($($(this).parent().next().children().next()).html());
 		var formData =  $($(this).parent().next().children().next()).serialize();
 		var itjaCountSpan = $(this);
 		itjaClick(formData,itjaCountSpan,'one');
@@ -1390,6 +1411,13 @@ $(document).ready(function(){ //DOM이 준비되고
 		
 	});
 	
+	//공유 페이지에서의 잇자 버튼
+	$('.shareMainArticle').on('click','.itja',function(){
+		var formData = $($(this).siblings('form[name="itJaInfo"]')).serialize();
+		var itjaCountSpan = $(this).children('.itjaCount');
+		itjaClick(formData,itjaCountSpan,'total');
+		
+	});
 	//잇자 클릭 ajax 메서드 통합
 	function itjaClick(formData,itjaCountSpan,AllOrOne){
 		//var itjaWriteFormCheck=0;
@@ -2011,8 +2039,16 @@ $(document).ready(function(){ //DOM이 준비되고
 		pickBtnClick(formData, pickSpan);
 	});
 	
-	// 잇자 버튼 
+	// 무한스크롤 로딩 찜하기 버튼
 	$('#pinBoot').on('click','.pickBtn',function(){
+		var formData = $($(this).siblings('form[name="pickInfo"]')).serialize();
+		var pickSpan = $(this).children('.pickSpan');
+		pickBtnClick(formData, pickSpan);
+		
+	});
+	
+	//공유 페이지에서의 찜하기 버튼
+	$('.shareMainArticle').on('click','.pickBtn',function(){
 		var formData = $($(this).siblings('form[name="pickInfo"]')).serialize();
 		var pickSpan = $(this).children('.pickSpan');
 		pickBtnClick(formData, pickSpan);
@@ -2695,7 +2731,59 @@ $(document).ready(function(){ //DOM이 준비되고
 			}
 		});
     });
+    
+    	//메인에서 공유버튼을 눌렀을 때 실행됨
+    	$('#pinBoot').on('click','.sharePage',function(){
+    		//alert("낄"); 
+    		//alert($(this).parent().find("form[name=itJaInfo]").html());
+    		var dataForm=$(this).parent().find("form[name=itJaInfo]").serialize();
+    		$('#shareUrl').val("http://localhost:8888/neonsign-ver3/sharePage.neon?"+dataForm);
+    			//document.location.href = "sharePage.neon?"+dataForm;
+    	});
+    	//마이페이지에서 공유버튼을 눌렀을 때 실행됨
+		$(".myprofile").on('click','.sharePage',function(){
+    		//alert("낄"); 
+    		//alert($(this).parent().find("form[name=itJaInfo]").html());
+			var dataForm=$(this).parent().find("form[name=itJaInfo]").serialize();
+    		$('#shareUrl').val("http://localhost:8888/neonsign-ver3/sharePage.neon?"+dataForm);
+		});
+		
+    	//디테일 뷰에서 공유버튼을 눌렀을 때 실행됨
+    	$('.detailViewModalUtility').on('click','.sharePage',function(){
+    		var dataForm=$(this).next().serialize();	
+    		$('#shareUrl').val("http://localhost:8888/neonsign-ver3/sharePage.neon?"+dataForm);
+    	});
     	
+    	//공유페이지에서 공유 버튼을 눌렀을 때 실행됨
+    	$('#shareContainer').on('click','.sharePage',function(){
+    		var dataForm=$(this).next().serialize();	
+    		$('#shareUrl').val("http://localhost:8888/neonsign-ver3/sharePage.neon?"+dataForm);
+    	});
+    	
+    	//공유 모달에서 링크 복사하기를 눌렀을 때 클립보드에 복사 실행
+    	$('#urlShare').click(function() {
+    		var dataForm=$("#shareUrl").val();
+    		var IE=(document.all)?true:false;
+    		if (IE) {
+    		if(confirm("클립보드에 복사하시겠습니까?"))
+    		window.clipboardData.setData("Text", dataForm);
+    		} else {
+    		temp = prompt("Ctrl+C를 눌러 클립보드로 복사하세요",dataForm);
+    		$('#shareModal').modal('hide');
+    		}
+    	});
+    	
+    	//공유페이지가 로딩되고 디테일 뷰를 들어감
+    	$('.shareMainArticle').on('click','.readArticleBtn',function(){
+    		var mainArticleNO =$(this).next().children().find(':input[name="mainArticleNo"]').eq(0).val();
+    		var mainArticleBlack =$(this).next().children().find(':input[name="mainArticleBlack"]').eq(0).val();
+    		if(mainArticleBlack==1){
+    			alert("해당글은 관리자에 의해 차단된 글 입니다.");
+    		}else{
+    			detailItjaView(mainArticleNO, "new");
+    			$('#cardDetailView').modal();
+    		}
+    	});  	
 });//document.ready
 
 /**

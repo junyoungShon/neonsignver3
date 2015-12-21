@@ -1012,4 +1012,14 @@ public class BoardController {
 		return mv;
 	}
 
+	/**
+	 * 공유 페이지로 이동하는 컨트롤러
+	 * @author 윤택
+	 */
+	@RequestMapping("sharePage.neon")
+	public ModelAndView sharePage(MainArticleVO mainArticleVO){
+		MainArticleVO mainArticleInfo=boardService.getMainArticleInfo(mainArticleVO);
+		mainArticleInfo.setMainArticleImgVO(new MainArticleImgVO(mainArticleVO.getMainArticleNo(), "basicBg/반전.jpg"));
+		return new ModelAndView("share","mainArticleInfo",mainArticleInfo);
+	}
 }

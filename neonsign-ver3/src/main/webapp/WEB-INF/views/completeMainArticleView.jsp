@@ -89,7 +89,8 @@
 							</c:otherwise>
 						</c:choose>
 					</button>
-					<button class="btn btn-social btn-facebook" style="width:23%;">
+					<button class="btn btn-social btn-primary btn-facebook sharePage"  
+					data-toggle="modal" data-target="#shareModal" style="width:23%;">
 						<i class="fa fa-facebook-official"></i><br> 공유!
 					</button>
 					            <%--

@@ -32,6 +32,9 @@
 		<put-attribute name="main"  value="/WEB-INF/views/findBy.jsp" />
 	</definition>	
 	
+	<definition name="share" extends="home">
+		<put-attribute name="main"  value="/WEB-INF/views/sharePage.jsp" />
+	</definition>	
 	
 	<definition name="adminPageView" template="/WEB-INF/views/templates/adminLayout.jsp">
 		<put-attribute name="header"  value="/WEB-INF/views/templates/header.jsp"  />

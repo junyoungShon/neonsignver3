@@ -815,4 +815,9 @@ public class BoardServiceImpl implements BoardService{
 		return boardDAO.selectListTagNameOrderBykeyWord(keyword);
 	}
 
+	@Override
+	public MainArticleVO getMainArticleInfo(MainArticleVO mainArticleVO) {
+		return boardDAO.selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo(mainArticleVO);
+	}
+
 }

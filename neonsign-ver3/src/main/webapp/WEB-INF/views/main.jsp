@@ -76,6 +76,15 @@
 								</c:otherwise>
 							</c:choose>
 					</button>
+						<form name="itJaInfo" class="itJaInfo" style="display:none;">
+						<input type="hidden" name="memberEmail" value="${sessionScope.memberVO.memberEmail}">
+						<input type="hidden" name="mainArticleNo" value="${newMainArticle.mainArticleNo}">
+						<input type="hidden" name="mainArticleBlack" value="${newMainArticle.block}">
+						<input type="hidden" name="subArticleNo" value=0>
+						</form>
+					<%--
+					   잇자 버튼 클릭시 전달 할 정보를 위한 히든 폼 끝
+					 --%>
 					<!-- 2015-12-14 대협수정 -->
 					<button class="btn btn-social btn-google pickBtn" style="width:23%;">
 						<c:set var="breakCheck" value="false"/>
@@ -97,7 +106,8 @@
 							</c:otherwise>
 						</c:choose>
 					</button>
-					<button class="btn btn-social btn-facebook" style="width:23%;">
+					<button class="btn btn-social btn-primary btn-facebook sharePage"  
+					data-toggle="modal" data-target="#shareModal" style="width:23%;">
 						<i class="fa fa-facebook-official"></i><br> 공유!
 					</button>
 					            <%--
@@ -106,15 +116,7 @@
 					--%>
 					
 					  
-					<form name="itJaInfo">
-						<input type="hidden" name="memberEmail" value="${sessionScope.memberVO.memberEmail}">
-						<input type="hidden" name="mainArticleNo" value="${newMainArticle.mainArticleNo}">
-						<input type="hidden" name="mainArticleBlack" value="${newMainArticle.block}">
-						<input type="hidden" name="subArticleNo" value=0>
-					</form>
-					<%--
-					   잇자 버튼 클릭시 전달 할 정보를 위한 히든 폼 끝
-					 --%>
+				
 					<!-- 찜 정보를 전달하기 위한 폼 시작 -->
 					<form name="pickInfo">
 						<input type="hidden" name="memberEmail" value="${sessionScope.memberVO.memberEmail}">
