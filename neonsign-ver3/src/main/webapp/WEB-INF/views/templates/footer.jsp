@@ -430,6 +430,7 @@
 		</div>
 	</div>
 </div>
+
 <!-- Modal -->
 	<div class="modal fade" id="writeServiceCenter" tabindex="-1" role="dialog"
 		aria-labelledby="writeMainArticleLabel" aria-hidden="true">
@@ -457,8 +458,7 @@
 						</tr>
 						<tr>
 							<td>
-							<textarea class="form-control" rows="10" id="ServiceCenterContext" name="ServiceCenterContext" value="">
-							</textarea>
+							<textarea class="form-control" rows="10" id="ServiceCenterContext" name="ServiceCenterContext"></textarea>
 							</td>
 						</tr>
 					</table>
@@ -471,6 +471,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<!-- Modal -->
 	<div class="modal fade" id="ServiceCenterViewModal" tabindex="-1" role="dialog"
 		aria-labelledby="writeMainArticleLabel" aria-hidden="true">

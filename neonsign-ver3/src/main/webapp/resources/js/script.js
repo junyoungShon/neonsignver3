@@ -2331,6 +2331,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		});
 	});
 
+	//회원 정보 수정 스크립트
 	$("#memberUpateModal").on('show.bs.modal', function () {
 		//암호 공란 검사 및 암호 길이 검사
 		var userCheckFlag= false;
@@ -2473,7 +2474,7 @@ $(document).ready(function(){ //DOM이 준비되고
 			}
 		});
 		$("#memberUpdateSubmit").click(function(){
-			if(userPassFlag&&userRePassFlag&&userNameFlag){
+			if(userPassFlag&&userRePassFlag&&userNameFlag&&userCheckFlag){
 			$("#memberUpdate").submit();
 			alert("변경처리되었습니다");
 			}else{
@@ -2907,6 +2908,29 @@ $(document).ready(function(){ //DOM이 준비되고
     			$('#cardDetailView').modal();
     		}
     	});  	
+    	
+    	  //문의글 쓰기 공백 체크
+    	$("#writeServiceCenter").on('show.bs.modal', function () {
+    		var serviceCenterTitle="";
+    		var serviceCenterEmail="";
+    		var serviceCenterContext="";
+     		$('#ServiceCenterTitle').keyup(function () {
+				serviceCenterTitle=$(this).val();
+			});
+    		$('#ServiceCenterEmail').keyup(function () {
+    			serviceCenterEmail=$(this).val();
+			});
+    		$('#ServiceCenterContext').keyup(function () {
+				serviceCenterContext=$(this).val();
+			});
+    		$("form[name=writeServiceCenter]").submit(function () {
+    			if(serviceCenterTitle==""||serviceCenterEmail==""||serviceCenterContext==""){
+    				alert("빈칸을 입력해 주세요!");
+    				return false;
+    			}
+				alert("문의 글 작성이 완료 되었습니다.")
+			});
+    	});
 });//document.ready
 
 /**

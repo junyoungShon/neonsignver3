@@ -44,6 +44,7 @@
     			  <li><a href="${initParam.root}getMainList.neon" class="top-menu">Main</a></li>
     			  <li><a href="${initParam.root}selectListCompleteMainArticle.neon" class="top-menu">완결 글 보기</a></li>
     			  <li><a href="#" class="openModalInsertArticleForm top-menu">글쓰기</a></li>
+    			  <li><a href="#" class="ServiceCenter">문의글 쓰기</a></li>
 		  <c:choose>
 			<c:when test="${sessionScope.memberVO==null}">
     			<li><a href="#" class="memberLogin top-menu"> <i class="fa fa-sign-in"></i>로그인</a></li>
@@ -77,8 +78,6 @@
 		            <li class="divider"></li>
 		            <li><a href="mypage.neon?memberEmail=${sessionScope.memberVO.memberEmail}" class="top-menu">회원 정보 보기</a></li>
 		            <li class="divider"></li>
-		            <li><a href="#" class="ServiceCenter">문의글쓰기</a></li>
-		             <li class="divider"></li>
 		            <li><a href="${initParam.root}memberLogout.neon" id="logout" class="top-menu">로그아웃</a></li>
 		             <li class="divider"></li>
 		               <li><a href="#" class="memberDelete top-menu">회원탈퇴</a></li>
