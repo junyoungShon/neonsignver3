@@ -2941,7 +2941,7 @@ $(document).ready(function(){ //DOM이 준비되고
 function autoLogSave(checkLogSave){
 	var autoMsg;
 	if(checkLogSave.checked){
-		autoMsg = confirm("자동로그인 하시겠습니까?");
+		autoMsg = confirm("자동로그인 하시겠습니까?, 로그아웃시 해제됩니다");
 		if(!autoMsg){
 			checkLogSave.checked = false;
 		}
