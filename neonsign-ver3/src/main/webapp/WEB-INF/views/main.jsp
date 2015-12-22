@@ -49,9 +49,9 @@
 				<p class="description">
 					${newMainArticleContent}
 				</p>
-				<a href="mypage.neon?memberEmail=${newMainArticle.memberVO.memberEmail}" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" data-toggle="popover" title="${newMainArticle.memberVO.memberNickName}님, ${newMainArticle.memberVO.rankingVO.memberGrade} PTS(${newMainArticle.memberVO.memberPoint} / ${newMainArticle.memberVO.rankingVO.maxPoint})" data-content="${newMainArticle.memberVO.memberNickName}님 Click하여 페이지 보기" >
-				<span class="writersNickName">- ${newMainArticle.memberVO.memberNickName} -</span></a>
 			</div>
+			<a href="mypage.neon?memberEmail=${newMainArticle.memberVO.memberEmail}" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" data-toggle="popover" title="${newMainArticle.memberVO.memberNickName}님, ${newMainArticle.memberVO.rankingVO.memberGrade} PTS(${newMainArticle.memberVO.memberPoint} / ${newMainArticle.memberVO.rankingVO.maxPoint})" data-content="${newMainArticle.memberVO.memberNickName}님 Click하여 페이지 보기" >
+				<span class="writersNickName">- ${newMainArticle.memberVO.memberNickName} -</span></a>
 			<div class="social-line social-line-visible" data-buttons="4" style="width:100%; margin-top:10px;">
 					<button class="btn btn-social btn-pinterest" style="width:23%;">
 						<span class="time_area">새로운<br>잇자!</span>

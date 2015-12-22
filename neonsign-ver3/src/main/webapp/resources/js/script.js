@@ -1191,13 +1191,15 @@ $(document).ready(function(){ //DOM이 준비되고
 				type : "POST",
 				url : "auth_MemberReport.neon",
 				data : "memberReportEmail="+memberReportEmail+"&memberReporterEmail="+memberReporterEmail,
+				datatype: "json",
 				success : function(data){
-					if(data=="ok"){
-					alert("신고를 완료하였습니다.");
-					}else{
-						alert("이미 신고를 하셨습니다")
+					if(data.result=="ok"){
+						$('#memberReportCount').html(data.reportCount);
+					}else if(data.result=="fail"){
+						alert("이미 신고를 하셨습니다");
+					}else if(data.result=="self"){
+						alert("자신을 신고할 수 없습니다");
 					}
-
 				},
 				error:function(xhr, textStatus, error){
 					if(xhr.status=="901"){
@@ -2118,11 +2120,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		subscriptionBtnClick(formData, subscriptionInfoSpan);
 	});
 	
-	// $('.staticSubscriptionBtn').click(function(){
 	function subscriptionBtnClick(formData, subscriptionInfoSpan){
-		// alert(subscriberCount.html());
-		// alert(formData);
-		// alert(subscriptionInfoSpan.html);
 		var subscriptedInfoHTML = "";
 		$.ajax({
 			type:"post",

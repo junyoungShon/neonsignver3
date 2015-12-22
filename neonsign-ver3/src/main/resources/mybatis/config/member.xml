@@ -154,7 +154,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	select count(MEMBER_EMAIL) from BRAIN_MEMBER where MEMBER_CATEGORY ='BLACK'
     </select>
     
-    	<!-- 찜여부 확인 -->
+   	<!-- 찜여부 확인 -->
 	<select id="selectPickedVO" resultMap ="pickedResultMap">
 		select MEMBER_EMAIL,MAIN_ARTICLE_NO from PICKED_ARTICLE 
 		where MEMBER_EMAIL = #{memberEmail} and MAIN_ARTICLE_NO=#{mainArticleNo}

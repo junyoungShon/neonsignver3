@@ -363,16 +363,13 @@ public class MemberController {
 	@RequestMapping(value="auth_updatePickedVO.neon", method=RequestMethod.POST)
 	@ResponseBody
 	public HashMap<String,Object> updatePickedVO(PickedVO pvo, HttpServletRequest request){
-		//System.out.println("넘어오는 찜 정보 : " + pvo);
 		HttpSession session = request.getSession(false);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		if(session != null){
 			map = memberService.updatePickedVO(pvo); 
 			List<PickedVO> pickList = memberService.getPickListByMemberEmail(pvo.getMemberEmail());
-			// System.out.println("cont pickList : " + pickList);
 			MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 			memberVO.setPickedVOList(pickList);
-			//System.out.println(memberVO);
 			session.setAttribute("memberVO", memberVO);
 		}
 		return map;
@@ -498,8 +495,10 @@ public class MemberController {
 	 */
 	@RequestMapping("auth_MemberReport.neon")
 	@ResponseBody
-	public String memberReport(String memberReportEmail, String memberReporterEmail){
-		String result=memberService.memberReport(memberReportEmail,memberReporterEmail);
+	public HashMap<String, String> memberReport(String memberReportEmail, String memberReporterEmail){
+		HashMap<String, String> result = new HashMap<String, String>();
+		result=memberService.memberReport(memberReportEmail,memberReporterEmail);
+		System.out.println("신고 : " + result);
 		return result;
 	}
 }

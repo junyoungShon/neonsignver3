@@ -48,6 +48,6 @@ public interface UtilService {
 	public List<HashMap<String, String>> selectReport();
 
 
-	public String memberReport(String memberReportEmail,
+	public HashMap<String, String> memberReport(String memberReportEmail,
 			String memberReporterEmail);
 }

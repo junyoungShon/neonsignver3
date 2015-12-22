@@ -476,11 +476,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<![CDATA[where bm.MEMBER_POINT >= rk.MIN_POINT and bm.MEMBER_POINT <= rk.MAX_POINT 
 		and bm.MEMBER_EMAIL = #{memberEmail}]]> 
 	</select>
-	<!-- 2015-12-15 대협수정 -->
+	<!-- 2015-12-15 대협수정 마이페이지 정보 담기위함 -->
 	<select id="getMemberVOByEmail" resultMap="memberResultMap">
-		select MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_POINT,
+		select MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_POINT, 
 		to_char(MEMBER_JOIN_DATE, 'YYYY-MM-DD') as MEMBER_JOIN_DATE,
-		MEMBER_PROFILE_IMG_NAME
+		MEMBER_REPORT_AMOUNT, MEMBER_PROFILE_IMG_NAME
 		from brain_member
 		where MEMBER_EMAIL = #{memberEmail}
 	</select>
@@ -499,7 +499,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select MAIN_ARTICLE_NO from sub_article where MEMBER_EMAIL = #{memberEmail}
 	</select>
 	
-		<!-- 마이페이지 작성한 태그List 불러오기 by email -->
+	<!-- 마이페이지 작성한 태그List 불러오기 by email -->
 	<select id="writeTagListbyEmail" resultMap="tagBoardResultMap">
 		select tb.MAIN_ARTICLE_NO, tb.TAG_NAME
 		from main_article ma, brain_member bm, tag_board tb 

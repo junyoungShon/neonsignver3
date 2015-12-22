@@ -280,21 +280,26 @@ public class UtilServiceImpl implements UtilService{
 	}
 	
 	@Override
-	public String memberReport(String memberReportEmail,
+	public HashMap<String, String> memberReport(String memberReportEmail,
 			String memberReporterEmail) {
-		// TODO Auto-generated method stub
 		//회원 신고 테이블에 Insert
+		HashMap<String, String> result = new HashMap<String, String>();
 		Map<String, String> map=new HashMap<String, String>();
-		map.put("memberReportEmail", memberReportEmail); map.put("memberReporterEmail", memberReporterEmail);
-		String result=reportDAO.memberReport(map);
-		//신고후 신고 당한 회원의 신고 횟수를 업데이트
-		if(result.equals("ok")){
-			MemberVO memberVO=new MemberVO();
-			memberVO.setMemberEmail(memberReportEmail);
-			reportDAO.memberReportAmountUpdate(memberVO);
-			//만약 회원의 신고 횟수가 50이상이 된다면 블락한다
-			if(reportDAO.getMemeberReportAmount(memberVO)>=50){
-				reportDAO.memberBlack(memberVO);
+		if(memberReportEmail.equals(memberReporterEmail)){
+			result.put("result", "self");
+		}else{
+			map.put("memberReportEmail", memberReportEmail); map.put("memberReporterEmail", memberReporterEmail);
+			result.put("result", reportDAO.memberReport(map));
+			//신고후 신고 당한 회원의 신고 횟수를 업데이트
+			if(result.get("result").equals("ok")){
+				MemberVO memberVO=new MemberVO();
+				memberVO.setMemberEmail(memberReportEmail);
+				reportDAO.memberReportAmountUpdate(memberVO);
+				result.put("reportCount", String.valueOf(reportDAO.getMemeberReportAmount(memberVO)));
+				//만약 회원의 신고 횟수가 50이상이 된다면 블락한다
+				if(reportDAO.getMemeberReportAmount(memberVO)>=50){
+					reportDAO.memberBlack(memberVO);
+				}
 			}
 		}
 		return result;

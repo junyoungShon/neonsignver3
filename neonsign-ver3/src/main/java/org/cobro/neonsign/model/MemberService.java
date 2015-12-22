@@ -43,7 +43,7 @@ public interface MemberService {
 			int serviceCenterNo);
 	public MemberVO pointMemberLogin(MemberVO memberVO);
 	public MemberVO pointDefaultMemberLogin(MemberVO memberVO1);
-	public String memberReport(String memberReportEmail,
+	public HashMap<String, String> memberReport(String memberReportEmail,
 			String memberReporterEmail);
 	
 	/**

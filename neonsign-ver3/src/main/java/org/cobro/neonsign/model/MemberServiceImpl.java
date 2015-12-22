@@ -145,7 +145,6 @@ public class MemberServiceImpl implements MemberService{
 	 */
 	@Override
 	public HashMap<String, Object> updatePickedVO(PickedVO pvo) {
-		//System.out.println(memberDAO.selectPickedVO(pvo));
 		HashMap<String,Object> map = new HashMap<String, Object>();
 		if(memberDAO.selectPickedVO(pvo) == null){
 			memberDAO.insertPickedVO(pvo);
@@ -303,9 +302,8 @@ public class MemberServiceImpl implements MemberService{
 		 * 회원을 신고하는 메서드
 		 */
 		@Override
-		public String memberReport(String memberReportEmail,
+		public HashMap<String, String> memberReport(String memberReportEmail,
 				String memberReporterEmail) {
-			// TODO Auto-generated method stub
 			return utilService.memberReport(memberReportEmail,memberReporterEmail);
 		}
 	

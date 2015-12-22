@@ -832,12 +832,12 @@
 		                           </div>
 		                           <!-- 카드8. 신고정보 아이콘 내용 -->
 		                           <div class="text">
-		                              <var>${memberReportCount}</var>
+		                              <var id="memberReportCount">${memberReportCount}</var>
 		                              <label class="text-muted">신고횟수 / ${reportGrade}</label>
 		                           </div>
 		                           <!-- 카드8. 신고정보 하단 버튼 -->
 		                           <div class="options">
-		                              <a href="#" class="btn btn-default btn-lg memberReport">
+		                              <a href="javascript:;" class="btn btn-default btn-lg memberReport">
 		                              신고하기&nbsp;&nbsp;<i class="fa fa-ban"></i></a>
 		                              	<input type="hidden" id="memberReportEmail" value="${requestScope.rankMemberVO.memberEmail}">
 		                              	<input type="hidden" id="memberUserEmail" value="${sessionScope.memberVO.memberEmail}">

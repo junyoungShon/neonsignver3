@@ -43,8 +43,9 @@
 			<p class="description">
 				${completeMainArticleContent}
 			</p>
+			</div>
 			<a href="mypage.neon?memberEmail=${completeMainArticle.memberVO.memberEmail}" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" data-toggle="popover" title="${completeMainArticle.memberVO.memberNickName}님, ${completeMainArticle.memberVO.rankingVO.memberGrade} PTS(${completeMainArticle.memberVO.memberPoint} / ${completeMainArticle.memberVO.rankingVO.maxPoint})" data-content="${completeMainArticle.memberVO.memberNickName}님 Click하여 페이지 보기" >
-			<span class="writersNickName">- ${completeMainArticle.memberVO.memberNickName} -</span></a></div>
+			<span class="writersNickName">- ${completeMainArticle.memberVO.memberNickName} -</span></a>
 			<div class="social-line social-line-visible" data-buttons="4" style="width:100%; margin-top: 10px;">
 					<button class="btn btn-social btn-pinterest">
 						<span class="time_area">완결된<br>잇자!</span>
