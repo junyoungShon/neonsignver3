@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <footer>
-	<p>&copy; Company 2014</p>
+	<!-- 2015-12-19 대협수정 -->
+	<p><font color="black">&copy; Company 2014</font></p>
 </footer>
 <!-- Modal Email join   -->
 <div class="modal fade" id="memberJoinByEmailModal" tabindex="-1"
@@ -53,7 +54,9 @@
 								id="memberJoinInputRePassword" placeholder="암호를 한번 더 입력해주세요!">
 							<span class="glyphicon form-control-feedback" aria-hidden="ture"></span>
 						</div>
-						<!-- 2015-12-15 대협추가 -->
+						<!-- 2015-12-19 대협추가 -->
+						프로필에 표시할 이미지를 선택하세요!
+						<font size="1">(선택하지 않으면 기본 이미지가 할당됩니다.)</font>
 						<input type="file" name="file" accept="image/*">
 					</div>
 				</form>
@@ -254,9 +257,12 @@
 									작성 후 잇자 10개시 베스트로 이동되며,타임체크가 발동됩니다!<span class="userLength"></span>Byte/400Byte
 								</div></td>
 						</tr>
-						<!-- 2015-12-08 대협추가 <tr> -->
 						<tr>
-							<td><input type="file" name="file" accept="image/*">
+							<td>
+								<!-- 2015-12-19 대협추가 -->
+								주제글에 표시할 이미지를 선택하세요!
+								<font size="1">(선택하지 않으면 태그명에 따라 자동으로 이미지가 할당됩니다.)</font>
+								<input type="file" name="file" accept="image/*">
 							</td>
 						</tr>
 					</table>
@@ -407,7 +413,9 @@
 							id="memberupdateRepassword" placeholder="암호를 한번 더 입력해주세요!">
 						<span class="glyphicon form-control-feedback" aria-hidden="ture"></span>
 					</div>
-					<!-- 2015-12-15 대협추가 -->
+					<!-- 2015-12-19 대협추가 -->
+					프로필에 표시할 이미지를 선택하세요!
+					<font size="1">(선택하지 않으면 기본 이미지가 할당됩니다.)</font>
 					<input type="file" name="file" accept="image/*">
 
 				</form>

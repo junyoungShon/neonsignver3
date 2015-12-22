@@ -1,5 +1,6 @@
 package org.cobro.neonsign.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public interface UtilService {
 	int articleBlock(SubArticleVO subArticleVO);
 
 
-	public List<MainArticleVO> SearchOnTopMenu(String selector, String keyword);
+	public ArrayList<MainArticleVO> SearchOnTopMenu(String selector,String keyword, int pageNo, String tag);
 
 
 	public void saveSearch(String string);

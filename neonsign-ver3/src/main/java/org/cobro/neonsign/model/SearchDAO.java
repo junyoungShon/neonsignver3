@@ -15,11 +15,11 @@ public interface SearchDAO {
 
 	public List<MainArticleVO> articleSort(String sort);
 
-	public List<MainArticleVO> searchBytitle(String keyword);
+	public List<MainArticleVO> searchBytitle(String keyword, int pageNo, String tag);
 
-	public List<MainArticleVO> searchByContext(String keyword);
+	public List<MainArticleVO> searchByContext(String keyword, int pageNo, String tag);
 
-	public List<MainArticleVO> searchByNickName(String keyword);
+	public List<MainArticleVO> searchByNickName(String keyword, int pageNo, String tag);
 
 	public void insertSearch(String keyword);
 
@@ -27,5 +27,5 @@ public interface SearchDAO {
 
 	public List<HashMap<String, String>> selectReport();
 
-	public List<MainArticleVO> searchByPerson(String keyword);
+	public List<MainArticleVO> searchByPerson(String keyword, int pageNo, String tag);
 }
