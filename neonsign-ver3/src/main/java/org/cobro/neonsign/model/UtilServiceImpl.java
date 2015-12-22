@@ -10,14 +10,18 @@ import javax.annotation.Resource;
 import org.cobro.neonsign.vo.MainArticleVO;
 import org.cobro.neonsign.vo.MemberVO;
 import org.cobro.neonsign.vo.PagingBean;
+import org.cobro.neonsign.vo.RankingVO;
 import org.cobro.neonsign.vo.ReportListVO;
 import org.cobro.neonsign.vo.ReportVO;
 import org.cobro.neonsign.vo.SubArticleVO;
+import org.cobro.neonsign.vo.TagBoardVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UtilServiceImpl implements UtilService{
+	@Resource
+	private BoardDAO boardDAO;
 	@Resource
 	private SearchDAO searchDAO;
 	@Resource
@@ -252,19 +256,45 @@ public class UtilServiceImpl implements UtilService{
 		}
 		return reporterCheck;
 	}
+	
+	//2015-12-19 대협추가
 	@Override
-	public List<MainArticleVO> SearchOnTopMenu(String selector,String keyword) {
-		System.out.println("유틸서비스:"+selector+""+keyword);
-		
+	public ArrayList<MainArticleVO> SearchOnTopMenu(String selector,String keyword, int pageNo, String tag) {
+		ArrayList<MainArticleVO> list = new ArrayList<MainArticleVO>();
 		if(selector.equals("제목")){
-			return searchDAO.searchBytitle(keyword);
+			List<MainArticleVO> listByTitle =  searchDAO.searchBytitle(keyword, pageNo, tag);
+			list = (ArrayList<MainArticleVO>) listByTitle;
 		}else if(selector.equals("내용")){
-			return searchDAO.searchByContext(keyword);
+			List<MainArticleVO> listByContent = searchDAO.searchByContext(keyword, pageNo, tag);
+			list = (ArrayList<MainArticleVO>) listByContent;
 		}else if(selector.equals("작성자")){
-			return searchDAO.searchByNickName(keyword);
+			List<MainArticleVO> listByWriter =   searchDAO.searchByNickName(keyword, pageNo, tag);
+			list = (ArrayList<MainArticleVO>) listByWriter;
 		}else{
-			return searchDAO.searchByPerson(keyword);
+			List<MainArticleVO> listByPerson =   searchDAO.searchByPerson(keyword, pageNo, tag);
+			list = (ArrayList<MainArticleVO>) listByPerson;
 		}
+		
+		String tagName = "";
+		for(int i = 0 ; i<list.size() ; i++){
+			List<TagBoardVO> tagBoardList = boardDAO.getMainArticleTagList(list.get(i).getMainArticleNo());
+			for(int j = 0 ; j<tagBoardList.size() ; j++){
+				if(j == tagBoardList.size()-1){
+					tagName += "#" + tagBoardList.get(j).getTagName();
+				}else{
+					tagName += "#" +  tagBoardList.get(j).getTagName() + " ";
+				}
+				list.get(i).setTagName(tagName);
+			}
+			tagName = "";
+		}
+		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
+		for(int i = 0 ; i<list.size() ; i++){
+			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(list.get(i).getMemberVO()));
+			//System.out.println(rankingVOList);
+			list.get(i).getMemberVO().setRankingVO(rankingVOList.get(i));
+		}
+		return list;
 	}
 
 	@Transactional

@@ -205,8 +205,8 @@ $(document).ready(function(){ //DOM이 준비되고
 					}
 					}else{
 						infinityScrollTestSource +=
-							'<hr><h4>마지막 주제글입니다!</h4>'
-							+ '<input type="hidden" id="articleEnd" value="end"><hr>'
+							'<article class="white-panel"><h4>마지막 주제글입니다!</h4>'
+							+ '<input type="hidden" id="articleEnd" value="end"></article>'
 					}
 					$('.ajaxLoader').fadeOut(300);
 					$('#pinBoot').append(infinityScrollTestSource);
@@ -325,8 +325,124 @@ $(document).ready(function(){ //DOM이 준비되고
 						}
 						}else{
 							infinityScrollTestSource +=
-								'<hr><h4>마지막 주제글입니다!</h4>'
-								+ '<input type="hidden" id="articleEnd" value="end"><hr>'
+								'<article class="white-panel"><h4>마지막 주제글입니다!</h4>'
+								+ '<input type="hidden" id="articleEnd" value="end"></article>'
+						}
+						$('.ajaxLoader').fadeOut(300);
+						$('#pinBoot').append(infinityScrollTestSource);
+					}
+				});
+		}else if($("#articleType").val()=='searchArticle'){
+			var cardBox=$(".white-panel").length;
+			var pageNo=Math.ceil((cardBox/8)+1);
+			//정렬방식을 담는다. -대협-
+			var orderByComp = $("#orderBy").val();
+			var tagName = $("#tagName").val();
+			var keyword = $("#keyword").val();
+			var selector = $("#selector").val();
+				$.ajax({
+					type:"post",
+					url:"getSearchMainArticle.neon?pageNo="+pageNo+"&tagName="+tagName+"&orderBy="+orderByComp+"&keyword="+keyword+"&selector="+selector,
+					dataType:"json",
+					success:function(data){
+						if(data.searchList.length!=0){
+						for(var i=0; i<data.searchList.length; i++){
+							//잇자버튼을 위한 조건문
+							var mainLikeItHTML="";
+							if(data.itjaMemberList!=null){
+								var flag=true;
+	              			for(var j=0;j<data.itjaMemberList.length;j++){
+	              				if(data.itjaMemberList[j].mainArticleNo == data.searchList[i].mainArticleNo){
+	              					mainLikeItHTML 
+	              					='<button class="btn btn-social btn-twitter itja" style="width:23%; margin-top:10px;">'
+	              					+'<span class="itjaCount"><i class="fa fa-link"></i><br>'+data.searchList[i].mainArticleTotalLike+' it</span></button>'
+	              					+'<form name="itJaInfo" style="display:none;"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+	              					+'"><input type="hidden" name="mainArticleBlack" value="'+data.searchList[i].block+'">'
+	              					+'<input type="hidden" name="mainArticleNo" value="'+data.searchList[i].mainArticleNo
+	           						+'"><input type="hidden" name="subArticleNo" value=0></form></button>'
+	      							flag=false;
+	       							break;
+	      						}	
+	       					}
+	        				if(flag){
+	           					mainLikeItHTML 
+	           					='<button class="btn btn-social btn-twitter itja" style="width:23%;">'+
+	           					'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.searchList[i].mainArticleTotalLike+' it</span></button>'+
+	          					'<form name="itJaInfo" style="display:none;"><input type="hidden" name="memberEmail" value="'+data.itjaMemberList[0].memberEmail
+	          					+'"><input type="hidden" name="mainArticleBlack" value="'+data.searchList[i].block+'">'
+	           					+'"><input type="hidden" name="mainArticleNo" value="'+data.searchList[i].mainArticleNo
+	           					+'"><input type="hidden" name="subArticleNo" value=0></form></button>'
+	           					}
+	           				}
+	            			if(mainLikeItHTML==""){
+	            				mainLikeItHTML = 
+	          					'<button class="btn btn-social btn-twitter itja" style="width:23%;">'+
+	           					'<span class="itjaCount"><i class="fa fa-chain-broken"></i><br>'+data.searchList[i].mainArticleTotalLike+' it</span></button>'
+	             			}
+	            			
+							// alert(data.pickedList);
+	            			// 찜 버튼을 위한 조건문
+	            			var pickMainArticleHTML="";
+	            			if(data.pickedList!=null){
+								var pickFlag=true;
+	              			for(var j=0;j<data.pickedList.length;j++){
+	              				if(data.pickedList[j].mainArticleNo == data.searchList[i].mainArticleNo){
+	              					pickMainArticleHTML 
+	              					="<button class='btn btn-social btn-google pickBtn' style='width:23%;'>"
+	              						+"<span class='pickSpan'><i class='fa fa-heart'></i><br>찜!"
+	              						+"</span></button>"
+	              						+"<form name='pickInfo' style='display:none;'>"
+	              						+"<input type='hidden' name='memberEmail' value='"+data.pickedList[0].memberEmail+"'>"
+	              						+"<input type='hidden' name='mainArticleNo' value='"+data.searchList[i].mainArticleNo+"'>"
+	              						+"</form>";
+	           						pickFlag=false;
+	       							break;
+	      						}	
+	       					}
+	        				if(pickFlag){
+	        					pickMainArticleHTML 
+	           					="<button class='btn btn-social btn-google pickBtn' style='width:23%;'>"
+		           					+"<span class='pickSpan'><i class='fa fa-heart-o'></i><br>찜하자!"
+              						+"</span></button>"
+              						+"<form name='pickInfo' style='display:none;'>"
+              						+"<input type='hidden' name='memberEmail' value='"+data.pickedList[0].memberEmail+"'>"
+              						+"<input type='hidden' name='mainArticleNo' value='"+data.searchList[i].mainArticleNo+"'>"
+              						+"</form>";
+	           					}
+	           				}
+	            			if(pickMainArticleHTML==""){
+	            				pickMainArticleHTML 
+	           					="<button class='btn btn-social btn-google pickBtn' style='width:23%;'>"
+		           					+"<span class='pickSpan'><i class='fa fa-heart-o'></i><br>찜하자!"
+									+"</span></button>";
+	             			}
+							//추가될 카드 html문
+							infinityScrollTestSource +=
+								'<article class="white-panel"><div class="readArticleBtn">'
+								+'<h4><a href="#">' + data.searchList[i].mainArticleTitle + '</a></h4>'
+								+'<h6 class="category">' + data.searchList[i].tagName + '</h6>'
+								+'<img src="resources/uploadImg/articleBg/'+data.searchList[i].mainArticleImgVO.mainArticleImgName+'" alt="">'
+								+'<p class="card-content"/>'
+								+'<p class="description">' + data.searchList[i].mainArticleContent + '</p>'
+								+'<a href="mypage.neon?memberEmail=' + data.searchList[i].memberVO.memberEmail + '" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" data-toggle="popover" title="' + data.searchList[i].memberVO.memberNickName + '님, ' + data.searchList[i].memberVO.rankingVO.memberGrade + ' PTS(' + data.searchList[i].memberVO.memberPoint + ' / ' + data.searchList[i].memberVO.rankingVO.maxPoint + ')" data-content="' + data.searchList[i].memberVO.memberNickName + '님 Click하여 페이지 보기" >'
+								+'<span class="writersNickName">- ' + data.searchList[i].memberVO.memberNickName + ' -</span></a></div>'
+								+'<div class="social-line social-line-visible" data-buttons="4" style="width:100%;">'
+								+'<button class="btn btn-social btn-pinterest" style="width:23%;">'
+								+'<span class="time_area">새로운<br>잇자!</span>'
+								+'</button>'
+								+mainLikeItHTML
+								+pickMainArticleHTML
+								+'<button class="btn btn-social btn-facebook" style="width:23%;">'
+								+'<i class="fa fa-facebook-official"></i><br> 공유!'
+								+'</button>'
+								+'</div>'
+								+'<!-- end social-line social-line-visible -->'
+								+'</article>'
+						}
+						}else{
+							infinityScrollTestSource +=
+								'<article class="white-panel"><h4>마지막 주제글입니다!</h4>'
+								+ '<input type="hidden" id="articleEnd" value="end"></article>'
 						}
 						$('.ajaxLoader').fadeOut(300);
 						$('#pinBoot').append(infinityScrollTestSource);

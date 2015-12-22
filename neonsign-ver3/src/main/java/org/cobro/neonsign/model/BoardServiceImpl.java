@@ -710,10 +710,11 @@ public class BoardServiceImpl implements BoardService{
 		MainArticleImgVO mainArticleImgVO = boardDAO.selectMainArticleImg(articleNo);
 		return mainArticleImgVO;
 	}
+	//2015-12-19 대협추가
 	@Override
-	public List<MainArticleVO> SearchOnTopMenu(String selector, String keyword) {
+	public ArrayList<MainArticleVO> SearchOnTopMenu(String selector, String keyword, int pageNo, String tagName) {
 		// TODO Auto-generated method stub
-		return utilService.SearchOnTopMenu(selector,keyword);
+		return utilService.SearchOnTopMenu(selector,keyword, pageNo, tagName);
 	}
 	
 	

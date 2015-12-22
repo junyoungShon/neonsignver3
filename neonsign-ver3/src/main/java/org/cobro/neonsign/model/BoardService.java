@@ -73,7 +73,6 @@ public interface BoardService {
 	public void insertMainArticleImg(int articleNo, String imgName);
 	//이미지 로드 관련 메소드
 	public MainArticleImgVO selectMainArticleImg(int articleNo);
-	public List<MainArticleVO> SearchOnTopMenu(String selector, String keyword);
 	
 	// 가입 나이 조회
 	public int getJoinAgeByEmail(MemberVO memberVO);
@@ -90,4 +89,6 @@ public interface BoardService {
 	public List<ServiceCenterVO> serviceCenterList(int pageNumber);
 	public List<TagVO> selectListTagNameOrderBykeyWord(String keyword);
 	public MainArticleVO getMainArticleInfo(MainArticleVO mainArticleVO);
+	public ArrayList<MainArticleVO> SearchOnTopMenu(String selector, String keyword,
+			int pageNo, String tagName);
 }

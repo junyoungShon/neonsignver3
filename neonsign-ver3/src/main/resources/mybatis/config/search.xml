@@ -3,6 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="search">
+ 	<!-- 2015-12-19 대협추가 -->
  	<resultMap type="mainArticleVO" id="mainArticleResultMap">
 		<result property="mainArticleNo" column="MAIN_ARTICLE_NO" />
 		<result property="mainArticleTitle" column="MAIN_ARTICLE_TITLE" />
@@ -13,6 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="mainArticleDate" column="MAIN_ARTICLE_DATE" />
 		<result property="mainArticleUpdateDate" column="MAIN_ARTICLE_UPDATE_DATE" />
 		<result property="mainArticleComplete" column="MAIN_ARTICLE_COMPLETE" />
+		<result property="block" column="MAIN_ARTICLE_BLOCK" />
 		<result property="memberEmail" column="MEMBER_EMAIL"/>
 		<collection property="memberVO" column="MEMBER_EMAIL"
 			ofType="memberVO" javaType="memberVO" resultMap="memberResultMap" />
@@ -85,15 +87,31 @@ where MAIN_ARTICLE_TITLE like '%'||#{value}||'%' and m.MEMBER_EMAIL=b.MEMBER_EMA
 order by m.MAIN_ARTICLE_NO asc
  </select> -->
  
-<select id="searchBytitle" resultType="mainArticleVO" resultMap="mainArticleResultMap">
-select bm.MEMBER_NICKNAME, ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
-		ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date, 
-		ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_EMAIL, tb.TAG_NAME, bm.MEMBER_POINT
-		from main_article ma, brain_member bm, tag_board tb
-      where ma.MAIN_ARTICLE_TITLE like '%'||#{value}||'%' 
-      and ma.MEMBER_EMAIL=bm.MEMBER_EMAIL
-      and tb.MAIN_ARTICLE_NO = ma.MAIN_ARTICLE_NO
-      order by ma_date desc
+<!-- 2015-12-19 대협수정 -->
+<select id="searchBytitle" resultType="mainArticleVO" resultMap="mainArticleResultMap" parameterType="map">
+      select MAIN_ARTICLE_BLOCK,MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+      MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
+      MEMBER_EMAIL, MEMBER_POINT
+		from(
+			select MAIN_ARTICLE_BLOCK,MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, 
+			MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+			MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE, 
+			MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME, 
+			MEMBER_EMAIL, MEMBER_POINT, ceil(rownum/8) as page
+			from(
+				select ma.MAIN_ARTICLE_BLOCK,ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+				ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+				to_char(ma.MAIN_ARTICLE_DATE,'YYYY/MM/DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
+				to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
+				ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME,
+				bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT
+				from main_article ma, brain_member bm
+				where ma.MEMBER_EMAIL = bm.MEMBER_EMAIL 
+				and ma.MAIN_ARTICLE_TITLE like '%'||#{keyword}||'%'
+				order by ma.MAIN_ARTICLE_DATE desc
+			)
+		)
+		where page=#{pageNo}
  </select>
  
 <!--  <select id="searchByContext" resultType="mainArticleVO" resultMap="mainArticleResultMap">
@@ -103,15 +121,31 @@ where MAIN_ARTICLE_CONTENT like '%'||#{value}||'%' and m.MEMBER_EMAIL=b.MEMBER_E
 order by m.MAIN_ARTICLE_NO asc
  </select> -->
  
-<select id="searchByContext" resultType="mainArticleVO" resultMap="mainArticleResultMap">
-select bm.MEMBER_NICKNAME, ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
-		ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date, 
-		ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_EMAIL, tb.TAG_NAME, bm.MEMBER_POINT
-		from main_article ma, brain_member bm, tag_board tb
-      where ma.MAIN_ARTICLE_CONTENT like '%'||#{value}||'%' 
-      and ma.MEMBER_EMAIL=bm.MEMBER_EMAIL
-      and tb.MAIN_ARTICLE_NO = ma.MAIN_ARTICLE_NO
-      order by ma_date desc
+<!-- 2015-12-19 대협수정 -->
+<select id="searchByContext" resultType="mainArticleVO" resultMap="mainArticleResultMap" parameterType="map">
+      select MAIN_ARTICLE_BLOCK,MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+      MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
+      MEMBER_EMAIL, MEMBER_POINT
+		from(
+			select MAIN_ARTICLE_BLOCK,MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, 
+			MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+			MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE, 
+			MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME, 
+			MEMBER_EMAIL, MEMBER_POINT, ceil(rownum/8) as page
+			from(
+				select ma.MAIN_ARTICLE_BLOCK,ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+				ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+				to_char(ma.MAIN_ARTICLE_DATE,'YYYY/MM/DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
+				to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
+				ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME,
+				bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT
+				from main_article ma, brain_member bm
+				where ma.MEMBER_EMAIL = bm.MEMBER_EMAIL
+				and ma.MAIN_ARTICLE_CONTENT like '%'||#{keyword}||'%'
+				order by ma.MAIN_ARTICLE_DATE desc
+			)
+		)
+		where page=#{pageNo}
  </select>
  
  
@@ -122,18 +156,178 @@ where b.MEMBER_NICKNAME like '%'||#{value}||'%' and m.MEMBER_EMAIL=b.MEMBER_EMAI
 order by m.MAIN_ARTICLE_NO asc
  </select> -->
  
- <select id="searchByNickName" resultType="mainArticleVO" resultMap="mainArticleResultMap">
-select bm.MEMBER_NICKNAME, ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
-		ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date, 
-		ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_EMAIL, tb.TAG_NAME, bm.MEMBER_POINT
-		from main_article ma, brain_member bm, tag_board tb
-      where bm.MEMBER_NICKNAME like '%'||#{value}||'%' 
-      and ma.MEMBER_EMAIL=bm.MEMBER_EMAIL
-      and tb.MAIN_ARTICLE_NO = ma.MAIN_ARTICLE_NO
-      order by ma_date desc
+ <!-- 2015-12-19 대협수정 -->
+ <select id="searchByNickName" resultType="mainArticleVO" resultMap="mainArticleResultMap" parameterType="map">
+      select MAIN_ARTICLE_BLOCK,MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+      MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
+      MEMBER_EMAIL, MEMBER_POINT
+		from(
+			select MAIN_ARTICLE_BLOCK,MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, 
+			MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+			MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE, 
+			MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME, 
+			MEMBER_EMAIL, MEMBER_POINT, ceil(rownum/8) as page
+			from(
+				select ma.MAIN_ARTICLE_BLOCK,ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+				ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+				to_char(ma.MAIN_ARTICLE_DATE,'YYYY/MM/DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
+				to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
+				ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME,
+				bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT
+				from main_article ma, brain_member bm
+				where ma.MEMBER_EMAIL = bm.MEMBER_EMAIL 
+				and bm.MEMBER_NICKNAME like '%'||#{keyword}||'%' 
+				order by ma.MAIN_ARTICLE_DATE desc
+			)
+		)
+		where page=#{pageNo}
+ </select>
+
+<!-- 2015-12-19 대협수정 -->
+ <select id="searchByPerson"  resultType="mainArticleVO" resultMap="mainArticleResultMap" parameterType="map">
+ 	select MAIN_ARTICLE_BLOCK,MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+      MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
+      MEMBER_EMAIL, MEMBER_POINT
+		from(
+			select MAIN_ARTICLE_BLOCK,MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, 
+			MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+			MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE, 
+			MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME, 
+			MEMBER_EMAIL, MEMBER_POINT, ceil(rownum/8) as page
+			from(
+				select ma.MAIN_ARTICLE_BLOCK,ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+				ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+				to_char(ma.MAIN_ARTICLE_DATE,'YYYY/MM/DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
+				to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
+				ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME,
+				bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT
+				from main_article ma, brain_member bm, tag_board tb
+				where ma.MEMBER_EMAIL = bm.MEMBER_EMAIL 
+				and tb.MAIN_ARTICLE_NO = ma.MAIN_ARTICLE_NO
+				and bm.MEMBER_EMAIL like '%'||#{keyword}||'%' 
+				order by ma.MAIN_ARTICLE_DATE desc
+			)
+		)
+		where page=#{pageNo}
  </select>
  
-<insert id="insertSearch" >
+ <!-- 2015-12-19 대협추가 -->
+<select id="searchBytitleAsTag" resultType="mainArticleVO" resultMap="mainArticleResultMap" parameterType="map">
+      select MAIN_ARTICLE_BLOCK,MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+      MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
+      MEMBER_EMAIL, MEMBER_POINT
+		from(
+			select MAIN_ARTICLE_BLOCK,MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, 
+			MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+			MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE, 
+			MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME, 
+			MEMBER_EMAIL, MEMBER_POINT, ceil(rownum/8) as page
+			from(
+				select ma.MAIN_ARTICLE_BLOCK,ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+				ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+				to_char(ma.MAIN_ARTICLE_DATE,'YYYY/MM/DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
+				to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
+				ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME,
+				bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT
+				from main_article ma, brain_member bm, tag_board tb
+				where ma.MEMBER_EMAIL = bm.MEMBER_EMAIL
+				and tb.MAIN_ARTICLE_NO = ma.MAIN_ARTICLE_NO
+				and ma.MAIN_ARTICLE_TITLE like '%'||#{keyword}||'%'
+				and tb.TAG_NAME=#{tagName}
+				order by ma.MAIN_ARTICLE_DATE desc
+			)
+		)
+		where page=#{pageNo}
+ </select>
+ 
+ <!-- 2015-12-19 대협추가 -->
+<select id="searchByContextAsTag" resultType="mainArticleVO" resultMap="mainArticleResultMap" parameterType="map">
+      select MAIN_ARTICLE_BLOCK,MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+      MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
+      MEMBER_EMAIL, MEMBER_POINT
+		from(
+			select MAIN_ARTICLE_BLOCK,MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, 
+			MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+			MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE, 
+			MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME, 
+			MEMBER_EMAIL, MEMBER_POINT, ceil(rownum/8) as page
+			from(
+				select ma.MAIN_ARTICLE_BLOCK,ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+				ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+				to_char(ma.MAIN_ARTICLE_DATE,'YYYY/MM/DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
+				to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
+				ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME,
+				bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT
+				from main_article ma, brain_member bm, tag_board tb
+				where ma.MEMBER_EMAIL = bm.MEMBER_EMAIL
+				and tb.MAIN_ARTICLE_NO = ma.MAIN_ARTICLE_NO
+				and ma.MAIN_ARTICLE_CONTENT like '%'||#{keyword}||'%'
+				and tb.TAG_NAME=#{tagName}
+				order by ma.MAIN_ARTICLE_DATE desc
+			)
+		)
+		where page=#{pageNo}
+ </select>
+ 
+ <!-- 2015-12-19 대협추가 -->
+ <select id="searchByNickNameAsTag" resultType="mainArticleVO" resultMap="mainArticleResultMap" parameterType="map">
+      select MAIN_ARTICLE_BLOCK,MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+      MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
+      MEMBER_EMAIL, MEMBER_POINT
+		from(
+			select MAIN_ARTICLE_BLOCK,MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, 
+			MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+			MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE, 
+			MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME, 
+			MEMBER_EMAIL, MEMBER_POINT, ceil(rownum/8) as page
+			from(
+				select ma.MAIN_ARTICLE_BLOCK,ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+				ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+				to_char(ma.MAIN_ARTICLE_DATE,'YYYY/MM/DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
+				to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
+				ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME,
+				bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT
+				from main_article ma, brain_member bm, tag_board tb
+				where ma.MEMBER_EMAIL = bm.MEMBER_EMAIL
+				and tb.MAIN_ARTICLE_NO = ma.MAIN_ARTICLE_NO
+				and bm.MEMBER_NICKNAME like '%'||#{keyword}||'%'
+				and tb.TAG_NAME=#{tagName}
+				order by ma.MAIN_ARTICLE_DATE desc
+			)
+		)
+		where page=#{pageNo}
+ </select>
+ 
+ <!-- 2015-12-19 대협추가 -->
+ <select id="searchByPersonAsTag"  resultType="mainArticleVO" resultMap="mainArticleResultMap" parameterType="map">
+ 	select MAIN_ARTICLE_BLOCK,MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+      MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE,MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME,
+      MEMBER_EMAIL, MEMBER_POINT
+		from(
+			select MAIN_ARTICLE_BLOCK,MAIN_ARTICLE_NO, MAIN_ARTICLE_TITLE, 
+			MAIN_ARTICLE_CONTENT, MAIN_ARTICLE_TOTAL_LIKE, 
+			MAIN_ARTICLE_DATE, MAIN_ARTICLE_UPDATE_DATE, 
+			MAIN_ARTICLE_COMPLETE, MEMBER_NICKNAME, 
+			MEMBER_EMAIL, MEMBER_POINT, ceil(rownum/8) as page
+			from(
+				select ma.MAIN_ARTICLE_BLOCK,ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, 
+				ma.MAIN_ARTICLE_CONTENT, ma.MAIN_ARTICLE_TOTAL_LIKE, 
+				to_char(ma.MAIN_ARTICLE_DATE,'YYYY/MM/DD HH24:MI:SS') as MAIN_ARTICLE_DATE, 
+				to_char(ma.MAIN_ARTICLE_UPDATE_DATE,'YYYY-MM-DD HH24:MI:SS') as MAIN_ARTICLE_UPDATE_DATE, 
+				ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_NICKNAME as MEMBER_NICKNAME,
+				bm.MEMBER_EMAIL as MEMBER_EMAIL, bm.MEMBER_POINT as MEMBER_POINT
+				from main_article ma, brain_member bm, tag_board tb
+				where ma.MEMBER_EMAIL = bm.MEMBER_EMAIL 
+				and tb.MAIN_ARTICLE_NO = ma.MAIN_ARTICLE_NO
+				and bm.MEMBER_EMAIL like '%'||#{keyword}||'%'
+				and tb.TAG_NAME=#{tagName}
+				order by ma.MAIN_ARTICLE_DATE desc
+			)
+		)
+		where page=#{pageNo}
+ </select>
+ 
+ <insert id="insertSearch" >
 		insert into searchRanking values(#{value},1)
 	</insert>
  <update id="updateSearch" >
@@ -146,18 +340,6 @@ select bm.MEMBER_NICKNAME, ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_AR
 		) WHERE RANKING <= 15
 	]]>
 	</select>	
- 
-  <select id="searchByPerson"  resultType="mainArticleVO" resultMap="mainArticleResultMap">
-  select bm.MEMBER_NICKNAME, ma.MAIN_ARTICLE_NO, ma.MAIN_ARTICLE_TITLE, ma.MAIN_ARTICLE_CONTENT, 
-		ma.MAIN_ARTICLE_TOTAL_LIKE, to_char(ma.MAIN_ARTICLE_DATE, 'YYYY-MM-DD HH24:MI:SS') as ma_date, 
-		ma.MAIN_ARTICLE_UPDATE_DATE, ma.MAIN_ARTICLE_COMPLETE, bm.MEMBER_EMAIL, tb.TAG_NAME, bm.MEMBER_POINT
-	from main_article ma, brain_member bm, tag_board tb
-    where bm.MEMBER_EMAIL like '%'||#{value}||'%' 
-      and ma.MEMBER_EMAIL=bm.MEMBER_EMAIL
-      and tb.MAIN_ARTICLE_NO = ma.MAIN_ARTICLE_NO
-    order by ma_date desc
- 
- </select>
  </mapper> 		
 
  

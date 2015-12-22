@@ -3,19 +3,30 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-
+<!-- 2015-12-19 대협수정 -->
 <!-- 태그 소트 버튼 부분 -->
-
-
-<div class="container tags-container">
-	<c:forEach items="${requestScope.tagVOList}" var="tagList">
-		<span>#${tagList.tagName}</span>
+<div class="container tags-container" style="margin-top:100px;">
+	<h2 class="itjaMainTitle">인기 태그 best5</h2>
+	<c:forEach items="${requestScope.tagVOList}" var="tagList" begin="0" end="4">
+		<span class="tagName">#${tagList.tagName}</span><span class="tagCount" style="display: none; color:gray">${tagList.searchCount}</span> 
 	</c:forEach>
+	<br><br><span id="selectedTagCount" style="display: none; color:gray">${tagList.searchCount}</span> 
 </div>
-<a href="report.neon">검색어 순위보기</a>
+	<div class="" style="width:400px; margin:0 auto;">
+	    <div class="ui-widget">
+	    <span class="input-group-btn">
+			<input type="text" class="form-control tagSearcher"  id="search" name="search" placeholder="태그 검색해보세요!" style="display:inline; margin:0 auto; margin-top:20px;">
+            <button type="button" class="btn btn-default" id="tagSerch_result"><span class="fa fa-search"></span></button>
+	    </span>
+			  <label for="tagSearcher">Tags: </label>
+		</div>
+		<span class="selectedTagName"></span>
+	</div>
+<!--  태그 소트 버튼 끝 -->
+<%-- <a href="report.neon">검색어 순위보기</a>
 <table class="table table-hover">
 <thead align="center">
-<tr>
+	<tr>
 		<td>순위</td>
 		<td>검색어</td>
 		<td>조회수</td>
@@ -30,15 +41,20 @@
 </tr>
 </c:forEach>
 </tbody>
-</table>	
+</table>	 --%>
+<!-- 2015-12-19 대협추가 -->
+<h2 class="itjaMainTitle">'${requestScope.map.selector}' 키워드로<br> '${requestScope.map.keyword}' 검색 결과</h2>
 <!--  태그 소트 버튼 끝 -->
 <section id="pinBoot">
 	<c:forEach var="searchList" items="${requestScope.list}">
-		<article class="white-panel newMainArticle">
+		<article class="white-panel searchMainArticle">
 			<!-- 2015-12-14 대협추가 -->
 			<div class="readArticleBtn">
-				<input type="hidden" id="articleType" value="mainArticle">
-				<input type="hidden" id="newMainArticleNo" value="${searchList.mainArticleNo}">
+				<input type="hidden" id="articleType" value="searchArticle">
+				<!-- 2015-12-19 대협추가 -->
+				<input type="hidden" id="keyword" value="${requestScope.map.keyword}">
+				<input type="hidden" id="selector" value="${requestScope.map.selector}">
+				<input type="hidden" id="searchMainArticleNo" value="${searchList.mainArticleNo}">
 				<h4><a href="#">${searchList.mainArticleTitle}</a></h4>
 				<h6 class="category">
 					${searchList.tagName}
@@ -51,7 +67,8 @@
 				<p class="description">
 					${newMainArticleContent}
 				</p>
-				<a href="mypage.neon?memberEmail=${searchList.memberVO.memberEmail}" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" data-toggle="popover" title="${newMainArticle.memberVO.memberNickName}님, ${newMainArticle.memberVO.rankingVO.memberGrade} PTS(${newMainArticle.memberVO.memberPoint} / ${newMainArticle.memberVO.rankingVO.maxPoint})" data-content="${newMainArticle.memberVO.memberNickName}님 Click하여 페이지 보기" >
+				<!-- 2015-12-19 대협수정 -->
+				<a href="mypage.neon?memberEmail=${searchList.memberVO.memberEmail}" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" data-toggle="popover" title="${searchList.memberVO.memberNickName}님, ${searchList.memberVO.rankingVO.memberGrade} PTS(${searchList.memberVO.memberPoint} / ${searchList.memberVO.rankingVO.maxPoint})" data-content="${searchList.memberVO.memberNickName}님 Click하여 페이지 보기" >
 				<span class="writersNickName">- ${searchList.memberVO.memberNickName} -</span></a>
 			</div>
 			<div class="social-line social-line-visible" data-buttons="4" style="width:100%; margin-top:10px;">

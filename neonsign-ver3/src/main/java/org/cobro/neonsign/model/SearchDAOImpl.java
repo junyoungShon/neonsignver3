@@ -37,25 +37,62 @@ public class SearchDAOImpl implements SearchDAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	//2015-12-19 대협추가
 	@Override
-	public List<MainArticleVO> searchBytitle(String text) {
+	public List<MainArticleVO> searchBytitle(String keyword, int pageNo, String tag) {
 		//System.out.println("제목 DAO:"+text);
-		
-		return sqlSessionTemplate.selectList("search.searchBytitle",text);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("keyword", keyword);
+		map.put("pageNo", String.valueOf(pageNo));
+		if(!tag.equals("")){
+			map.put("tagName", tag);
+			return sqlSessionTemplate.selectList("search.searchBytitleAsTag", map);
+		}else{
+			return sqlSessionTemplate.selectList("search.searchBytitle",map);
+		}
 	}
-
+	//2015-12-19 대협추가
 	@Override
-	public List<MainArticleVO> searchByContext(String keyword) {
+	public List<MainArticleVO> searchByContext(String keyword, int pageNo, String tag) {
 		//System.out.println("내용 DAO:"+keyword);
-		return sqlSessionTemplate.selectList("search.searchByContext", keyword);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("keyword", keyword);
+		map.put("pageNo", String.valueOf(pageNo));
+		if(!tag.equals("")){
+			map.put("tagName", tag);
+			return sqlSessionTemplate.selectList("search.searchByContextAsTag", map);
+		}else{
+			return sqlSessionTemplate.selectList("search.searchByContext", map);
+		}
 	}
-
+	//2015-12-19 대협추가
 	@Override
-	public List<MainArticleVO> searchByNickName(String keyword) {
+	public List<MainArticleVO> searchByNickName(String keyword, int pageNo, String tag) {
 		//System.out.println("닉네임 DAO:"+keyword);
-		return sqlSessionTemplate.selectList("search.searchByNickName", keyword);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("keyword", keyword);
+		map.put("pageNo", String.valueOf(pageNo));
+		if(!tag.equals("")){
+			map.put("tagName", tag);
+			return sqlSessionTemplate.selectList("search.searchByNickNameAsTag", map);
+		}else{
+			return sqlSessionTemplate.selectList("search.searchByNickName", map);
+		}
 	}
-
+	//2015-12-19 대협추가
+	@Override
+	public List<MainArticleVO> searchByPerson(String keyword, int pageNo, String tag) {
+		// TODO Auto-generated method stub
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("keyword", keyword);
+		map.put("pageNo", String.valueOf(pageNo));
+		if(!tag.equals("")){
+			map.put("tagName", tag);
+			return sqlSessionTemplate.selectList("search.searchByPersonAsTag", map);
+		}else{
+			return sqlSessionTemplate.selectList("search.searchByPerson",map);
+		}
+	}
 
 	@Override
 	public void insertSearch(String keyword){
@@ -73,10 +110,5 @@ public class SearchDAOImpl implements SearchDAO{
 		return sqlSessionTemplate.selectList("search.selectSearch");
 	}
 
-	@Override
-	public List<MainArticleVO> searchByPerson(String keyword) {
-		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectList("search.searchByPerson",keyword);
-	}
 
 }
