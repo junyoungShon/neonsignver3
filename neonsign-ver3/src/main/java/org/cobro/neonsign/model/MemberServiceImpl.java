@@ -314,7 +314,6 @@ public class MemberServiceImpl implements MemberService{
 		 */
 		@Override
 		public void saveAutoLogInfo(String alIDCookie, String alKeyCookie) {
-			System.out.println(alIDCookie + ", " + alKeyCookie);
 			memberDAO.saveAutoLogInfo(alIDCookie, alKeyCookie);
 		}
 		
@@ -344,5 +343,6 @@ public class MemberServiceImpl implements MemberService{
 		public void deleteMemberCookieByMemberEmail(String memberEmail) {
 			memberDAO.deleteMemberCookieByMemberEmail(memberEmail);
 		}
+		
 		
 }

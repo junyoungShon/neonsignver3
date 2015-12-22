@@ -274,7 +274,7 @@ SERVICE_CENTER_DATE,SERVICE_CENTER_EMAIL from(
    where MEMBER_EMAIL=#{value} and MEMBER_ACTION='최종접속일'
    </select>
    
-   <!-- 자동로그인 정보 쿠키칼럼에 넣기 -->
+   <!-- 자동로그인 정보 멤버Table 쿠키의 난수를 추가 -->
    <update id="saveAutoLogInfo" parameterType="map">
    		update brain_member set MEMBER_AUTOLOGIN_MD5=#{alKeyCookie}
    		where MEMBER_EMAIL=#{alIDCookie}
@@ -296,36 +296,5 @@ SERVICE_CENTER_DATE,SERVICE_CENTER_EMAIL from(
    		where MEMBER_EMAIL=#{value}
    </update>
    
-   
 </mapper> 		
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

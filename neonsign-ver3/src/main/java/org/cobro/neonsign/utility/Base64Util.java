@@ -33,7 +33,7 @@ public class Base64Util {
 	}
 
 	/**
-	 * Base64Decoding 수행한다
+	 * Base64Decoding 수행
 	 */
 	public static byte[] decode(String strDecode) {
 		BASE64Decoder base64Decoder = new BASE64Decoder();

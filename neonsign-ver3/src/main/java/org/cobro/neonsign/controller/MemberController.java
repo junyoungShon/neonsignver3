@@ -47,11 +47,10 @@ public class MemberController {
 			HttpServletResponse response) throws Exception {
 		// 재 로그인시 자동로그인여부를 확인하여 로그인을 처리하는 부분
 		ModelAndView mav = new ModelAndView();
-	    // 쿠키값을 체크.
 	    String strALID = "";
 	    String strALMD5 = "";
 	    Cookie[] cookies = request.getCookies();
-	    if(cookies != null){
+	    if(cookies != null){  // 쿠키값이 있을시, 저장해둔 email과 난수값을 받아옴
 	        for (int i = 0; i < cookies.length; i++) {
 	            Cookie thisCookie = cookies[i];
 	            if ("COOKIE_MEMBER_EMAIL".equals(thisCookie.getName())){
@@ -63,18 +62,14 @@ public class MemberController {
 	        }
 	        // 쿠키의 이메일을 보내서 해당 이메일의 난수값 가져옴
 	        String strALKey = memberService.getMemberAutologinMD5(strALID);
-	        // System.out.println("strALKey : " + strALKey + ", strALMD5 : " + strALMD5);
-	        // System.out.println("secu : " + SecurityUtil.getCryptoMD5String(strALKey));
-	        if(strALKey != null && strALKey.equals(strALMD5)){
-	            // 로그인 정보 일치
-	            // 쿠키정보를 업데이트한다(쿠키 저장기간이 한달로 지정되어 있으므로 그냥 두면 한달 뒤에 끊겨버림. 새로 갱신.)
+	        if(strALKey != null && strALKey.equals(strALMD5)){  // 쿠키와 로그인 정보 일치
+	            // 쿠키정보를 업데이트한다(저장기간을 갱신한다)
 	            Cookie[] cookiesUpdate = request.getCookies();
 	            for (int i = 0; i < cookiesUpdate.length; i++) {
 	                Cookie thisCookie = cookiesUpdate[i];
 	                if ("COOKIE_MEMBER_EMAIL".equals(thisCookie.getName()) && "MEMBER_AUTOLOGIN_MD5".equals(thisCookie.getName())) {
-	                    thisCookie.setMaxAge(2592000);    // 한달간 저장
+	                    thisCookie.setMaxAge(2592000);  // 한달간 저장
 	                    response.addCookie(thisCookie); 
-	                    System.out.println("update thisCookie : " + thisCookie.getValue());
 	                }
 	            }
 	            // 로그인 수행
@@ -93,7 +88,6 @@ public class MemberController {
 	                if ("COOKIE_MEMBER_EMAIL".equals(thisCookie.getName()) || "MEMBER_AUTOLOGIN_MD5".equals(thisCookie.getName())) {
 	                    thisCookie.setMaxAge(0);
 	                    response.addCookie(thisCookie); 
-	                    // System.out.println("del thisCookie : " + thisCookie.getValue());
 	                }
 	            }
 	            mav = new ModelAndView("index");
@@ -167,8 +161,7 @@ public class MemberController {
 			}
 			request.getSession().setAttribute("memberVO", memberVO);
 			mav = new ModelAndView("redirect:getMainList.neon");
-			// 자동로그인
-			System.out.println("confirmSaveLog : " + confirmSaveLog);
+			// 자동로그인 체크여부에 따라 작동
 			if(confirmSaveLog!=null){
 			    String MD5String = "";
 			    String MD5Key    = "";
@@ -182,18 +175,15 @@ public class MemberController {
 			        MD5String = SecurityUtil.getCryptoMD5String(MD5Key);
 			    }catch(Exception e) {
 			        e.printStackTrace();
-			        System.out.println("에러맨");
 			    }
 			    // 쿠키에 아이디 저장
 			    Cookie alIDCookie = new Cookie("COOKIE_MEMBER_EMAIL", memberVO.getMemberEmail());
-			    alIDCookie.setMaxAge(2592000);    // 한달간 저장(최대 자동로그인 기간은 한달)
+			    alIDCookie.setMaxAge(2592000);  // 한달간 저장(최대 자동로그인 기간은 한달)
 			    response.addCookie(alIDCookie);
-			    System.out.println("alIDCookie : " + alIDCookie.getValue());
 			    // 쿠키에 암호화된 문자열 저장
 			    Cookie alKeyCookie = new Cookie("MEMBER_AUTOLOGIN_MD5", MD5String);
 			    alKeyCookie.setMaxAge(2592000);
 			    response.addCookie(alKeyCookie);
-			    System.out.println("alKeyCookie : " + alKeyCookie.getValue());
 			    // MD5 키값을 DB에 저장
 			    memberService.saveAutoLogInfo(alIDCookie.getValue(), alKeyCookie.getValue());
 			}
@@ -212,6 +202,7 @@ public class MemberController {
 		return mav;
 	}
 	
+	// 로그아웃시 해당 회원 DB의 쿠키난수값 null로 변경
 	@RequestMapping("memberLogout.neon")
 	public ModelAndView memberlogout(HttpServletRequest request){
 		HttpSession session=request.getSession(false);
