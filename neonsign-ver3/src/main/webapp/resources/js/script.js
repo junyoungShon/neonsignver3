@@ -1362,7 +1362,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		}
 	});
 	
-	// 이어진 글 신고 버튼 클릭시 실행되는 스크립트
+	// 이어진 글 신고 버튼 클릭시 실행되는 Script
 	$('.linkingSubArticleContentInModal').on('click','.articleReport',function(){
 		var dataForm=$($(this).next()).serialize();
 		if(confirm("해당글을 신고 하시겠습니까?")){
