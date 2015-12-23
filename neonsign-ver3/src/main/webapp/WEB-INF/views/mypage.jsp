@@ -111,7 +111,7 @@
 			<!-- 탭3 -->
 			<div class="btn-group" role="group">
 				<button type="button" id="following" class="btn btn-default" href="#tab3" data-toggle="tab"><i class="fa fa-users"></i>
-					<div class="hidden-xs">Scription Info</div>
+					<div class="hidden-xs">Subscription Info</div>
 				</button>
 			</div>
 		</div>

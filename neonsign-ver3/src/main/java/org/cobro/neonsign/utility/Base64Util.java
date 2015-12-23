@@ -4,9 +4,7 @@ import sun.misc.*;
 import java.io.*;
 
 /**
- * Filename : Base64Util.java Class : Base64Util Function : Base64
  * Encoding/Decoding을 수행하는 클래스
- * 
  * 실제 던져진 해쉬함수에 의한 결과를 System.out으로 찍게 되면 찌그러진 코드형태로 나오게 되는데
  * 이것을 우리 눈으로 비교하여 String문자비교를 통하여 추후 사용할 수 있도록 Base64 인코딩
  * @author JeSeong Lee
@@ -16,11 +14,7 @@ public class Base64Util {
 	}
 
 	/**
-	 * Base64Encoding을 수행한다. binany in ascii out
-	 * 
-	 * @param encodeBytes
-	 *            encoding할 byte array
-	 * @return encoding 된 String
+	 * Base64Encoding을 수행
 	 */
 
 	public static String encode(byte[] encodeBytes) {
@@ -34,17 +28,12 @@ public class Base64Util {
 			System.out.println("Exception");
 			e.printStackTrace();
 		}
-
 		buf = bout.toByteArray();
 		return new String(buf).trim();
 	}
 
 	/**
-	 * Base64Decoding 수행한다. binany out ascii in
-	 * 
-	 * @param strDecode
-	 *            decoding할 String
-	 * @return decoding 된 byte array
+	 * Base64Decoding 수행
 	 */
 	public static byte[] decode(String strDecode) {
 		BASE64Decoder base64Decoder = new BASE64Decoder();

@@ -371,6 +371,7 @@ public class MemberDAOImpl implements MemberDAO{
 	 */
 	@Override
 	public void saveAutoLogInfo(String alIDCookie, String alKeyCookie) {
+		// 2가지 정보를 담기위해 Map 생성
 		HashMap<String, String> logInfoCookie= new HashMap<String, String>();
 		logInfoCookie.put("alIDCookie", alIDCookie);
 		logInfoCookie.put("alKeyCookie", alKeyCookie);
@@ -394,9 +395,14 @@ public class MemberDAOImpl implements MemberDAO{
 	public String getMemberPasswordByCookieEmail(String strALID) {
 		return sqlSessionTemplate.selectOne("member.getMemberPasswordByCookieEmail", strALID);
 	}
-
+	
+	/**
+	 * 로그아웃시 DB의 쿠키난수 null로 변경
+	 * @author JeSeong Lee
+	 */
 	@Override
 	public void deleteMemberCookieByMemberEmail(String memberEmail) {
-		sqlSessionTemplate.delete("member.deleteMemberCookieByMemberEmail", memberEmail);
+		sqlSessionTemplate.update("member.deleteMemberCookieByMemberEmail", memberEmail);
 	}
+	
 }

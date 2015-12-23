@@ -462,7 +462,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	$('.tags-container>span').click(function(){
 		var tagName = $(this);
 		var infinityScrollTestSource = "";
-		$("#getNowTagName").html('<h4>'+tagName.text()+' 잇자 검색결과</h4>');
+		$("#getNowTagName").html('<h3 class="itjaMainTitle">'+tagName.text()+' 태그 검색결과</h3>');
 		if($("#articleType").val()=="completeArticle"){
 			$.ajax({
 				type:"post",
@@ -683,7 +683,7 @@ $(document).ready(function(){ //DOM이 준비되고
 	$('#tagSerch_result').click(function(){
 		var tagName = $(this).siblings("input[name='search']");
 		var infinityScrollTestSource = "";
-		$("#getNowTagName").html('<h4>'+$(tagName).val()+' 잇자 검색결과</h4>');
+		$("#getNowTagName").html('<h3 class="itjaMainTitle">'+$(tagName).val()+' 태그 검색결과</h3>');
 		if($("#articleType").val()=="completeArticle"){
 			$.ajax({
 				type:"post",
@@ -2952,9 +2952,26 @@ $(document).ready(function(){ //DOM이 준비되고
 function autoLogSave(checkLogSave){
 	var autoMsg;
 	if(checkLogSave.checked){
-		autoMsg = confirm("자동로그인 하시겠습니까?");
+		autoMsg = confirm("자동로그인 하시겠습니까?, 로그아웃시 해제됩니다");
 		if(!autoMsg){
 			checkLogSave.checked = false;
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

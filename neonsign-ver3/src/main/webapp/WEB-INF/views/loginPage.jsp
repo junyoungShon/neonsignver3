@@ -160,7 +160,7 @@ body{
                             <input type="password" name="memberPassword" id="key" class="form-control input-md" placeholder="Password">
                         </div>
                         <input type="submit" id="btn-login" class="btn btn-default btn-lg btn-block" value="Log in"><br>
-                  		<label><input type="checkbox" name="confirmSaveLog" onclick="autoLogSave(this)">입력을 기억합니다</label>
+                  		<label><input type="checkbox" name="confirmSaveLog" onclick="autoLogSave(this)">로그인 상태 유지</label>
                     </form>
                     <br>
 				    <span class="registerB">
