@@ -154,24 +154,21 @@
 			</tbody>
 			<tfoot>
 				<tr>
-					<td colspan="10"><c:if
-							test="${requestScope.adminList.blokcMemberList.pagingBean.previousPageGroup}">
+					<td colspan="10"><c:if test="${requestScope.adminList.blokcMemberList.pagingBean.previousPageGroup}">
 							<button class="memberReportPaging">◀</button>
 							<span>
 							<input type="hidden" class="pageNo" value="${requestScope.adminList.blokcMemberList.pagingBean.previousPage}">
 							<input type="hidden" class="pagingType" value="blockMemberList">
 							</span>
-							<%-- <input type="button"  value="${requestScope.adminList.mainReportList.pagingBean.previousPage}"> --%>
-						</c:if> <c:forEach
-							begin="${requestScope.adminList.blokcMemberList.pagingBean.startPageOfPageGroup }"
-							end="${requestScope.adminList.blokcMemberList.pagingBean.endPageOfPageGroup }"
-							var="i">
+						</c:if> <c:forEach begin="${requestScope.adminList.blokcMemberList.pagingBean.startPageOfPageGroup }"
+							end="${requestScope.adminList.blokcMemberList.pagingBean.endPageOfPageGroup }" var="i">
 							<button class="memberReportPaging">${i}</button>
 							<span> 
 							<input type="hidden" class="pageNo" value="${i}"> 
 							<input type="hidden" class="pagingType" value="blockMemberList">
-							</span>&nbsp;</c:forEach> <c:if
-							test="${requestScope.adminList.blokcMemberList.pagingBean.nextPageGroup}">
+							</span>&nbsp;
+							</c:forEach>
+							<c:if test="${requestScope.adminList.blokcMemberList.pagingBean.nextPageGroup}">
 							<button class="memberReportPaging">▶</button>
 							<span>
 							<input type="hidden" class="pageNo" value="${requestScope.adminList.blokcMemberList.pagingBean.nextPage}">
@@ -183,7 +180,7 @@
 		</table>   
 </div>
 
-<!-- 게시물 신고 리스트 --> 
+<!--주제글 신고 리스트 --> 
     <div role="tabpanel" class="tab-pane mainList"  id="boardReport" >
      	<h3>주제글 신고리스트</h3>
 		<table border="1" class="table table-hover">
@@ -253,7 +250,7 @@
 	</div>
 
 
-<!-- 잇자글 신고 리스트 --> 
+<!-- 잇는글 신고 리스트 --> 
 <div role="tabpanel" class="tab-pane mainList" id="repleReport" >
      	<h3>잇자글 신고리스트</h3>
 		<table border="1" class="table table-hover">
@@ -307,7 +304,6 @@
 							<input type="hidden" class="pageNo" value="${requestScope.adminList.subReportList.pagingBean.previousPage}">
 							<input type="hidden" class="pagingType" value="subArticleList">
 							</span>
-							<%-- <input type="button"  value="${requestScope.adminList.subReportList.pagingBean.previousPage}"> --%>
 						</c:if> <c:forEach
 							begin="${requestScope.adminList.subReportList.pagingBean.startPageOfPageGroup }"
 							end="${requestScope.adminList.subReportList.pagingBean.endPageOfPageGroup }"
@@ -330,7 +326,7 @@
 	</div>
 
 
-<!-- 문의사항 -->
+<!-- 문의글 리스트 -->
 <div role="tabpanel" class="tab-pane mainList" id="Questions">
 	<h1>문의글 보기</h1>
 <table border="1" class="table table-hover">

@@ -18,17 +18,19 @@ public class ReportDAOImpl implements ReportDAO{
 	private SqlSessionTemplate sqlSessionTemplate;
 
 	@Override
+	/**
+	 * 주제글 신고 리스트를 받아옴
+	 * @author 윤택
+	 */
 	public List<ReportVO> mainArticleReportList(int pageNo) {
-		List<ReportVO> list=null;
-		try{
-		 list=sqlSessionTemplate.selectList("report.mainArticleReportList",pageNo);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		return list;
+		 return sqlSessionTemplate.selectList("report.mainArticleReportList",pageNo);
 	}
 
 	@Override
+	/**
+	 * 잇는글 신고 리스트를 받아옴
+	 * @author 윤택
+	 */
 	public List<ReportVO> subArticleReportList(int pageNo) {
 		List<ReportVO> list=sqlSessionTemplate.selectList("report.subArticleReportList",pageNo);
 		//System.out.println(list);
@@ -36,13 +38,49 @@ public class ReportDAOImpl implements ReportDAO{
 	}
 
 	@Override
+	/**
+	 * 해당 신고를 신고리스트에서 delete
+	 * @author 윤택
+	 */
 	public void deleteByNotify(ReportVO notifyVO) {
-		// TODO Auto-generated method stub
-		try{
 		sqlSessionTemplate.delete("report.deleteByReport",notifyVO);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+	}
+	
+	@Override
+	/**
+	 * 신고 리스트의 신고자들을 삭제
+	 * @author 윤택
+	 */
+	public void deleteByReporter(ReportVO notifyVO) {
+		sqlSessionTemplate.delete("report.deleteByReporter",notifyVO);
+	}
+
+	@Override
+	/**
+	 * stagesOfProcess 를 신고처리로 update해주는 메서드
+	 * @author 윤택
+	 */
+	public void stagesOfProcess(int reportNumber) {
+		 sqlSessionTemplate.update("report.stagesOfProcess",reportNumber);
+	
+	}
+	
+	@Override
+	/**
+	 * 신고한 회원들의 리스트를 받아오는 메서드
+	 * @author 윤택
+	 */
+	public List<String> reporterNames(int reportNumber) {
+		return sqlSessionTemplate.selectList("report.reporterNames",reportNumber);
+	}
+
+	@Override
+	/**
+	 * 회원의 포인트를 10 지급해주는 메서드 
+	 * @author 윤택
+	 */
+	public void memberPointUpdate(String email) {
+		sqlSessionTemplate.update("report.memberPointUpdate",email);
 	}
 
 	@Override
@@ -68,58 +106,13 @@ public class ReportDAOImpl implements ReportDAO{
 		return null;
 	}
 
-	@Override
-	/**
-	 * 신고한 회원들의 리스트를 받아오는 메서드
-	 * @author 윤택
-	 */
-	public List<String> reporterNames(int reportNumber) {
-		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectList("report.reporterNames",reportNumber);
-	}
-
-	@Override
-	/**
-	 * 회원의 포인트를 10 지급해주는 메서드 
-	 * @author 윤택
-	 */
-	public void memberPointUpdate(String email) {
-		// TODO Auto-generated method stub
-		sqlSessionTemplate.update("report.memberPointUpdate",email);
-
-	}
-
-	@Override
-	/**
-	 * 신고 리스트의 신고자들을 삭제
-	 * @author 윤택
-	 */
-	public void deleteByReporter(ReportVO notifyVO) {
-		// TODO Auto-generated method stub
-		sqlSessionTemplate.delete("report.deleteByReporter",notifyVO);
-	}
-
-	@Override
-	/**
-	 * stagesOfProcess 를 신고처리로 update해주는 메서드
-	 * @author 윤택
-	 */
-	public void stagesOfProcess(int reportNumber) {
-		// TODO Auto-generated method stub
-		 sqlSessionTemplate.update("report.stagesOfProcess",reportNumber);
-	}
 	/**
 	 * 주제글을 신고하는 메서드
 	 * @author 윤택
 	 */
 	@Override
 	public void mainArticleReport(MainArticleVO mainArticleVO) {
-		// TODO Auto-generated method stub
-		//System.out.println("신고 할려는 주제글 넘버 : "+mainArticleVO.getMainArticleNo());
 		sqlSessionTemplate.insert("report.mainArticleReport",mainArticleVO);
-		//int reportNo=sqlSessionTemplate.selectOne("report.nowReportNumber");
-		//System.out.println("신고 번호 : "+reportNo);
-		
 	}
 	/**
 	 * 잇는글을 신고하는 메서드

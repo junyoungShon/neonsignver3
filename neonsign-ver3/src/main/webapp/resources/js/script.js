@@ -999,11 +999,14 @@ $(document).ready(function(){ //DOM이 준비되고
 		detailItjaView(mainArticleNO,"new");
 		$('#cardDetailView').modal();
 	});*/
+	
 	//완결글 디테일 뷰(완) - 무한 스크롤 
 	$('#pinBoot').on('click','.readArticleBtn',function(){
-		//alert('완결 글 무한 스크롤')
 		var mainArticleNO =$(this).next().children().find(':input[name="mainArticleNo"]').eq(0).val();
 		var mainArticleBlack =$(this).next().children().find(':input[name="mainArticleBlack"]').eq(0).val();
+		if(mainArticleNO==null){
+			mainArticleNO=$(this).parent().find(':input[name="mainArticleNo"]').eq(0).val();
+		}
 		if(mainArticleBlack==1){
 			alert("해당글은 관리자에 의해 차단된 글 입니다.");
 		}else{
@@ -1994,33 +1997,37 @@ $(document).ready(function(){ //DOM이 준비되고
 		  e.preventDefault()
 		  $(this).tab('show')
 		})
+		
 	/**
      * 관리자가 회원리스트에서 해당 회원을
-     * Block 하는 스크립트
+     * 서비스 중지 하는 스크립트
      */
     $('#memberReportList').on('click','.memberBlock',function () {
     	var memberEmail=$(this).parent().parent().children().eq(0).text();
-    	if(confirm("해당 회원을 Block 하시겠습니까?")){
+    	if(confirm("해당 회원의 서비스를 중지 하시겠습니까?")){
     		document.location.href = "memberBlock.neon?memberEmail="+memberEmail;
-        	alert("해당 회원이 Block 되었습니다");
+        	alert("해당 회원의 서비스가 중지 되었습니다");
 
     	}
 		return false;
 	});
+	
     /**
      * 관리자가 회원리스트에서 해당 회원을
-     * Block 해제 하는 스크립트
+     * 서비스 시작 하는 스크립트
      */
 	$('#blockMemberReportList').on('click','.memberService',function () {
    	var memberEmail=$(this).parent().parent().children().eq(0).text();
-   	if(confirm("해당 회원을 Block해제 하시겠습니까?")){
+   	if(confirm("해당 회원의 서비스를 시작 하시겠습니까?")){
    		document.location.href = "memberBlockRelease.neon?memberEmail="+memberEmail;
-    	alert("해당 회원이 Block 해제 되었습니다");
+    	alert("해당 회원의 서비스를 시작 되었습니다");
 
    	}
 		return false;
 	});
-
+	/**
+	 * 주제글을 신고 처리 하는 스크립트
+	 */
 	$('#mainReportList').on('click','.boardReport',function () {
 		var subArticleNO=$(this).parent().parent().children().eq(4).text();
 		var articleNO=$(this).parent().parent().children().eq(2).text();
@@ -2033,6 +2040,20 @@ $(document).ready(function(){ //DOM이 준비되고
 		
 	});
 	
+	/**
+	 * 잇는글을 신고 처리 하는 스크립트
+	 */
+	$('#subReportList').on('click','.boardReport',function () {
+		var subArticleNO=$(this).parent().parent().children().eq(4).text();
+		var articleNO=$(this).parent().parent().children().eq(2).text();
+		var reportNO=$(this).parent().parent().children().eq(1).text();
+		if(confirm("신고처리 하시겠습니까?")){
+			location.href="adminPageDeleteArticle.neon?reportNO="+reportNO+"&articleNO="+articleNO+"&subArticleNO="+subArticleNO+
+			"&command=report";
+			alert("신고처리 되었습니다");
+		}
+	});
+
 	$('#mainReportList').on('click','.ReportCancle',function () {
 		var subArticleNO=$(this).parent().parent().children().eq(4).text();
 		var articleNO=$(this).parent().parent().children().eq(2).text();
@@ -2044,16 +2065,6 @@ $(document).ready(function(){ //DOM이 준비되고
 		}
 	});
    
-	$('#subReportList').on('click','.boardReport',function () {
-		var subArticleNO=$(this).parent().parent().children().eq(4).text();
-		var articleNO=$(this).parent().parent().children().eq(2).text();
-		var reportNO=$(this).parent().parent().children().eq(1).text();
-		if(confirm("신고처리 하시겠습니까?")){
-			location.href="adminPageDeleteArticle.neon?reportNO="+reportNO+"&articleNO="+articleNO+"&subArticleNO="+subArticleNO+
-			"&command=report";
-			alert("신고처리 되었습니다");
-		}
-	});
 
 	$('#subReportList').on('click','.ReportCancle',function () {
 		var subArticleNO=$(this).parent().parent().children().eq(4).text();

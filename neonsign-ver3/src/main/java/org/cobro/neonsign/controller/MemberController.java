@@ -269,7 +269,7 @@ public class MemberController {
 	}*/
 
 	/**
-	 * 회원 이메일을 받아 그 회원을 블락 시키는 메서드
+	 * 회원 이메일을 받아 그 회원의 서비스를 정지 시키는 메서드
 	 * @author 윤택
 	 */
 	@RequestMapping("memberBlock.neon")
@@ -280,7 +280,7 @@ public class MemberController {
 	}
 	
 	/**
-	 * 회원 이메일을 받아 그 회원을 블락 시키는 메서드
+	 * 회원 이메일을 받아 그 회원의 서비스를 시작 시키는 메서드
 	 * @author 윤택
 	 */
 	@RequestMapping("memberBlockRelease.neon")
@@ -292,7 +292,7 @@ public class MemberController {
 	
 	/**
 	 * 관리자 페이지에서 일반&블락 회원멤버들 리스트를 출력
-	 * @author 한솔
+	 * @author 윤택
 	 */
 	@RequestMapping("getMemberList.neon")
 	public ModelAndView getMemberList(HttpServletRequest request,MemberVO mvo){

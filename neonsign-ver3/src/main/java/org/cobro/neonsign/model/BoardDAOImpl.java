@@ -414,19 +414,26 @@ public class BoardDAOImpl implements BoardDAO{
 		return sqlSessionTemplate.selectList("board.getItjaListByMemberEmail",memberEmail);
 	}
 	@Override
+	
+	/**
+	 * 주제글을 Block 처리하는 메서드
+	 * @author 윤택
+	 */
 	public void articleBlock(MainArticleVO mavo) {
-		// TODO Auto-generated method stub
+		// 주제글의 Block 컬럼을 1로 업데이트(1이면 Block)
 		sqlSessionTemplate.update("board.articleBlock",mavo);
 	}
+	
 	/**
 	 * 잇는글을 Block 처리하는 메서드
 	 * @author 윤택
 	 */
 	@Override
 	public void subArticleBlock(int subArticleNumber) {
-		// TODO Auto-generated method stub
+		//잇는글의 Block 컬럼을 1로 업데이트(1이면 Block)
 		sqlSessionTemplate.update("board.subArticleBlock",subArticleNumber);
 	}
+	
 	/**
 	 * 해당 글의 총 잇자수를 받아온다.
 	 * @author junyoung

@@ -274,12 +274,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       select max(SUB_ARTICLE_GRADE)+1 as SUB_ARTICLE_GRADE from sub_article where MAIN_ARTICLE_NO=#{mainArticleNo} and IS_CONNECT=1
    </select>
 	
-	<!-- mainArticle을 Block처리 하는 메서드 -->
+	<!-- 주제글을 Block처리 하는 메서드 -->
 	<update id="articleBlock" parameterType="mainArticleVO" >
 		update main_article set MAIN_ARTICLE_BLOCK=1 where MAIN_ARTICLE_NO=#{mainArticleNo}
 	</update>
 	
-	<!-- subArticle을 Block처리 하는 메서드 -->
+	<!-- 잇는글을 Block처리 하는 메서드 -->
 	<update id="subArticleBlock" parameterType="mainArticleVO" >
 		update sub_article set SUB_ARTICLE_BLOCK=1 where SUB_ARTICLE_NO=#{value}
 	</update>
