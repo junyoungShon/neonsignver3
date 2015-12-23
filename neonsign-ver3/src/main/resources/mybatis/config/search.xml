@@ -328,15 +328,15 @@ order by m.MAIN_ARTICLE_NO asc
  </select>
  
  <insert id="insertSearch" >
-		insert into searchRanking values(#{value},1)
+		insert into SEARCH_BOARD(KEYWORD, SEARCH_COUNT) values(#{value},1)
 	</insert>
  <update id="updateSearch" >
-		update searchRanking set cnt=cnt+1 where keyword=#{value}
+		update SEARCH_BOARD set SEARCH_COUNT=SEARCH_COUNT+1 where KEYWORD=#{value}
 	</update>
  <select id="selectSearch" resultType="map">
 	<![CDATA[
-		SELECT KEYWORD,CNT,RANKING FROM(
-		SELECT KEYWORD,CNT,RANK() OVER(ORDER BY cnt DESC) AS RANKING FROM searchRanking
+		SELECT KEYWORD,SEARCH_COUNT,RANKING FROM(
+		SELECT KEYWORD,SEARCH_COUNT,RANK() OVER(ORDER BY SEARCH_COUNT DESC) AS RANKING FROM SEARCH_BOARD
 		) WHERE RANKING <= 15
 	]]>
 	</select>	

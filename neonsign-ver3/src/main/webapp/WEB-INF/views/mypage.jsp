@@ -786,7 +786,7 @@
 									</div>
 									<!-- 카드7. 태그 정보 아이콘 내용 -->
 									<div class="text">
-										<var>${fn:length(writeTagListbyEmailList)}</var>
+										<var>${fn:length(requestScope.writeTagListbyEmailList)}</var>
 										<label class="text-muted">작성 TAGs</label>
 									</div>
 									<!-- 카드7. 태그 정보 하단 버튼 -->

@@ -207,22 +207,22 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 	
 	/**
-	 * Email로 멤버의 랭킹 정보 조회
-	 * @author JeSeong Lee 
-	 */
-	@Override
-	public RankingVO getMemberRankingByMemberEmail(MemberVO memberVO) {
-		return sqlSessionTemplate.selectOne("board.getMemberRankingByMemberEmail", memberVO);
-	}
-	
-	/**
-	 * Email로 멤버 닉네임, email 등 불러옴
+	 * Email로 MemberVO의 필요 정보를 set하기 위함
 	 * 닉네임 눌러서 마이페이지 넘어갈 때 사용
 	 * @author JeSeong Lee 
 	 */
 	@Override
 	public MemberVO getMemberVOByEmail(MemberVO memberVO) {
 		return sqlSessionTemplate.selectOne("board.getMemberVOByEmail", memberVO);
+	}
+	
+	/**
+	 * Email로 멤버의 랭킹 정보 조회(Member_Grade)
+	 * @author JeSeong Lee 
+	 */
+	@Override
+	public RankingVO getMemberRankingByMemberEmail(MemberVO memberVO) {
+		return sqlSessionTemplate.selectOne("board.getMemberRankingByMemberEmail", memberVO);
 	}
 	
 	/**
@@ -533,7 +533,7 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 	
 	/**
-	 * email로 마이페이지 Tag갯수 불러옴
+	 * email로 mypage의 사용한 Tag갯수 불러옴
 	 * @author JeSeong Lee
 	 */
 	@Override

@@ -231,7 +231,7 @@ create sequence service_center_seq;
 --drop table SERVICE_CENTER
 --select * from SERVICE_CENTER;
 ----------------------------------------------------------------------
--- ** 회원 행동 테이블 ** -----------------------------------------------------
+-- ** 회원 활동 테이블 ** -----------------------------------------------------
 create table MEMBER_ACTION(
    MEMBER_EMAIL varchar2(50) not null,
    MEMBER_ACTION varchar2(25) not null,
@@ -242,14 +242,6 @@ create table MEMBER_ACTION(
 );
 -- drop table MEMBER_ACTION
 -- select * from MEMBER_ACTION
-----------------------------------------------------------------------
--- ** 검색어 테이블 ** -----------------------------------------------------
-create table searchRanking(
-   KEYWORD varchar2(30) primary key,
-   CNT number not null
-);
--- DROP table searchRanking
--- select * from searchRanking
 -----------------------------------------------------------------------------------
 -- ** 회원 신고 테이블 ** -----------------------------------------------------
 create table MEMBER_REPORT(
