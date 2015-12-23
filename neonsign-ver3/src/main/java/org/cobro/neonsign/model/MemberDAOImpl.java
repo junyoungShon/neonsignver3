@@ -21,13 +21,13 @@ public class MemberDAOImpl implements MemberDAO{
 
 	@Override
 	public MemberVO findMemberByEmail(String emailComp) {
-		// TODO Auto-generated method stub
+		
 		return sqlSessionTemplate.selectOne("member.findMemberByEmail", emailComp);
 	}
 
 	@Override
 	public MemberVO findMemberByNickName(String nameComp) {
-		// TODO Auto-generated method stub
+		
 		return sqlSessionTemplate.selectOne("member.findMemberByNickName", nameComp);
 	}
 
@@ -38,7 +38,7 @@ public class MemberDAOImpl implements MemberDAO{
 
 	@Override
 	public int memberUpdate(MemberVO memberVO) {
-		// TODO Auto-generated method stub
+		
 		//System.out.println(memberVO.getMemberPassword());
 		return sqlSessionTemplate.update("member.memberUpdate",memberVO);
 	}
@@ -53,52 +53,49 @@ public class MemberDAOImpl implements MemberDAO{
 
 	@Override
 	public void memberDelete(MemberVO memberVO) {
-		// TODO Auto-generated method stub
+		
 		 sqlSessionTemplate.update("member.memberDelete",memberVO);
 	}
 
 	@Override
 	public ArrayList<MemberVO> getNotifyMemberList(MemberVO mvo) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
+	/**
+	 * 일반 회원 리스트를 받아온다
+	 * @author 윤택
+	 */
 	public List<MemberVO> getMemberList(int pageNo) {
-		//System.out.println("getMemberList 실행");
-		List<MemberVO> list=null;
-		try{
-		list=sqlSessionTemplate.selectList("member.RegisterMemberList",pageNo);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return list;
-	}
-
-	@Override
-	public void memberBlock(String memberEmail) {
-		// TODO Auto-generated method stub
-		try{
-			sqlSessionTemplate.update("member.memberBlock",memberEmail);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
+		return sqlSessionTemplate.selectList("member.RegisterMemberList",pageNo);
 	}
 
 	@Override
 	/**
-	 * 불량회원 리스트를 받아오는 메서드
+	 * 회원의 서비스를 중지 시킨다
+	 * @author 윤택
+	 */
+	public void memberBlock(String memberEmail) {
+			sqlSessionTemplate.update("member.memberBlock",memberEmail);
+	}
+
+	@Override
+	/**
+	 * 불량회원 리스트를 받아온다
+	 * @author 윤택
 	 */
 	public List<MemberVO> getBlockMemberList(int pageNo) {
-		// TODO Auto-generated method stub
+		
 		return sqlSessionTemplate.selectList("member.blockMemberList",pageNo);
 	}
 
 	@Override
+	/**
+	 * 회원의 서비스를 시작 시킨다
+	 */
 	public void memberBlockRelease(String memberEmail) {
-		// TODO Auto-generated method stub
-		//System.out.println(memberEmail);
 		sqlSessionTemplate.update("member.memberBlockRelease",memberEmail);
 	}
 
@@ -157,7 +154,7 @@ public class MemberDAOImpl implements MemberDAO{
 	 * 일반회원 수
 	 */
 	public int allMembers() {
-		// TODO Auto-generated method stub
+		
 		return sqlSessionTemplate.selectOne("member.allMembers");
 	}
 
@@ -166,7 +163,7 @@ public class MemberDAOImpl implements MemberDAO{
 	 * 불량회원 수
 	 */
 	public int allBlockMembers() {
-		// TODO Auto-generated method stub
+		
 		return sqlSessionTemplate.selectOne("member.allBlockMembers");
 	}
 	/**
@@ -297,7 +294,7 @@ public class MemberDAOImpl implements MemberDAO{
 
 		/**
 		 * 문의글리스트
-		 * @author 재영
+		 * @author 윤택
 		 */
 		@Override
 		public List<ServiceCenterVO> ServiceCenterList(int pageNo){
@@ -327,7 +324,7 @@ public class MemberDAOImpl implements MemberDAO{
 	 */
 	@Override
 	public int memberLastLoginDateUpdate(MemberVO memberVO) {
-		// TODO Auto-generated method stub
+		
 		return sqlSessionTemplate.update("member.memberLastLoginDateUpdate",memberVO);
 	}
 	/**
@@ -335,19 +332,26 @@ public class MemberDAOImpl implements MemberDAO{
 	 */
 	@Override
 	public void memberLastLoginDateInsert(MemberVO memberVO) {
-		// TODO Auto-generated method stub
+		
 		sqlSessionTemplate.insert("member.memberLastLoginDateInsert",memberVO);
 	}
 
 	@Override
+	/**
+	 * 회원의 정지일을 업데이트
+	 * @author 윤택
+	 */
 	public int memberBlackdateUpdate(String memberEmail) {
-		// TODO Auto-generated method stub
 		return sqlSessionTemplate.update("member.memberBlackdateUpdate",memberEmail);
 	}
 
 	@Override
+	/**
+	 * 회원의 정지일을 생성
+	 * @author 윤택
+	 */
 	public void memberBlackdateInsert(String memberEmail) {
-		// TODO Auto-generated method stub
+		
 		sqlSessionTemplate.insert("member.memberBlackdateInsert",memberEmail);
 	}
 
@@ -357,8 +361,7 @@ public class MemberDAOImpl implements MemberDAO{
 	 */
 	@Override
 	public String getLastLoginDate(String memberEmail) {
-		// TODO Auto-generated method stub
-		System.out.println(memberEmail);
+		
 		return sqlSessionTemplate.selectOne("member.getLastLoginDate",memberEmail);
 	}
 	

@@ -64,7 +64,7 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	/**
 	 * 회원 리스트를 받아오는 메서드
-	 * @author 장1솔
+	 * @author 윤택
 	 */
 	public MemberListVO getMemberList(int pageNo) {
 		// TODO Auto-generated method stub
@@ -82,7 +82,7 @@ public class MemberServiceImpl implements MemberService{
 
 	/**
 	 * 불량 회원 리스트를 받아오는 메서드
-	 * @author 장1솔
+	 * @author 윤택
 	 */
 	public MemberListVO getBlockMemberList(int pageNo){
 		PagingBean pb=null;
@@ -98,7 +98,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 	@Override
 	/**
-	 * 회원 이메일을 받아 그 회원을 블락 시키는 메서드
+	 * 회원 이메일을 받아 그 회원의 서비스를 중지 시키는 메서드
 	 * @author 윤택
 	 */
 	public void memberBlock(String memberEmail) {
@@ -113,14 +113,14 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	/**
-	 * 회원 이메일을 받아 그 회원을 블락해제 시키는 메서드
+	 * 회원 이메일을 받아 그 회원의 서비스를 시작 시키는 메서드
 	 * @author 윤택
 	 */
 	@Override
 	public void memberBlockRelease(String memberEmail) {
-		// TODO Auto-generated method stub
 		memberDAO.memberBlockRelease(memberEmail);
 	}
+	
 	/**
 	 * pickedVO가 없는 초기 회원의 로그인을 위한 디폴트 로그인
 	 * @author junyoung
@@ -262,7 +262,7 @@ public class MemberServiceImpl implements MemberService{
 		
 	/**
 	 * 문의글 리스트를 받아오는 메서드
-	 * @author 재영
+	 * @author 윤택
 	 */
 		@Override
 		public ServiceCenterListVO ServiceCenterList(int pageNo){

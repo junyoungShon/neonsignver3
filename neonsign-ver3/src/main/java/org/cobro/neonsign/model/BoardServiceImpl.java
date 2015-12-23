@@ -378,8 +378,9 @@ public class BoardServiceImpl implements BoardService{
 	public List<MainArticleVO> searchByKeyWord(String keyword) {
 		return utilService.searchByKeyword(keyword);
 	}
+	
 	/**
-	 *신고리스트를 받아오는 메서드
+	 *주제글의 신고리스트를 받아오는 메서드
 	 * @author 윤택
 	 */
 	@Override
@@ -388,6 +389,7 @@ public class BoardServiceImpl implements BoardService{
 		return utilService.mainArticleReportList(pageNo);
 		
 	}
+	
 	@Override
 	/**
 	 * 잇는글의 신고리스트를 받아오는 메서드
@@ -397,14 +399,17 @@ public class BoardServiceImpl implements BoardService{
 		// TODO Auto-generated method stub
 		return utilService.subArticleReportList(pageNo);
 	}
+	
 	@Override
 	/**
-	 * 관리자가 게시물신고를 신고처리하여
-	 * 해당 게시물을 Block하는 메서드 
+	 * 관리자가 주제글 신고를 신고처리하여
+	 * 해당 주제글을 Block하는 메서드 
 	 * @author 윤택
 	 */
 	public void articleBlock(MainArticleVO mavo, int reportNumber) {
+		//주제글을 Block으로 업데이트
 		boardDAO.articleBlock(mavo);
+		//처리형황을 대기 -> 신고처리로 업데이트
 		utilService.stagesOfProcess(reportNumber);
 	}
 	
@@ -415,10 +420,12 @@ public class BoardServiceImpl implements BoardService{
 	 */
 	@Override
 	public void subArticleBlock(int subArticleNumber, int articleNumber, int reportNumber) {
-		// TODO Auto-generated method stub
+		//잇는글을 Block으로 업데이트
 		boardDAO.subArticleBlock(subArticleNumber);
+		//처리현황을 대기 -> 신고처리로 업데이트
 		utilService.stagesOfProcess(reportNumber);
 	}
+	
 	/**
 	 * 관리자가 게시물신고를 반려처리하여 
 	 * 신고 리스트에서 없애는 메서드
@@ -426,8 +433,11 @@ public class BoardServiceImpl implements BoardService{
 	 */
 	@Override
 	public void reportListDelete(ReportVO nvo) {
+		//신고번호를 받아와 해당 신고글을 DataBase에서
+		//Delete해준다
 		utilService.deleteByNotify(nvo);
 	}
+	
 	@Override
 	public Map<String, Object> boardStatistics() {
 		Map<String,Object>map=new HashMap<String,Object>();
@@ -652,9 +662,9 @@ public class BoardServiceImpl implements BoardService{
 	 * @author 윤택
 	 */
 	public void memberPointUpdate(int reportNumber) {
-		// TODO Auto-generated method stub
 		utilService.memberPointUpdate(reportNumber);
 	}
+	
 	/**
 	 * 신고에 관한 서비스를 담당하는 메서드
 	 * 게시물을 신고처리하고 
@@ -800,12 +810,14 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	/**
-	 * 문의글 페이징
+	 * 문의글 리스트를 받아오는 메서드
+	 * @author 윤택
 	 */
 	@Override
 	public List<ServiceCenterVO> serviceCenterList(int pageNumber) {
 		return boardDAO.serviceCenterList(pageNumber);
 	}
+	
 	/**
 	 * 키워드에 따라 일치하는 태그 리스트 들을 불러온다.
 	 * @author junyoung

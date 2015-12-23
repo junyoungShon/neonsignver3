@@ -58,6 +58,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			ofType="mainArticleVO" javaType="arrayList" resultMap="mainArticleResultMap" />
    </resultMap>
    
+   <!-- 신고를 Delete -->
+ 	<delete id="deleteByReport" parameterType="reportVO">
+ 	delete REPORT where REPORT_NO=#{reportNo}
+ 	</delete>
+ 	
+ 	<!-- 신고자들을 Delete -->
+ 	<delete id="deleteByReporter" parameterType="reportVO">
+ 	delete REPORTER where REPORT_NO=#{reportNo}
+ 	</delete>
+ 	
+ 	 <!-- 신고현황을 신고처리로 Upadet -->
+ 	<update id="stagesOfProcess" >
+ 	update report set STAGES_OF_PROCESS='신고처리'  where REPORT_NO=#{value}
+ 	</update>
+ 	
+ 	 <!-- 신고한 회원들의 이메일들을 받아옴 -->
+ 	<select id="reporterNames" resultType="string">
+ 	select MEMBER_EMAIL from reporter where REPORT_NO=#{value}
+ 	</select>
+ 	
+ 	 <!-- 신고한 회원들에게 10포인트 지급 -->
+ 	<update id="memberPointUpdate">
+ 	update BRAIN_MEMBER SET MEMBER_POINT=MEMBER_POINT+10 
+	WHERE MEMBER_EMAIL=#{reportNo}
+ 	</update>
+ 	
    <!-- 주제글의 신고 리스트를 페이징하는 쿼리 -->
  	<select id="mainArticleReportList" resultType="reportVO" resultMap="reportResultMap">
  	select REPORT_NO,MAIN_ARTICLE_NO,MAIN_ARTICLE_TITLE,MEMBER_EMAIL,
@@ -92,22 +118,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		) 
  		where page=#{value}
  	</select>
- 	<select id="reporterNames" resultType="string">
- 			select MEMBER_EMAIL from reporter where REPORT_NO=#{value}
- 	</select>
- 	<update id="memberPointUpdate">
- 			update BRAIN_MEMBER SET MEMBER_POINT=MEMBER_POINT+10 
-		WHERE MEMBER_EMAIL=#{reportNo}
- 	</update>
- 	<update id="stagesOfProcess" >
- 	update report set STAGES_OF_PROCESS='신고처리'  where REPORT_NO=#{value}
- 	</update>
- 	<delete id="deleteByReport" parameterType="reportVO">
- 	delete REPORT where REPORT_NO=#{reportNo}
- 	</delete>
- 	<delete id="deleteByReporter" parameterType="reportVO">
- 	delete REPORTER where REPORT_NO=#{reportNo}
- 	</delete>
  	
  	<!-- 주제글 신고 생성 하는 쿼리 -->
  	<insert id="mainArticleReport" parameterType="mainArticleVO">
