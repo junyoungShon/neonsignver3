@@ -56,11 +56,6 @@ MEMBER_PROFILE_IMG_NAME clob default 'basicImg/abok.png', -- 2015-12-15 대협�
 MEMBER_AUTOLOGIN_MD5 varchar2(24) -- COOKIE용 랜덤값 추가
 );
 -- drop table BRAIN_MEMBER
--- alter table BRAIN_MEMBER add(MEMBER_PROFILE_IMG_NAME clob default 'basicImg/abok.png');
--- alter table BRAIN_MEMBER modify(MEMBER_AUTOLOGIN_MD5 varchar2(24))
--- alter table BRAIN_MEMBER rename column PROFILE_IMG_NAME to MEMBER_PROFILE_IMG_NAME;
--- alter table BRAIN_MEMBER modify(MEMBER_NICKNAME varchar2(24) not null)
--- alter table BRAIN_MEMBER modify(MEMBER_PASSWORD varchar2(54) not null)
 -- select * from BRAIN_MEMBER;
 -----------------------------------------------------------------------------------
 -- ** 주제글 테이블, 시퀀스 생성 / 삭제 ** --------------------------------------------------------

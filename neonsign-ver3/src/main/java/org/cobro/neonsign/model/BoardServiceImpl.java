@@ -673,7 +673,6 @@ public class BoardServiceImpl implements BoardService{
 	 */
 	public String articleReport(MainArticleVO mainArticleVO , SubArticleVO subArticleVO , MemberVO memberVO){
 		return utilService.articleReport(mainArticleVO, subArticleVO, memberVO);
-	
 	}
 	
 	/**
@@ -688,16 +687,17 @@ public class BoardServiceImpl implements BoardService{
 	
 	/**
 	 * 작성한 태그중 가장 많이 사용한 Tag를 불러옴
-	 * 새로가입한 사람 마이페이지 오류를 수정함(2015.12.10)
 	 * @author JeSeong Lee
 	 */
 	@Override
 	public TagBoardVO getMostWriteTagByEmail(MemberVO memberVO) {
+		// 작성한 Tag List를 작성횟수와 함께 반환
 		ArrayList<TagBoardVO> mostWriteTagByEmailList
-		= (ArrayList<TagBoardVO>) boardDAO.getMostWriteTagByEmail(memberVO);
-		TagBoardVO tagBoardVO = null;
+			= (ArrayList<TagBoardVO>) boardDAO.getMostWriteTagByEmail(memberVO);
+		TagBoardVO tagBoardVO = null;  // 작성 Tag가 없으면 null값을 셋팅해준다
 		if(mostWriteTagByEmailList.size()!=0){
 			tagBoardVO = mostWriteTagByEmailList.get(0);
+			// 작성 횟수가 가장 많은 첫 번째 index를 set해줌
 		}
 		return tagBoardVO;
 	}
@@ -782,10 +782,12 @@ public class BoardServiceImpl implements BoardService{
 		List<SubscriptionInfoVO> SubscriptingInfoList = boardDAO.getSubscriptingInfoListBySubscriberEmail(memberVO);
 		ArrayList<MainArticleVO> subscriptingMainArticleVOList = new ArrayList<MainArticleVO>();
 		for(int m = 0 ; m<SubscriptingInfoList.size() ; m++){
-			List<MainArticleVO> subscriptingMainArticleNoList = boardDAO.getSubscriptingMainArticleNoBySubscriberEmail(SubscriptingInfoList.get(m).getPublisher());
+			List<MainArticleVO> subscriptingMainArticleNoList
+			= boardDAO.getSubscriptingMainArticleNoBySubscriberEmail(SubscriptingInfoList.get(m).getPublisher());
 			for(int n = 0 ; n<subscriptingMainArticleNoList.size() ; n++){
 				subscriptingMainArticleNoList.get(n);
-				subscriptingMainArticleVOList.add(boardDAO.getMainArticleByMainArticleNoOrderByDate(subscriptingMainArticleNoList.get(n).getMainArticleNo()));
+				subscriptingMainArticleVOList.add(
+						boardDAO.getMainArticleByMainArticleNoOrderByDate(subscriptingMainArticleNoList.get(n).getMainArticleNo()));
 			}
 		}
 		String tagName = "";

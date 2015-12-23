@@ -548,6 +548,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where SUBSCRIBER = #{memberEmail}
 	</select>
 	
+	<!-- 구독자 email로 구독중인 글 번호 받기 -->
+	<select id="getSubscriptingMainArticleNoBySubscriberEmail" resultMap="mainArticleResultMap">
+		select MAIN_ARTICLE_NO	from main_article where MEMBER_EMAIL= #{value}
+	</select>
 	
 	<!-- 완결 표시 붙이기 -->
 	<select id="selectMainArticleTitleByMainArticleNo" resultMap="mainArticleResultMap">
@@ -556,11 +560,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="appendToCompleteArticle">
 		update main_article set MAIN_ARTICLE_TITLE = #{mainArticleTitle} where main_article_no = #{mainArticleNo}  
 	</update>
-	
-	<!-- 구독자 email로 구독중인 글 번호 받기 -->
-	<select id="getSubscriptingMainArticleNoBySubscriberEmail" resultMap="mainArticleResultMap">
-		select MAIN_ARTICLE_NO	from main_article where MEMBER_EMAIL= #{value}
-	</select>
 	
 	
 </mapper> 		

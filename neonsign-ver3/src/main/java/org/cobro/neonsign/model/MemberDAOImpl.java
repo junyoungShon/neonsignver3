@@ -262,6 +262,7 @@ public class MemberDAOImpl implements MemberDAO{
 	public int deleteSubscriptionInfoVO(SubscriptionInfoVO subscriptionInfoVO) {
 		return sqlSessionTemplate.delete("member.deleteSubscriptionInfoVO", subscriptionInfoVO);
 	}
+	
 	/**
 	 * ajax용 게시자이메일로 구독자들리스트 받아옴
 	 * @author JeSeong Lee
@@ -273,7 +274,7 @@ public class MemberDAOImpl implements MemberDAO{
 	}
 	
 	/**
-	 * 구독자(세션의 이메일) 이메일로 구독리스트 받아옴
+	 * 구독자(세션의 이메일) 이메일로 구독리스트 받아옴 : 세션에 다시 set
 	 * @author JeSeong Lee
 	 */
 	@Override

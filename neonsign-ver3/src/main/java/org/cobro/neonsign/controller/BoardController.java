@@ -760,7 +760,6 @@ public class BoardController {
 			}
 		}
 		mav.addObject("joinMainArticleList", joinMainArticleList);
-		
 		// 구독자 email주소로 구독중인 글 받아오기
 		List<MainArticleVO> subscriptingMainArticleList
 			= boardService.getSubscriptingMainArticleBySubscriberEmailOrderByDate(memberVO);

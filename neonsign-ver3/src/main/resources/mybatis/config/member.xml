@@ -258,6 +258,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from SUBSCRIPTION_INFO
 		where SUBSCRIBER=#{subscriber}
     </select>
+    
    <!-- 문의글 쓰는 쿼리 -->
 	<insert id="ServiceCenterinsert" parameterType="serviceCenterVO">
 	insert into SERVICE_CENTER(SERVICE_CENTER_NO,SERVICE_CENTER_TITLE,SERVICE_CENTER_CONTENT,SERVICE_CENTER_DATE,SERVICE_CENTER_EMAIL) 
