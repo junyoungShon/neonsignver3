@@ -188,7 +188,7 @@ $(document).ready(function(){ //DOM이 준비되고
 							+'<p class="card-content"/>'
 							+'<p class="description">' + data.completeMainArticleArrayList[i].mainArticleContent + '</p>'
 							+'<a href="mypage.neon?memberEmail=' + data.completeMainArticleArrayList[i].memberVO.memberEmail + '" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" data-toggle="popover" title="' + data.completeMainArticleArrayList[i].memberVO.memberNickName + '님, ' + data.completeMainArticleArrayList[i].memberVO.rankingVO.memberGrade + ' PTS(' + data.completeMainArticleArrayList[i].memberVO.memberPoint + ' / ' + data.completeMainArticleArrayList[i].memberVO.rankingVO.maxPoint + ')" data-content="' + data.completeMainArticleArrayList[i].memberVO.memberNickName + '님 Click하여 페이지 보기" >'
-							+'<span class="writersNickName">- ' + data.completeMainArticleArrayList[i].memberVO.memberNickName + ' -</span></a></div>'
+							+'</div><span class="writersNickName">- ' + data.completeMainArticleArrayList[i].memberVO.memberNickName + ' -</span></a>'
 							+'<div class="social-line social-line-visible" data-buttons="4" style="width:100%;">'
 							+'<button class="btn btn-social btn-pinterest" style="width:23%;">'
 							+'<span class="time_area">완결된<br>잇자!</span>'
@@ -308,7 +308,7 @@ $(document).ready(function(){ //DOM이 준비되고
 								+'<p class="card-content"/>'
 								+'<p class="description">' + data.newMainArticleArrayList[i].mainArticleContent + '</p>'
 								+'<a href="mypage.neon?memberEmail=' + data.newMainArticleArrayList[i].memberVO.memberEmail + '" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" data-toggle="popover" title="' + data.newMainArticleArrayList[i].memberVO.memberNickName + '님, ' + data.newMainArticleArrayList[i].memberVO.rankingVO.memberGrade + ' PTS(' + data.newMainArticleArrayList[i].memberVO.memberPoint + ' / ' + data.newMainArticleArrayList[i].memberVO.rankingVO.maxPoint + ')" data-content="' + data.newMainArticleArrayList[i].memberVO.memberNickName + '님 Click하여 페이지 보기" >'
-								+'<span class="writersNickName">- ' + data.newMainArticleArrayList[i].memberVO.memberNickName + ' -</span></a></div>'
+								+'</div><span class="writersNickName">- ' + data.newMainArticleArrayList[i].memberVO.memberNickName + ' -</span></a>'
 								+'<div class="social-line social-line-visible" data-buttons="4" style="width:100%;">'
 								+'<button class="btn btn-social btn-pinterest" style="width:23%;">'
 								+'<span class="time_area">새로운<br>잇자!</span>'
@@ -425,7 +425,7 @@ $(document).ready(function(){ //DOM이 준비되고
 								+'<p class="card-content"/>'
 								+'<p class="description">' + data.searchList[i].mainArticleContent + '</p>'
 								+'<a href="mypage.neon?memberEmail=' + data.searchList[i].memberVO.memberEmail + '" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" data-toggle="popover" title="' + data.searchList[i].memberVO.memberNickName + '님, ' + data.searchList[i].memberVO.rankingVO.memberGrade + ' PTS(' + data.searchList[i].memberVO.memberPoint + ' / ' + data.searchList[i].memberVO.rankingVO.maxPoint + ')" data-content="' + data.searchList[i].memberVO.memberNickName + '님 Click하여 페이지 보기" >'
-								+'<span class="writersNickName">- ' + data.searchList[i].memberVO.memberNickName + ' -</span></a></div>'
+								+'</div><span class="writersNickName">- ' + data.searchList[i].memberVO.memberNickName + ' -</span></a>'
 								+'<div class="social-line social-line-visible" data-buttons="4" style="width:100%;">'
 								+'<button class="btn btn-social btn-pinterest" style="width:23%;">'
 								+'<span class="time_area">새로운<br>잇자!</span>'
@@ -549,7 +549,7 @@ $(document).ready(function(){ //DOM이 준비되고
 								+'<p class="card-content"/>'
 								+'<p class="description">' + data.completeMainArticleArrayList[i].mainArticleContent + '</p>'
 								+'<a href="mypage.neon?memberEmail=' + data.completeMainArticleArrayList[i].memberVO.memberEmail + '" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" data-toggle="popover" title="' + data.completeMainArticleArrayList[i].memberVO.memberNickName + '님, ' + data.completeMainArticleArrayList[i].memberVO.rankingVO.memberGrade + ' PTS(' + data.completeMainArticleArrayList[i].memberVO.memberPoint + ' / ' + data.completeMainArticleArrayList[i].memberVO.rankingVO.maxPoint + ')" data-content="' + data.completeMainArticleArrayList[i].memberVO.memberNickName + '님 Click하여 페이지 보기" >'
-								+'<span class="writersNickName">- ' + data.completeMainArticleArrayList[i].memberVO.memberNickName + ' -</span></a></div>'
+								+'</div><span class="writersNickName">- ' + data.completeMainArticleArrayList[i].memberVO.memberNickName + ' -</span></a>'
 								+'<div class="social-line social-line-visible" data-buttons="4" style="width:100%;">'
 								+'<button class="btn btn-social btn-pinterest" style="width:23%;">'
 								+'<span class="time_area">완결된<br>잇자!</span>'
@@ -658,7 +658,7 @@ $(document).ready(function(){ //DOM이 준비되고
 								+'<p class="card-content"/>'
 								+'<p class="description">' + data.newMainArticleArrayList[i].mainArticleContent + '</p>'
 								+'<a href="mypage.neon?memberEmail=' + data.newMainArticleArrayList[i].memberVO.memberEmail + '" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" data-toggle="popover" title="' + data.newMainArticleArrayList[i].memberVO.memberNickName + '님, ' + data.newMainArticleArrayList[i].memberVO.rankingVO.memberGrade + ' PTS(' + data.newMainArticleArrayList[i].memberVO.memberPoint + ' / ' + data.newMainArticleArrayList[i].memberVO.rankingVO.maxPoint + ')" data-content="' + data.newMainArticleArrayList[i].memberVO.memberNickName + '님 Click하여 페이지 보기" >'
-								+'<span class="writersNickName">- ' + data.newMainArticleArrayList[i].memberVO.memberNickName + ' -</span></a></div>'
+								+'</div><span class="writersNickName">- ' + data.newMainArticleArrayList[i].memberVO.memberNickName + ' -</span></a>'
 								+'<div class="social-line social-line-visible" data-buttons="4" style="width:100%;">'
 								+'<button class="btn btn-social btn-pinterest" style="width:23%;">'
 								+'<span class="time_area">새로운<br>잇자!</span>'
@@ -770,7 +770,7 @@ $(document).ready(function(){ //DOM이 준비되고
 								+'<p class="card-content"/>'
 								+'<p class="description">' + data.completeMainArticleArrayList[i].mainArticleContent + '</p>'
 								+'<a href="mypage.neon?memberEmail=' + data.completeMainArticleArrayList[i].memberVO.memberEmail + '" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" data-toggle="popover" title="' + data.completeMainArticleArrayList[i].memberVO.memberNickName + '님, ' + data.completeMainArticleArrayList[i].memberVO.rankingVO.memberGrade + ' PTS(' + data.completeMainArticleArrayList[i].memberVO.memberPoint + ' / ' + data.completeMainArticleArrayList[i].memberVO.rankingVO.maxPoint + ')" data-content="' + data.completeMainArticleArrayList[i].memberVO.memberNickName + '님 Click하여 페이지 보기" >'
-								+'<span class="writersNickName">- ' + data.completeMainArticleArrayList[i].memberVO.memberNickName + ' -</span></a></div>'
+								+'</div><span class="writersNickName">- ' + data.completeMainArticleArrayList[i].memberVO.memberNickName + ' -</span></a>'
 								+'<div class="social-line social-line-visible" data-buttons="4" style="width:100%;">'
 								+'<button class="btn btn-social btn-pinterest" style="width:23%;">'
 								+'<span class="time_area">완결된<br>잇자!</span>'
@@ -879,7 +879,7 @@ $(document).ready(function(){ //DOM이 준비되고
 								+'<p class="card-content"/>'
 								+'<p class="description">' + data.newMainArticleArrayList[i].mainArticleContent + '</p>'
 								+'<a href="mypage.neon?memberEmail=' + data.newMainArticleArrayList[i].memberVO.memberEmail + '" style="" tabindex="1" class="btn btn-lg btn-warning myNickDetail" role="button" data-toggle="popover" title="' + data.newMainArticleArrayList[i].memberVO.memberNickName + '님, ' + data.newMainArticleArrayList[i].memberVO.rankingVO.memberGrade + ' PTS(' + data.newMainArticleArrayList[i].memberVO.memberPoint + ' / ' + data.newMainArticleArrayList[i].memberVO.rankingVO.maxPoint + ')" data-content="' + data.newMainArticleArrayList[i].memberVO.memberNickName + '님 Click하여 페이지 보기" >'
-								+'<span class="writersNickName">- ' + data.newMainArticleArrayList[i].memberVO.memberNickName + ' -</span></a></div>'
+								+'</div><span class="writersNickName">- ' + data.newMainArticleArrayList[i].memberVO.memberNickName + ' -</span></a>'
 								+'<div class="social-line social-line-visible" data-buttons="4" style="width:100%;">'
 								+'<button class="btn btn-social btn-pinterest" style="width:23%;">'
 								+'<span class="time_area">새로운<br>잇자!</span>'
@@ -2236,6 +2236,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		subscriptionBtnClick(formData, subscriptionInfoSpan);
 	});
 	
+	// 구독하기 Ajax
 	function subscriptionBtnClick(formData, subscriptionInfoSpan){
 		var subscriptedInfoHTML = "";
 		$.ajax({
@@ -2255,13 +2256,9 @@ $(document).ready(function(){ //DOM이 준비되고
 					subscriptedInfoHTML += data.subscriberMemberList[i].memberNickName+'<br>';
 				}
 				$('#subscriptedPopover').html(subscriptedInfoHTML);
-				
-				
-				
 			},
 			beforeSend : function(xmlHttpRequest){
 		           xmlHttpRequest.setRequestHeader("AJAX", "true");
-		           
 			},
 			error:function(xhr, textStatus, error){
 				if(xhr.status=="901"){

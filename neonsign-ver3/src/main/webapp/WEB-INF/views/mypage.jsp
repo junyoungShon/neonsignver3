@@ -57,13 +57,12 @@
 						</c:when>
 						<c:otherwise>
 							<div id="subscriptedPopover" style="display: none">
-								<c:forEach var="subscriptedInfoList" items="${requestScope.subscriptedInfoList}">
+								<c:forEach var="subscriptedInfoList" items="${requestScope.subscriptedInfoList}">																							
 									${subscriptedInfoList.memberNickName}<br>
 								</c:forEach>
 							</div>
 						</c:otherwise>
 					</c:choose>
-	
 				</span>
 			</div>
 			<!-- 닉네임이 구독하는 정보 -->
@@ -135,7 +134,8 @@
 									<!-- 찜 카드 틀 -->
 									<div class="card-box col-lg-2">
 										<!-- 찜 카드 이미지 틀 -->
-										<div class="card card-with-border" data-background="image" data-src="${initParam.root}resources/uploadImg/articleBg/${pickMainArticle.mainArticleImgVO.mainArticleImgName}">    
+										<div class="card card-with-border" data-background="image" 
+										data-src="${initParam.root}resources/uploadImg/articleBg/${pickMainArticle.mainArticleImgVO.mainArticleImgName}">    													
 											<!-- 찜카드 상단 컨텐츠들 -->
 											<div class="content">
 												<h6 class="category">${pickMainArticle.tagName}</h6>	<br>
@@ -247,9 +247,9 @@
 												<!-- 찜 정보를 전달하기 위한 폼 끝 -->
 												<!-- 공유 -->
 												<button class="btn btn-social btn-primary btn-facebook sharePage"  
-					data-toggle="modal" data-target="#shareModal" style="width:23%;">
-						<i class="fa fa-facebook-official"></i><br> 공유!
-					</button>
+													data-toggle="modal" data-target="#shareModal" style="width:23%;">
+													<i class="fa fa-facebook-official"></i><br> 공유!
+												</button>
 											</div>
 											<!-- 찜카드 하단 버튼들 끝 -->
 											<div class="filter"></div>
@@ -543,7 +543,7 @@
 					<!-- 끝 참여주제글 -->
 					<!-- ************************* 찜, 작성, 이은글 보기 끝 ************************* -->
 				</div>
-				<!-- 마이페이지 탭1 내용 카드보여주기 -->
+				<!-- 마이페이지 탭1 내용 카드보여주기 끝 -->
 				<!-- 마이페이지 탭2 내용 개인정보 통계 -->
 				<div class="tab-pane fade in" id="tab2">
 					<!-- 개인 정보 카드틀 -->
@@ -745,7 +745,7 @@
 									<!-- 카드5. 작성글 정보 아이콘 내용 -->
 									<div class="text">
 										<var>${fn:length(requestScope.writeMainArticleList)} </var>
-										<label class="text-muted">작성한 잇는글</label>
+										<label class="text-muted">작성한 주제글</label>
 									</div>
 									<!-- 카드5. 작성글 정보 하단 버튼 -->
 									<div class="options">

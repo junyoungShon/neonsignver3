@@ -34,13 +34,8 @@ public interface BoardDAO {
 	
 	//sub article 관련 메서드
 	public void insertSubArticle(SubArticleVO subArticleVO);
-	public void updateSubArticle(SubArticleVO subArticleVO);
-	public void deleteSubArticle(SubArticleVO subArticleVO);
-	public List<SubArticleVO> selectListSubArticleByMainArticleNo(SubArticleVO subArticleVO);
-	public List<SubArticleVO> selectListSubArticleByIsConnect(SubArticleVO subArticleVO);
 	public List<SubArticleVO> selectListSubArticle(SubArticleVO subArticleVO);
 	public void articleDelete(MainArticleVO mavo);
-	public Object boardCount();
 	
 	//잇자 클릭 관련 메서드
 	public void insertMainItjaMember(ItjaMemberVO itjaMemberVO);
@@ -112,4 +107,5 @@ public interface BoardDAO {
 	public int updateTag(String tagName);
 	public void insertTagIntoTagTable(String tagName);
 	public List<TagVO> selectListTagNameOrderBykeyWord(String keyword);
+	public Object boardCount();
 }

@@ -24,7 +24,6 @@ public interface BoardService {
 	public int updateMainArticle(MainArticleVO mainArticleVO);
 	public void deleteMainArticle(MainArticleVO mainArticleVO);
 	public MainArticleVO selectOneCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO);
-	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTotalLike();
 	public Map<String, Object> selectOneNotCompleteMainArticleByMainArticleNo(MainArticleVO mainArticleVO);
 	public List<MainArticleVO> selectListCompleteMainArticle(int pageNo,String orderBy, String getTagName);
 	public List<MainArticleVO> selectListNotCompleteMainArticle(int pageNo,	String orderBy, String getTagName);
@@ -55,7 +54,7 @@ public interface BoardService {
 	public void memberPointUpdate(int reportNumber);
 	
 	// MyPage 요소들
-	public MemberVO getMemberRankingByMemberEmail(MemberVO memberVO);
+	public MemberVO getMemberInfoByMemberEmail(MemberVO memberVO);
 	public List<RankingVO> getRankingList();
 	public List<MainArticleVO> getPickedMainArticleByMemberEmailOrderByDate(
 			MemberVO memberVO);

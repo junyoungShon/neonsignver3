@@ -51,43 +51,45 @@ public class BoardController {
 	public String goAnyWhere(@PathVariable String viewId){
 		return viewId;
 	}
-
+	
+	/**
+	 * 메인화면의 베스트, 새로운 주제글 받아오기
+	 * @author JeSeong Lee
+	 */
 	@RequestMapping("getMainBestList.neon")
 	public ModelAndView getMainBestList(){
 		ModelAndView mav = new ModelAndView();
 		// 베스트 주제글 날짜순 + Tag
 		List<MainArticleVO> bestMainArticleVOListOrderByDate = boardService.getBestMainArticleVOListOrderByDate();
-				//2015-12-10 대협추가
-				for(int i=0; i<bestMainArticleVOListOrderByDate.size(); i++){
-					MainArticleImgVO mainArticleImgVO =boardService.selectMainArticleImg(bestMainArticleVOListOrderByDate.get(i).getMainArticleNo());
-					if(mainArticleImgVO==null){
-						mainArticleImgVO = new MainArticleImgVO();
-					}
-					//태그가 두개인지 확인 -1이면 한개
-					int tagInt = bestMainArticleVOListOrderByDate.get(i).getTagName().lastIndexOf(" ");
-					String firstTagName = "";
-					if(tagInt!=-1){
-						firstTagName = bestMainArticleVOListOrderByDate.get(i).getTagName().substring(1, tagInt);
-					}else{
-						firstTagName = bestMainArticleVOListOrderByDate.get(i).getTagName().substring(1);
-					}
-					//파일의 경로를 담는다.
-					File dir = new File(articleImgPath+mainArticleImgVO.getMainArticleImgName());
-					//해당 경로에 파일이 존재하는지 확인
-					if (dir.isFile() == false) {
-						int random = (int) (Math.random()*18);
-						bestMainArticleVOListOrderByDate.get(i).setMainArticleImgVO(
-								new MainArticleImgVO(bestMainArticleVOListOrderByDate.get(i)
-										.getMainArticleNo(), "basicBg/"+random+".jpg"));
-					} else {
-						bestMainArticleVOListOrderByDate.get(i).setMainArticleImgVO(
-								mainArticleImgVO);
-					}
-				}
-				mav.setViewName("bestMainArticle");
-				mav.addObject("bestMainArticleVOListOrderByDate", bestMainArticleVOListOrderByDate);
-				return mav;
-				
+		for(int i=0; i<bestMainArticleVOListOrderByDate.size(); i++){
+			MainArticleImgVO mainArticleImgVO =boardService.selectMainArticleImg(bestMainArticleVOListOrderByDate.get(i).getMainArticleNo());
+			if(mainArticleImgVO==null){
+				mainArticleImgVO = new MainArticleImgVO();
+			}
+			//태그가 두개인지 확인 -1이면 한개
+			int tagInt = bestMainArticleVOListOrderByDate.get(i).getTagName().lastIndexOf(" ");
+			String firstTagName = "";
+			if(tagInt!=-1){
+				firstTagName = bestMainArticleVOListOrderByDate.get(i).getTagName().substring(1, tagInt);
+			}else{
+				firstTagName = bestMainArticleVOListOrderByDate.get(i).getTagName().substring(1);
+			}
+			//파일의 경로를 담는다.
+			File dir = new File(articleImgPath+mainArticleImgVO.getMainArticleImgName());
+			//해당 경로에 파일이 존재하는지 확인
+			if (dir.isFile() == false) {
+				int random = (int) (Math.random()*18);
+				bestMainArticleVOListOrderByDate.get(i).setMainArticleImgVO(
+						new MainArticleImgVO(bestMainArticleVOListOrderByDate.get(i)
+								.getMainArticleNo(), "basicBg/"+random+".jpg"));
+			} else {
+				bestMainArticleVOListOrderByDate.get(i).setMainArticleImgVO(
+						mainArticleImgVO);
+			}
+		}
+		mav.setViewName("bestMainArticle");
+		mav.addObject("bestMainArticleVOListOrderByDate", bestMainArticleVOListOrderByDate);
+		return mav;
 	}
 	/**
 	 * main.jsp에 베스트, 새로운주제글, Tag리스트 출력
@@ -647,9 +649,8 @@ public class BoardController {
 	@RequestMapping("mypage.neon")
 	public ModelAndView myPage(MemberVO memberVO){
 		ModelAndView mav = new ModelAndView();
-		// 마이페이지 주인 email주소로 랭킹 받아서 memberVO에 set + 구독정보도 추가함
-		memberVO = boardService.getMemberRankingByMemberEmail(memberVO);
-		//2015-12-15 대협추가
+		// 마이페이지 주인 email주소로 랭킹, 구독정보 받아서 memberVO에 set
+		memberVO = boardService.getMemberInfoByMemberEmail(memberVO);
 		File profileDir = new File(profileImgPath+memberVO.getMemberProfileImgName());
 		if(profileDir.isFile()==false){
 			memberVO.setMemberProfileImgName("basicImg/not_found.png");
@@ -661,7 +662,6 @@ public class BoardController {
 		// email주소로 찜한글 받아오기
 		List<MainArticleVO> pickedMainArticleList
 			= boardService.getPickedMainArticleByMemberEmailOrderByDate(memberVO);
-		//2015-12-10 대협추가
 		for(int i=0; i<pickedMainArticleList.size(); i++){
 			//태그가 두개인지 확인 -1이면 한개
 			int tagInt = pickedMainArticleList.get(i).getTagName().lastIndexOf(" ");
@@ -726,6 +726,7 @@ public class BoardController {
 		// email 주소로 작성한 태그 리스트 받기 : 태그 수 확인
 		List<TagBoardVO> writeTagListbyEmailList
 			= boardService.writeTagListbyEmail(memberVO);
+		mav.addObject("writeTagListbyEmailList", writeTagListbyEmailList);
 		// email 주소로 가장 많이 작성한 태그이름 받기
 		TagBoardVO tagBoardVO
 			= boardService.getMostWriteTagByEmail(memberVO);
@@ -734,11 +735,9 @@ public class BoardController {
 		mav.addObject("subscriptedInfoList", boardService.getSubscriptedInfoListByPublisherEmail(memberVO));
 		// 구독자 email로 내가 구독하는 리스트 닉네임 받기
 		mav.addObject("subscriptingInfoList", boardService.getSubscriptingInfoListBySubscriberEmail(memberVO));
-		
 		// email 주소로 참여한 글 받아오기
 		List<MainArticleVO> joinMainArticleList
 			= boardService.getJoinMainArticleByEmailOrderByDate(memberVO);
-		//2015-12-10 대협추가
 		for(int i=0; i<joinMainArticleList.size(); i++){
 			//태그가 두개인지 확인 -1이면 한개
 			int tagInt = joinMainArticleList.get(i).getTagName().lastIndexOf(" ");
@@ -767,10 +766,9 @@ public class BoardController {
 		}
 		mav.addObject("joinMainArticleList", joinMainArticleList);
 		
-		// 구독자 email주소로 구독중인 글 받아오기 --2015.12.15
+		// 구독자 email주소로 구독중인 글 받아오기
 		List<MainArticleVO> subscriptingMainArticleList
 			= boardService.getSubscriptingMainArticleBySubscriberEmailOrderByDate(memberVO);
-		//2015-12-10 대협추가
 		for(int i=0; i<subscriptingMainArticleList.size(); i++){
 			//태그가 두개인지 확인 -1이면 한개
 			int tagInt = subscriptingMainArticleList.get(i).getTagName().lastIndexOf(" ");
@@ -798,7 +796,6 @@ public class BoardController {
 			}
 		}
 		mav.addObject("subscriptingMainArticleList", subscriptingMainArticleList);
-		
 		mav.setViewName("mypage");
 		return mav;
 	}

@@ -154,14 +154,12 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	public MainArticleVO selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo(
 			MainArticleVO mainArticleVO) {
-		// TODO Auto-generated method stub
-		//System.out.println("MainArticle받아오기 실행");
-				MainArticleVO main=null;
-				try{
-				main=sqlSessionTemplate.selectOne("board.selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo",mainArticleVO);
-				}catch(Exception e){
-					e.printStackTrace();
-				}
+		MainArticleVO main=null;
+		try{
+			main=sqlSessionTemplate.selectOne("board.selectOneNotCompleteMainArticleByMainArticleAndSubArticleNo",mainArticleVO);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		return main;
 		
 	}
@@ -177,34 +175,6 @@ public class BoardDAOImpl implements BoardDAO{
 		//System.out.println("dao insertSubArticle : "+subArticleVO);
 		sqlSessionTemplate.insert("board.insertSubArticle", subArticleVO);
 	}
-
-	@Override
-	public void updateSubArticle(SubArticleVO subArticleVO) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteSubArticle(SubArticleVO subArticleVO) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<SubArticleVO> selectListSubArticleByMainArticleNo(
-			SubArticleVO subArticleVO) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<SubArticleVO> selectListSubArticleByIsConnect(
-			SubArticleVO subArticleVO) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 
 	@Override
 	public void articleDelete(MainArticleVO mavo) {
@@ -275,6 +245,15 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 	
 	/**
+	 * eMail로 찜한주제글 번호 불러옴
+	 * @author JeSeong Lee 
+	 */
+	@Override
+	public List<Integer> getPickedMainArticleNoByEmail(MemberVO memberVO) {
+		return sqlSessionTemplate.selectList("board.getPickedMainArticleNoByEmail", memberVO);
+	}
+	
+	/**
 	 * 불러온 MainArticle No로
 	 * 주제글 정보 최신순 불러옴
 	 * @author JeSeong Lee 
@@ -283,15 +262,6 @@ public class BoardDAOImpl implements BoardDAO{
 	public MainArticleVO getMainArticleByMainArticleNoOrderByDate(
 			Integer mainArticleNo) {
 		return sqlSessionTemplate.selectOne("board.getMainArticleByMainArticleNoOrderByDate", mainArticleNo);
-	}
-	
-	/**
-	 * eMail로 찜한주제글 번호 불러옴
-	 * @author JeSeong Lee 
-	 */
-	@Override
-	public List<Integer> getPickedMainArticleNoByEmail(MemberVO memberVO) {
-		return sqlSessionTemplate.selectList("board.getPickedMainArticleNoByEmail", memberVO);
 	}
 	
 	/**

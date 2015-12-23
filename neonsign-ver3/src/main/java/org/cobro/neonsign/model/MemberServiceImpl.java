@@ -219,14 +219,12 @@ public class MemberServiceImpl implements MemberService{
 	
 	/**
 	 * 구독정보 확인 후 insert, delete 수행 후
-	 * ajax에 보여줄 정보들과
-	 * map에 담아서 보내기
+	 * 구독자 숫자와 함께 map에 담아서 보내기
 	 * @author JeSeong Lee
 	 */
 	@Override
 	public HashMap<String, Object> updateSubscriptionInfo(
 			SubscriptionInfoVO subscriptionInfoVO) {
-		//System.out.println(memberDAO.selectSubscriptionInfoVO(subscriptionInfoVO));
 		HashMap<String,Object> map = new HashMap<String, Object>();
 		if(memberDAO.selectSubscriptionInfoVO(subscriptionInfoVO) == null){
 			memberDAO.insertSubscriptionInfoVO(subscriptionInfoVO);
@@ -235,19 +233,10 @@ public class MemberServiceImpl implements MemberService{
 			memberDAO.deleteSubscriptionInfoVO(subscriptionInfoVO);
 			map.put("subscriptionResult", "delete");
 		}
-		// 구독된 현황 리스트
+		// 해당 회원을 구독하는 현황 리스트
 		List<SubscriptionInfoVO> subscriberInfoList
 			= memberDAO.getSubscriberListByPublisherEmail(subscriptionInfoVO);
 		map.put("subscriberCount", subscriberInfoList.size());
-		ArrayList<MemberVO> subscriberMemberList = new ArrayList<MemberVO>();
-		for(int i = 0 ; i<subscriberInfoList.size() ; i++){
-			subscriberMemberList.add(memberDAO.findMemberByEmail(subscriberInfoList.get(i).getSubscriber()));
-		}
-		map.put("subscriberMemberList", subscriberMemberList);
-		// 구독한 현황 리스트
-		List<SubscriptionInfoVO> subscriptingInfoList
-			= memberDAO.getSubscriptionListBySubscriberMemberEmail(subscriptionInfoVO);
-		
 		return map;
 	}
 	

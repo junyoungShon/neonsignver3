@@ -367,20 +367,22 @@ public class MemberController {
 	}
 	
 	/**
-	 * 구독 정보의 모든 것
+	 * 구독 하기, 구독 취소 ajax응답 : data.subscriptionResult 값으로 동작 구분
+	 * 구독 정보 업데이트
 	 * @author JeSeong Lee 
 	 */
 	@RequestMapping(value="auth_updateSubscriptionInfo.neon", method=RequestMethod.POST)
 	@ResponseBody
 	public HashMap<String, Object> updateSubscriptionInfo(SubscriptionInfoVO subscriptionInfoVO, HttpServletRequest request){
-		//System.out.println("넘어온 구독정보 : " + subscriptionInfoVO);
 		HttpSession session = request.getSession(false);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		if(session != null){
 			if(subscriptionInfoVO.getPublisher().equals(subscriptionInfoVO.getSubscriber())){
+				// Publisher(게시자) Subscriber(구독자=로그인된 회원) email 동일하면 본인을 구독한다는 메시지 map에 put 
 				map.put("subscriptionResult", "selfSubscription");
-			}else{
-				map = memberService.updateSubscriptionInfo(subscriptionInfoVO);
+			}else{  // 구독하기 수행
+				map = memberService.updateSubscriptionInfo(subscriptionInfoVO);  // map에 구독하기, 구독취소 결과담음
+				// session(로그인된 회원)의 구독정보를 다시 set
 				List<SubscriptionInfoVO> subscriptionInfoList
 					= memberService.getSubscriptionListBySubscriberMemberEmail(subscriptionInfoVO);
 				MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");

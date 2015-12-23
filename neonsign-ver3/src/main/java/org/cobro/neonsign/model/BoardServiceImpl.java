@@ -219,7 +219,7 @@ public class BoardServiceImpl implements BoardService{
 		return completeMainArticleList;
 	}
 	
-	@Override
+	
 	/**
 	 * 새로운 주제글 최신순 List + Tag
 	 * @author JeSeong Lee
@@ -232,6 +232,7 @@ public class BoardServiceImpl implements BoardService{
 	 * @return
 	 * @author daehyeop
 	 */
+	@Override
 	public List<MainArticleVO> selectListNotCompleteMainArticle(int pageNo,
 			String orderBy, String getTagName) {
 		//System.out.println("service selectListNotCompleteMainArticle getTagName : " + getTagName);
@@ -296,11 +297,6 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	
-	@Override
-	public List<MainArticleVO> selectListNotCompleteMainArticleOrderByTotalLike() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	  
 	@Override
@@ -467,20 +463,23 @@ public class BoardServiceImpl implements BoardService{
 	
 
 	/**
-	 * @author JeSeong Lee
 	 * 마이페이지 찜 주제글 받기
 	 * email로 리스트 받아서 MainArticleNo 받고
 	 * 그것으로 해당 주제글들 조회해서
-	 * MemberVO Grade정보도 넣어서 줌
+	 * MemberVO RankingGrade정보도 넣어서 줌
+	 * @author JeSeong Lee
 	 */
 	@Override
 	public List<MainArticleVO> getPickedMainArticleByMemberEmailOrderByDate(
 			MemberVO memberVO) {
+		// email이 찜한 주제글번호를 받아온다(PickedArticle Table)
 		List<Integer> pickedMainArticleNoList = boardDAO.getPickedMainArticleNoByEmail(memberVO);
 		ArrayList<MainArticleVO> pickedMainArticleVOList = new ArrayList<MainArticleVO>();
+		// 주제글번호에 맞는 주제글 내용을 받아온다
 		for(int i = 0 ; i<pickedMainArticleNoList.size() ; i++){
 			pickedMainArticleVOList.add(boardDAO.getMainArticleByMainArticleNoOrderByDate(pickedMainArticleNoList.get(i)));
 		}
+		// 주제글에 여러개의 Tag가 있을시 리스트에 동일한 주제글이 담길 수 있기 때문에 Tag는 따로 받아와서 set해준다 
 		String tagName = "";
 		for(int j = 0 ; j<pickedMainArticleVOList.size() ; j++){
 			List<TagBoardVO> tagBoardList = boardDAO.getMainArticleTagList(pickedMainArticleVOList.get(j).getMainArticleNo());
@@ -494,6 +493,7 @@ public class BoardServiceImpl implements BoardService{
 			}
 			tagName = "";
 		}
+		// 주제글들의 작성자에 맞는 Ranking 정보를 받아서 set 해준다(닉네임 Hover시 Ranking정보를 보여주기 위함)
 		ArrayList<RankingVO> rankingVOList = new ArrayList<RankingVO>();
 		for(int l = 0 ; l<pickedMainArticleVOList.size() ; l++){
 			rankingVOList.add(boardDAO.getMemberRankingByMemberEmail(pickedMainArticleVOList.get(l).getMemberVO())); 
@@ -508,9 +508,8 @@ public class BoardServiceImpl implements BoardService{
 	 * + 구독정보 추가함
 	 * email로 받아와서 memberVO에 set
 	 */
-	//2015-12-15 대협수정
 	@Override
-	public MemberVO getMemberRankingByMemberEmail(MemberVO memberVO) {
+	public MemberVO getMemberInfoByMemberEmail(MemberVO memberVO) {
 		memberVO = boardDAO.getMemberVOByEmail(memberVO);
 		RankingVO rankingVO = boardDAO.getMemberRankingByMemberEmail(memberVO);
 		List<SubscriptionInfoVO> subscriptionInfoList
