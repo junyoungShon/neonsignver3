@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
+<style type="text/css">
+	.jumbotron{
+		background-color: rgba( 255, 255, 255, 0 );
+	}
+</style>
 <!-- 마이페이지 -->
 <div class="container-fluid">
 	<!-- 마이페이지 틀 -->
@@ -129,6 +133,14 @@
 						<div class="container-fluid">
 							<div class="gallery js-flickity"
          					data-flickity-options='{ "freeScroll": false, "wrapAround": true ,"pageDots": false, "autoPlay" : 2000}'>
+         					<c:if test="${empty requestScope.pickedMainArticleList}">
+					         	<div class="jumbotron">
+								  <h2 style="color: indigo;">찜한 카드가 없습니다.</h2>
+								  <p style="color: indigo; font-weight: bold; ">마음에 드는 글들의 찜하기 버튼을 눌러주세요</p>
+								  <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p> -->
+								</div>
+					         </c:if>
+					         <c:if test="${!empty requestScope.pickedMainArticleList}">
 								<!-- 찜 카드 for문 시작 -->
 								<c:forEach var="pickMainArticle" items="${requestScope.pickedMainArticleList}">
 									<!-- 찜 카드 틀 -->
@@ -259,6 +271,7 @@
 									<!-- 찜 카드 틀 -->
 								</c:forEach>
 								<!-- 찜 카드 for문 끝 -->
+								</c:if>
 							</div><!--  end gallery js-flickity -->
 						</div><!-- end container -->
 					</div><!-- end jumbotron itjaSlide -->
@@ -270,6 +283,14 @@
 						<div class="container-fluid">
 							<div class="gallery js-flickity"
          					data-flickity-options='{ "freeScroll": false, "wrapAround": true ,"pageDots": false, "autoPlay" : 2000}'>
+							<c:if test="${empty requestScope.writeMainArticleList}">
+					         	<div class="jumbotron">
+								  <h2 style="color: indigo;">작성한 카드가 없습니다.</h2>
+								  <p style="color: indigo; font-weight: bold; ">새로운 글을 작성해주세요</p>
+								  <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p> -->
+								</div>
+					         </c:if>
+					         <c:if test="${!empty requestScope.writeMainArticleList}">
 								<!-- 작성 카드 for문 -->
 								<c:forEach var="writeMainArticle" items="${requestScope.writeMainArticleList}">
 									<!-- 작성 카드 틀 -->
@@ -398,6 +419,7 @@
 									<!-- 작성 카드 틀 -->
 								</c:forEach>
 								<!-- 작성 카드 for문 끝 -->
+								</c:if>
 							</div><!--  end gallery js-flickity -->
 						</div><!-- end container -->
 					</div><!-- end jumbotron itjaSlide -->
@@ -409,6 +431,14 @@
 						<div class="container-fluid">
 							<div class="gallery js-flickity"
         					 data-flickity-options='{ "freeScroll": false, "wrapAround": true ,"pageDots": false, "autoPlay" : 2000}'>
+							<c:if test="${empty requestScope.joinMainArticleList}">
+					         	<div class="jumbotron">
+								  <h2 style="color: indigo;">참여한 카드가 없습니다.</h2>
+								  <p style="color: indigo; font-weight: bold; ">당신의 생각을 이어주세요</p>
+								  <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p> -->
+								</div>
+					         </c:if>
+					         <c:if test="${!empty requestScope.joinMainArticleList}">
 								<!-- 참여 카드 for문 -->
 								<c:forEach var="joinMainArticle" items="${requestScope.joinMainArticleList}">
 									<!-- 참여 카드 틀 -->
@@ -537,6 +567,7 @@
 									<!-- 참여 카드 틀 끝  -->
 								</c:forEach>
 								<!-- 참여 카드 for문 끝 -->
+								</c:if>
 							</div><!--  end gallery js-flickity -->
 						</div><!-- end container -->
 					</div><!-- end jumbotron itjaSlide -->

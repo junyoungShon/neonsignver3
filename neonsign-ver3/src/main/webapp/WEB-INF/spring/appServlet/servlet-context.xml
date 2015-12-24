@@ -55,8 +55,4 @@
 			<value>C:\\Users\\Kosta-105\\git\\neonsignver3\\neonsign-ver3\\src\\main\\webapp\\resources\\uploadImg\\profileImg\\</value>
 		</constructor-arg>
 	</bean>
-	<bean id="beanNameViewResolver"
-		class="org.springframework.web.servlet.view.BeanNameViewResolver">
-		<property name="order" value="1"></property>
-	</bean>
 </beans>
