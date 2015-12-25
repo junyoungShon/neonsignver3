@@ -222,8 +222,8 @@ constraint pk_SUBSCRIPTION_INFO primary key(PUBLISHER, SUBSCRIBER)
 -- ** 서비스센터 테이블, 시퀀스 생성 / 삭제 ** -----------------------------------------------------
 create table SERVICE_CENTER (
    SERVICE_CENTER_NO number primary key,
-   SERVICE_CENTER_TITLE varchar2(30) not null,
-   SERVICE_CENTER_CONTENT varchar2(200) not null,
+   SERVICE_CENTER_TITLE varchar2(500) not null,
+   SERVICE_CENTER_CONTENT CLOB not null,
    SERVICE_CENTER_DATE date not null,
    SERVICE_CENTER_EMAIL varchar2(50) not null
 );
