@@ -43,7 +43,12 @@ public class PointAspect {
 		Object retValue = null;
 		String methodName = point.getSignature().getName();
 		Object[] parameterArr = null;
-		retValue = point.proceed();
+		try {
+			retValue = point.proceed();
+		} catch (Exception e) {
+			
+		}
+		
 		String logMessage = methodName +"메서드 시작 : 매개변수 - ";
 		parameterArr=point.getArgs();
 		if(parameterArr!=null){
@@ -54,7 +59,7 @@ public class PointAspect {
 		if(retValue!=null){
 			logMessage += "리턴 값 : "+retValue;
 		}
-		log.info(logMessage);
+		/*log.info(logMessage);*/
 		return retValue;
 	}
 	

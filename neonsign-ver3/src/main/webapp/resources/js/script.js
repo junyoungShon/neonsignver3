@@ -42,31 +42,15 @@ $(document).ready(function(){ //DOM이 준비되고
 			var bestMainArticleNo = $('.bestMainArticleNo').eq(i).val();
 			if(remind_seconds==0){
 				$('.time_area').eq(i).html('종료된<br>잇자!');
-				$.ajax({
+				/*$.ajax({
 					type : "POST",
 					url : "storyLinking.neon",
 					data : "mainArticleNo="+bestMainArticleNo,
 					dataType:"json",
 					success : function(data){
-						if(data.result=="complete"){
-							var msg = bestMainArticleNo+
-					          "번이 완결되었습니다. 바로 확인 하실래요?<br/><br/>"+
-					          "<center><button class='closeToast' "+
-					          "onclick='detailItjaView("+bestMainArticleNo+");'>Ok</button> "+
-					          "<button class='closeToast'>Cancel</button>";
-						}else if(data.result="continue"){
-							var msg= bestMainArticleNo+"번 주제글에 새로운 잇자 타임이 시작되었습니다. 바로 참여 하실래요?<br/><br/>"+
-					          "<center><button class='closeToast' "+
-					          "onclick='detailItjaView(mainArticleNO"+bestMainArticleNo+");'>Ok</button> "+
-					          "<button class='closeToast'>Cancel</button>";
-						}
-						$().toasty({
-							autohide:4000,
-						    message: msg,
-						    modal: false
-						});
+						
 					}
-				});
+				});*/
 				
 			}
 		}
@@ -1581,15 +1565,6 @@ $(document).ready(function(){ //DOM이 준비되고
 				if(data.itjaTotalCount==10){
 					//아이프레임 리로드
 					iframeReload();
-					var msg="새 베스트 잇자 타임이 시작되었습니다. 바로 참여 하실래요?<br/><br/>"+
-					"<center><button class='closeToast' "+
-					"onclick='detailItjaView(mainArticleNO);'>Ok</button> "+
-					"<button class='closeToast'>Cancel</button>";
-					$().toasty({
-						autoHide: 4000,
-						message: msg,
-						modal: false
-					});
 				}
 			},
 			beforeSend : function(xmlHttpRequest){
@@ -2843,6 +2818,7 @@ $(document).ready(function(){ //DOM이 준비되고
 		});
 	})
 	//문의글쓰기 끝
+	
     $('.tagSearcher').keyup(function(){
     	var tagName=$(this).val();
     	$.ajax({
@@ -2863,6 +2839,26 @@ $(document).ready(function(){ //DOM이 준비되고
 			}
 		});
     });
+    	 $('.tagSearcher').keyup(function(){
+    	    	var tagName=$(this).val();
+    	    	$.ajax({
+    				type:"post",
+    				url:"tagAutoComplete.neon",
+    				data:"tagName="+tagName,
+    				dataType:"json",
+    				success:function(data){ 
+    					$(function() {
+    			    	    var availableTags = [];
+    			    	    for(var i=0;i<data.length;i++){
+    			    	    	availableTags[i]=data[i].tagName;
+    			    	    }
+    			    	    $( ".tagSearcher" ).autocomplete({
+    			    	      source: availableTags
+    			    	    });
+    			    	});
+    				}
+    			});
+    	    });
     
     	//메인에서 공유버튼을 눌렀을 때 실행됨
     	$('#pinBoot').on('click','.sharePage',function(){

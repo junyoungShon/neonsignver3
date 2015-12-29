@@ -38,7 +38,7 @@ public interface BoardService {
 	public List<SubArticleVO> selectListSubArticleByMainArticleNo(SubArticleVO subArticleVO);
 	public List<SubArticleVO> selectListSubArticleByIsConnect(SubArticleVO subArticleVO);
 	public List<SubArticleVO> selectListSubArticleBySubArticleGrade(SubArticleVO subArticleVO);
-	public HashMap<String, Object> storyLinking(SubArticleVO subArticleVO);
+	/*public HashMap<String, Object> storyLinking(SubArticleVO subArticleVO);*/
 	//윤택
 
 	public List<MainArticleVO> searchByKeyWord(String keyword);

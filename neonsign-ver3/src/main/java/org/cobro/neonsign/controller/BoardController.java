@@ -260,11 +260,11 @@ public class BoardController {
 	/**
 	 * 사용자가 주제글 작성을 위해 모달창을 열 때 태그들을 불러오는 메서드
 	 */
-	@RequestMapping("storyLinking.neon")
+	/*@RequestMapping("storyLinking.neon")
 	@ResponseBody
 	public HashMap<String, Object> storyLinking(SubArticleVO subArticleVO){
 		return boardService.storyLinking(subArticleVO);
-	}
+	}*/
 	/**
 	 * 해당 글의 itja 수와, 요청한 아이디가 itja를 눌렀는지 여부를 판단해준다.
 	 * 이미 itjaClick했다면 세션과 DB에서 삭제

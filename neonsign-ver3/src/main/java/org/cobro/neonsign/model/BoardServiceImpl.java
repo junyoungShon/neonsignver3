@@ -70,7 +70,7 @@ public class BoardServiceImpl implements BoardService{
 	 * 
 	 * @author junyoung
 	 */
-	public HashMap<String,Object> storyLinking(SubArticleVO subArticleVO){
+	/*public HashMap<String,Object> storyLinking(SubArticleVO subArticleVO){
 		//System.out.println("스토리링킨 서비스"+subArticleVO);
 		int curruntGrade = boardDAO.selectSubArticleCurruntGrade(subArticleVO);
 		//System.out.println("스토리링킨 서비스 현재 스토리 단계"+curruntGrade);
@@ -152,7 +152,7 @@ public class BoardServiceImpl implements BoardService{
 			}
 		}
 		return map;
-	}
+	}*/
 	@Override
 	public int updateMainArticle(MainArticleVO mainArticleVO) {
 		// TODO Auto-generated method stub

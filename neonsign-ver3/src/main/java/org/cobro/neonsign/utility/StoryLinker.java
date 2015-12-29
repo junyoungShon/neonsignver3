@@ -33,8 +33,8 @@ public class StoryLinker extends Thread{
 			//System.out.println("스토리링킨 서비스 현재 스토리 단계"+curruntGrade);
 			subArticleVO.setSubAtricleGrade(curruntGrade);
 			List<SubArticleVO> list = boardDAO.selectListHigherLikeSubArticle(subArticleVO);
-			//System.out.println(list.toString());
-			//System.out.println("스토리링킨 서비스 관련 글 몇개 출력?"+list.size());
+			System.out.println(list.toString());
+			System.out.println("스토리링킨 서비스 관련 글 몇개 출력?"+list.size());
 			//댓글이 없는 경우 자동 완결 처리 한다.
 			if(list.size()==0){
 				//메인 아티클의 타이틀을 가져온다.
@@ -44,10 +44,12 @@ public class StoryLinker extends Thread{
 				//베스트 글이 완결 글로 이동할 때 타이틀에 [완결]표시를 달아준다.
 				String mainArticleTitle = "[완결]"+mainArticleVO.getMainArticleTitle();
 				mainArticleVO.setMainArticleTitle(mainArticleTitle);
+				System.out.println("댓글이 없어서 완결 처리합니다.");
 				boardDAO.appendToCompleteArticle(mainArticleVO);
 				flag=false;
 			}else if(list.size()==1){
 				if(list.get(0).getIsEnd()==0){
+					System.out.println("계속 잇자는 댓글이 이어졌습니다..");
 					//최고 잇자 수 득표한 댓글이 계속 잇는 글일 경우 최종 수정일을 고쳐준다.
 					boardDAO.updateDateForMainArticle(subArticleVO.getMainArticleNo());
 					//우선 연결을 해준다.
@@ -57,6 +59,7 @@ public class StoryLinker extends Thread{
 				}else{
 					//최고 잇자 수 득표한 댓글이 그만하자는 글일 경우
 					//우선 연결을 해준다.
+					System.out.println("그만 잇자는 댓글이 이어졌습니다..");
 					subArticleVO.setSubArticleNo(list.get(0).getSubArticleNo());
 					boardDAO.updateIsConnect(subArticleVO);
 					//메인 아티클의 컴플리트 여부를 수정해준다.
